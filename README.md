@@ -14,7 +14,9 @@ Everything other than lsst.sims.maf is part of the anaconda python distribution 
 # Running
 Install the package by 
 
->>> python setup.py install --user
+```
+python setup.py install --user
+```
 
 
 (The --user argument only installs this for the user only, leaving that out will install for all users on the computer if you have appropriate permissions) 

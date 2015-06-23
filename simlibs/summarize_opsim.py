@@ -59,9 +59,12 @@ class SummaryOpsim(object):
 
         import os 
         import subprocess
+
         self.df = summarydf.copy(deep=True)
         if 'simLibSkySig' not in self.df.columns:
             self.df  = add_simlibCols(self.df)
+        # SNANA has y filter deonoted as Y. Can change in input files to SNANA
+        # but more bothersome.
         def capitalizeY(x):
             if 'y' in x:
                 return u'Y'

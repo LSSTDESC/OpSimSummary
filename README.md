@@ -22,6 +22,3 @@ python setup.py install --user
 (The --user argument only installs this for the user only, leaving that out will install for all users on the computer if you have appropriate permissions) 
 
 - open the examples/ExampleSimlib.ipynb notebook and execute cells with shift+enter
-```
-
-```

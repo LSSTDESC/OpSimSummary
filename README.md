@@ -12,7 +12,7 @@ Generates simlib files for SNANA simulations.
 
 Everything other than lsst.sims.maf is part of the anaconda python distribution and available on pip. For lsst.sims.maf installation instructions, see the confluence page. 
 # Running
-Install the package by 
+- Install the package by 
 
 ```
 python setup.py install --user
@@ -20,3 +20,8 @@ python setup.py install --user
 
 
 (The --user argument only installs this for the user only, leaving that out will install for all users on the computer if you have appropriate permissions) 
+
+- open the examples/ExampleSimlib.ipynb notebook and execute cells with shift+enter
+```
+
+```

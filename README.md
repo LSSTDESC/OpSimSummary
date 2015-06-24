@@ -1,4 +1,4 @@
-# Gnerating simlib Files
+# Generating simlib Files
 
 Generates simlib files for SNANA simulations.
 

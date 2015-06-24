@@ -88,6 +88,7 @@ class SummaryOpsim(object):
         self.host = host
 
         self.telescope = telescope
+        self.pixelSize = pixSize
         self.survey = survey
     def ra(self, fieldID):
         ravals = np.unique(self.fieldsimlibs.get_group(fieldID).fieldRA.values)
@@ -112,12 +113,14 @@ class SummaryOpsim(object):
         
         ra = self.ra(fieldID)
         dec = self.dec(fieldID)
+        mwebv = 0.01
+        pixSize = self.pixelSize 
         nobs = len(self.fieldsimlibs.get_group(fieldID))
         s = '# --------------------------------------------' +'\n' 
         s += 'LIBID: {0:10d}'.format(fieldID) +'\n'
         tmp = 'RA: {0:+10.6f} DECL: {1:+10.6f}   NOBS: {2:10d} MWEBV: {3:5.2f}'
         tmp += ' PIXSIZE: {4:5.3f}'
-        s += tmp.format(ra, dec, nobs, 0.0, 0.2) + '\n'
+        s += tmp.format(ra, dec, nobs, mwebv, pixSize) + '\n'
         s += 'LIBID: {0:10d}'.format(fieldID) + '\n'
         s += '#                           CCD  CCD         PSF1 PSF2 PSF2/1' +'\n'
         s += '#     MJD      IDEXPT  FLT GAIN NOISE SKYSIG (pixels)  RATIO  ZPTAVG ZPTERR  MAG' + '\n'

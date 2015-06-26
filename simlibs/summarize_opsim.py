@@ -72,8 +72,9 @@ class SummaryOpsim(object):
                 return x
 
         self.df['filter'] = map(capitalizeY, self.df['filter']) 
-        self.fieldsimlibs = self.df.groupby(by='fieldID')
-        self.fieldIds = self.fieldsimlibs.groups.keys()
+        self._fieldsimlibs = self.df.groupby(by='fieldID')
+        self.fieldIds = self._fieldsimlibs.groups.keys()
+
         
         # report a user name, either from a constructor parameter, or login name
         if user is None:
@@ -90,15 +91,18 @@ class SummaryOpsim(object):
         self.telescope = telescope
         self.pixelSize = pixSize
         self.survey = survey
+    def simlib(self, fieldID):
+
+        return self._fieldsimlibs.get_group(fieldID)
     def ra(self, fieldID):
-        ravals = np.unique(self.fieldsimlibs.get_group(fieldID).fieldRA.values)
+        ravals = np.unique(self.simlib(fieldID).fieldRA.values)
         if len(ravals)==1:
             return ravals[0]
         else:
             raise ValueError('The fieldDec of this group seems to not be unique\n')
         
     def dec(self, fieldID):
-        decvals = np.unique(self.fieldsimlibs.get_group(fieldID).fieldDec.values)
+        decvals = np.unique(self.simlib(fieldID).fieldDec.values)
         if len(decvals)==1:
             return decvals[0]
         else:
@@ -115,7 +119,7 @@ class SummaryOpsim(object):
         dec = self.dec(fieldID)
         mwebv = 0.01
         pixSize = self.pixelSize 
-        nobs = len(self.fieldsimlibs.get_group(fieldID))
+        nobs = len(self.simlib(fieldID))
         s = '# --------------------------------------------' +'\n' 
         s += 'LIBID: {0:10d}'.format(fieldID) +'\n'
         tmp = 'RA: {0:+10.6f} DECL: {1:+10.6f}   NOBS: {2:10d} MWEBV: {3:5.2f}'
@@ -134,7 +138,7 @@ class SummaryOpsim(object):
         
     def formatSimLibField(self, fieldID, sep=' '):
     
-        opSimSummary = self.fieldsimlibs.get_group(fieldID)
+        opSimSummary = self.simlib(fieldID)
         y =''
         for row in opSimSummary.iterrows():
             data = row[1] # skip the index

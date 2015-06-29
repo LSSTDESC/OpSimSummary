@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-
+#!/usr/bin/env python 
 import os
 import numpy as np
 import pandas as pd
@@ -196,24 +195,61 @@ class SummaryOpsim(object):
                 fh.write(self.fieldfooter(fieldID))
             fh.write(simlib_footer)
 
+
+class simlibInfo(object):
+
+
+    def __init__(self, simlibFile):
+        self._file = simlibFile
+        _tup = self.read_simlibFile()
+        self.fileHeader = _tup[0]
+        self.fileData = _tup[1]
+        self.fileFooter = _tup[2]
+        # self.simlibs = split_simlibFields(data)
+
+    @property
+    def simlibFields(self):
+        simlibs = self._tup[1].split('\n# --------------------------------------------\n')[1:]
+        return simlibs
+    def read_simlibFile(self):
+    
+        # slurp into a string
+        with open(self._file) as f:
+            ss = f.read()
+            
+        # split into header, footer and data
+        fullfile = ss.split('BEGIN LIBGEN')
+        file_header = fullfile[0]
+        data, footer = fullfile[1].split('END_OF_SIMLIB')
+        return file_header, data, footer
+
 class SummaryOpsimG(object):
     
     
-    def __init__(self, summarydf=None, simlibFile=None, user=None, host=None, survey='LSST',
-                 telescope='LSST', pixSize=0.2):
+    def __init__(self, summarydf=None, simlibFile=None, user=None, host=None,
+            survey='LSST', telescope='LSST', pixSize=0.2):
 
         import os 
         import subprocess
 
-        if summarydf is None and simlibFile is None:
-            raise ValueError('summarydf or simlibFile have to be supplied\n')
+        def guessContext(summarydf, simlibFile ):
+            if summarydf is None and simlibFile is None:
+                raise ValueError('summarydf or simlibFile have to be supplied\n')
         
-        if not (summarydf is None or simlibFile is None):
-            raise ValueError('Both summarydf and simlibFile cannot be supplied\n')
+            if not (summarydf is None or simlibFile is None):
+                raise ValueError('summarydf and simlibFile supplied together\n')
 
-        self.df = summarydf.copy(deep=True)
-        if 'simLibSkySig' not in self.df.columns:
-            self.df  = add_simlibCols(self.df)
+            if summarydf is None:
+                self.context = 'SNANAsimlib'
+            if simlibFile is None:
+                self.context = 'opSimOut'
+
+            return 
+
+        if summarydf:
+            self._df = summarydf.copy(deep=True)
+            if 'simLibSkySig' not in self.df.columns:
+                self._df  = add_simlibCols(self.df)
 
         # SNANA has y filter deonoted as Y. Can change in input files to SNANA
         # but more bothersome.

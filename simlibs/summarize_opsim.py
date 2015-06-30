@@ -205,12 +205,14 @@ class simlibInfo(object):
         self.fileHeader = _tup[0]
         self.fileData = _tup[1]
         self.fileFooter = _tup[2]
-        # self.simlibs = split_simlibFields(data)
+        self._simlibs = self.split_simlibFields()
+        self.simlibs = self.get_data()
+    
 
-    @property
-    def simlibFields(self):
+    def split_simlibFields(self):
         simlibs = self._tup[1].split('\n# --------------------------------------------\n')[1:]
         return simlibs
+
     def read_simlibFile(self):
     
         # slurp into a string

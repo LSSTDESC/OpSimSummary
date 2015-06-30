@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 import pandas as pd
+from cStringIO import StringIO
 
 
 class fieldSimLib(object):
 
+    from cStringIO import StringIO
     '''
     Class to hold data corresponding to a particular fieldID (LIBID) of a
     SNANA SIMLIB file and methods
@@ -57,10 +59,11 @@ class fieldSimLib(object):
         '''
         split the string into header, footer, and data pieces
         '''
-        lst = simlibString.split('MAG\n')
+        lst = simlibString.split('MAG')
         header = lst[0]
         data, val = lst[1].split('END_LIBID')
-        return header, data, val
+        index = data.index('\n')
+        return header, data[index+1:], val
 
     @staticmethod
     def simlibdata(data):
@@ -105,3 +108,44 @@ class fieldSimLib(object):
         vals = map(eval, header_metadata[1::2])
 
         return dict(zip(keys, vals))
+
+class simlib(object):
+
+    def __init__(self, simlibFile):
+        self.simlibdicts = self.getSimlibs(simlibFile)
+        self.fieldIDs = self.simlibdicts.keys()
+    
+    # @property
+    def simlibData(self, fieldID):
+       return self.simlibdicts[fieldID] 
+
+    def getSimlibs(self, simlibFile):
+        file_header, file_data, file_footer = self.read_simlibFile(simlibFile)
+        simlibStrings = self.split_simlibStrings(file_data)
+        mydict = dict()
+        for strings in simlibStrings:
+            s = fieldSimLib(strings)
+            mydict[s.fieldID] = s
+
+        return mydict 
+            
+
+    @staticmethod
+    def read_simlibFile(simlibfile):
+    
+        # slurp into a string
+        with open(simlibfile) as f:
+            ss = f.read()
+        
+        # split into header, footer and data
+        fullfile = ss.split('BEGIN LIBGEN')
+        file_header = fullfile[0]
+        data, footer = fullfile[1].split('END_OF_SIMLIB')
+
+        return file_header, data, footer
+
+    @staticmethod
+    def split_simlibStrings(simlibStrings):
+        simlibs = simlibStrings.split('\nLIBID')[1:]
+        simlibs = map(lambda x: 'LIBID' + x.split('# -')[0], simlibs)
+        return simlibs

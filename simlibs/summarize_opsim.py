@@ -196,193 +196,193 @@ class SummaryOpsim(object):
             fh.write(simlib_footer)
 
 
-class simlibInfo(object):
-
-
-    def __init__(self, simlibFile):
-        self._file = simlibFile
-        _tup = self.read_simlibFile()
-        self.fileHeader = _tup[0]
-        self.fileData = _tup[1]
-        self.fileFooter = _tup[2]
-        self._simlibs = self.split_simlibFields()
-        self.simlibs = self.get_data()
-    
-
-    def split_simlibFields(self):
-        simlibs = self._tup[1].split('\n# --------------------------------------------\n')[1:]
-        return simlibs
-
-    def read_simlibFile(self):
-    
-        # slurp into a string
-        with open(self._file) as f:
-            ss = f.read()
-            
-        # split into header, footer and data
-        fullfile = ss.split('BEGIN LIBGEN')
-        file_header = fullfile[0]
-        data, footer = fullfile[1].split('END_OF_SIMLIB')
-        return file_header, data, footer
-
-class SummaryOpsimG(object):
-    
-    
-    def __init__(self, summarydf=None, simlibFile=None, user=None, host=None,
-            survey='LSST', telescope='LSST', pixSize=0.2):
-
-        import os 
-        import subprocess
-
-        def guessContext(summarydf, simlibFile ):
-            if summarydf is None and simlibFile is None:
-                raise ValueError('summarydf or simlibFile have to be supplied\n')
-        
-            if not (summarydf is None or simlibFile is None):
-                raise ValueError('summarydf and simlibFile supplied together\n')
-
-            if summarydf is None:
-                self.context = 'SNANAsimlib'
-            if simlibFile is None:
-                self.context = 'opSimOut'
-
-            return 
-
-        if summarydf:
-            self._df = summarydf.copy(deep=True)
-            if 'simLibSkySig' not in self.df.columns:
-                self._df  = add_simlibCols(self.df)
-
-        # SNANA has y filter deonoted as Y. Can change in input files to SNANA
-        # but more bothersome.
-        def capitalizeY(x):
-            if 'y' in x:
-                return u'Y'
-            else:
-                return x
-
-        self.df['filter'] = map(capitalizeY, self.df['filter']) 
-        self._fieldsimlibs = self.df.groupby(by='fieldID')
-        self.fieldIds = self._fieldsimlibs.groups.keys()
-
-        
-        # report a user name, either from a constructor parameter, or login name
-        if user is None:
-            user = os.getlogin()
-        self.user = user
-
-        # report a host on which the calculations are done. either from
-        # constructor parameters or from the system hostname utility 
-        if host is None:
-            proc = subprocess.Popen('hostname', stdout=subprocess.PIPE)
-            host, err = proc.communicate()
-        self.host = host
-
-        self.telescope = telescope
-        self.pixelSize = pixSize
-        self.survey = survey
-    def simlib(self, fieldID):
-
-        return self._fieldsimlibs.get_group(fieldID)
-    def ra(self, fieldID):
-        ravals = np.unique(self.simlib(fieldID).fieldRA.values)
-        if len(ravals)==1:
-            return ravals[0]
-        else:
-            raise ValueError('The fieldDec of this group seems to not be unique\n')
-        
-    def dec(self, fieldID):
-        decvals = np.unique(self.simlib(fieldID).fieldDec.values)
-        if len(decvals)==1:
-            return decvals[0]
-        else:
-            raise ValueError('The fieldDec of this group seems to not be unique\n')
-    def meta(self, fieldID):
-        meta = {}
-        meta['LIBID'] = fieldID
-        meta['dec'] = self.dec(fieldID)
-        return meta
-    
-    def fieldheader(self, fieldID):
-        
-        ra = self.ra(fieldID)
-        dec = self.dec(fieldID)
-        mwebv = 0.01
-        pixSize = self.pixelSize 
-        nobs = len(self.simlib(fieldID))
-        s = '# --------------------------------------------' +'\n' 
-        s += 'LIBID: {0:10d}'.format(fieldID) +'\n'
-        tmp = 'RA: {0:+10.6f} DECL: {1:+10.6f}   NOBS: {2:10d} MWEBV: {3:5.2f}'
-        tmp += ' PIXSIZE: {4:5.3f}'
-        s += tmp.format(ra, dec, nobs, mwebv, pixSize) + '\n'
-        # s += 'LIBID: {0:10d}'.format(fieldID) + '\n'
-        s += '#                           CCD  CCD         PSF1 PSF2 PSF2/1' +'\n'
-        s += '#     MJD      IDEXPT  FLT GAIN NOISE SKYSIG (pixels)  RATIO  ZPTAVG ZPTERR  MAG' + '\n'
-        return s
-    
-    def fieldfooter(self, fieldID):
-        
-        s = 'END_LIBID: {0:10d}'.format(fieldID)
-        s += '\n'
-        return s
-        
-    def formatSimLibField(self, fieldID, sep=' '):
-    
-        opSimSummary = self.simlib(fieldID)
-        y =''
-        for row in opSimSummary.iterrows():
-            data = row[1] # skip the index
-            #       MJD EXPID FILTER 
-            lst = ['S:',
-                   "{0:5.3f}".format(data.expMJD),
-                   "{0:10d}".format(data.obsHistID),
-                   data['filter'], 
-                   "{0:5.2f}".format(1.),                  # CCD Gain
-                   "{0:5.2f}".format(0.25),                # CCD Noise 
-                   "{0:6.2f}".format(data.simLibSkySig),   # SKYSIG
-                   "{0:4.2f}".format(data.simLibPsf),      # PSF1 
-                   "{0:4.2f}".format(0.),                  # PSF2 
-                   "{0:4.3f}".format(0.),                  # PSFRatio 
-                   "{0:6.2f}".format(data.simLibZPTAVG),   # ZPTAVG
-                   "{0:6.3f}".format(0.005),               # ZPTNoise 
-                   "{0:+7.3f}".format(-99.)]               # MAG
-            s = sep.join(lst)
-            y += s + '\n'
-        return y
-    
-    def writeSimLibField(self, fieldID):
-        s = self.fieldheader(fieldID)
-        s += self.formatSimLibField(fieldID, sep=' ')
-        s += self.footer(fieldID)
-        return s
-
-    def simLibheader(self): #, user=None, host=None, survey='LSST', telescope='LSST'):
-        # comment: I would like to generalize ugrizY to a sort but am not sure
-        # of the logic for other filter names. so ducking for now
-        s = 'SURVEY: {0:}    FILTERS: ugrizY  TELESCOPE: {1:}\n'.format(self.survey, self.telescope)
-        s += 'USER: {0:}     HOST: {1:}\n'.format(self.user, self.host) 
-        s += 'BEGIN LIBGEN\n'
-        return s
-    
-    def simLibFooter(self):
-        """
-        """
-        s = 'END_OF_SIMLIB:    {0:10d} ENTRIES'.format(len(self.fieldIds))
-        return s
-
-
-    def writeSimlib(self, filename, comments=''):
-        with open(filename, 'w') as fh:
-            simlib_header = self.simLibheader()
-            simlib_footer = self.simLibFooter()
-            fh.write(simlib_header)
-            fh.write(comments)
-            # fh.write('BEGIN LIBGEN\n')
-            # fh.write('\n')
-            for fieldID in self.fieldIds:
-                fh.write(self.fieldheader(fieldID))
-                fh.write(self.formatSimLibField(fieldID))
-                fh.write(self.fieldfooter(fieldID))
-            fh.write(simlib_footer)
-
-
+### class simlibInfo(object):
+### 
+### 
+###     def __init__(self, simlibFile):
+###         self._file = simlibFile
+###         _tup = self.read_simlibFile()
+###         self.fileHeader = _tup[0]
+###         self.fileData = _tup[1]
+###         self.fileFooter = _tup[2]
+###         self._simlibs = self.split_simlibFields()
+###         self.simlibs = self.get_data()
+###     
+### 
+###     def split_simlibFields(self):
+###         simlibs = self._tup[1].split('\n# --------------------------------------------\n')[1:]
+###         return simlibs
+### 
+###     def read_simlibFile(self):
+###     
+###         # slurp into a string
+###         with open(self._file) as f:
+###             ss = f.read()
+###             
+###         # split into header, footer and data
+###         fullfile = ss.split('BEGIN LIBGEN')
+###         file_header = fullfile[0]
+###         data, footer = fullfile[1].split('END_OF_SIMLIB')
+###         return file_header, data, footer
+### 
+### class SummaryOpsimG(object):
+###     
+###     
+###     def __init__(self, summarydf=None, simlibFile=None, user=None, host=None,
+###             survey='LSST', telescope='LSST', pixSize=0.2):
+### 
+###         import os 
+###         import subprocess
+### 
+###         def guessContext(summarydf, simlibFile ):
+###             if summarydf is None and simlibFile is None:
+###                 raise ValueError('summarydf or simlibFile have to be supplied\n')
+###         
+###             if not (summarydf is None or simlibFile is None):
+###                 raise ValueError('summarydf and simlibFile supplied together\n')
+### 
+###             if summarydf is None:
+###                 self.context = 'SNANAsimlib'
+###             if simlibFile is None:
+###                 self.context = 'opSimOut'
+### 
+###             return 
+### 
+###         if summarydf:
+###             self._df = summarydf.copy(deep=True)
+###             if 'simLibSkySig' not in self.df.columns:
+###                 self._df  = add_simlibCols(self.df)
+### 
+###         # SNANA has y filter deonoted as Y. Can change in input files to SNANA
+###         # but more bothersome.
+###         def capitalizeY(x):
+###             if 'y' in x:
+###                 return u'Y'
+###             else:
+###                 return x
+### 
+###         self.df['filter'] = map(capitalizeY, self.df['filter']) 
+###         self._fieldsimlibs = self.df.groupby(by='fieldID')
+###         self.fieldIds = self._fieldsimlibs.groups.keys()
+### 
+###         
+###         # report a user name, either from a constructor parameter, or login name
+###         if user is None:
+###             user = os.getlogin()
+###         self.user = user
+### 
+###         # report a host on which the calculations are done. either from
+###         # constructor parameters or from the system hostname utility 
+###         if host is None:
+###             proc = subprocess.Popen('hostname', stdout=subprocess.PIPE)
+###             host, err = proc.communicate()
+###         self.host = host
+### 
+###         self.telescope = telescope
+###         self.pixelSize = pixSize
+###         self.survey = survey
+###     def simlib(self, fieldID):
+### 
+###         return self._fieldsimlibs.get_group(fieldID)
+###     def ra(self, fieldID):
+###         ravals = np.unique(self.simlib(fieldID).fieldRA.values)
+###         if len(ravals)==1:
+###             return ravals[0]
+###         else:
+###             raise ValueError('The fieldDec of this group seems to not be unique\n')
+###         
+###     def dec(self, fieldID):
+###         decvals = np.unique(self.simlib(fieldID).fieldDec.values)
+###         if len(decvals)==1:
+###             return decvals[0]
+###         else:
+###             raise ValueError('The fieldDec of this group seems to not be unique\n')
+###     def meta(self, fieldID):
+###         meta = {}
+###         meta['LIBID'] = fieldID
+###         meta['dec'] = self.dec(fieldID)
+###         return meta
+###     
+###     def fieldheader(self, fieldID):
+###         
+###         ra = self.ra(fieldID)
+###         dec = self.dec(fieldID)
+###         mwebv = 0.01
+###         pixSize = self.pixelSize 
+###         nobs = len(self.simlib(fieldID))
+###         s = '# --------------------------------------------' +'\n' 
+###         s += 'LIBID: {0:10d}'.format(fieldID) +'\n'
+###         tmp = 'RA: {0:+10.6f} DECL: {1:+10.6f}   NOBS: {2:10d} MWEBV: {3:5.2f}'
+###         tmp += ' PIXSIZE: {4:5.3f}'
+###         s += tmp.format(ra, dec, nobs, mwebv, pixSize) + '\n'
+###         # s += 'LIBID: {0:10d}'.format(fieldID) + '\n'
+###         s += '#                           CCD  CCD         PSF1 PSF2 PSF2/1' +'\n'
+###         s += '#     MJD      IDEXPT  FLT GAIN NOISE SKYSIG (pixels)  RATIO  ZPTAVG ZPTERR  MAG' + '\n'
+###         return s
+###     
+###     def fieldfooter(self, fieldID):
+###         
+###         s = 'END_LIBID: {0:10d}'.format(fieldID)
+###         s += '\n'
+###         return s
+###         
+###     def formatSimLibField(self, fieldID, sep=' '):
+###     
+###         opSimSummary = self.simlib(fieldID)
+###         y =''
+###         for row in opSimSummary.iterrows():
+###             data = row[1] # skip the index
+###             #       MJD EXPID FILTER 
+###             lst = ['S:',
+###                    "{0:5.3f}".format(data.expMJD),
+###                    "{0:10d}".format(data.obsHistID),
+###                    data['filter'], 
+###                    "{0:5.2f}".format(1.),                  # CCD Gain
+###                    "{0:5.2f}".format(0.25),                # CCD Noise 
+###                    "{0:6.2f}".format(data.simLibSkySig),   # SKYSIG
+###                    "{0:4.2f}".format(data.simLibPsf),      # PSF1 
+###                    "{0:4.2f}".format(0.),                  # PSF2 
+###                    "{0:4.3f}".format(0.),                  # PSFRatio 
+###                    "{0:6.2f}".format(data.simLibZPTAVG),   # ZPTAVG
+###                    "{0:6.3f}".format(0.005),               # ZPTNoise 
+###                    "{0:+7.3f}".format(-99.)]               # MAG
+###             s = sep.join(lst)
+###             y += s + '\n'
+###         return y
+###     
+###     def writeSimLibField(self, fieldID):
+###         s = self.fieldheader(fieldID)
+###         s += self.formatSimLibField(fieldID, sep=' ')
+###         s += self.footer(fieldID)
+###         return s
+### 
+###     def simLibheader(self): #, user=None, host=None, survey='LSST', telescope='LSST'):
+###         # comment: I would like to generalize ugrizY to a sort but am not sure
+###         # of the logic for other filter names. so ducking for now
+###         s = 'SURVEY: {0:}    FILTERS: ugrizY  TELESCOPE: {1:}\n'.format(self.survey, self.telescope)
+###         s += 'USER: {0:}     HOST: {1:}\n'.format(self.user, self.host) 
+###         s += 'BEGIN LIBGEN\n'
+###         return s
+###     
+###     def simLibFooter(self):
+###         """
+###         """
+###         s = 'END_OF_SIMLIB:    {0:10d} ENTRIES'.format(len(self.fieldIds))
+###         return s
+### 
+### 
+###     def writeSimlib(self, filename, comments=''):
+###         with open(filename, 'w') as fh:
+###             simlib_header = self.simLibheader()
+###             simlib_footer = self.simLibFooter()
+###             fh.write(simlib_header)
+###             fh.write(comments)
+###             # fh.write('BEGIN LIBGEN\n')
+###             # fh.write('\n')
+###             for fieldID in self.fieldIds:
+###                 fh.write(self.fieldheader(fieldID))
+###                 fh.write(self.formatSimLibField(fieldID))
+###                 fh.write(self.fieldfooter(fieldID))
+###             fh.write(simlib_footer)
+### 
+### 

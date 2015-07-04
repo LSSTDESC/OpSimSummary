@@ -91,6 +91,7 @@ class SummaryOpsim(object):
         self.telescope = telescope
         self.pixelSize = pixSize
         self.survey = survey
+
     def simlib(self, fieldID):
 
         return self._fieldsimlibs.get_group(fieldID)

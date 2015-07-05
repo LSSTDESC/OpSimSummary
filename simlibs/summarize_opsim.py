@@ -101,7 +101,7 @@ class SummaryOpsim(object):
 
         return ra, dec
 
-    def showFields(self, ax=None, marker=None):
+    def showFields(self, ax=None, marker=None, **kwargs):
         ra = np.degrees(self.coords()[0])
         dec = self.coords()[1]
 
@@ -110,12 +110,13 @@ class SummaryOpsim(object):
         x[ind] -=360.
 
         ra = np.radians(x)
+        # print ra
         if ax is None:
             fig = plt.figure()
             ax = fig.add_subplot(111, projection='mollweide')
         if marker is None:
             marker = 'o'
-        ax.plot(self.coords()[0], self.coords()[1], marker)
+        ax.scatter(ra, dec, marker=marker, **kwargs)
         ax.grid(True)
         fig  = ax.figure
         return fig

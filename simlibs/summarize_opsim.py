@@ -3,6 +3,7 @@ import os
 import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
+import matplotlib.pyplot as plt
 
 
 def add_simlibCols(opsimtable, pixSize=0.2):
@@ -91,6 +92,34 @@ class SummaryOpsim(object):
         self.telescope = telescope
         self.pixelSize = pixSize
         self.survey = survey
+
+    # @property
+    def coords(self):
+
+        ra = map(lambda x: self.ra(x), self.fieldIds)
+        dec = map(lambda x: self.dec(x), self.fieldIds)
+
+        return ra, dec
+
+    def showFields(self, ax=None, marker=None):
+        ra = np.degrees(self.coords()[0])
+        dec = self.coords()[1]
+
+        x = np.remainder(ra + 360., 360.)
+        ind  = x > 180.
+        x[ind] -=360.
+
+        ra = np.radians(x)
+        if ax is None:
+            fig = plt.figure()
+            ax = fig.add_subplot(111, projection='mollweide')
+        if marker is None:
+            marker = 'o'
+        ax.plot(self.coords()[0], self.coords()[1], marker)
+        ax.grid(True)
+        fig  = ax.figure
+        return fig
+
 
     def simlib(self, fieldID):
 

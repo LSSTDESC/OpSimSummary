@@ -3,6 +3,7 @@ import os
 import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
+import matplotlib.pyplot as plt
 
 
 def add_simlibCols(opsimtable, pixSize=0.2):
@@ -91,6 +92,78 @@ class SummaryOpsim(object):
         self.telescope = telescope
         self.pixelSize = pixSize
         self.survey = survey
+
+    # @property
+    def coords(self):
+
+        ra = map(lambda x: self.ra(x), self.fieldIds)
+        dec = map(lambda x: self.dec(x), self.fieldIds)
+
+        return ra, dec
+    def cadence_plot(self, fieldID, sql_query='night < 366',
+                     Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
+                     nightMin=0, nightMax=365):
+    
+
+        grouping_keys = ['filter', 'night']
+        grouped = self.simlib(fieldID).query(sql_query).groupby(grouping_keys)
+        filts, nights = zip( *grouped.groups.keys())
+        numObs = grouped.apply(len).values
+        cadence_dict = dict()
+        cadence_dict['Filters'] = list(filts)
+        cadence_dict['night'] = list(nights)
+        cadence_dict['numObs'] = list(numObs)
+        Matrix = pd.DataFrame(cadence_dict).pivot('night', 'Filters', 'numObs')
+        M = Matrix[Filters]
+        ss = pd.Series(np.arange(366))
+        Matrix = M.reindex(ss, fill_value=0)
+        ax = plt.matshow(Matrix.transpose(), aspect='auto', cmap=plt.cm.gray_r)
+
+        plt.colorbar(orientation='horizontal')
+        filtergroups = self.simlib(fieldID).query(sql_query).groupby('filter')
+        times = dict()
+        numExps = dict()
+        numDays = nightMax - nightMin
+        H = np.zeros(shape=(len(Filters), numDays))
+        
+        for i, filt in enumerate(Filters):
+            expVals = np.zeros(numDays, dtype=int)
+            filtered = map(lambda x: filtergroups.get_group(x).copy(deep=True),
+                           Filters)
+            timeBinned = filtered[i].groupby('night')
+            timeKeys = timeBinned.groups.keys()
+            times = map(int, timeBinned.night.apply(np.mean))
+            times = np.array(times) - nightMin
+            numExps = timeBinned.apply(len)
+            expVals[times] = numExps
+            H[i, :] = expVals
+    
+        # ax = plt.matshow(H, aspect='auto', cmap=plt.cm.gray_r)
+        # plt.colorbar(orientation='horizontal')
+
+        fig = ax.figure
+    
+        return fig
+    def showFields(self, ax=None, marker=None, **kwargs):
+        ra = np.degrees(self.coords()[0])
+        dec = self.coords()[1]
+
+        x = np.remainder(ra + 360., 360.)
+        ind  = x > 180.
+        x[ind] -=360.
+
+        ra = np.radians(x)
+        # print ra
+        if ax is None:
+            fig = plt.figure()
+            ax = fig.add_subplot(111, projection='mollweide')
+        if marker is None:
+            marker = 'o'
+        ax.scatter(ra, dec, marker=marker, **kwargs)
+        ax.grid(True)
+        fig  = ax.figure
+        return fig
+
 
     def simlib(self, fieldID):
 

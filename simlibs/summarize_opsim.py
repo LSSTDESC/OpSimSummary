@@ -115,10 +115,10 @@ class SummaryOpsim(object):
         cadence_dict['numObs'] = list(numObs)
         Matrix = pd.DataFrame(cadence_dict).pivot('night', 'Filters', 'numObs')
         M = Matrix[Filters]
-        ss = pd.Series(np.arange(366))
+        ss = pd.Series(np.arange(nightMin, nightMax))
         Matrix = M.reindex(ss, fill_value=0)
         ax = plt.matshow(Matrix.transpose(), aspect='auto', cmap=plt.cm.gray_r)
-        ax.set_title(str(fieldID))
+        # ax.set_title(str(fieldID))
 
         plt.colorbar(orientation='horizontal')
         # filtergroups = self.simlib(fieldID).query(sql_query).groupby('filter')

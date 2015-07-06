@@ -100,7 +100,34 @@ class SummaryOpsim(object):
         dec = map(lambda x: self.dec(x), self.fieldIds)
 
         return ra, dec
+    def cadence_plot(self, fieldID, sql_query='night < 366',
+                     Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
+                     nightMin=0, nightMax=365):
+    
 
+        filtergroups = self.simlib(fieldID).query(sql_query).groupby('filter')
+        times = dict()
+        numExps = dict()
+        numDays = nightMax - nightMin
+        H = np.zeros(shape=(len(Filters), numDays))
+        
+        for i, filt in enumerate(Filters):
+            expVals = np.zeros(numDays, dtype=int)
+            filtered = map(lambda x: filtergroups.get_group(x).copy(deep=True),
+                           Filters)
+            timeBinned = filtered[i].groupby('night')
+            timeKeys = timeBinned.groups.keys()
+            times = map(int, timeBinned.night.apply(np.mean))
+            times = np.array(times) - nightMin
+            numExps = timeBinned.apply(len)
+            expVals[times] = numExps
+            H[i, :] = expVals
+    
+        ax = plt.matshow(H, aspect='auto')
+        plt.colorbar(orientation='horizontal', cmap=cm.gray_r)
+        fig = ax.figure
+    
+        return fig
     def showFields(self, ax=None, marker=None, **kwargs):
         ra = np.degrees(self.coords()[0])
         dec = self.coords()[1]

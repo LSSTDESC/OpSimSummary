@@ -105,6 +105,21 @@ class SummaryOpsim(object):
                      nightMin=0, nightMax=365):
     
 
+        grouping_keys = ['filter', 'night']
+        grouped = self.simlib(fieldID).query(sql_query).groupby(grouping_keys)
+        filts, nights = zip( *grouped.groups.keys())
+        numObs = grouped.apply(len).values
+        cadence_dict = dict()
+        cadence_dict['Filters'] = list(filts)
+        cadence_dict['night'] = list(nights)
+        cadence_dict['numObs'] = list(numObs)
+        Matrix = pd.DataFrame(cadence_dict).pivot('night', 'Filters', 'numObs')
+        M = Matrix[Filters]
+        ss = pd.Series(np.arange(366))
+        Matrix = M.reindex(ss, fill_value=0)
+        ax = plt.matshow(Matrix.transpose(), aspect='auto', cmap=plt.cm.gray_r)
+
+        plt.colorbar(orientation='horizontal')
         filtergroups = self.simlib(fieldID).query(sql_query).groupby('filter')
         times = dict()
         numExps = dict()
@@ -123,8 +138,9 @@ class SummaryOpsim(object):
             expVals[times] = numExps
             H[i, :] = expVals
     
-        ax = plt.matshow(H, aspect='auto')
-        plt.colorbar(orientation='horizontal', cmap=cm.gray_r)
+        # ax = plt.matshow(H, aspect='auto', cmap=plt.cm.gray_r)
+        # plt.colorbar(orientation='horizontal')
+
         fig = ax.figure
     
         return fig

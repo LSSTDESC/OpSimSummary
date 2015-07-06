@@ -118,25 +118,26 @@ class SummaryOpsim(object):
         ss = pd.Series(np.arange(366))
         Matrix = M.reindex(ss, fill_value=0)
         ax = plt.matshow(Matrix.transpose(), aspect='auto', cmap=plt.cm.gray_r)
+        ax.set_title(str(fieldID))
 
         plt.colorbar(orientation='horizontal')
-        filtergroups = self.simlib(fieldID).query(sql_query).groupby('filter')
-        times = dict()
-        numExps = dict()
-        numDays = nightMax - nightMin
-        H = np.zeros(shape=(len(Filters), numDays))
+        # filtergroups = self.simlib(fieldID).query(sql_query).groupby('filter')
+        # times = dict()
+        # numExps = dict()
+        # numDays = nightMax - nightMin
+        # H = np.zeros(shape=(len(Filters), numDays))
         
-        for i, filt in enumerate(Filters):
-            expVals = np.zeros(numDays, dtype=int)
-            filtered = map(lambda x: filtergroups.get_group(x).copy(deep=True),
-                           Filters)
-            timeBinned = filtered[i].groupby('night')
-            timeKeys = timeBinned.groups.keys()
-            times = map(int, timeBinned.night.apply(np.mean))
-            times = np.array(times) - nightMin
-            numExps = timeBinned.apply(len)
-            expVals[times] = numExps
-            H[i, :] = expVals
+        # for i, filt in enumerate(Filters):
+        #    expVals = np.zeros(numDays, dtype=int)
+        #    filtered = map(lambda x: filtergroups.get_group(x).copy(deep=True),
+        #                   Filters)
+        #    timeBinned = filtered[i].groupby('night')
+        #    timeKeys = timeBinned.groups.keys()
+        #    times = map(int, timeBinned.night.apply(np.mean))
+        #    times = np.array(times) - nightMin
+        #    numExps = timeBinned.apply(len)
+        #    expVals[times] = numExps
+        #    H[i, :] = expVals
     
         # ax = plt.matshow(H, aspect='auto', cmap=plt.cm.gray_r)
         # plt.colorbar(orientation='horizontal')

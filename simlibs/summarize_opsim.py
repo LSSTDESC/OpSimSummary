@@ -100,50 +100,78 @@ class SummaryOpsim(object):
         dec = map(lambda x: self.dec(x), self.fieldIds)
 
         return ra, dec
-    def cadence_plot(self, fieldID, sql_query='night < 366',
+    def cadence_Matrix(self, fieldID, sql_query='night < 366',
                      Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
-                     nightMin=0, nightMax=365):
+                     nightMin=0, nightMax=365, observedOnly=False):
     
-
+        # group on filter and timeindex (night)
         grouping_keys = ['filter', 'night']
         grouped = self.simlib(fieldID).query(sql_query).groupby(grouping_keys)
+
+        # tuples of keys
         filts, nights = zip( *grouped.groups.keys())
+
+        # number of Observations in each group
         numObs = grouped.apply(len).values
+
+        # Create a new dataFrame with nights, Filters, numObs as cols
         cadence_dict = dict()
         cadence_dict['Filters'] = list(filts)
         cadence_dict['night'] = list(nights)
-        cadence_dict['numObs'] = list(numObs)
-        Matrix = pd.DataFrame(cadence_dict).pivot('night', 'Filters', 'numObs')
-        M = Matrix[Filters]
-        ss = pd.Series(np.arange(366))
-        Matrix = M.reindex(ss, fill_value=0)
-        ax = plt.matshow(Matrix.transpose(), aspect='auto', cmap=plt.cm.gray_r)
 
-        plt.colorbar(orientation='horizontal')
-        filtergroups = self.simlib(fieldID).query(sql_query).groupby('filter')
-        times = dict()
-        numExps = dict()
-        numDays = nightMax - nightMin
-        H = np.zeros(shape=(len(Filters), numDays))
+        # If observedOnly: set values above 1 to 1 
+        if observedOnly:
+            numObs = np.where(np.array(list(numObs)), 1, 0)
         
-        for i, filt in enumerate(Filters):
-            expVals = np.zeros(numDays, dtype=int)
-            filtered = map(lambda x: filtergroups.get_group(x).copy(deep=True),
-                           Filters)
-            timeBinned = filtered[i].groupby('night')
-            timeKeys = timeBinned.groups.keys()
-            times = map(int, timeBinned.night.apply(np.mean))
-            times = np.array(times) - nightMin
-            numExps = timeBinned.apply(len)
-            expVals[times] = numExps
-            H[i, :] = expVals
-    
-        # ax = plt.matshow(H, aspect='auto', cmap=plt.cm.gray_r)
-        # plt.colorbar(orientation='horizontal')
+        cadence_dict['numObs'] = list(numObs)
+
+        # pivot dataFrame to occupation numbers
+        Matrix = pd.DataFrame(cadence_dict).pivot('night', 'Filters', 'numObs')
+
+        # reorder filters to u,g,r,i,z
+        M = Matrix[Filters]
+        # Extend to all values in plot
+        ss = pd.Series(np.arange(nightMin, nightMax))
+        Matrix = M.reindex(ss, fill_value=np.nan)
+
+        return Matrix
+
+    def cadence_plot(self, fieldID, sql_query='night < 366',
+                     Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
+                     nightMin=0, nightMax=365, observedOnly=False, title=True,
+                     title_text=None, colorbar=True):
+
+
+        Matrix = self.cadence_Matrix(fieldID, sql_query=sql_query,
+                                Filters=Filters, nightMin=nightMin,
+                                nightMax=nightMax, observedOnly=observedOnly)
+
+        if observedOnly:
+            axesImage = plt.matshow(Matrix.transpose(), aspect='auto',
+                                    cmap=plt.cm.gray_r, vmin=0., vmax=1.)
+        else:
+            axesImage = plt.matshow(Matrix.transpose(), aspect='auto',
+                                    cmap=plt.cm.gray_r)
+        ax = axesImage.axes 
+        ax.set_yticklabels(['0'] +Filters, minor=False)
+        ax.xaxis.tick_bottom()
+
+        # Set a title
+        if title:
+            t_txt = 'fieldID: {:0>2d} (ra: {:+3f} dec: {:+3f})'
+            t_txt = t_txt.format(fieldID, self.ra(fieldID), self.dec(fieldID))
+            if title_text is not None:
+                t_txt = title_text
+            ax.set_title(t_txt)
 
         fig = ax.figure
-    
+
+        # Set a colorbar
+        if colorbar:
+            plt.colorbar(orientation='horizontal')
         return fig
+
+
     def showFields(self, ax=None, marker=None, **kwargs):
         ra = np.degrees(self.coords()[0])
         dec = self.coords()[1]

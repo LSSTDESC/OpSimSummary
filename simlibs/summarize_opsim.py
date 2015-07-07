@@ -102,25 +102,44 @@ class SummaryOpsim(object):
         return ra, dec
     def cadence_plot(self, fieldID, sql_query='night < 366',
                      Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
-                     nightMin=0, nightMax=365):
+                     nightMin=0, nightMax=365, observedOnly=False):
     
-
+        # group on filter and timeindex (night)
         grouping_keys = ['filter', 'night']
         grouped = self.simlib(fieldID).query(sql_query).groupby(grouping_keys)
+
+        # tuples of keys
         filts, nights = zip( *grouped.groups.keys())
+
+        # number of Observations in each group
         numObs = grouped.apply(len).values
+
+        # Create a new dataFrame with nights, Filters, numObs as cols
         cadence_dict = dict()
         cadence_dict['Filters'] = list(filts)
         cadence_dict['night'] = list(nights)
-        cadence_dict['numObs'] = list(numObs)
-        Matrix = pd.DataFrame(cadence_dict).pivot('night', 'Filters', 'numObs')
-        M = Matrix[Filters]
-        ss = pd.Series(np.arange(nightMin, nightMax))
-        Matrix = M.reindex(ss, fill_value=0)
-        ax = plt.matshow(Matrix.transpose(), aspect='auto', cmap=plt.cm.gray_r)
-        # ax.set_title(str(fieldID))
 
-        plt.colorbar(orientation='horizontal')
+        # If observedOnly: set values above 1 to 1 
+        if observedOnly:
+            numObs = np.where(np.array(list(numObs)), 1, 0)
+        
+        cadence_dict['numObs'] = list(numObs)
+
+        # pivot dataFrame to occupation numbers, and set missing data to 0
+        Matrix = pd.DataFrame(cadence_dict).pivot('night', 'Filters', 'numObs')
+
+        # reorder filters to u,g,r,i,z
+        M = Matrix[Filters]
+        # Extend to all values in plot
+        ss = pd.Series(np.arange(nightMin, nightMax))
+        Matrix = M.reindex(ss, fill_value=np.nan)
+        # fig, ax = plt.subplots()
+        im = plt.matshow(Matrix.transpose(), aspect='auto', cmap=plt.cm.gray_r)
+        # print type(im)
+        # ax = plt.gca()
+        # ax.set_title(str(fieldID))
+        # fig = ax.figure
+        # fig.colorbar(fig, cax=ax, orientation='horizontal')
         # filtergroups = self.simlib(fieldID).query(sql_query).groupby('filter')
         # times = dict()
         # numExps = dict()
@@ -142,9 +161,9 @@ class SummaryOpsim(object):
         # ax = plt.matshow(H, aspect='auto', cmap=plt.cm.gray_r)
         # plt.colorbar(orientation='horizontal')
 
-        fig = ax.figure
+        #fig = ax.figure
     
-        return fig
+        return Matrix
     def showFields(self, ax=None, marker=None, **kwargs):
         ra = np.degrees(self.coords()[0])
         dec = self.coords()[1]

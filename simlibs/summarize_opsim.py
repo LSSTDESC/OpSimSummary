@@ -138,8 +138,8 @@ class SummaryOpsim(object):
 
     def cadence_plot(self, fieldID, sql_query='night < 366',
                      Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
-                     nightMin=0, nightMax=365, observedOnly=False, title=True,
-                     title_text=None, colorbar=True):
+                     nightMin=0, nightMax=365, deltaT=5., observedOnly=False,
+                     title=True, title_text=None, colorbar=True):
 
 
         Matrix = self.cadence_Matrix(fieldID, sql_query=sql_query,
@@ -156,6 +156,13 @@ class SummaryOpsim(object):
         ax.set_yticklabels(['0'] +Filters, minor=False)
         ax.xaxis.tick_bottom()
 
+        # Add a grid 
+        minorxticks = ax.set_xticks(np.arange(nightMin, nightMax, deltaT),
+                                    minor=True)
+        # Hard coding this
+        minoryticks = ax.set_yticks(np.arange(-0.5,5.6,1), minor=True)
+        ax.set_adjustable('box-forced')
+        ax.grid(which='minor')
         # Set a title
         if title:
             t_txt = 'fieldID: {:0>2d} (ra: {:+3f} dec: {:+3f})'

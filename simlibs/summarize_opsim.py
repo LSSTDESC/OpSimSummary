@@ -145,7 +145,7 @@ class SummaryOpsim(object):
     def cadence_plot(self, fieldID, sql_query='night < 366',
                      Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
                      nightMin=0, nightMax=365, deltaT=5., observedOnly=False,
-                     title=True, title_text=None, colorbar=True):
+                     title=True, title_text=None, colorbar=True, colorbarMin=0.):
 
 
         Matrix = self.cadence_Matrix(fieldID, sql_query=sql_query,
@@ -154,7 +154,7 @@ class SummaryOpsim(object):
 
         if observedOnly:
             axesImage = plt.matshow(Matrix.transpose(), aspect='auto',
-                                    cmap=plt.cm.gray_r, vmin=0., vmax=1.)
+                                    cmap=plt.cm.gray_r, vmin=colorbarMin, vmax=1.)
         else:
             axesImage = plt.matshow(Matrix.transpose(), aspect='auto',
                                     cmap=plt.cm.gray_r)
@@ -163,7 +163,7 @@ class SummaryOpsim(object):
         ax.xaxis.tick_bottom()
 
         # Add a grid 
-        minorxticks = ax.set_xticks(np.arange(nightMin, nightMax, deltaT),
+        minorxticks = ax.set_xticks(np.arange(0, nightMax - nightMin, deltaT),
                                     minor=True)
         # Hard coding this
         minoryticks = ax.set_yticks(np.arange(-0.5,5.6,1), minor=True)

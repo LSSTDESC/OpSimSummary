@@ -128,7 +128,13 @@ class SummaryOpsim(object):
         # pivot dataFrame to occupation numbers
         Matrix = pd.DataFrame(cadence_dict).pivot('night', 'Filters', 'numObs')
 
-        # reorder filters to u,g,r,i,z
+
+        # First make sure all filters are represented
+        for filt in Filters:
+            if filt not in Matrix.columns:
+                Matrix[filt] = np.nan
+
+        # reorder filters to u,g,r,i,z,y
         M = Matrix[Filters]
         # Extend to all values in plot
         ss = pd.Series(np.arange(nightMin, nightMax))

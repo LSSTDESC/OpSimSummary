@@ -145,7 +145,25 @@ class SummaryOpsim(object):
     def cadence_plot(self, fieldID, sql_query='night < 366',
                      Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
                      nightMin=0, nightMax=365, deltaT=5., observedOnly=False,
-                     title=True, title_text=None, colorbar=True, colorbarMin=0.):
+                     title=True, title_text=None, colorbar=True,
+                     colorbarMin=0.):
+        '''
+        produce a cadence plot that shows the filters and nights observed in
+        some subset of the opsim output time span for a field.
+
+
+        Parameters
+        ----------
+        fieldID: integer, mandatory
+            ID corresponding to the LSST Field as recorded as fieldID in OpSIM
+            output
+        sql_query: string, optional, defaults to obtaining the first season
+            a sql query to select observations within the opsim summary object 
+            associated with the field 
+        Filters: list of strings, optional, defaults to LSST ugrizY
+            a list of strings corresponding to filter names.
+
+        '''
 
 
         Matrix = self.cadence_Matrix(fieldID, sql_query=sql_query,
@@ -154,34 +172,62 @@ class SummaryOpsim(object):
 
         if observedOnly:
             axesImage = plt.matshow(Matrix.transpose(), aspect='auto',
-                                    cmap=plt.cm.gray_r, vmin=colorbarMin, vmax=1.)
+                                    cmap=plt.cm.gray_r, vmin=colorbarMin,
+                                    vmax=1.)
         else:
             axesImage = plt.matshow(Matrix.transpose(), aspect='auto',
-                                    cmap=plt.cm.gray_r)
+                                    cmap=plt.cm.gray_r, vmin=colorbarMin)
+
+
+        # setup matplotlib figure and axis objects to manipulate
         ax = axesImage.axes 
+
+        # yticks: annotate with filter names
+        # Note that it is also possible to get this from the DataFrame
+        # by Matrix.columns, but the columns are sorted according to the order
+        # in Filters
+        
         ax.set_yticklabels(['0'] +Filters, minor=False)
+
+        # Positiion x ticks at the bottom rather than top
         ax.xaxis.tick_bottom()
 
         # Add a grid 
-        minorxticks = ax.set_xticks(np.arange(0, nightMax - nightMin, deltaT),
-                                    minor=True)
+        minorxticks = ax.set_xticks(np.arange(0, nightMax - nightMin,
+                                              deltaT), minor=True)
         # Hard coding this
         minoryticks = ax.set_yticks(np.arange(-0.5,5.6,1), minor=True)
         ax.set_adjustable('box-forced')
         ax.grid(which='minor')
-        # Set a title
+
+
+        # If nightMin is different from 0, translate xticks
+        # xticks = ax.get_xticks()
+        # xticklabels = ax.get_xticklabels()
+        # tmp = [item.get_text() for item in xticklabels]
+        # xticklabel = np.array(map(eval, tmp[1:-1])) + nightMin
+        # ax.set_xticks(xticks[1:-1])
+        # ax.set_xticklabels(xticklabel)
+
+        # Set a title with information about the field
+        
         if title:
+            # Format field Info from attributes
             t_txt = 'fieldID: {:0>2d} (ra: {:+3f} dec: {:+3f})'
             t_txt = t_txt.format(fieldID, self.ra(fieldID), self.dec(fieldID))
+
+            # if title_text is supplied use that instead
             if title_text is not None:
                 t_txt = title_text
             ax.set_title(t_txt)
 
-        fig = ax.figure
-
         # Set a colorbar
         if colorbar:
             plt.colorbar(orientation='horizontal')
+
+        # Get the figure object
+        fig = ax.figure
+
         return fig
 
 

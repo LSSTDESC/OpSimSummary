@@ -11,12 +11,17 @@ class fieldSimLib(object):
     SNANA SIMLIB file and methods
     '''
 
-    def __init__(self, simlibstring):
-        self.getFieldSimlib(simlibstring)
-        self.validate()
+    def __init__(self, simlibdata, simlib_meta):
+
+        self.data = simlibdata 
+        self.meta = simlib_meta
+        self.fieldID = self.meta['LIBID']
+
+        # self.getFieldSimlib(simlibstring)
+        # self.validate()
 
     @classmethod
-    def getFieldSimlib(cls, simlibstring):
+    def fromSimlibString(cls, simlibstring):
         '''
         Basic constructor method to take a string corresponding to a
         simlib data corresponding to a single LIBID and parse it to
@@ -29,29 +34,29 @@ class fieldSimLib(object):
         header, data, footer = cls.split_simlibString(simlibstring)
 
         # create the DataFrame
-        cls.data = cls.simlibdata(data)
+        clsdata = cls.simlibdata(data)
 
         # parse header to get header metadata and header fields
         header_metadata, header_fields = cls.split_header(header)
-        cls.meta = cls.libid_metadata(header_metadata)
-        cls.validate_string = footer
-        cls.fieldID = cls.meta['LIBID']
+        clsmeta = cls.libid_metadata(header_metadata)
+        # cls.validate_string = footer
+        # clsfieldID = cls.meta['LIBID']
+        myclass = cls(simlibdata=clsdata, simlib_meta=clsmeta) 
+        myclass.validate(footer)
+        return myclass 
 
-        # return meta, simlibdat, footer
-
-    @classmethod
-    def validate(cls):
+    def validate(self, validate_string):
         '''
         '''
-        val = eval(cls.validate_string.split()[-1])
-        if int(cls.meta['LIBID']) != val:
-            print 'LIBID value at beginning: ', cls.meta['LIBID']
+        val = eval(validate_string.split()[-1])
+        if int(self.meta['LIBID']) != val:
+            print 'LIBID value at beginning: ', self.meta['LIBID']
             print 'LIBID value at the end', val
             raise ValueError('the LIBID values do not match')
 
-        if len(cls.data) != cls.meta['NOBS']:
-            print 'NOBS :', cls.meta['NOBS']
-            print 'len(data) :', len(cls.data)
+        if len(self.data) != self.meta['NOBS']:
+            print 'NOBS :', self.meta['NOBS']
+            print 'len(data) :', len(self.data)
             raise ValueError('the number of observations recorded does not match size of data')
 
     @staticmethod
@@ -124,7 +129,7 @@ class simlib(object):
         simlibStrings = self.split_simlibStrings(file_data)
         mydict = dict()
         for strings in simlibStrings:
-            s = fieldSimLib(strings)
+            s = fieldSimLib.fromSimlibString(strings)
             mydict[s.fieldID] = s
 
         return mydict 

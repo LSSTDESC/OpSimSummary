@@ -94,16 +94,15 @@ class SummaryOpsim(object):
         self.survey = survey
 
     @classmethod
-    fromOpSimDB(cls, opSimDB, sql_query):
+    fromOpSimDB(cls, opSimDB, sql_query, **kwargs):
 
         from sqlalchemy import create_engine
         import pandas as pd
 
         engine = create_engine(opSimDB)
-        summary = pd.read_sql_table('Summary', engine)
-        selected  = summary.query(sql_query)
+        summary = pd.read_sql_query(sql_query, engine, **kwargs)
 
-        return cls(selected)
+        return cls(summary, **kwargs)
         
 
         

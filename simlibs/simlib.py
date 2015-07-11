@@ -12,14 +12,11 @@ class fieldSimLib(object):
     '''
 
     def __init__(self, simlibstring):
-        _tup = self.getFieldSimlib(simlibstring)
-        self.meta = _tup[0]
-        self.data = _tup[1]
-        self._val = _tup[2]
-        self.fieldID = self.meta['LIBID']
+        self.getFieldSimlib(simlibstring)
         self.validate()
 
-    def getFieldSimlib(self, simlibstring):
+    @classmethod
+    def getFieldSimlib(cls, simlibstring):
         '''
         Basic constructor method to take a string corresponding to a
         simlib data corresponding to a single LIBID and parse it to
@@ -29,29 +26,32 @@ class fieldSimLib(object):
         '''
 
         # split into three parts
-        header, data, footer = self.split_simlibString(simlibstring)
+        header, data, footer = cls.split_simlibString(simlibstring)
 
         # create the DataFrame
-        simlibdat = self.simlibdata(data)
+        cls.data = cls.simlibdata(data)
 
         # parse header to get header metadata and header fields
-        header_metadata, header_fields = self.split_header(header)
-        meta = self.libid_metadata(header_metadata)
+        header_metadata, header_fields = cls.split_header(header)
+        cls.meta = cls.libid_metadata(header_metadata)
+        cls.validate_string = footer
+        cls.fieldID = cls.meta['LIBID']
 
-        return meta, simlibdat, footer
+        # return meta, simlibdat, footer
 
-    def validate(self):
+    @classmethod
+    def validate(cls):
         '''
         '''
-        val = eval(self._val.split()[-1])
-        if int(self.meta['LIBID']) != val:
-            print 'LIBID value at beginning: ', self.meta['LIBID']
+        val = eval(cls.validate_string.split()[-1])
+        if int(cls.meta['LIBID']) != val:
+            print 'LIBID value at beginning: ', cls.meta['LIBID']
             print 'LIBID value at the end', val
             raise ValueError('the LIBID values do not match')
 
-        if len(self.data) != self.meta['NOBS']:
-            print 'NOBS :', self.meta['NOBS']
-            print 'len(data) :', len(self.data)
+        if len(cls.data) != cls.meta['NOBS']:
+            print 'NOBS :', cls.meta['NOBS']
+            print 'len(data) :', len(cls.data)
             raise ValueError('the number of observations recorded does not match size of data')
 
     @staticmethod

@@ -115,7 +115,7 @@ class SummaryOpsim(object):
         self.survey = survey
 
     @classmethod
-    fromOpSimDB(cls, opSimDB, sql_query, **kwargs):
+    def fromOpSimDB(cls, opSimDB, sql_query, **kwargs):
         '''
         used to instantiate the summary from the opsim database
 

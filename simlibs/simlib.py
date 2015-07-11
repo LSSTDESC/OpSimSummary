@@ -12,8 +12,7 @@ class fieldSimLib(object):
     '''
 
     def __init__(self, simlibstring):
-        self.simlibstring = simlibstring
-        _tup = self.getFieldSimlib()
+        self.getFieldSimlib(simlibstring)
         # self.meta = _tup[0]
         # self.data = _tup[1]
         # self._val = _tup[2]
@@ -21,7 +20,7 @@ class fieldSimLib(object):
         self.validate()
 
     @classmethod
-    def getFieldSimlib(cls):
+    def getFieldSimlib(cls, simlibstring):
         '''
         Basic constructor method to take a string corresponding to a
         simlib data corresponding to a single LIBID and parse it to
@@ -31,7 +30,7 @@ class fieldSimLib(object):
         '''
 
         # split into three parts
-        header, data, footer = cls.split_simlibString(cls.simlibstring)
+        header, data, footer = cls.split_simlibString(simlibstring)
 
         # create the DataFrame
         cls.data = cls.simlibdata(data)

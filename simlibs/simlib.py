@@ -13,10 +13,6 @@ class fieldSimLib(object):
 
     def __init__(self, simlibstring):
         self.getFieldSimlib(simlibstring)
-        # self.meta = _tup[0]
-        # self.data = _tup[1]
-        # self._val = _tup[2]
-        # self.fieldID = self.meta['LIBID']
         self.validate()
 
     @classmethod

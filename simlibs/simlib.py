@@ -56,8 +56,8 @@ class FieldSimlib(object):
         # parse header to get header metadata and header fields
         header_metadata, header_fields = cls.split_header(header)
         clsmeta = cls.libid_metadata(header_metadata)
-        # cls.validate_string = footer
-        # clsfieldID = cls.meta['LIBID']
+
+        # Instantiate the class and make sure it works
         myclass = cls(simlibdata=clsdata, simlib_meta=clsmeta) 
         myclass.validate(footer)
         return myclass 
@@ -235,7 +235,7 @@ class Simlib(object):
 
 
     def simlibData(self, fieldID):
-       return self.simlibDict[fieldID] 
+       return self.simlibDict[fieldID].simlibdata
 
     @classmethod
     def getSimlibs(cls, file_data):

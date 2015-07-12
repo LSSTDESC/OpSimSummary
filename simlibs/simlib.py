@@ -3,7 +3,7 @@ import pandas as pd
 from cStringIO import StringIO
 
 
-class fieldSimLib(object):
+class FieldSimlib(object):
 
     from cStringIO import StringIO
     '''
@@ -143,21 +143,28 @@ class fieldSimLib(object):
 
         return dict(zip(keys, vals))
 
-class simlib(object):
+class Simlib(object):
 
-    def __init__(self, simlibFile):
-        self.simlibdicts = self.getSimlibs(simlibFile)
-        self.fieldIDs = self.simlibdicts.keys()
+    def __init__(self, simlibDict):
+        self.simlibDict = simlibDict
+        self.fieldIDs = self.simlibDict.keys()
+
+    @classmethod
+    def fromSimlibFile(cls, simlibFile):
+
+        mydict = cls.getSimlibs(simlibFile)
+        return cls(simlibDict=mydict)
     
     def simlibData(self, fieldID):
-       return self.simlibdicts[fieldID] 
+       return self.simlibDict[fieldID] 
 
-    def getSimlibs(self, simlibFile):
-        file_header, file_data, file_footer = self.read_simlibFile(simlibFile)
-        simlibStrings = self.split_simlibStrings(file_data)
+    @classmethod
+    def getSimlibs(cls, simlibFile):
+        file_header, file_data, file_footer = cls.read_simlibFile(simlibFile)
+        simlibStrings = cls.split_simlibStrings(file_data)
         mydict = dict()
         for strings in simlibStrings:
-            s = fieldSimLib.fromSimlibString(strings)
+            s = FieldSimlib.fromSimlibString(strings)
             mydict[s.fieldID] = s
 
         return mydict 

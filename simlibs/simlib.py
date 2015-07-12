@@ -235,7 +235,7 @@ class Simlib(object):
 
 
     def simlibData(self, fieldID):
-       return self.simlibDict[fieldID].simlibdata
+       return self.simlibDict[fieldID].data
 
     @classmethod
     def getSimlibs(cls, file_data):

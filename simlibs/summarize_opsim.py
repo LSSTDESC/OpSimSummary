@@ -5,7 +5,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 import matplotlib.pyplot as plt
 
-
+__all__ = ['SummaryOpsim']
 def add_simlibCols(opsimtable, pixSize=0.2):
     '''
     Parameters
@@ -56,7 +56,28 @@ class SummaryOpsim(object):
     
     def __init__(self, summarydf, user=None, host=None, survey='LSST',
                  telescope='LSST', pixSize=0.2):
+        '''
+        Create a summary of the OpSim output. 
 
+        Parameters
+        ----------
+        summarydf: mandatory, `~pandas.DataFrame` (alternative constructors too)
+            DataFrame corresponding to the opsim output (with appropriate
+            selections) to be summarized.
+        user: string, optional, defaults to None
+            user running the program, used in writing out SNANA simlibs only 
+            if None, the login name of the user is used.
+        host: string, optional, defaults to None
+            name of host machine, used only in writing out SNANA simlibs
+            default of None assigns the output of `hostname` to this variable.
+        survey: string, optional, defaults to 'LSST'
+            name of survey, required only for writing out SNANA simlibs
+        telescope: string, optional, defaults to 'LSST'
+            name of survey, required only for writing out SNANA simlibs
+        pixSize: float, optional, defaults to 0.2
+            size of the pixel in arcseconds, defaults to 0.2 as appropriate
+            for LSST
+        '''
         import os 
         import subprocess
 
@@ -93,7 +114,32 @@ class SummaryOpsim(object):
         self.pixelSize = pixSize
         self.survey = survey
 
-    # @property
+    @classmethod
+    def fromOpSimDB(cls, opSimDB, sql_query, **kwargs):
+        '''
+        used to instantiate the summary from the opsim database
+
+
+        Parameters
+        ----------
+        opSimDB: str, mandatory
+            absolute path to opsim sqlite database
+        sql_query: strng, mandatory
+            sql_query to get the required OpSim visits
+
+        Returns
+        -------
+
+        '''
+
+        from sqlalchemy import create_engine
+        import pandas as pd
+
+        engine = create_engine(opSimDB)
+        summary = pd.read_sql_query(sql_query, engine, **kwargs)
+
+        return cls(summary, **kwargs)
+        
     def coords(self):
 
         ra = map(lambda x: self.ra(x), self.fieldIds)

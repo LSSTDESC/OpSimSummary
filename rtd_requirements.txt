@@ -16,3 +16,4 @@ sphinx-rtd-theme==0.1.8
 vboxapi==1.0
 virtualenv==13.1.0
 SQLAlchemy==1.0.6
+matplotlib==1.4

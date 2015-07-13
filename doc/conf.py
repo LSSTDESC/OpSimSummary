@@ -284,3 +284,15 @@ intersphinx_mapping = {'http://docs.python.org/': None}
 
 # Added according to https://github.com/phn/pytpm/issues/3#issuecomment-12133978
 # numpydoc_show_class_members = False
+
+
+import sys
+from mock import Mock as MagicMock
+
+class Mock(MagicMock):
+    @classmethod
+    def __getattr__(cls, name):
+            return Mock()
+
+MOCK_MODULES = ['matplotlib', 'numpy', 'pandas']
+sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)

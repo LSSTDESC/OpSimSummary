@@ -4,8 +4,7 @@ import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
 import matplotlib.pyplot as plt
-
-__all__ = ['SummaryOpsim']
+# __all__ = ['SummaryOpsim']
 def add_simlibCols(opsimtable, pixSize=0.2):
     '''
     Parameters

@@ -31,8 +31,7 @@ import os
 extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.autodoc',
-    'numpydoc',
-    # 'sphinx.ext.napoleon',
+    'sphinx.ext.napoleon',
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
@@ -295,5 +294,5 @@ class Mock(MagicMock):
     def __getattr__(cls, name):
             return Mock()
 #
-MOCK_MODULES = ['numpydoc', 'matplotlib.pyplot', 'matplotlib', 'sqlalchemy', 'numpy', 'pandas']
+MOCK_MODULES = ['matplotlib.pyplot', 'matplotlib', 'sqlalchemy', 'numpy', 'pandas']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)

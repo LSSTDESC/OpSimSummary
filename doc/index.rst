@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 2
 .. automodule:: simlibs.simlib
     :members:
+    :show-inheritance:
 
 
 Indices and tables

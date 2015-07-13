@@ -82,11 +82,10 @@ class FieldSimlib(object):
         return myclass 
 
     def validate(self, validate_string):
-        '''
+        """
         Validate the interpretation of the field simlib data from a field simlib
-        string by checking 
-        1. the LIBID at the end of the string matches the one at the beginning
-            (ie. somehow multiple fields have not been read in)
+        string by checking 1. the LIBID at the end of the string matches the
+        one at the beginnin (ie. somehow multiple fields have not been read in)
         2. the number of rows of the data for this field simlib matches the
         number of observations recorded in the metadata as NOBS
 
@@ -95,7 +94,8 @@ class FieldSimlib(object):
         validate_string : string, mandatory
             footer obtained by splitting the simlib corresponding to the field
             usually of the form 
-        '''
+        """
+
         val = eval(validate_string.split()[-1])
         if int(self.meta['LIBID']) != val:
             print 'LIBID value at beginning: ', self.meta['LIBID']
@@ -105,7 +105,8 @@ class FieldSimlib(object):
         if len(self.data) != self.meta['NOBS']:
             print 'NOBS :', self.meta['NOBS']
             print 'len(data) :', len(self.data)
-            raise ValueError('the number of observations recorded does not match size of data')
+            raise ValueError('the number of observations recorded does not'
+                             'match size of data')
 
     @staticmethod
     def split_simlibString(simlibString):

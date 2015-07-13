@@ -10,7 +10,10 @@ Contents:
 
 .. toctree::
    :maxdepth: 2
-
+.. automodule:: simlibs.simlib
+    :members:
+.. automodule:: simlibs.classmodule
+    :members:
 
 
 Indices and tables

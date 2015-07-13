@@ -1,13 +1,15 @@
 #!/usr/bin/env python
+
+"""
+Module 
+"""
 import pandas as pd
 from cStringIO import StringIO
 
-__all__ = ['FieldSimlib', 'Simlib']
+# __all__ = ['FieldSimlib', 'Simlib']
 
 class FieldSimlib(object):
-
-    from cStringIO import StringIO
-    '''
+    """
     Class to hold data corresponding to a particular fieldID (LIBID) of a
     SNANA SIMLIB file and methods. The fieldSimlib class for a particular field
     has the following attributes, and may be instantiated by supplying these, 
@@ -15,23 +17,36 @@ class FieldSimlib(object):
     description of this data in an SNANA simlib file using the constructor
     fromSimlibString:
 
+
+    Parameters
+    ----------
+    simlibdata : a pandas dataFrame
+    simlib_meta : a dictionary
+
+
     Attributes
     ----------
-    fieldID: int
+    fieldID : int
         a unique integer identifying the field of view. Different pointings
         of the same field at different times (but possibly with dithers) are
         associated with the same fieldID
-    meta: dict
+    meta : dict
         metadata associated with the field, which has at least the following
         keys:
         LIBID, RA, DECL, MWEBV, NOBS, PIXSIZE
-    data: `~pd.DataFrame` object with the observations and having at least the
+    data : `~pd.DataFrame` object with the observations and having at least the
         following columns: 'MJD', 'IDEXPT', 'FLT', 'GAIN', 'NOISE', 'SKYSIG',
         'PSF1', 'PSF2', 'PSFRatio', 'ZPTAVG', 'ZPTERR', 'MAG']. The meanings of
         these columns are discussed in the SNANA manual in the sub-section
         'The 'SIMLIB' Observing file (4.7)
-    '''
+    """
+
+    import pandas as pd
+    from cStringIO import StringIO
     def __init__(self, simlibdata, simlib_meta):
+        """
+        Instantiate the class from the basic data
+        """ 
 
         self.data = simlibdata 
         self.meta = simlib_meta
@@ -45,6 +60,10 @@ class FieldSimlib(object):
         metadata containing the properties of the field, a
         `~pandas.DataFrame` containing the data, and the string after the
         data
+
+        Parameters
+        ----------
+        simlibstring : string, mandatory
         '''
 
         # split into three parts
@@ -73,7 +92,7 @@ class FieldSimlib(object):
 
         Parameters
         ----------
-        validate_string: string, mandatory
+        validate_string : string, mandatory
             footer obtained by splitting the simlib corresponding to the field
             usually of the form 
         '''
@@ -93,6 +112,10 @@ class FieldSimlib(object):
         '''
         split the string corresponding to a simlib file into header, footer,
         and data pieces
+
+        Parameters
+        ----------
+        simlibString : string
         '''
         lst = simlibString.split('MAG')
         header = lst[0]
@@ -104,6 +127,12 @@ class FieldSimlib(object):
     def simlibdata(data):
         '''
         manipulate string in the simlibstring to form pandas DataFrame object
+
+
+        Parameters
+        ----------
+
+        data : data
         '''
         fhandle = StringIO(data)
         df = pd.read_csv(fhandle, delimiter="\s+",
@@ -117,6 +146,11 @@ class FieldSimlib(object):
     def split_header(header):
         '''
         split header string into metadata and field names
+
+        Parameters
+        ----------
+
+        header : header
         '''
 
         lines = header.split('\n')
@@ -133,6 +167,10 @@ class FieldSimlib(object):
     def libid_metadata(header_metadata):
         '''
         parse header metadata string into a dictionary
+
+        Parameters
+        ----------
+        header_metadata : header
         '''
 
         # Even index values 0, 2, 4 are keys

@@ -41,8 +41,11 @@ class FieldSimlib(object):
         'The 'SIMLIB' Observing file (4.7)
     """
 
+
     import pandas as pd
     from cStringIO import StringIO
+    
+
     def __init__(self, simlibdata, simlib_meta):
         """
         Instantiate the class from the basic data

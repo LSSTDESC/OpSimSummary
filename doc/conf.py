@@ -31,7 +31,8 @@ import os
 extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.autodoc',
-    'sphinx.ext.napoleon',
+    'numpydoc',
+    # 'sphinx.ext.napoleon',
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',

@@ -4,7 +4,7 @@ docutils==0.12
 Jinja2==2.7.3
 MarkupSafe==0.23
 numpy==1.9.2
-numpydoc==0.5
+numpydoc>=0.5
 OpSimSummary==0.0.1.dev0
 pandas==0.16.2
 Pygments==2.0.2

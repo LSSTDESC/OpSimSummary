@@ -295,5 +295,5 @@ class Mock(MagicMock):
     def __getattr__(cls, name):
             return Mock()
 #
-MOCK_MODULES = ['matplotlib.pyplot', 'matplotlib', 'sqlalchemy', 'numpy', 'pandas']
+MOCK_MODULES = ['numpydoc', 'matplotlib.pyplot', 'matplotlib', 'sqlalchemy', 'numpy', 'pandas']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)

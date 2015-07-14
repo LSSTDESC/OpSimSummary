@@ -321,8 +321,8 @@ class SummaryOpsim(object):
     
     def fieldheader(self, fieldID):
         
-        ra = self.ra(fieldID)
-        dec = self.dec(fieldID)
+        ra = np.degrees(self.ra(fieldID))
+        dec = np.degrees(self.dec(fieldID))
         mwebv = 0.01
         pixSize = self.pixelSize 
         nobs = len(self.simlib(fieldID))

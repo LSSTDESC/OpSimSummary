@@ -114,7 +114,7 @@ class SummaryOpsim(object):
         self.survey = survey
 
     @classmethod
-    def fromOpSimDB(cls, opSimDB, sql_query, **kwargs):
+    def fromOpSimDB(cls, opSimDB, tablename=None, sql_query=None, **kwargs):
         '''
         used to instantiate the summary from the opsim database
 
@@ -135,7 +135,10 @@ class SummaryOpsim(object):
         import pandas as pd
 
         engine = create_engine(opSimDB)
-        summary = pd.read_sql_query(sql_query, engine, **kwargs)
+        if sql_query is None:
+            summary = pd.read_sql_table(tablename, engine, **kwargs)
+        else:
+            summary = pd.read_sql_query(sql_query, engine, **kwargs)
 
         return cls(summary, **kwargs)
         

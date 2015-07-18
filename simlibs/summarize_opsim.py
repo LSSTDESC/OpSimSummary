@@ -114,6 +114,26 @@ class SummaryOpsim(object):
         self.survey = survey
 
     @classmethod
+    def fromOpSimASCII(cls, opSimFlatFile, **kwargs):
+        """
+        instantiates the sumamry table from opSim ASCII outputs like
+        the outputs for version 2.168
+
+
+        Parameters
+        ---------
+        opSimFlatFile : string, mandatory
+            absolute path to ASCII file
+
+        """
+        import pandas as pd
+
+
+        summary = pd.read_csv(opSimFlatFile, delimiter=r"\s+")
+        return cls(summary, **kwargs)
+
+
+    @classmethod
     def fromOpSimDB(cls, opSimDB, tablename=None, sql_query=None, **kwargs):
         '''
         used to instantiate the summary from the opsim database

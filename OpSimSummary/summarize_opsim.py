@@ -26,8 +26,18 @@ def add_simlibCols(opsimtable, pixSize=0.2):
     '''
     
     opsim_seeing = opsimtable['finSeeing']
+    # magsky is in units of mag/arcsec^2
+    # opsim_maglim is in units of mag
     opsim_maglim = opsimtable['fiveSigmaDepth']
     opsim_magsky = opsimtable['filtSkyBrightness']
+
+    # Calculate two variables that come up in consistent units:
+    # term1  = 2.0 * opsim_maglim - opsim_magsky
+    pixArea = pixSize * pixSize
+    term1 = 2.0 * opsim_maglim - opsim_magsky * pixArea
+    # term2 = opsim_maglim - opsim_magsky
+    term2 = opsim_maglim - opsim_magsky * pixArea
+
 
     # Calculate SIMLIB PSF VALUE
     opsimtable['simLibPsf'] = opsim_seeing /2.35 /pixSize
@@ -36,9 +46,11 @@ def add_simlibCols(opsimtable, pixSize=0.2):
     
     opsim_snr = 5.
     arg = area * opsim_snr * opsim_snr
-    zpt_approx = 2.0 * opsim_maglim - opsim_magsky + 2.5 * np.log10(arg)
+    zpt_approx = term1 + 2.5 * np.log10(arg)
+    # zpt_approx = 2.0 * opsim_maglim - opsim_magsky + 2.5 * np.log10(arg)
     # ARG again in David Cinabro's code
-    val = -0.4 * (opsim_magsky - opsim_maglim)
+    val = -0.4 * term2
+    # val = -0.4 * (opsim_magsky - opsim_maglim)
     tmp = 10.0 ** val
     zpt_cor = 2.5 * np.log10(1.0 + 1.0 / (area * tmp))
     simlib_zptavg = zpt_approx + zpt_cor
@@ -134,17 +146,22 @@ class SummaryOpsim(object):
 
 
     @classmethod
-    def fromOpSimDB(cls, opSimDB, tablename=None, sql_query=None, **kwargs):
+    def fromOpSimDB(cls, opSimDBfilename, tablename=None, sql_query=None,
+                    dialect='sqlite', **kwargs):
         '''
         used to instantiate the summary from the opsim database
 
 
         Parameters
         ----------
-        opSimDB: str, mandatory
+        opSimDBfilename : str, mandatory
             absolute path to opsim sqlite database
-        sql_query: strng, mandatory
+        tablename : string, optional, defaults to None
+            name of table in case it is not in sql_query
+        sql_query : strng, mandatory
             sql_query to get the required OpSim visits
+        dialect : string, defaults to 'sqlite'
+            Only dialect supported at present
 
         Returns
         -------
@@ -154,6 +171,10 @@ class SummaryOpsim(object):
         from sqlalchemy import create_engine
         import pandas as pd
 
+        if dialect == 'sqlite':
+            opSimDB = 'sqlite:///' + opSimDBfilename
+        else:
+            raise ValueError('other dialects not supported yet\n')
         engine = create_engine(opSimDB)
         if sql_query is None:
             summary = pd.read_sql_table(tablename, engine, **kwargs)

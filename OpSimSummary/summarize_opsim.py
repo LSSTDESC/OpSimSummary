@@ -25,7 +25,7 @@ def add_simlibCols(opsimtable, pixSize=0.2):
     'simLibSkySig' 
     '''
     
-    opsim_seeing = opsimtable['finSeeing']
+    opsim_seeing = opsimtable['finSeeing'] # unit of arc sec sq
     # magsky is in units of mag/arcsec^2
     # opsim_maglim is in units of mag
     opsim_maglim = opsimtable['fiveSigmaDepth']
@@ -59,7 +59,7 @@ def add_simlibCols(opsimtable, pixSize=0.2):
     
     #SKYSIG Calculation
     npix_asec = 1./ pixSize**2.
-    opsimtable['simLibSkySig'] = ((1.0/ npix_asec)*10.0 **(-0.4 * (opsim_maglim - simlib_zptavg)))**0.5
+    opsimtable['simLibSkySig'] = np.sqrt((1.0/ npix_asec)*10.0 **(-0.4 * (opsim_magsky - simlib_zptavg))))
     return opsimtable
 
 class SummaryOpsim(object):

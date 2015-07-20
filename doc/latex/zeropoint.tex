@@ -1,0 +1,53 @@
+\documentclass{article}[12pt]
+\input{preamble}
+\begin{document}
+We can find the number counts (ADU) due to an astrophysical point object with a 
+Spectral Energy Distribution $F_{\nu}(\nu) = \frac{d E(\nu)}{d \nu}$ as follows:
+in a transmission band $b$ as follows:
+\be
+N(ADU)  =  \frac{A\Delta T}{g} \int d\nu \frac{F_{\nu}(\nu) T_b (\nu)}{h\nu}
+\ee
+where $A$ is the effective collecting area of the telescope.
+The magnitude of the source in the same transmission band $b$ is defined to be
+\be
+10.0^{-0.4 m_b} = \frac{\int d\nu \frac{F_{\nu}(\nu) T_b(\nu)}{h\nu}}
+{\int d\nu \frac{S_{\nu}(\nu) T_b(\nu)}{h\nu}}
+\ee
+where $S(\nu)$ is the reference spectrum which has the value of 3631 Jy for AB magnitudes, as in OpSim.
+Combining these, we have
+\beqn
+N(ADU) &=& \frac{A \Delta T}{hg}(\int \frac{d\nu}{\nu} S_{\nu}(\nu) T_b(\nu) ) 10^{-0.4(m_b)} \\
+       &=& 10.0^{-0.4(m_b - zp)}
+\eeqn
+So, that 
+\be
+zp = 2.5 \log_{10}\left(\frac{A \Delta T}{hg}(\int \frac{d\nu}{\nu} S_{\nu}(\nu) T_b(\nu) )\right)
+\label{physicalzp}
+\ee
+
+One thing to note is that for the calculation of astrophysical objects, $T_b$ is the total transmission including atmospheric and system transmission. For the sky brightness, the transmission is only the system transmission. So the zeropoints as defined through \ref{physicalzp} could be different.  
+\be
+N_{sky}(ADU) = Area 10.0^{-0.4(m_b - zp_{sky})}
+\label{Nsky}
+\ee
+\section{SkySig Calculation}
+
+First try to obtain zero points from measured quantities:
+\be
+\frac{N_{signal}}{N_{total}^{0.5}} = SNR
+\ee
+In the background dominated limit, $N_{total}= N_{sky},$ 
+
+
+Using the 5sigma limiting magnitude and the the sky brightness magnitudes, 
+
+\be
+\frac{10.0^{-0.8(m_5^b - zp)}}{Area 10.0^{-0.4(m_{sky} - zp_{sky})}} = SNR^2
+\ee
+Taking logarithms, 
+\beqn
+2(m_5^b - zp) - (m_{sky} -zp_{sky}) &=& -2.5\log_{10}{(Area SNR^2)}\\
+2 m_5^b - m_{sky} -2 zp + zp_{sky} &=& -2.5 \log_{10}{(Area SNR^2)}\\
+2zp -  zp_{sky}  &=& 2 m_5^b - m_{sky} + 2.5 \log_{10}{(Area SNR^2)}
+\eeqn
+\end{document}

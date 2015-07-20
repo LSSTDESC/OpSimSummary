@@ -34,9 +34,9 @@ def add_simlibCols(opsimtable, pixSize=0.2):
     # Calculate two variables that come up in consistent units:
     # term1  = 2.0 * opsim_maglim - opsim_magsky
     pixArea = pixSize * pixSize
-    term1 = 2.0 * opsim_maglim - opsim_magsky * pixArea
+    term1 = 2.0 * opsim_maglim - opsim_magsky # * pixArea
     # term2 = opsim_maglim - opsim_magsky
-    term2 = opsim_maglim - opsim_magsky * pixArea
+    term2 = - (opsim_maglim - opsim_magsky) # * pixArea
 
 
     # Calculate SIMLIB PSF VALUE
@@ -59,7 +59,7 @@ def add_simlibCols(opsimtable, pixSize=0.2):
     
     #SKYSIG Calculation
     npix_asec = 1./ pixSize**2.
-    opsimtable['simLibSkySig'] = np.sqrt((1.0/ npix_asec)*10.0 **(-0.4 * (opsim_magsky - simlib_zptavg))))
+    opsimtable['simLibSkySig'] = np.sqrt((1.0/ npix_asec)*10.0 **(-0.4 * (opsim_magsky - simlib_zptavg)))
     return opsimtable
 
 class SummaryOpsim(object):

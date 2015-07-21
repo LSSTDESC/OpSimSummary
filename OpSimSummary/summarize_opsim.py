@@ -23,6 +23,9 @@ def add_simlibCols(opsimtable, pixSize=0.2):
     -------
     DataFrame with additional columns of 'simLibPsf', 'simLibZPTAVG', and
     'simLibSkySig' 
+
+    .. note :: This was written from a piece of f77 code by David
+        Cinabro sent by email on May 26, 2015. 
     '''
     
     opsim_seeing = opsimtable['finSeeing'] # unit of arc sec sq
@@ -33,7 +36,10 @@ def add_simlibCols(opsimtable, pixSize=0.2):
 
     # Calculate two variables that come up in consistent units:
     # term1  = 2.0 * opsim_maglim - opsim_magsky
+
+    # Area of pixel in arcsec squared
     pixArea = pixSize * pixSize
+
     term1 = 2.0 * opsim_maglim - opsim_magsky # * pixArea
     # term2 = opsim_maglim - opsim_magsky
     term2 = - (opsim_maglim - opsim_magsky) # * pixArea
@@ -42,16 +48,26 @@ def add_simlibCols(opsimtable, pixSize=0.2):
     # Calculate SIMLIB PSF VALUE
     opsimtable['simLibPsf'] = opsim_seeing /2.35 /pixSize
    
+    # 4 \pi (\sigma_PSF / 2.35 )^2
     area = (1.51 * opsim_seeing)**2.
     
     opsim_snr = 5.
     arg = area * opsim_snr * opsim_snr
+
+    # Background dominated limit assuming counts with system transmission only
+    # is approximately equal to counts with total transmission
     zpt_approx = term1 + 2.5 * np.log10(arg)
     # zpt_approx = 2.0 * opsim_maglim - opsim_magsky + 2.5 * np.log10(arg)
     # ARG again in David Cinabro's code
+
     val = -0.4 * term2
     # val = -0.4 * (opsim_magsky - opsim_maglim)
+
     tmp = 10.0 ** val
+    # Additional term to account for photons from the source, again assuming
+    # that counts with system transmission approximately equal counts with total
+    # transmission.
+
     zpt_cor = 2.5 * np.log10(1.0 + 1.0 / (area * tmp))
     simlib_zptavg = zpt_approx + zpt_cor
     # ZERO PT CALCULATION 

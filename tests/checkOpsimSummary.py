@@ -24,3 +24,4 @@ old_data = s_old.simlibData(519).sort('MJD')
 from numpy.testing import assert_allclose
 assert_allclose(old_data.SKYSIG.values, sl.simLibSkySig.values, atol=0.01)
 assert_allclose(old_data.ZPTAVG.values, sl.simLibZPTAVG.values, atol=0.01)
+assert_allclose(old_data.PSF1.values, sl.simLibPsf.values, atol=0.01)

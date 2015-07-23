@@ -12,5 +12,5 @@ setup(# package information
       packagedir={'OpSimSummary':'OpSimSummary'},
       # What data to include as packages
       include_package_data=True,
-      package_data={'OpSimSummary':['example_data/*.dat']}
+      package_data={'OpSimSummary':['example_data/*.dat', 'example_data/*.simlib']}
       )

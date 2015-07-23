@@ -1,1 +1,2 @@
 include example_data/*.dat
+include example_data/*.simlib

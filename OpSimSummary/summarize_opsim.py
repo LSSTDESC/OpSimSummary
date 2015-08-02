@@ -109,6 +109,7 @@ class SummaryOpsim(object):
         import subprocess
 
         self.df = summarydf.copy(deep=True)
+        self.df['MJDay'] = np.floor(self.df.expMJD.values)
         if 'simLibSkySig' not in self.df.columns:
             self.df  = add_simlibCols(self.df)
 
@@ -208,15 +209,21 @@ class SummaryOpsim(object):
 
 
     def cadence_Matrix(self, fieldID, sql_query='night < 366',
+                       mjd_center=None, mjd_range=[-50., 50.],
                        Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
                        nightMin=0, nightMax=365, observedOnly=False):
     
-        # group on filter and timeindex (night)
-        grouping_keys = ['filter', 'night']
+        timeMin = nightMin
+        timeMax = nightMax
+        timeIndex = 'night'
+        if mjd_center is not None:
+            timeIndex = 'MJDay'
+        # group on filter and timeIndex (night)
+        grouping_keys = ['filter', timeIndex]
         grouped = self.simlib(fieldID).query(sql_query).groupby(grouping_keys)
 
         # tuples of keys
-        filts, nights = zip( *grouped.groups.keys())
+        filts, times = zip( *grouped.groups.keys())
 
         # number of Observations in each group
         numObs = grouped.apply(len).values
@@ -224,8 +231,7 @@ class SummaryOpsim(object):
         # Create a new dataFrame with nights, Filters, numObs as cols
         cadence_dict = dict()
         cadence_dict['Filters'] = list(filts)
-        cadence_dict['night'] = self.mjdvalfornight(np.array(nights))
-        # print map(type, nights)
+        cadence_dict[timeIndex] = list(times)
 
         # If observedOnly: set values above 1 to 1 
         if observedOnly:
@@ -234,8 +240,8 @@ class SummaryOpsim(object):
         cadence_dict['numObs'] = list(numObs)
 
         # pivot dataFrame to occupation numbers
-        Matrix = pd.DataFrame(cadence_dict).pivot('night', 'Filters', 'numObs')
-
+        Matrix = pd.DataFrame(cadence_dict).pivot(timeIndex,
+                                                  'Filters', 'numObs')
 
         # First make sure all filters are represented
         for filt in Filters:
@@ -245,7 +251,7 @@ class SummaryOpsim(object):
         # reorder filters to u,g,r,i,z,y
         M = Matrix[Filters]
         # Extend to all values in plot
-        ss = pd.Series(np.arange(nightMin, nightMax))
+        ss = pd.Series(np.arange(timeMin, timeMax))
         Matrix = M.reindex(ss, fill_value=np.nan)
 
         return Matrix

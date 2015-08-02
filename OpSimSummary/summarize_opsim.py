@@ -205,9 +205,11 @@ class SummaryOpsim(object):
         dec = map(lambda x: self.dec(x), self.fieldIds)
 
         return ra, dec
+
+
     def cadence_Matrix(self, fieldID, sql_query='night < 366',
-                     Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
-                     nightMin=0, nightMax=365, observedOnly=False):
+                       Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
+                       nightMin=0, nightMax=365, observedOnly=False):
     
         # group on filter and timeindex (night)
         grouping_keys = ['filter', 'night']
@@ -222,7 +224,8 @@ class SummaryOpsim(object):
         # Create a new dataFrame with nights, Filters, numObs as cols
         cadence_dict = dict()
         cadence_dict['Filters'] = list(filts)
-        cadence_dict['night'] = list(nights)
+        cadence_dict['night'] = self.mjdvalfornight(np.array(nights))
+        # print map(type, nights)
 
         # If observedOnly: set values above 1 to 1 
         if observedOnly:
@@ -247,12 +250,21 @@ class SummaryOpsim(object):
 
         return Matrix
 
+
+    @staticmethod
+    def mjdvalfornight(night):
+        return night + (49561 - 208)
+
+    @staticmethod
+    def nightformjd(mjd) :
+        return mjd - (49561 - 208)
+
     def cadence_plot(self, fieldID, sql_query='night < 366',
                      Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
                      nightMin=0, nightMax=365, deltaT=5., observedOnly=False,
                      title=True, title_text=None, colorbar=True,
-                     colorbarMin=0.):
-        '''
+                     colorbarMin=0., showmjd=True):
+        """
         produce a cadence plot that shows the filters and nights observed in
         some subset of the opsim output time span for a field.
 
@@ -268,7 +280,7 @@ class SummaryOpsim(object):
         Filters: list of strings, optional, defaults to LSST ugrizY
             a list of strings corresponding to filter names.
 
-        '''
+        """
 
 
         Matrix = self.cadence_Matrix(fieldID, sql_query=sql_query,

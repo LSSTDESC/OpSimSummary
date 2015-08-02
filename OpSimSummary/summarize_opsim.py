@@ -110,6 +110,7 @@ class SummaryOpsim(object):
 
         self.df = summarydf.copy(deep=True)
         self.df['MJDay'] = np.floor(self.df.expMJD.values)
+        self.df['MJDay'] = self.df['MJDay'].astype(int)
         if 'simLibSkySig' not in self.df.columns:
             self.df  = add_simlibCols(self.df)
 
@@ -218,12 +219,21 @@ class SummaryOpsim(object):
         timeIndex = 'night'
         if mjd_center is not None:
             timeIndex = 'MJDay'
+            if 'mjd' not in sql_query.lower():
+                timeMin = mjd_center + mjd_range[0]
+                timeMax = mjd_center + mjd_range[1]
+                sql_query = 'MJDay > ' + str(timeMin) 
+                sql_query += 'and MJDay < ' + str(timeMax)
+
+
         # group on filter and timeIndex (night)
         grouping_keys = ['filter', timeIndex]
+        print timeIndex, sql_query
         grouped = self.simlib(fieldID).query(sql_query).groupby(grouping_keys)
 
         # tuples of keys
         filts, times = zip( *grouped.groups.keys())
+        print times
 
         # number of Observations in each group
         numObs = grouped.apply(len).values
@@ -240,8 +250,8 @@ class SummaryOpsim(object):
         cadence_dict['numObs'] = list(numObs)
 
         # pivot dataFrame to occupation numbers
-        Matrix = pd.DataFrame(cadence_dict).pivot(timeIndex,
-                                                  'Filters', 'numObs')
+        X = pd.DataFrame(cadence_dict)
+        Matrix = X.pivot(timeIndex, 'Filters', 'numObs')
 
         # First make sure all filters are represented
         for filt in Filters:
@@ -252,9 +262,10 @@ class SummaryOpsim(object):
         M = Matrix[Filters]
         # Extend to all values in plot
         ss = pd.Series(np.arange(timeMin, timeMax))
+        print ss.size, timeMin, timeMax
         Matrix = M.reindex(ss, fill_value=np.nan)
 
-        return Matrix
+        return Matrix #, X
 
 
     @staticmethod
@@ -265,7 +276,8 @@ class SummaryOpsim(object):
     def nightformjd(mjd) :
         return mjd - (49561 - 208)
 
-    def cadence_plot(self, fieldID, sql_query='night < 366',
+    def cadence_plot(self, fieldID, sql_query='night < 366', mjd_center=None,
+                     mjd_range = [-50, 50],
                      Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
                      nightMin=0, nightMax=365, deltaT=5., observedOnly=False,
                      title=True, title_text=None, colorbar=True,
@@ -290,6 +302,7 @@ class SummaryOpsim(object):
 
 
         Matrix = self.cadence_Matrix(fieldID, sql_query=sql_query,
+                                mjd_center=mjd_center, mjd_range=mjd_range,
                                 Filters=Filters, nightMin=nightMin,
                                 nightMax=nightMax, observedOnly=observedOnly)
 
@@ -316,6 +329,9 @@ class SummaryOpsim(object):
         ax.xaxis.tick_bottom()
 
         # Add a grid 
+        if mjd_center is not None:
+            nightMin = mjd_center + mjd_range[0]
+            nightMax = mjd_center + mjd_range[1]
         minorxticks = ax.set_xticks(np.arange(0, nightMax - nightMin,
                                               deltaT), minor=True)
         # Hard coding this

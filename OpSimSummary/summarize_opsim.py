@@ -225,13 +225,22 @@ class SummaryOpsim(object):
                 sql_query = 'MJDay > ' + str(timeMin) 
                 sql_query += ' and MJDay < ' + str(timeMax)
 
+        ss = pd.Series(np.arange(timeMin, timeMax))
 
         # group on filter and timeIndex (night)
         grouping_keys = ['filter', timeIndex]
         print timeIndex, sql_query
         print grouping_keys
 
-        grouped = self.simlib(fieldID).query(sql_query).groupby(grouping_keys)
+        queriedOpsim = self.simlib(fieldID).query(sql_query)
+
+        if queriedOpsim.size == 0 :
+            Matrix = pd.DataFrame(index=ss, columns=Filters)
+            Matrix.fillna(0., inplace=True)
+            return Matrix
+
+        
+        grouped = queriedOpsim.groupby(grouping_keys)
  
         print grouped.groups.keys()
         # tuples of keys
@@ -263,8 +272,8 @@ class SummaryOpsim(object):
 
         # reorder filters to u,g,r,i,z,y
         M = Matrix[Filters]
+        
         # Extend to all values in plot
-        ss = pd.Series(np.arange(timeMin, timeMax))
         print ss.size, timeMin, timeMax
         Matrix = M.reindex(ss, fill_value=np.nan)
 
@@ -380,7 +389,7 @@ class SummaryOpsim(object):
         # Get the figure object
         fig = ax.figure
 
-        return fig
+        return fig, Matrix
 
 
     def showFields(self, ax=None, marker=None, **kwargs):

@@ -223,14 +223,17 @@ class SummaryOpsim(object):
                 timeMin = mjd_center + mjd_range[0]
                 timeMax = mjd_center + mjd_range[1]
                 sql_query = 'MJDay > ' + str(timeMin) 
-                sql_query += 'and MJDay < ' + str(timeMax)
+                sql_query += ' and MJDay < ' + str(timeMax)
 
 
         # group on filter and timeIndex (night)
         grouping_keys = ['filter', timeIndex]
         print timeIndex, sql_query
-        grouped = self.simlib(fieldID).query(sql_query).groupby(grouping_keys)
+        print grouping_keys
 
+        grouped = self.simlib(fieldID).query(sql_query).groupby(grouping_keys)
+ 
+        print grouped.groups.keys()
         # tuples of keys
         filts, times = zip( *grouped.groups.keys())
         print times
@@ -306,10 +309,19 @@ class SummaryOpsim(object):
                                 Filters=Filters, nightMin=nightMin,
                                 nightMax=nightMax, observedOnly=observedOnly)
 
+        if mjd_center is not None:
+            timeMin = mjd_center + mjd_range[0]
+            timeMax = mjd_center + mjd_range[1]
+        else:
+            timeMin = nightMin
+            timeMax = nightMax
+
         if observedOnly:
             axesImage = plt.matshow(Matrix.transpose(), aspect='auto',
                                     cmap=plt.cm.gray_r, vmin=colorbarMin,
-                                    vmax=1.)
+                                    vmax=1., extent=(timeMin - 0.5,
+                                                     timeMax + 0.5,
+                                                     -0.5, 5.5))
         else:
             axesImage = plt.matshow(Matrix.transpose(), aspect='auto',
                                     cmap=plt.cm.gray_r, vmin=colorbarMin)
@@ -329,11 +341,12 @@ class SummaryOpsim(object):
         ax.xaxis.tick_bottom()
 
         # Add a grid 
-        if mjd_center is not None:
-            nightMin = mjd_center + mjd_range[0]
-            nightMax = mjd_center + mjd_range[1]
-        minorxticks = ax.set_xticks(np.arange(0, nightMax - nightMin,
+        # if mjd_center is not None:
+        #    nightMin = mjd_center + mjd_range[0]
+        #    nightMax = mjd_center + mjd_range[1]
+        minorxticks = ax.set_xticks(np.arange(timeMin, timeMax,
                                               deltaT), minor=True)
+
         # Hard coding this
         minoryticks = ax.set_yticks(np.arange(-0.5,5.6,1), minor=True)
         ax.set_adjustable('box-forced')

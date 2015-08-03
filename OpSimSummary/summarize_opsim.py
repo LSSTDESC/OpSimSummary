@@ -229,8 +229,6 @@ class SummaryOpsim(object):
 
         # group on filter and timeIndex (night)
         grouping_keys = ['filter', timeIndex]
-        print timeIndex, sql_query
-        print grouping_keys
 
         queriedOpsim = self.simlib(fieldID).query(sql_query)
 
@@ -242,10 +240,8 @@ class SummaryOpsim(object):
         
         grouped = queriedOpsim.groupby(grouping_keys)
  
-        print grouped.groups.keys()
         # tuples of keys
         filts, times = zip( *grouped.groups.keys())
-        print times
 
         # number of Observations in each group
         numObs = grouped.apply(len).values
@@ -274,7 +270,6 @@ class SummaryOpsim(object):
         M = Matrix[Filters]
         
         # Extend to all values in plot
-        print ss.size, timeMin, timeMax
         Matrix = M.reindex(ss, fill_value=np.nan)
 
         return Matrix #, X
@@ -333,7 +328,9 @@ class SummaryOpsim(object):
                                                      -0.5, 5.5))
         else:
             axesImage = plt.matshow(Matrix.transpose(), aspect='auto',
-                                    cmap=plt.cm.gray_r, vmin=colorbarMin)
+                                    cmap=plt.cm.gray_r, vmin=colorbarMin,
+                                    extent=(timeMin - 0.5, timeMax + 0.5,
+                                            -0.5, 5.5))
 
 
         # setup matplotlib figure and axis objects to manipulate

@@ -341,10 +341,13 @@ class SummaryOpsim(object):
         # by Matrix.columns, but the columns are sorted according to the order
         # in Filters
         
-        ax.set_yticklabels(['0'] +Filters, minor=False)
+        ax.set_yticklabels(['0'] +Filters[::-1], minor=False)
 
         # Positiion x ticks at the bottom rather than top
         ax.xaxis.tick_bottom()
+        ax.xaxis.get_major_formatter().set_useOffset(False)
+        if mjd_center is not None:
+            ax.axvline(mjd_center, color='r', lw=2.0)
 
         # Add a grid 
         # if mjd_center is not None:

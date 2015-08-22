@@ -109,6 +109,8 @@ class SummaryOpsim(object):
         import subprocess
 
         self.df = summarydf.copy(deep=True)
+        self.df['MJDay'] = np.floor(self.df.expMJD.values)
+        self.df['MJDay'] = self.df['MJDay'].astype(int)
         if 'simLibSkySig' not in self.df.columns:
             self.df  = add_simlibCols(self.df)
 
@@ -205,16 +207,41 @@ class SummaryOpsim(object):
         dec = map(lambda x: self.dec(x), self.fieldIds)
 
         return ra, dec
-    def cadence_Matrix(self, fieldID, sql_query='night < 366',
-                     Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
-                     nightMin=0, nightMax=365, observedOnly=False):
-    
-        # group on filter and timeindex (night)
-        grouping_keys = ['filter', 'night']
-        grouped = self.simlib(fieldID).query(sql_query).groupby(grouping_keys)
 
+
+    def cadence_Matrix(self, fieldID, sql_query='night < 366',
+                       mjd_center=None, mjd_range=[-50., 50.],
+                       Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
+                       nightMin=0, nightMax=365, observedOnly=False):
+    
+        timeMin = nightMin
+        timeMax = nightMax
+        timeIndex = 'night'
+        if mjd_center is not None:
+            timeIndex = 'MJDay'
+            if 'mjd' not in sql_query.lower():
+                timeMin = mjd_center + mjd_range[0]
+                timeMax = mjd_center + mjd_range[1]
+                sql_query = 'MJDay > ' + str(timeMin) 
+                sql_query += ' and MJDay < ' + str(timeMax)
+
+        ss = pd.Series(np.arange(timeMin, timeMax))
+
+        # group on filter and timeIndex (night)
+        grouping_keys = ['filter', timeIndex]
+
+        queriedOpsim = self.simlib(fieldID).query(sql_query)
+
+        if queriedOpsim.size == 0 :
+            Matrix = pd.DataFrame(index=ss, columns=Filters)
+            Matrix.fillna(0., inplace=True)
+            return Matrix
+
+        
+        grouped = queriedOpsim.groupby(grouping_keys)
+ 
         # tuples of keys
-        filts, nights = zip( *grouped.groups.keys())
+        filts, times = zip( *grouped.groups.keys())
 
         # number of Observations in each group
         numObs = grouped.apply(len).values
@@ -222,7 +249,7 @@ class SummaryOpsim(object):
         # Create a new dataFrame with nights, Filters, numObs as cols
         cadence_dict = dict()
         cadence_dict['Filters'] = list(filts)
-        cadence_dict['night'] = list(nights)
+        cadence_dict[timeIndex] = list(times)
 
         # If observedOnly: set values above 1 to 1 
         if observedOnly:
@@ -231,8 +258,8 @@ class SummaryOpsim(object):
         cadence_dict['numObs'] = list(numObs)
 
         # pivot dataFrame to occupation numbers
-        Matrix = pd.DataFrame(cadence_dict).pivot('night', 'Filters', 'numObs')
-
+        X = pd.DataFrame(cadence_dict)
+        Matrix = X.pivot(timeIndex, 'Filters', 'numObs')
 
         # First make sure all filters are represented
         for filt in Filters:
@@ -241,18 +268,28 @@ class SummaryOpsim(object):
 
         # reorder filters to u,g,r,i,z,y
         M = Matrix[Filters]
+        
         # Extend to all values in plot
-        ss = pd.Series(np.arange(nightMin, nightMax))
         Matrix = M.reindex(ss, fill_value=np.nan)
 
-        return Matrix
+        return Matrix #, X
 
-    def cadence_plot(self, fieldID, sql_query='night < 366',
+
+    @staticmethod
+    def mjdvalfornight(night):
+        return night + (49561 - 208)
+
+    @staticmethod
+    def nightformjd(mjd) :
+        return mjd - (49561 - 208)
+
+    def cadence_plot(self, fieldID, sql_query='night < 366', mjd_center=None,
+                     mjd_range = [-50, 50],
                      Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
                      nightMin=0, nightMax=365, deltaT=5., observedOnly=False,
                      title=True, title_text=None, colorbar=True,
-                     colorbarMin=0.):
-        '''
+                     colorbarMin=0., showmjd=True):
+        """
         produce a cadence plot that shows the filters and nights observed in
         some subset of the opsim output time span for a field.
 
@@ -268,20 +305,32 @@ class SummaryOpsim(object):
         Filters: list of strings, optional, defaults to LSST ugrizY
             a list of strings corresponding to filter names.
 
-        '''
+        """
 
 
         Matrix = self.cadence_Matrix(fieldID, sql_query=sql_query,
+                                mjd_center=mjd_center, mjd_range=mjd_range,
                                 Filters=Filters, nightMin=nightMin,
                                 nightMax=nightMax, observedOnly=observedOnly)
+
+        if mjd_center is not None:
+            timeMin = mjd_center + mjd_range[0]
+            timeMax = mjd_center + mjd_range[1]
+        else:
+            timeMin = nightMin
+            timeMax = nightMax
 
         if observedOnly:
             axesImage = plt.matshow(Matrix.transpose(), aspect='auto',
                                     cmap=plt.cm.gray_r, vmin=colorbarMin,
-                                    vmax=1.)
+                                    vmax=1., extent=(timeMin - 0.5,
+                                                     timeMax + 0.5,
+                                                     -0.5, 5.5))
         else:
             axesImage = plt.matshow(Matrix.transpose(), aspect='auto',
-                                    cmap=plt.cm.gray_r, vmin=colorbarMin)
+                                    cmap=plt.cm.gray_r, vmin=colorbarMin,
+                                    extent=(timeMin - 0.5, timeMax + 0.5,
+                                            -0.5, 5.5))
 
 
         # setup matplotlib figure and axis objects to manipulate
@@ -292,14 +341,21 @@ class SummaryOpsim(object):
         # by Matrix.columns, but the columns are sorted according to the order
         # in Filters
         
-        ax.set_yticklabels(['0'] +Filters, minor=False)
+        ax.set_yticklabels(['0'] +Filters[::-1], minor=False)
 
         # Positiion x ticks at the bottom rather than top
         ax.xaxis.tick_bottom()
+        ax.xaxis.get_major_formatter().set_useOffset(False)
+        if mjd_center is not None:
+            ax.axvline(mjd_center, color='r', lw=2.0)
 
         # Add a grid 
-        minorxticks = ax.set_xticks(np.arange(0, nightMax - nightMin,
+        # if mjd_center is not None:
+        #    nightMin = mjd_center + mjd_range[0]
+        #    nightMax = mjd_center + mjd_range[1]
+        minorxticks = ax.set_xticks(np.arange(timeMin, timeMax,
                                               deltaT), minor=True)
+
         # Hard coding this
         minoryticks = ax.set_yticks(np.arange(-0.5,5.6,1), minor=True)
         ax.set_adjustable('box-forced')
@@ -333,7 +389,7 @@ class SummaryOpsim(object):
         # Get the figure object
         fig = ax.figure
 
-        return fig
+        return fig, Matrix
 
 
     def showFields(self, ax=None, marker=None, **kwargs):

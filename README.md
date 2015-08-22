@@ -5,7 +5,7 @@ Generates simlib files for SNANA simulations.
 # Requirements
 
 - pandas 
-- mumpy
+- numpy
 - sqlalchemy
 - ipython notebook (only to run example files)
 - lsst.sims.maf (The example can be run, if you already know the propID corresponding to the proposal you want) 

@@ -326,9 +326,12 @@ class SummaryOpsim(object):
             timeMin = nightMin
             timeMax = nightMax
 
-        nightArray = Matrix.sum(axis=1)
-        numNights = len(nightArray.dropna()) 
-        numVisits = int(nightArray.sum())
+        nightMatrix = Matrix.copy(deep=True)
+        nightMatrix[nightMatrix > 0.5] = 1
+        nightArray = nightMatrix.sum(axis=1).dropna()
+        numNights = len(nightArray) 
+        numFiltNights = int(nightArray.sum())
+        numVisits = int(Matrix.sum().sum())
 
         if observedOnly:
             axesImage = plt.matshow(Matrix.transpose(), aspect='auto',
@@ -384,9 +387,9 @@ class SummaryOpsim(object):
         
         if title:
             # Format field Info from attributes
-            t_txt = 'fieldID: {:0>2d} (ra: {:+3f} dec: {:+3f}), visits: {:4d}, nights: {:3d}'
+            t_txt = 'fieldID: {:0>2d} (ra: {:+3f} dec: {:+3f}), visits: {:4d}, nights: {:3d}, nights in bands: {:3d}'
             t_txt = t_txt.format(fieldID, self.ra(fieldID), self.dec(fieldID),
-                                numVisits, numNights)
+                                 numVisits, numNights, numFiltNights)
 
             # if title_text is supplied use that instead
             if title_text is not None:

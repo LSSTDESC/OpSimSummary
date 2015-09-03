@@ -244,7 +244,8 @@ class SummaryOpsim(object):
         filts, times = zip( *grouped.groups.keys())
 
         # number of Observations in each group
-        #  Apparently the following does not work
+
+        # Apparently the following does not work
         # numObs = grouped.apply(len).values
 
         # To do this correctly
@@ -325,6 +326,13 @@ class SummaryOpsim(object):
             timeMin = nightMin
             timeMax = nightMax
 
+        nightMatrix = Matrix.copy(deep=True)
+        nightMatrix[nightMatrix > 0.5] = 1
+        nightArray = nightMatrix.sum(axis=1).dropna()
+        numNights = len(nightArray) 
+        numFiltNights = int(nightArray.sum())
+        numVisits = int(Matrix.sum().sum())
+
         if observedOnly:
             axesImage = plt.matshow(Matrix.transpose(), aspect='auto',
                                     cmap=plt.cm.gray_r, vmin=colorbarMin,
@@ -379,8 +387,9 @@ class SummaryOpsim(object):
         
         if title:
             # Format field Info from attributes
-            t_txt = 'fieldID: {:0>2d} (ra: {:+3f} dec: {:+3f})'
-            t_txt = t_txt.format(fieldID, self.ra(fieldID), self.dec(fieldID))
+            t_txt = 'fieldID: {:0>2d} (ra: {:+3f} dec: {:+3f}), visits: {:4d}, nights: {:3d}, nights in bands: {:3d}'
+            t_txt = t_txt.format(fieldID, self.ra(fieldID), self.dec(fieldID),
+                                 numVisits, numNights, numFiltNights)
 
             # if title_text is supplied use that instead
             if title_text is not None:

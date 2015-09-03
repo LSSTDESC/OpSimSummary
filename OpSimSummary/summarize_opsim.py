@@ -384,7 +384,7 @@ class SummaryOpsim(object):
         
         if title:
             # Format field Info from attributes
-            t_txt = 'fieldID: {:0>2d} (ra: {:+3f} dec: {:+3f}), visits: {:0>4d}, nights: {:3d}'
+            t_txt = 'fieldID: {:0>2d} (ra: {:+3f} dec: {:+3f}), visits: {:4d}, nights: {:3d}'
             t_txt = t_txt.format(fieldID, self.ra(fieldID), self.dec(fieldID),
                                 numVisits, numNights)
 

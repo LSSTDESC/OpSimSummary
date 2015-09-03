@@ -244,7 +244,12 @@ class SummaryOpsim(object):
         filts, times = zip( *grouped.groups.keys())
 
         # number of Observations in each group
-        numObs = grouped.apply(len).values
+        #  Apparently the following does not work
+        # numObs = grouped.apply(len).values
+
+        # To do this correctly
+        ks = grouped.groups.keys()
+        numObs = np.array( map(lambda x: len(grouped.groups[x]), ks))
 
         # Create a new dataFrame with nights, Filters, numObs as cols
         cadence_dict = dict()

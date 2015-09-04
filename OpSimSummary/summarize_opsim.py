@@ -294,7 +294,7 @@ class SummaryOpsim(object):
                      Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
                      nightMin=0, nightMax=365, deltaT=5., observedOnly=False,
                      title=True, title_text=None, colorbar=True,
-                     colorbarMin=0., showmjd=True):
+                     colorbarMin=0., showmjd=True, grid=True):
         """
         produce a cadence plot that shows the filters and nights observed in
         some subset of the opsim output time span for a field.
@@ -366,8 +366,9 @@ class SummaryOpsim(object):
         # if mjd_center is not None:
         #    nightMin = mjd_center + mjd_range[0]
         #    nightMax = mjd_center + mjd_range[1]
-        minorxticks = ax.set_xticks(np.arange(timeMin, timeMax,
-                                              deltaT), minor=True)
+        if grid:
+            minorxticks = ax.set_xticks(np.arange(timeMin, timeMax,
+                                                  deltaT), minor=True)
 
         # Hard coding this
         minoryticks = ax.set_yticks(np.arange(-0.5,5.6,1), minor=True)

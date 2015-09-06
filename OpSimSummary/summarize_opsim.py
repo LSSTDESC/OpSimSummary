@@ -1,10 +1,12 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 import os
 import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
 import matplotlib.pyplot as plt
 # __all__ = ['SummaryOpsim']
+
+
 def add_simlibCols(opsimtable, pixSize=0.2):
     '''
     Parameters
@@ -27,8 +29,8 @@ def add_simlibCols(opsimtable, pixSize=0.2):
     .. note :: This was written from a piece of f77 code by David
         Cinabro sent by email on May 26, 2015. 
     '''
-    
-    opsim_seeing = opsimtable['finSeeing'] # unit of arc sec sq
+
+    opsim_seeing = opsimtable['finSeeing']  # unit of arc sec sq
     # magsky is in units of mag/arcsec^2
     # opsim_maglim is in units of mag
     opsim_maglim = opsimtable['fiveSigmaDepth']
@@ -40,17 +42,16 @@ def add_simlibCols(opsimtable, pixSize=0.2):
     # Area of pixel in arcsec squared
     pixArea = pixSize * pixSize
 
-    term1 = 2.0 * opsim_maglim - opsim_magsky # * pixArea
+    term1 = 2.0 * opsim_maglim - opsim_magsky  # * pixArea
     # term2 = opsim_maglim - opsim_magsky
-    term2 = - (opsim_maglim - opsim_magsky) # * pixArea
-
+    term2 = - (opsim_maglim - opsim_magsky)  # * pixArea
 
     # Calculate SIMLIB PSF VALUE
-    opsimtable['simLibPsf'] = opsim_seeing /2.35 /pixSize
-   
+    opsimtable['simLibPsf'] = opsim_seeing / 2.35 / pixSize
+
     # 4 \pi (\sigma_PSF / 2.35 )^2
-    area = (1.51 * opsim_seeing)**2.
-    
+    area = (1.51 * opsim_seeing) ** 2.
+
     opsim_snr = 5.
     arg = area * opsim_snr * opsim_snr
 
@@ -70,17 +71,18 @@ def add_simlibCols(opsimtable, pixSize=0.2):
 
     zpt_cor = 2.5 * np.log10(1.0 + 1.0 / (area * tmp))
     simlib_zptavg = zpt_approx + zpt_cor
-    # ZERO PT CALCULATION 
+    # ZERO PT CALCULATION
     opsimtable['simLibZPTAVG'] = simlib_zptavg
-    
-    #SKYSIG Calculation
-    npix_asec = 1./ pixSize**2.
-    opsimtable['simLibSkySig'] = np.sqrt((1.0/ npix_asec)*10.0 **(-0.4 * (opsim_magsky - simlib_zptavg)))
+
+    # SKYSIG Calculation
+    npix_asec = 1. / pixSize ** 2.
+    opsimtable['simLibSkySig'] = np.sqrt(
+        (1.0 / npix_asec) * 10.0 ** (-0.4 * (opsim_magsky - simlib_zptavg)))
     return opsimtable
 
+
 class SummaryOpsim(object):
-    
-    
+
     def __init__(self, summarydf, user=None, host=None, survey='LSST',
                  telescope='LSST', pixSize=0.2):
         '''
@@ -105,14 +107,14 @@ class SummaryOpsim(object):
             size of the pixel in arcseconds, defaults to 0.2 as appropriate
             for LSST
         '''
-        import os 
+        import os
         import subprocess
 
         self.df = summarydf.copy(deep=True)
         self.df['MJDay'] = np.floor(self.df.expMJD.values)
         self.df['MJDay'] = self.df['MJDay'].astype(int)
         if 'simLibSkySig' not in self.df.columns:
-            self.df  = add_simlibCols(self.df)
+            self.df = add_simlibCols(self.df)
 
         # SNANA has y filter deonoted as Y. Can change in input files to SNANA
         # but more bothersome.
@@ -122,18 +124,18 @@ class SummaryOpsim(object):
             else:
                 return x
 
-        self.df['filter'] = map(capitalizeY, self.df['filter']) 
+        self.df['filter'] = map(capitalizeY, self.df['filter'])
         self._fieldsimlibs = self.df.groupby(by='fieldID')
         self.fieldIds = self._fieldsimlibs.groups.keys()
 
-        
-        # report a user name, either from a constructor parameter, or login name
+        # report a user name, either from a constructor parameter, or login
+        # name
         if user is None:
             user = os.getlogin()
         self.user = user
 
         # report a host on which the calculations are done. either from
-        # constructor parameters or from the system hostname utility 
+        # constructor parameters or from the system hostname utility
         if host is None:
             proc = subprocess.Popen('hostname', stdout=subprocess.PIPE)
             host, err = proc.communicate()
@@ -158,10 +160,8 @@ class SummaryOpsim(object):
         """
         import pandas as pd
 
-
         summary = pd.read_csv(opSimFlatFile, delimiter=r"\s+")
         return cls(summary, **kwargs)
-
 
     @classmethod
     def fromOpSimDB(cls, opSimDBfilename, tablename=None, sql_query=None,
@@ -200,7 +200,7 @@ class SummaryOpsim(object):
             summary = pd.read_sql_query(sql_query, engine, **kwargs)
 
         return cls(summary, **kwargs)
-        
+
     def coords(self):
 
         ra = map(lambda x: self.ra(x), self.fieldIds)
@@ -208,12 +208,11 @@ class SummaryOpsim(object):
 
         return ra, dec
 
-
     def cadence_Matrix(self, fieldID, sql_query='night < 366',
                        mjd_center=None, mjd_range=[-50., 50.],
                        Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
                        nightMin=0, nightMax=365, observedOnly=False):
-    
+
         timeMin = nightMin
         timeMax = nightMax
         timeIndex = 'night'
@@ -222,7 +221,7 @@ class SummaryOpsim(object):
             if 'mjd' not in sql_query.lower():
                 timeMin = mjd_center + mjd_range[0]
                 timeMax = mjd_center + mjd_range[1]
-                sql_query = 'MJDay > ' + str(timeMin) 
+                sql_query = 'MJDay > ' + str(timeMin)
                 sql_query += ' and MJDay < ' + str(timeMax)
 
         ss = pd.Series(np.arange(timeMin, timeMax))
@@ -232,16 +231,15 @@ class SummaryOpsim(object):
 
         queriedOpsim = self.simlib(fieldID).query(sql_query)
 
-        if queriedOpsim.size == 0 :
+        if queriedOpsim.size == 0:
             Matrix = pd.DataFrame(index=ss, columns=Filters)
             Matrix.fillna(0., inplace=True)
             return Matrix
 
-        
         grouped = queriedOpsim.groupby(grouping_keys)
- 
+
         # tuples of keys
-        filts, times = zip( *grouped.groups.keys())
+        filts, times = zip(*grouped.groups.keys())
 
         # number of Observations in each group
 
@@ -250,17 +248,17 @@ class SummaryOpsim(object):
 
         # To do this correctly
         ks = grouped.groups.keys()
-        numObs = np.array( map(lambda x: len(grouped.groups[x]), ks))
+        numObs = np.array(map(lambda x: len(grouped.groups[x]), ks))
 
         # Create a new dataFrame with nights, Filters, numObs as cols
         cadence_dict = dict()
         cadence_dict['Filters'] = list(filts)
         cadence_dict[timeIndex] = list(times)
 
-        # If observedOnly: set values above 1 to 1 
+        # If observedOnly: set values above 1 to 1
         if observedOnly:
             numObs = np.where(np.array(list(numObs)), 1, 0)
-        
+
         cadence_dict['numObs'] = list(numObs)
 
         # pivot dataFrame to occupation numbers
@@ -274,23 +272,22 @@ class SummaryOpsim(object):
 
         # reorder filters to u,g,r,i,z,y
         M = Matrix[Filters]
-        
+
         # Extend to all values in plot
         Matrix = M.reindex(ss, fill_value=np.nan)
 
-        return Matrix #, X
-
+        return Matrix  # , X
 
     @staticmethod
     def mjdvalfornight(night):
         return night + (49561 - 208)
 
     @staticmethod
-    def nightformjd(mjd) :
+    def nightformjd(mjd):
         return mjd - (49561 - 208)
 
     def cadence_plot(self, fieldID, sql_query='night < 366', mjd_center=None,
-                     mjd_range = [-50, 50],
+                     mjd_range=[-50, 50],
                      Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
                      nightMin=0, nightMax=365, deltaT=5., observedOnly=False,
                      title=True, title_text=None, colorbar=True,
@@ -313,11 +310,10 @@ class SummaryOpsim(object):
 
         """
 
-
         Matrix = self.cadence_Matrix(fieldID, sql_query=sql_query,
-                                mjd_center=mjd_center, mjd_range=mjd_range,
-                                Filters=Filters, nightMin=nightMin,
-                                nightMax=nightMax, observedOnly=observedOnly)
+                                     mjd_center=mjd_center, mjd_range=mjd_range,
+                                     Filters=Filters, nightMin=nightMin,
+                                     nightMax=nightMax, observedOnly=observedOnly)
 
         if mjd_center is not None:
             timeMin = mjd_center + mjd_range[0]
@@ -329,7 +325,7 @@ class SummaryOpsim(object):
         nightMatrix = Matrix.copy(deep=True)
         nightMatrix[nightMatrix > 0.5] = 1
         nightArray = nightMatrix.sum(axis=1).dropna()
-        numNights = len(nightArray) 
+        numNights = len(nightArray)
         numFiltNights = int(nightArray.sum())
         numVisits = int(Matrix.sum().sum())
 
@@ -345,16 +341,15 @@ class SummaryOpsim(object):
                                     extent=(timeMin - 0.5, timeMax + 0.5,
                                             -0.5, 5.5))
 
-
         # setup matplotlib figure and axis objects to manipulate
-        ax = axesImage.axes 
+        ax = axesImage.axes
 
         # yticks: annotate with filter names
         # Note that it is also possible to get this from the DataFrame
         # by Matrix.columns, but the columns are sorted according to the order
         # in Filters
-        
-        ax.set_yticklabels(['0'] +Filters[::-1], minor=False)
+
+        ax.set_yticklabels(['0'] + Filters[::-1], minor=False)
 
         # Positiion x ticks at the bottom rather than top
         ax.xaxis.tick_bottom()
@@ -362,7 +357,7 @@ class SummaryOpsim(object):
         if mjd_center is not None:
             ax.axvline(mjd_center, color='r', lw=2.0)
 
-        # Add a grid 
+        # Add a grid
         # if mjd_center is not None:
         #    nightMin = mjd_center + mjd_range[0]
         #    nightMax = mjd_center + mjd_range[1]
@@ -371,10 +366,9 @@ class SummaryOpsim(object):
                                                   deltaT), minor=True)
 
         # Hard coding this
-        minoryticks = ax.set_yticks(np.arange(-0.5,5.6,1), minor=True)
+        minoryticks = ax.set_yticks(np.arange(-0.5, 5.6, 1), minor=True)
         ax.set_adjustable('box-forced')
         ax.grid(which='minor')
-
 
         # If nightMin is different from 0, translate xticks
         # xticks = ax.get_xticks()
@@ -385,7 +379,7 @@ class SummaryOpsim(object):
         # ax.set_xticklabels(xticklabel)
 
         # Set a title with information about the field
-        
+
         if title:
             # Format field Info from attributes
             t_txt = 'fieldID: {:0>2d} (ra: {:+3f} dec: {:+3f}), visits: {:4d}, nights: {:3d}, nights in bands: {:3d}'
@@ -406,14 +400,13 @@ class SummaryOpsim(object):
 
         return fig, Matrix
 
-
     def showFields(self, ax=None, marker=None, **kwargs):
         ra = np.degrees(self.coords()[0])
         dec = self.coords()[1]
 
         x = np.remainder(ra + 360., 360.)
-        ind  = x > 180.
-        x[ind] -=360.
+        ind = x > 180.
+        x[ind] -= 360.
 
         ra = np.radians(x)
         # print ra
@@ -424,99 +417,105 @@ class SummaryOpsim(object):
             marker = 'o'
         ax.scatter(ra, dec, marker=marker, **kwargs)
         ax.grid(True)
-        fig  = ax.figure
+        fig = ax.figure
         return fig
-
 
     def simlib(self, fieldID):
 
         return self._fieldsimlibs.get_group(fieldID)
+
     def ra(self, fieldID):
         ravals = np.unique(self.simlib(fieldID).fieldRA.values)
-        if len(ravals)==1:
+        if len(ravals) == 1:
             return ravals[0]
         else:
-            raise ValueError('The fieldDec of this group seems to not be unique\n')
-        
+            raise ValueError(
+                'The fieldDec of this group seems to not be unique\n')
+
     def dec(self, fieldID):
         decvals = np.unique(self.simlib(fieldID).fieldDec.values)
-        if len(decvals)==1:
+        if len(decvals) == 1:
             return decvals[0]
         else:
-            raise ValueError('The fieldDec of this group seems to not be unique\n')
+            raise ValueError(
+                'The fieldDec of this group seems to not be unique\n')
+
     def meta(self, fieldID):
         meta = {}
         meta['LIBID'] = fieldID
         meta['dec'] = self.dec(fieldID)
         return meta
-    
+
     def fieldheader(self, fieldID):
-        
+
         ra = np.degrees(self.ra(fieldID))
         dec = np.degrees(self.dec(fieldID))
         mwebv = 0.01
-        pixSize = self.pixelSize 
+        pixSize = self.pixelSize
         nobs = len(self.simlib(fieldID))
-        s = '# --------------------------------------------' +'\n' 
-        s += 'LIBID: {0:10d}'.format(fieldID) +'\n'
+        s = '# --------------------------------------------' + '\n'
+        s += 'LIBID: {0:10d}'.format(fieldID) + '\n'
         tmp = 'RA: {0:+10.6f} DECL: {1:+10.6f}   NOBS: {2:10d} MWEBV: {3:5.2f}'
         tmp += ' PIXSIZE: {4:5.3f}'
         s += tmp.format(ra, dec, nobs, mwebv, pixSize) + '\n'
         # s += 'LIBID: {0:10d}'.format(fieldID) + '\n'
-        s += '#                           CCD  CCD         PSF1 PSF2 PSF2/1' +'\n'
-        s += '#     MJD      IDEXPT  FLT GAIN NOISE SKYSIG (pixels)  RATIO  ZPTAVG ZPTERR  MAG' + '\n'
+        s += '#                           CCD  CCD         PSF1 PSF2 PSF2/1' + \
+            '\n'
+        s += '#     MJD      IDEXPT  FLT GAIN NOISE SKYSIG (pixels)  RATIO  ZPTAVG ZPTERR  MAG' + \
+            '\n'
         return s
-    
+
     def fieldfooter(self, fieldID):
-        
+
         s = 'END_LIBID: {0:10d}'.format(fieldID)
         s += '\n'
         return s
-        
+
     def formatSimLibField(self, fieldID, sep=' '):
-    
+
         opSimSummary = self.simlib(fieldID)
-        y =''
+        y = ''
         for row in opSimSummary.iterrows():
-            data = row[1] # skip the index
-            #       MJD EXPID FILTER 
+            data = row[1]  # skip the index
+            #       MJD EXPID FILTER
             lst = ['S:',
                    "{0:5.3f}".format(data.expMJD),
                    "{0:10d}".format(data.obsHistID),
-                   data['filter'], 
+                   data['filter'],
                    "{0:5.2f}".format(1.),                  # CCD Gain
-                   "{0:5.2f}".format(0.25),                # CCD Noise 
+                   "{0:5.2f}".format(0.25),                # CCD Noise
                    "{0:6.2f}".format(data.simLibSkySig),   # SKYSIG
-                   "{0:4.2f}".format(data.simLibPsf),      # PSF1 
-                   "{0:4.2f}".format(0.),                  # PSF2 
-                   "{0:4.3f}".format(0.),                  # PSFRatio 
+                   "{0:4.2f}".format(data.simLibPsf),      # PSF1
+                   "{0:4.2f}".format(0.),                  # PSF2
+                   "{0:4.3f}".format(0.),                  # PSFRatio
                    "{0:6.2f}".format(data.simLibZPTAVG),   # ZPTAVG
-                   "{0:6.3f}".format(0.005),               # ZPTNoise 
+                   "{0:6.3f}".format(0.005),               # ZPTNoise
                    "{0:+7.3f}".format(-99.)]               # MAG
             s = sep.join(lst)
             y += s + '\n'
         return y
-    
+
     def writeSimLibField(self, fieldID):
         s = self.fieldheader(fieldID)
         s += self.formatSimLibField(fieldID, sep=' ')
         s += self.footer(fieldID)
         return s
 
-    def simLibheader(self): #, user=None, host=None, survey='LSST', telescope='LSST'):
+    # , user=None, host=None, survey='LSST', telescope='LSST'):
+    def simLibheader(self):
         # comment: I would like to generalize ugrizY to a sort but am not sure
         # of the logic for other filter names. so ducking for now
-        s = 'SURVEY: {0:}    FILTERS: ugrizY  TELESCOPE: {1:}\n'.format(self.survey, self.telescope)
-        s += 'USER: {0:}     HOST: {1:}\n'.format(self.user, self.host) 
+        s = 'SURVEY: {0:}    FILTERS: ugrizY  TELESCOPE: {1:}\n'.format(
+            self.survey, self.telescope)
+        s += 'USER: {0:}     HOST: {1:}\n'.format(self.user, self.host)
         s += 'BEGIN LIBGEN\n'
         return s
-    
+
     def simLibFooter(self):
         """
         """
         s = 'END_OF_SIMLIB:    {0:10d} ENTRIES'.format(len(self.fieldIds))
         return s
-
 
     def writeSimlib(self, filename, comments=''):
         with open(filename, 'w') as fh:
@@ -531,5 +530,3 @@ class SummaryOpsim(object):
                 fh.write(self.formatSimLibField(fieldID))
                 fh.write(self.fieldfooter(fieldID))
             fh.write(simlib_footer)
-
-

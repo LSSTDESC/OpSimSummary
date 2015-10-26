@@ -85,7 +85,7 @@ class SummaryOpsim(object):
 
     def __init__(self, summarydf, user=None, host=None, survey='LSST',
                  telescope='LSST', pixSize=0.2):
-        '''
+        """
         Create a summary of the OpSim output. 
 
         Parameters
@@ -106,7 +106,7 @@ class SummaryOpsim(object):
         pixSize: float, optional, defaults to 0.2
             size of the pixel in arcseconds, defaults to 0.2 as appropriate
             for LSST
-        '''
+        """
         import os
         import subprocess
 

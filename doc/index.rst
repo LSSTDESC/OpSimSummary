@@ -13,6 +13,7 @@ Contents:
 .. automodule:: simlibs.simlib
     :members:
     :show-inheritance:
+.. automodule:: summarize_opsim
 
 
 Indices and tables

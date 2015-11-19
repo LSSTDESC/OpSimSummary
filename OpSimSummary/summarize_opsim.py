@@ -404,7 +404,7 @@ class SummaryOpsim(object):
         # Get the figure object
         fig = ax.figure
 
-        return fig, Matrix
+        return fig, Matrix, numVisits, numNights, numVisits
 
 
     def showFields(self, ax=None, marker=None, **kwargs):

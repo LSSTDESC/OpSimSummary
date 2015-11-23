@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
 import matplotlib.pyplot as plt
+
 # __all__ = ['SummaryOpsim']
 def add_simlibCols(opsimtable, pixSize=0.2):
     '''
@@ -109,8 +110,7 @@ class SummaryOpsim(object):
         import subprocess
 
         self.df = summarydf.copy(deep=True)
-        self.df['MJDay'] = np.floor(self.df.expMJD.values)
-        self.df['MJDay'] = self.df['MJDay'].astype(int)
+        self.df['MJDay'] = self.calcMJDay(self.df)
         if 'simLibSkySig' not in self.df.columns:
             self.df  = add_simlibCols(self.df)
 
@@ -208,11 +208,22 @@ class SummaryOpsim(object):
 
         return ra, dec
 
+    @staticmethod
+    def calcMJDay(data):
+        """
+        Adds an 'MJDay' column calculted from the expMJD variable
+        """
 
-    def cadence_Matrix(self, fieldID, sql_query='night < 366',
-                       mjd_center=None, mjd_range=[-50., 50.],
+        data['MJDay'] = np.floor(data.expMJD.values)
+        data['MJDay'] = data['MJDay'].astype(int)
+
+
+
+    def cadence_Matrix(self, summarydf=None, fieldID=None,
+                       sql_query='night < 366', mjd_center=None,
+                       mjd_range=[-50., 50.], observedOnly=False,
                        Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
-                       nightMin=0, nightMax=365, observedOnly=False):
+                       nightMax=365, nightMin=0):
     
         timeMin = nightMin
         timeMax = nightMax
@@ -230,15 +241,30 @@ class SummaryOpsim(object):
         # group on filter and timeIndex (night)
         grouping_keys = ['filter', timeIndex]
 
-        queriedOpsim = self.simlib(fieldID).query(sql_query)
+        if summarydf is not None:
+            data = summarydf
+            # queriedOpSim = summarydf.query(sql_query)
+            # print('with summarydf')
+            # print type(summarydf)
+            # print(len(summarydf), len(queriedOpSim), type(queriedOpSim))
+            # print('hello')
+        else:
+            data = self.simlib(fieldID)
+            # queriedOpSim = self.simlib(fieldID).query(sql_query)
 
-        if queriedOpsim.size == 0 :
+        if timeIndex == 'MJDay':
+            # Check that input data has key MJDay
+            if 'MJDay' not in data.columns:
+                self.calcMJDay(data)
+
+        queriedOpSim = data.query(sql_query)
+        if len(queriedOpSim) == 0 :
             Matrix = pd.DataFrame(index=ss, columns=Filters)
             Matrix.fillna(0., inplace=True)
             return Matrix
 
         
-        grouped = queriedOpsim.groupby(grouping_keys)
+        grouped = queriedOpSim.groupby(grouping_keys)
  
         # tuples of keys
         filts, times = zip( *grouped.groups.keys())
@@ -289,7 +315,9 @@ class SummaryOpsim(object):
     def nightformjd(mjd) :
         return mjd - (49561 - 208)
 
-    def cadence_plot(self, fieldID, sql_query='night < 366', mjd_center=None,
+    def cadence_plot(self, summarydf=None, fieldID=None,
+                     racol=None, deccol=None,
+                     sql_query='night < 366', mjd_center=None,
                      mjd_range = [-50, 50],
                      Filters=[u'u', u'g', u'r', u'i', u'z', u'Y'],
                      nightMin=0, nightMax=365, deltaT=5., observedOnly=False,
@@ -314,10 +342,11 @@ class SummaryOpsim(object):
         """
 
 
-        Matrix = self.cadence_Matrix(fieldID, sql_query=sql_query,
-                                mjd_center=mjd_center, mjd_range=mjd_range,
-                                Filters=Filters, nightMin=nightMin,
-                                nightMax=nightMax, observedOnly=observedOnly)
+        Matrix = self.cadence_Matrix(fieldID=fieldID, summarydf=summarydf,
+                                     sql_query=sql_query,
+                                     mjd_center=mjd_center, mjd_range=mjd_range,
+                                     Filters=Filters, nightMin=nightMin,
+                                      nightMax=nightMax, observedOnly=observedOnly)
 
         if mjd_center is not None:
             timeMin = mjd_center + mjd_range[0]
@@ -387,10 +416,21 @@ class SummaryOpsim(object):
         # Set a title with information about the field
         
         if title:
+            # Make case for the time when fieldID is not supplied
+            if fieldID is None:
+                fieldIDval = 0 
+                raval = summarydf[racol].iloc[0]
+                decval = summarydf[deccol].iloc[0]
+            else:
+                fieldIDval = fieldID
+                raval = self.ra(fieldID)
+                decval = self.dec(fieldID)
+
             # Format field Info from attributes
             t_txt = 'fieldID: {:0>2d} (ra: {:+3f} dec: {:+3f}), visits: {:4d}, nights: {:3d}, nights in bands: {:3d}'
-            t_txt = t_txt.format(fieldID, self.ra(fieldID), self.dec(fieldID),
-                                 numVisits, numNights, numFiltNights)
+            t_txt = t_txt.format(fieldIDval, np.degrees(raval),
+                                 np.degrees(decval), numVisits, numNights,
+                                 numFiltNights)
 
             # if title_text is supplied use that instead
             if title_text is not None:

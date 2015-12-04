@@ -110,7 +110,7 @@ class SummaryOpsim(object):
         import subprocess
 
         self.df = summarydf.copy(deep=True)
-        self.df['MJDay'] = self.calcMJDay(self.df)
+        self.calcMJDay(self.df)
         if 'simLibSkySig' not in self.df.columns:
             self.df  = add_simlibCols(self.df)
 
@@ -304,7 +304,7 @@ class SummaryOpsim(object):
         # Extend to all values in plot
         Matrix = M.reindex(ss, fill_value=np.nan)
 
-        return Matrix #, X
+        return Matrix
 
 
     @staticmethod

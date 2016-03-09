@@ -302,7 +302,11 @@ class Simlib(object):
         # split into header, footer and data
         fullfile = ss.split('BEGIN LIBGEN')
         file_header = fullfile[0]
-        data, footer = fullfile[1].split('END_OF_SIMLIB')
+        if 'END_OF_SIMLIB' in ss:
+            data, footer = fullfile[1].split('END_OF_SIMLIB')
+        else:
+            data = fullfile[1]
+            footer = ''
 
         return file_header, data, footer
 

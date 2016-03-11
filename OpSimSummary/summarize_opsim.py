@@ -74,7 +74,7 @@ def add_simlibCols(opsimtable, pixSize=0.2):
     # ZERO PT CALCULATION 
     opsimtable['simLibZPTAVG'] = simlib_zptavg
     
-    #SKYSIG Calculation
+    # SKYSIG Calculation
     npix_asec = 1./ pixSize**2.
     opsimtable['simLibSkySig'] = np.sqrt((1.0/ npix_asec)*10.0 **(-0.4 * (opsim_magsky - simlib_zptavg)))
     return opsimtable
@@ -83,7 +83,7 @@ class SummaryOpsim(object):
     
     
     def __init__(self, summarydf, user=None, host=None, survey='LSST',
-                 telescope='LSST', pixSize=0.2):
+                 telescope='LSST', pixSize=0.2, calculateSNANASimlibs=False):
         '''
         Create a summary of the OpSim output. 
 
@@ -105,6 +105,8 @@ class SummaryOpsim(object):
         pixSize: float, optional, defaults to 0.2
             size of the pixel in arcseconds, defaults to 0.2 as appropriate
             for LSST
+        calculateSNANASimlibs: Optional, Boolean, defaults to False
+            Computes quantities only necessary for SNANA Simlib Calculation
         '''
         import os 
         import subprocess
@@ -112,7 +114,8 @@ class SummaryOpsim(object):
         self.df = summarydf.copy(deep=True)
         self.calcMJDay(self.df)
         if 'simLibSkySig' not in self.df.columns:
-            self.df  = add_simlibCols(self.df)
+            if calculateSNANASimlibs:
+                self.df  = add_simlibCols(self.df)
 
         # SNANA has y filter deonoted as Y. Can change in input files to SNANA
         # but more bothersome.
@@ -448,6 +451,8 @@ class SummaryOpsim(object):
 
 
     def showFields(self, ax=None, marker=None, **kwargs):
+
+        # ra needs to be in radians but after resetting offset
         ra = np.degrees(self.coords()[0])
         dec = self.coords()[1]
 

@@ -187,6 +187,24 @@ class FieldSimlib(object):
         return dict(zip(keys, vals))
 
 class Simlib(object):
+    """
+    Class to hold SNANA SIMLIB data
+
+
+    Attributes 
+    ----------
+    fieldIDs : list of integers
+        indexes the fields in OpSim
+    simlibDict: dictionary mapping fieldID to SIMLIB data
+        key: fieldID, value: simlib.fieldSIMLIB instance
+    meta : Dictionary
+        metadata for simlib 
+
+    Methods
+    -------
+
+
+    """
 
     def __init__(self, simlibDict, simlibMetaData=None):
 

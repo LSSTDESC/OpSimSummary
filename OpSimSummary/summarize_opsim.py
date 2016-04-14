@@ -246,11 +246,6 @@ class SummaryOpsim(object):
 
         if summarydf is not None:
             data = summarydf
-            # queriedOpSim = summarydf.query(sql_query)
-            # print('with summarydf')
-            # print type(summarydf)
-            # print(len(summarydf), len(queriedOpSim), type(queriedOpSim))
-            # print('hello')
         else:
             data = self.simlib(fieldID)
             # queriedOpSim = self.simlib(fieldID).query(sql_query)

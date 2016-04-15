@@ -126,6 +126,8 @@ class SummaryOpsim(object):
                 return x
 
         self.df['filter'] = map(capitalizeY, self.df['filter']) 
+        self.minMJD = self.df.expMJD.min()
+        self.minNight = self.df.night.min()
         self._fieldsimlibs = self.df.groupby(by='fieldID')
         self.fieldIds = self._fieldsimlibs.groups.keys()
 
@@ -305,13 +307,13 @@ class SummaryOpsim(object):
         return Matrix
 
 
-    @staticmethod
-    def mjdvalfornight(night):
-        return night + (49561 - 208)
+    def mjdvalfornight(self, night):
+        val = night + np.floor(self.minMJD) - self.minNight
+        return np.int(val)
 
-    @staticmethod
-    def nightformjd(mjd) :
-        return mjd - (49561 - 208)
+    def nightformjd(self, mjd) :
+        val = mjd - np.floor(self.minMJD) + self.minNight
+        return np.int(val)
 
     def cadence_plot(self, summarydf=None, fieldID=None,
                      racol=None, deccol=None,

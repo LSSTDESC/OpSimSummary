@@ -2,6 +2,7 @@
 
 Generates simlib files for SNANA simulations.
 
+[![Build Status](https://travis-ci.org/rbiswas4/OpSimSummary.svg?branch=master)](https://travis-ci.org/rbiswas4/OpSimSummary)
 # Requirements
 
 - pandas 

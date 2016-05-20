@@ -1,0 +1,10 @@
+language: python
+python:
+    - "2.7"
+before install:
+    - pip install pandas sqlalchemy
+script:
+    - python setup.py install --user
+    - nosetests
+
+

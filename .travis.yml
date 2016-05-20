@@ -1,0 +1,12 @@
+language: python
+python:
+    - "2.7"
+install:
+    - pip install matplotlib
+    - pip install pandas 
+    - pip install sqlalchemy
+    - python setup.py install --user
+script:
+    - nosetests -s --with-coverage --cover-package=OpSimSummary
+
+

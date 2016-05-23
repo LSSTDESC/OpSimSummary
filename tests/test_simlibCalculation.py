@@ -4,9 +4,10 @@ This file reads a couple of lines of opsim outputs and produces a simlib file
 which is compared for values of skysig and zptavg against a simlib file
 produced by a different code.
 """
+from __future__ import absolute_import, print_function
 import os
-import OpSimSummary as oss
-import OpSimSummary.summarize_opsim as so
+import opsimsummary as oss
+import opsimsummary.summarize_opsim as so
 import pandas as pd
 
 
@@ -34,7 +35,6 @@ def test_simlibValues():
     s_old = oss.simlib.Simlib.fromSimlibFile(oldsimlib)
     # Look at the data corresponding to fieldID 519
     old_data = s_old.simlibData(519).sort_values(by='MJD')
-    
     from numpy.testing import assert_allclose
     print('Running assertions for:')
     print('skysig values, to tolerance of 0.01')
@@ -43,3 +43,7 @@ def test_simlibValues():
     assert_allclose(old_data.ZPTAVG.values, sl.simLibZPTAVG.values, atol=0.01)
     print('PSF1 values, to tolerance of 0.01')
     assert_allclose(old_data.PSF1.values, sl.simLibPsf.values, atol=0.01)
+
+if __name__ == '__main__':
+
+    test_simlibValues()

@@ -6,7 +6,8 @@ install:
     - pip install pandas 
     - pip install sqlalchemy
     - python setup.py install --user
+cache: pip
 script:
-    - nosetests -s --with-coverage --cover-package=OpSimSummary
+    - nosetests -s --with-coverage --cover-package=opsimsummary
 
 

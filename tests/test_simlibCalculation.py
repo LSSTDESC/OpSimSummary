@@ -6,7 +6,7 @@ produced by a different code.
 """
 from __future__ import absolute_import, print_function
 import os
-import OpSimSummary as oss
+import opsimsummary as oss
 import oss.summarize_opsim as so
 import pandas as pd
 

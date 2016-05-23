@@ -5,7 +5,7 @@ import re
 
 PACKAGENAME = 'OpSimSummary'
 packageDir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                          PACKAGENAME)
+                          'opsimsummary')
 versionFile = os.path.join(packageDir, 'version.py')
 
 # Obtain the package version

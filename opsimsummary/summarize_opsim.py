@@ -560,7 +560,7 @@ class SummaryOpsim(object):
         return s
 
 
-    def writeSimlib(self, filename, comments=''):
+    def writeSimlib(self, filename, comments='\n'):
         with open(filename, 'w') as fh:
             simlib_header = self.simLibheader()
             simlib_footer = self.simLibFooter()

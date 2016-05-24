@@ -27,5 +27,6 @@ setup(# package information
       packagedir={PACKAGENAME: 'opsimsummary'},
       # What data to include as packages
       include_package_data=True,
-      package_data={PACKAGENAME:['example_data/*.dat', 'example_data/*.simlib']}
+      package_data={PACKAGENAME:['example_data/*.dat', 'example_data/*.simlib',
+                                 'example_data/enigma_1189_micro.db']}
       )

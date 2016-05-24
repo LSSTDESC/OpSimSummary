@@ -1,21 +1,54 @@
-""" Script to generate truncated output of the OpSim output enigma_1189_sqlite.db.
+""" 
+Script to generate truncated output of the OpSim output enigma_1189_sqlite.db.
 An example of such output is stored in example_data/enigma_1189_micro.db which
-is a sqlite database that has the same structure as the SUMMARY table in enigma_1189_sqlite.db
+is a sqlite database that has the same structure
+structure as the SUMMARY table in enigma_1189_sqlite.db
 
 
 USAGE:
-    to use it point to  replace opsimdb by an opsim with a valid output in the
-    form of a sqlite database.  Replace 'path' and __OPSIMDB__ for your the path
+    form of a sqlite database.  Replace 'path' and __OPSIMDB_
     to the opsim output on your machine, and the path to it.
 """
 import os.path
 import opsimsummary as oss
 
 def query_for_schema(tableName):
-    schema_query = """SELECT sql FROM sqlite_master WHERE tbl_name = '{}'""".format(tableName)
+    """
+    Generate a string that can be used as a query for a sqlite database to get
+    the equivalent of the command-line .schema command for a particular table.
+    This details how the table was created, and the same structure may be clone
+    by executing this query on a separate database.
+    Parameters
+    ----------
+    tableName : string, mandatory
+        Name of the table on which this information is desired
+
+    Returns
+    -------
+        string, query  that when executed on a cursor of a sqlite database
+        without the table, will create a table called tableName with the same
+        structure (but not data).
+
+    Examples
+    --------
+    >>> schema_query = query_for_schema('Summary')
+    >>> pkgDir = os.path.split(oss.__file__)[0]
+    >>> dbname = os.path.join(pkgDir, 'example_data', 'enigma_1189_micro.db')
+    >>> x = db_interact(dbname, schema_query, fetchall=True) 
+    >>> assert(x[0][0] ==  oldstring) # SKIP 
+    True
+    """
+    schema_query = \
+    """SELECT sql FROM sqlite_master WHERE tbl_name = '{}'""".format(tableName)
     return schema_query
 
 def db_interact(db, query, cursor=None, fetchall=False, commit=False):
+    """
+    interact with a sqlite connection through a cursor
+
+    Parameters
+    ----------
+    """
 
     if cursor is None:
         conn = sqlite3.connect(db)

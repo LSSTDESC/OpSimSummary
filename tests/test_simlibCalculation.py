@@ -9,6 +9,7 @@ import os
 import opsimsummary as oss
 import opsimsummary.summarize_opsim as so
 import pandas as pd
+from sqlalchemy import create_engine
 
 
 def test_simlibValues():
@@ -45,7 +46,41 @@ def test_simlibValues():
     print('PSF1 values, to tolerance of 0.01')
     assert_allclose(old_data.PSF1.values, sl.simLibPsf.values, atol=0.01)
 
-if __name__ == '__main__':
+def test_writeSimlib():
+    """
+    It is important to verify that the format in which the simlib file is
+    output can be read in by SNANA. This is hard to do directly within travis.
+    Instead, we create a simlib file and test that SNANA simulations can be run
+    with it. This file is kept as a template in the example_data directory. In
+    this test, we write out a simlib file to disk, and compare the values of
+    strings obtained by reading this and the template simlib file read from disk
+    and directly compared.
+    """
+    pkgDir = os.path.split(oss.__file__)[0]
+    dbname = os.path.join(pkgDir, 'example_data', 'enigma_1189_micro.db')
+    template_simlib = os.path.join(pkgDir, 'example_data',
+                                   'Enigma_1189_micro_main.simlib')
 
+    engineFile = 'sqlite:///' + dbname
+    engine = create_engine(engineFile)
+
+    # read the database into a `pd.DataFrame`
+    Summary = pd.read_sql_table('Summary', engine)
+
+    EnigmaMain = Summary.query('propID == [364]')
+    EnigmaMainSummary = so.SummaryOpsim(EnigmaMain, calculateSNANASimlibs=True,
+                                        user='rbiswas', host='time')
+    simlibfilename = './Enigma_1189_micro_main.simlib'
+    EnigmaMainSummary.writeSimlib(simlibfilename)
+
+    with open(template_simlib) as f:
+        template_data = f.read()
+    with open(simlibfilename) as f:
+        new_data = f.read()
+    assert new_data == template_data
+    if new_data == template_data:
+        os.remove(simlibfilename)
+
+if __name__ == '__main__':
     test_simlibValues()
-    #test_simlibWrite()
+    test_writeSimlib()

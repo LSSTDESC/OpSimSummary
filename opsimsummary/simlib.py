@@ -6,7 +6,6 @@ Module with functionality to represent SNANA simlib data.
 import pandas as pd
 from cStringIO import StringIO
 
-# __all__ = ['FieldSimlib', 'Simlib']
 
 class FieldSimlib(object):
     """

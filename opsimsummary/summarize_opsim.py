@@ -28,8 +28,12 @@ def add_simlibCols(opsimtable, pixSize=0.2):
     .. note :: This was written from a piece of f77 code by David
         Cinabro sent by email on May 26, 2015. 
     '''
-    
-    opsim_seeing = opsimtable['finSeeing'] # unit of arc sec sq
+    if 'finSeeing' in opsimtable.columns:
+        psfwidth = 'finSeeing'
+    else:
+        psfwidth = 'FWHMeff'
+
+    opsim_seeing = opsimtable[psfwidth] # unit of arc sec sq
     # magsky is in units of mag/arcsec^2
     # opsim_maglim is in units of mag
     opsim_maglim = opsimtable['fiveSigmaDepth']

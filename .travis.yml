@@ -1,9 +1,10 @@
 language: python
 python:
     - "2.7"
+cache: pip
 cache:
     directories:
-        - $HOME/.pip-cache/
+        - $HOME/.cache/pip
         - /home/travis/virtualenv/python2.7 
 install:
     - pip install matplotlib

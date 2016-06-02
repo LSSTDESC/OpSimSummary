@@ -2,10 +2,10 @@ language: python
 python:
     - "2.7"
 cache: pip
-cache:
-    directories:
-        - $HOME/.cache/pip
-        - /home/travis/virtualenv/python2.7 
+# cache:
+#    directories:
+#        - $HOME/.cache/pip
+#        - /home/travis/virtualenv/python2.7 
 install:
     - pip install matplotlib
     - pip install pandas 

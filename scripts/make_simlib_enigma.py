@@ -28,6 +28,7 @@ log_str += log_val
 def _writeSimlibFor(propIDList, simlibFileName, description='DDF',
                     log_str= log_str):
     df = Summary.query('propID == @propIDList')
+    df.drop_duplicates(inplace=True)
     opSummary = so.SummaryOpsim(df, calculateSNANASimlibs=True,
                                 user='rbiswas', host='time')
     log_val = 'The summary has {} entries\n'.format(len(df))

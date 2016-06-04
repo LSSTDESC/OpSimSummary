@@ -31,6 +31,17 @@ def angDistance(ra, dec, df, raCol='fieldRA', decCol='fieldDec'):
     df.drop('dist', axis=1, inplace=True)
     return rval
 
+def obsIndex(opsimDF, ra, dec, raCol='fieldRA', decCol='fieldDec',
+              pointinRadius=1.75):
+    """
+    """
+    df = opsimDF[['fieldID', raCol, decCol]].copy().drop_duplicates()
+    df['dist'] = angSep(ra, dec, df[raCol], df[decCol])
+    pointingRad = np.radians(pointinRadius)
+    df = df.query('dist < {}'.format(pointingRad))
+    return df.index
+
+
 
 def fieldID(opsimDF, ra, dec, raCol='fieldRA', decCol='fieldDec'):
     """

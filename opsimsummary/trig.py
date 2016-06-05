@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-__all__ = ['fieldID']
+__all__ = ['fieldID', 'angSep', 'overlapSummary']
 
 
 def angSep( ra1, dec1, ra2, dec2):
@@ -21,7 +21,15 @@ def angSep( ra1, dec1, ra2, dec2):
     # return 2.*(np.arcsin(sinhalftheta))
     return np.arccos(cos)
 
+def overlapSummary(ra, dec, df, sep=1.75, 
+                    raCol='fieldRA', decCol='fieldDec'):
 
+    sep = np.radians(sep)
+
+    df['overlap'] = angSep(ra, dec, df[raCol], df[decCol]) < sep
+    summary = df[df['overlap']].copy()
+    summary.drop('dist', axis=1, inplace=True)
+    return summary
 def angDistance(ra, dec, df, raCol='fieldRA', decCol='fieldDec'):
     """
     """

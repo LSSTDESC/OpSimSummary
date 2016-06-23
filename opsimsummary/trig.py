@@ -1,5 +1,4 @@
 import numpy as np
-import types
 
 __all__ = ['fieldID', 'angSep', 'overlapSummary',
            'convertToSphericalCoordinates']
@@ -26,7 +25,7 @@ def convertToSphericalCoordinates(ra, dec, unit='degrees'):
     .. note:: The units of ra, dec must be the same. They should have
     consistent lengths
     """
-    # Check that unit type has been implemented  
+    # Check that unit type has been implemented
     if unit not in ['degrees', 'radians']:
         raise ValueError('Parameter unit to convertToSphericalCoordinates must'
                          ' be degrees or radians\n')

@@ -22,5 +22,3 @@ cache:
   timeout: 800
 script:
     - nosetests -s --with-coverage --cover-package=opsimsummary
-
-

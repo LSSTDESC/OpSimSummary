@@ -18,7 +18,8 @@ def addVec(df, raCol='ditheredRA', decCol='ditheredDec'):
 
 addVec(OpSim_combined)
 NSIDE = 256
-OpSim_combined['hids'] = [query_disc(NSIDE, vec, np.radians(1.75), inclusive=True) for vec in OpSim_combined.vec]
+OpSim_combined['hids'] = [query_disc(NSIDE, vec, np.radians(1.75), inclusive=True, nest=True) for vec in OpSim_combined.vec]
+# Note this is the less efficient scheme, but the nest scheme is useful later.
 lens = map(len, OpSim_combined.hids.values)
 
 rowdata = []
@@ -27,7 +28,7 @@ coldata = np.concatenate(OpSim_combined.hids.values)
 
 conn = sqlite3.Connection('healpixels.db')
 cur = conn.cursor()
-cur.execute('CREATE TABLE simlib (obsHistID int, ipix int)')
+cur.execute('CREATE TABLE simlib (ipix int, obsHistId int)')
 tstart = time.time()
 told = tstart
 for i in range(len(rowdata)):
@@ -39,4 +40,13 @@ for i in range(len(rowdata)):
         told = tat
 
 conn.commit()
+print('Committed the table to disk\n')
+# create index
+print('Creteing ipix index\n')
+cur.execute('CREATE INDEX {ix} on {tn}({cn})'\
+                .format(ix='ipix_ind', tn='simlib', cn='ipix'))
+print('Creteing obsHistID index\n')
+cur.execute('CREATE INDEX {ix} on {tn}({cn})'\
+                .format(ix='obshistid_ind', tn='simlib', cn='obsHistId'))
 conn.close()
+

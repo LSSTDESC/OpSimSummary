@@ -1,6 +1,7 @@
 # Generating simlib Files
 
-Generates simlib files for SNANA simulations.
+Tools for studying the LSST OpSim outputs largely based on `pandas`. This can be used for example to generates
+ simlib files for SNANA simulations or similar products that are useful for generating SN simulations.
 
 [![Build Status](https://travis-ci.org/rbiswas4/OpSimSummary.svg?branch=master)](https://travis-ci.org/rbiswas4/OpSimSummary)
 # Requirements
@@ -8,8 +9,8 @@ Generates simlib files for SNANA simulations.
 - pandas 
 - numpy
 - sqlalchemy
-- ipython notebook (only to run example files)
-- lsst.sims.maf (The example can be run, if you already know the propID corresponding to the proposal you want) 
+- ipython notebook (Optional) only to run example files)
+- lsst.sims.maf (Optional) The example can be run, if you already know the propID corresponding to the proposal you want) 
 
 Everything other than lsst.sims.maf is part of the anaconda python distribution and available on pip. For lsst.sims.maf installation instructions, see the confluence page. 
 # Running

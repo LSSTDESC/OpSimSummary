@@ -1,10 +1,14 @@
+"""
+Class for associating Healpixels with OpSim Pointings. An example of usage can
+be found in `examples/ObsHistIDsForTile`
+"""
 from __future__ import print_function, absolute_import, division
-
 import numpy as np
 import healpy as hp
 import pandas as pd
 from scipy.sparse import csr_matrix
 from itertools import repeat 
+import sqlite3
 
 __all__  = ['addVec', 'HealPixelizedOpSim']
 
@@ -27,6 +31,34 @@ def addVec(df, raCol='ditheredRA', decCol='ditheredDec'):
     df['vec'] = list(hp.ang2vec(thetas, phis))
 
 class HealPixelizedOpSim(object):
+    """
+    Class to associate opsim pointings represented as records indexed by an
+    integer variable obsHistID, with a set of healpixel tileIds. This class
+    computes the (maximal set) of healpixel IDs associated with a certain
+    pointing, as also the set of pointings associated with a healpixel ID.
+
+
+    Parameters
+    ----------
+    opsimDF : `pd.DataFrame`, mandatory
+        a dataframe representing the OpSim records of interest. The mandatory
+        columns are an index column (obsHistID), raCol (specified by raCol), 
+        dec Col (specified as decCol)
+    raCol : string, defaults to 'ditheredRa', col should have units of radians
+        column name for column of ras to use 
+    decCol : string, defaults to 'ditheredDec', col should have units of radians
+        column name for column of dec to use
+    NSIDE : integer, `healpy.NSIDE`
+        `NSIDE` for healpix giving rise to 12NSIDE **2 pixels on the sphere
+    vecColName : string, optional, defaults to 'vec'
+        column name where 3D vectors are computed corresponding to the angles
+        of the pointing direction of the OpSim record.
+    fieldRadius : float, optional, defaults to 1.75, units is degrees
+        radius of the field in degrees
+
+    Methods
+    -------
+    """
 
     def __init__(self, opsimDF, raCol='ditheredRA', decCol='ditheredDec',
                  NSIDE=1,
@@ -50,12 +82,18 @@ class HealPixelizedOpSim(object):
 
     def obsHistIdsForTile(self, tileID):
         """
+        return a `np.ndarray` of obsHistID values that intersect with the
+        healpix tileID.
         """
         inds = self.sparseMat.getcol(tileID).nonzero()[0]
         return self.opsimdf.ix[inds, 'obsHistID'].values
 
     @property
     def sparseMat(self):
+        """
+        Sparse Matrix representation of the association between the obsHistIDs
+        and healpix tileIDs.
+        """
         if self._spmat is None:
             shape=(len(self.opsimdf), hp.nside2npix(self.nside))
             # numpy ones like number of intersections
@@ -77,10 +115,44 @@ class HealPixelizedOpSim(object):
             self.doPreCalcs()
         return self._coldata
 
+    def writeToDB(self, dbName):
+        """
+        Write association of obsHistIDs and Healpix TileIDs to a SQLITE
+        database with absolute path dbName. This is thus a two column database.
+
+        Parameters
+        ----------
+        dbName : string, mandatory
+            absolute path to the location of the database to be written
+
+
+        .. notes : It is assumed that the file does not exist but the directory
+        does.
+        """
+        conn = sqlite3.Connection(dbName)
+        cur = conn.cursor()
+        cur.execute('CREATE TABLE simlib (ipix int, obsHistId int)')
+        for i in range(len(rowdata)):
+            cur.execute('INSERT INTO simlib VALUES'
+                        '({0}, {1})'.format(rowdata[i], coldata[i]))
+            if i % 10000000 == 0:
+                conn.commit()
+        conn.commit()
+        print('Committed the table to disk\n')
+        # create index
+        print('Createing ipix index\n')
+        cur.execute('CREATE INDEX {ix} on {tn}({cn})'\
+                    .format(ix='ipix_ind', tn='simlib', cn='ipix'))
+        print('Createing obsHistID index\n')
+        cur.execute('CREATE INDEX {ix} on {tn}({cn})'\
+                .format(ix='obshistid_ind', tn='simlib', cn='obsHistId'))
+        conn.close()
+        
     def doPreCalcs(self):
-        self.opsimdf['hids'] = [hp.query_disc(self.nside,
-                                              vec,
-                                              self._fieldRadius,
+        """
+        Perform the precalculations necessary to set up the sparse matrix.
+        """
+        self.opsimdf['hids'] = [hp.query_disc(self.nside, vec, self._fieldRadius,
                                               inclusive=True,
                                               nest=True)
                                 for vec in self.opsimdf[self.vecColName]]

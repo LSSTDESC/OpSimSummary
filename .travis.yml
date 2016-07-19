@@ -16,6 +16,10 @@ install:
     - pip install matplotlib
     - pip install sqlalchemy
     - python setup.py install --user
+cache:
+  directories:
+  - $HOME/miniconda.tarball
+  timeout: 800
 script:
     - nosetests -s --with-coverage --cover-package=opsimsummary
 

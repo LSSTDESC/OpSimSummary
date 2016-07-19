@@ -1,19 +1,16 @@
-.. SummarizeOpSim documentation master file, created by
-   sphinx-quickstart on Sun Jul 12 13:32:48 2015.
+.. OpSimSummary documentation master file, created by
+   sphinx-quickstart on Tue Jul 19 04:40:33 2016.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to SummarizeOpSim's documentation!
-==========================================
+Welcome to OpSimSummary's documentation!
+========================================
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
-.. automodule:: simlibs.simlib
-    :members:
-    :show-inheritance:
-.. automodule:: summarize_opsim
+
 
 
 Indices and tables

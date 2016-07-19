@@ -5,7 +5,7 @@ install:
     - travis_wait 25 ./setup/install.sh lsst-sims-maf scipy pandas nose numpy
     - export PATH="$HOME/miniconda/bin:$PATH"
     - source eups-setups.sh
-    - setup lsst_sims_maf
+    - setup sims_maf
     - setup healpy
     - pip install pytest
     - pip install future

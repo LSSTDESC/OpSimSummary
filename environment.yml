@@ -1,0 +1,12 @@
+name: env
+
+channels:
+    - http://conda.lsst.codes/sims
+
+dependencies:
+    - python=2.7*
+    - lsst-sims-maf
+    - scipy
+    - nose
+    - pandas
+    - numpy

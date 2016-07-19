@@ -40,7 +40,7 @@ cur.execute('CREATE TABLE simlib (ipix int, obsHistId int)')
 tstart = time.time()
 told = tstart
 for i in range(len(rowdata)):
-    cur.execute('INSERT INTO simlib VALUES ({0}, {1})'.format(rowdata[i], coldata[i]))
+    cur.execute('INSERT INTO simlib VALUES ({1}, {0})'.format(rowdata[i], coldata[i]))
     if i % 10000000 == 0:
         conn.commit()
         tat = time.time()

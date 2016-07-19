@@ -7,9 +7,17 @@ from healpy import query_disc, query_polygon
 import opsimsummary as oss
 import pandas as pd
 from itertools import repeat
+import os
+from sqlalchemy import create_engine
 
-opsim_hdf = '/Users/rbiswas/data/LSST/OpSimData/minion_1016.hdf'
-OpSim_combined = pd.read_hdf(opsim_hdf, 'Table')
+pkgDir = os.path.split(oss.__file__)[0]
+dbname = os.path.join(pkgDir, 'example_data', 'enigma_1189_micro.db')
+engineFile = 'sqlite:///' + dbname
+engine = create_engine(engineFile)
+
+# opsim_hdf = '/Users/rbiswas/data/LSST/OpSimData/minion_1016.hdf'
+OpSim_combined = pd.read_sql_query('SELECT * FROM Summary WHERE PropID is 364',
+                                    con=engine, index_col='obsHistID')
 
 def addVec(df, raCol='ditheredRA', decCol='ditheredDec'):
     thetas  = - df[decCol] + np.pi /2.
@@ -17,7 +25,7 @@ def addVec(df, raCol='ditheredRA', decCol='ditheredDec'):
     df['vec'] = list(hp.ang2vec(thetas, phis))
 
 addVec(OpSim_combined)
-NSIDE = 256
+NSIDE = 1
 OpSim_combined['hids'] = [query_disc(NSIDE, vec, np.radians(1.75), inclusive=True, nest=True) for vec in OpSim_combined.vec]
 # Note this is the less efficient scheme, but the nest scheme is useful later.
 lens = map(len, OpSim_combined.hids.values)
@@ -26,7 +34,7 @@ rowdata = []
 _ = list(rowdata.extend(repeat(i, lens[i])) for i in xrange(len(OpSim_combined)))
 coldata = np.concatenate(OpSim_combined.hids.values)
 
-conn = sqlite3.Connection('healpixels.db')
+conn = sqlite3.Connection('healpixels_micro.db')
 cur = conn.cursor()
 cur.execute('CREATE TABLE simlib (ipix int, obsHistId int)')
 tstart = time.time()

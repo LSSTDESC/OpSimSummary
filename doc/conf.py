@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # OpSimSummary documentation build configuration file, created by
-# sphinx-quickstart on Tue Jul 19 04:40:33 2016.
+# sphinx-quickstart on Tue Jul 19 12:06:54 2016.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -24,6 +24,7 @@ if not on_rtd:  # only import and set the theme if we're building docs locally
     import sphinx_rtd_theme
     html_theme = 'sphinx_rtd_theme'
     html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -46,7 +47,6 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
-    'sphinx.ext.autodoc',
     'numpydoc',
 ]
 
@@ -127,7 +127,7 @@ todo_include_todos = True
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'alabaster'
+# html_theme = 'alabaster'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the

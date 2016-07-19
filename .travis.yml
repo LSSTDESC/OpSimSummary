@@ -19,8 +19,6 @@ install:
 cache:
   directories:
   - $HOME/miniconda.tarball
-  timeout: 800
+  timeout: 1200
 script:
     - nosetests -s --with-coverage --cover-package=opsimsummary
-
-

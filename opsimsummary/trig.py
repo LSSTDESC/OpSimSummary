@@ -1,10 +1,54 @@
 import numpy as np
-import pandas as pd
 
-__all__ = ['fieldID', 'angSep', 'overlapSummary']
+__all__ = ['fieldID', 'angSep', 'overlapSummary',
+           'convertToSphericalCoordinates']
+
+def convertToSphericalCoordinates(ra, dec, unit='degrees'):
+    """
+    Convert ra, dec coordinates to usual spherical coordinates theta, phi.
+    The ra, dec coordinates have the ranges (0., 2\pi), (-\pi/2.0, \pi/2.0)
+
+    Parameters
+    ----------
+    ra : sequence of floats or scalar float, mandatory
+        ra coordinates in units of degrees or radians
+    dec : sequence of floats or scalar float, mandatory
+        dec coordinates in units of degrees or radians
+    unit : string, optional, defaults to 'degrees'
+        'degrees' or 'radians'
+
+    Returns
+    -------
+    tuple of `numpy.ndarray` of theta and phi of spherical coordinates in
+    radians. If scalars were supplied the return is a tuple of two scalars.
+
+    .. note:: The units of ra, dec must be the same. They should have
+    consistent lengths
+    """
+    # Check that unit type has been implemented
+    if unit not in ['degrees', 'radians']:
+        raise ValueError('Parameter unit to convertToSphericalCoordinates must'
+                         ' be degrees or radians\n')
+
+    ra = np.ravel(ra)
+    dec = np.ravel(dec)
+
+    # Check consistency of inputs
+    if len(ra) != len(dec):
+        raise ValueError('The sequences for ra and dec must have equal lengths'
+                         'but have lengths {0} and {1}\n'.format(len(ra),
+                                                                 len(dec)))
+    if unit == 'degrees':
+        ra = np.radians(ra)
+        dec = np.radians(dec)
+
+    theta = - dec + np.pi / 2.0
+    phi = ra
+
+    return theta, phi
 
 
-def angSep( ra1, dec1, ra2, dec2):
+def angSep(ra1, dec1, ra2, dec2):
     """
     Angular separation between to points on a sphere with coordinates ra, dec
     in the usual conditions for astronomy.

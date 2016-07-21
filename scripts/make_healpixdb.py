@@ -1,3 +1,18 @@
+"""
+This script is used to make a standard healpixel database in the
+`opsimsummary/example_data`  repository. This database is a coarse grained
+NSIDE = 1 healpixelized OpSim created from enigma_1189_micro.db and is used for
+testing purposes. 
+
+NOTE: To make this database, it is important to run this from the scripts
+directory. The `outfile` variable must be uncommented in the first line of the
+code. The `opsimsummary/example_data/healpixels_micro.db` file is meant to be a
+standard and not be regenerated. In case this needs to be regenerated (for
+example, it is discovered that this file is incorrect, then the setup.py must
+be run again to include the new file in the package directories for the tests to
+pass.
+"""
+# outfile = os.path.join('../opsimsummary/example_data', 'healpixels_micro.db')
 from __future__ import division
 import numpy as np
 import time
@@ -32,15 +47,18 @@ lens = map(len, OpSim_combined.hids.values)
 
 rowdata = []
 _ = list(rowdata.extend(repeat(i, lens[i])) for i in xrange(len(OpSim_combined)))
+obsHistIDs = OpSim_combined.reset_index().ix[rowdata].obsHistID.values
 coldata = np.concatenate(OpSim_combined.hids.values)
+if os.path.exists(outfile):
+    os.remove(outfile)
 
-conn = sqlite3.Connection('healpixels_micro.db')
+conn = sqlite3.Connection(outfile)
 cur = conn.cursor()
 cur.execute('CREATE TABLE simlib (ipix int, obsHistId int)')
 tstart = time.time()
 told = tstart
 for i in range(len(rowdata)):
-    cur.execute('INSERT INTO simlib VALUES ({1}, {0})'.format(rowdata[i], coldata[i]))
+    cur.execute('INSERT INTO simlib VALUES ({1}, {0})'.format(obsHistIDs[i], coldata[i]))
     if i % 10000000 == 0:
         conn.commit()
         tat = time.time()

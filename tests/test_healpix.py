@@ -1,3 +1,6 @@
+"""
+Tests associated with the `opsimsummary/healpix.py` module
+"""
 from __future__ import division, print_function, absolute_import
 import opsimsummary as oss
 import os
@@ -6,14 +9,18 @@ import pandas as pd
 from sqlalchemy import create_engine
 import unittest
 import healpy as hp
+import sqlite3
 
 class Test_obsHistIDsFortileID(unittest.TestCase):
     """
+    Tests associated with obtaining obsHistID values for tileIDs using healpix
+    in  the nest scheme.
     """
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         # Use example opsim output in example files
         # The test db is from enigma 1189 (current sqlite format),
-        pkgDir = os.path.split(oss.__file__)[0]
+        pkgDir = os.path.abspath(os.path.split(oss.__file__)[0])
         dbname = os.path.join(pkgDir, 'example_data', 'enigma_1189_micro.db')
         engineFile = 'sqlite:///' + dbname
         engine = create_engine(engineFile)
@@ -25,12 +32,24 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
                                     index_col='obsHistID') 
         
         # Extremely coarse grained pixels (12 covering the sphere) for tests
-        self.nside = 1
-        h = oss.HealPixelizedOpSim(opsimDF=opsimdf, NSIDE=self.nside)
+        cls.nside = 1
+        # Standard DB for integration tests
+        stdDBname = os.path.join(pkgDir, 'example_data', 'healpixels_micro.db')
+        cls.stdDBConn = sqlite3.Connection(stdDBname)
+        cls.newDB = 'healpix_micro_new.db'
+        if os.path.exists(cls.newDB):
+            os.remove(cls.newDB)
+        cls.newconn = sqlite3.Connection(cls.newDB)
+        h = oss.HealPixelizedOpSim(opsimDF=opsimdf, NSIDE=cls.nside)
         h.doPreCalcs()
-        self.hpOps = h
+        try:
+            h.writeToDB(cls.newDB)
+        except OperationError:
+            cls.tearDownClass()
+            raise Warning('Had to erase teardown the class to set it up')
+        cls.hpOps = h
 
-    def test_obsHistIDsForfield8(self):
+    def test_obsHistIDsForfields(self):
         """
         Check that a healpix ID p is in the list of hids associated with 
         each of the pointings intersecting with it.
@@ -39,10 +58,84 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
         hids = np.arange(hp.nside2npix(self.nside))
         l = list(all(h.opsimdf.query('obsHistID in @h.obsHistIdsForTile(@p)')\
                      .hids.apply(lambda x: p in x).values) for p in hids)
+        # Here is what is going on above
         # For p in any of the healix ids:
         #    get set of obsHistIds associated with p using h.obsHistIdsForTile(p)
         #       obtain the healpix id list associated with that pointing through
         #       query disc (precalculated as hids)
         #    Check that p is in hids
         assert all(l)
+
+    def test_writemethod(self):
+        """
+        """
+        # import sqlite3
+        # newconn = sqlite3.Connection(self.newDB)
+        newcursor = self.newconn.cursor()
+        newcursor.execute('SELECT COUNT(*) FROM simlib')
+        x = newcursor.fetchone()[0]
+        # Hard coded value for enigma_micro database and NSIDE =1
+        self.assertEqual(x, 115643)
+        newcursor.execute('SELECT MIN(ipix) FROM simlib')
+        y = newcursor.fetchone()
+        self.assertEqual(y[0], 0)
+        x = newcursor.execute('SELECT MAX(ipix) FROM simlib')
+        y = x.fetchone()
+        self.assertEqual(y[0], 11) 
+        x = newcursor.execute('SELECT MIN(ipix) FROM simlib')
+        y = x.fetchone()
+        self.assertEqual(y[0], 0) 
+    def test_compareWithOldDB(self):
+        newcursor = self.newconn.cursor()
+
+        npix = hp.nside2npix(1)
+        ipixvalues = np.arange(npix) 
+
+        stdCursor = self.stdDBConn.cursor()
+        for hid in ipixvalues[:11]:
+            newcursor.execute('SELECT obsHistID FROM simlib WHERE ipix == {}'\
+                              .format(hid))
+            _new = newcursor.fetchall()
+            new = np.asarray(list(xx[0] for xx in _new))
+            stdCursor.execute('SELECT obsHistID FROM simlib WHERE ipix == {}'\
+                              .format(hid))
+            _std = stdCursor.fetchall()
+            std = np.asarray(list(xx[0] for xx in _std))
+            self.assertItemsEqual(std, new, msg='std = {0} and new ={1}'\
+                                  .format(std, new))
+        
+
+    def test_compareFunctionWithDB(self):
+        """
+        Test comparing values in written database to values calculated in-situ
+        for 12 values of ipix
+        """
+        # import sqlite3
+        # newconn = sqlite3.Connection(self.newDB)
+        newcursor = self.newconn.cursor()
+
+        npix = hp.nside2npix(self.nside)
+        ipixvalues = np.arange(npix) 
+
+        for hid in ipixvalues[:11]:
+            newcursor.execute('SELECT obsHistID FROM simlib WHERE ipix == {}'\
+                              .format(hid))
+            x = newcursor.fetchall()
+            y = np.asarray(list(xx[0] for xx in x))
+    
+            h = self.hpOps
+            z = h.obsHistIdsForTile(hid)
+            self.assertItemsEqual(y, z, msg='x = {0} and y ={1}'.format(y, z))
+        
+
+
+
+    @classmethod
+    def tearDownClass(cls):
+        import os
+        if os.path.exists(cls.newDB):
+            os.remove(cls.newDB)
+
+
+
 

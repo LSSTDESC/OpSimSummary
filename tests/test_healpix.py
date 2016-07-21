@@ -68,6 +68,7 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
 
     def test_writemethod(self):
         """
+        Sanity checks on the output database from writing out ipix, obsHistID database
         """
         # import sqlite3
         # newconn = sqlite3.Connection(self.newDB)
@@ -86,6 +87,9 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
         y = x.fetchone()
         self.assertEqual(y[0], 0) 
     def test_compareWithOldDB(self):
+        """
+        Compare any new database with a stored version of the old database
+        """
         newcursor = self.newconn.cursor()
 
         npix = hp.nside2npix(1)

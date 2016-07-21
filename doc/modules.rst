@@ -2,6 +2,9 @@ opsimsummary
 ============
 
 .. toctree::
-   :maxdepth: 4
-
-   opsimsummary
+   :maxdepth: 1
+   :titlesonly:
+   summarize_opsim
+   simlib
+   healpix
+   trig

@@ -125,16 +125,19 @@ class HealPixelizedOpSim(object):
         dbName : string, mandatory
             absolute path to the location of the database to be written
 
-
         .. notes : It is assumed that the file does not exist but the directory
         does.
         """
+        rowdata = self.rowdata
+        coldata = self.coldata
+        obsHistIDs = self.opsimdf.ix[rowdata, 'obsHistID'].values
+
         conn = sqlite3.Connection(dbName)
         cur = conn.cursor()
         cur.execute('CREATE TABLE simlib (ipix int, obsHistId int)')
         for i in range(len(rowdata)):
             cur.execute('INSERT INTO simlib VALUES'
-                        '({0}, {1})'.format(rowdata[i], coldata[i]))
+                        '({1}, {0})'.format(obsHistIDs[i], coldata[i]))
             if i % 10000000 == 0:
                 conn.commit()
         conn.commit()

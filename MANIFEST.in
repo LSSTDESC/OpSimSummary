@@ -1,3 +1,4 @@
 include example_data/*.dat
 include example_data/*.simlib
 include example_data/enigma_1189_micro.db
+include example_data/healpixels_micro.db

@@ -85,10 +85,10 @@ def add_simlibCols(opsimtable, pixSize=0.2):
     return opsimtable
 
 class OpSimOutput(object):
-    def __init__(self, summary=None, propIDDict=None):
+    def __init__(self, summary=None, propIDDict=None, proposalTable=None):
 	self.summary = summary
 	self.propIDDict = propIDDict
-	self.propIDDict = self.propIDDict
+        self.proposalTable = proposalTable
 	self.allowed_subsets = self.get_allowed_subsets()
 
     @classmethod
@@ -112,16 +112,21 @@ class OpSimOutput(object):
         print(' reading from database {}'.format(dbname))
         engine = create_engine(dbname, echo=False)
 	# Read the proposal table to find out which propID corresponds to
-	# 
         proposals = pd.read_sql_table('Proposal', con=engine)
         propDict = cls.get_propIDDict(proposals)
 
+        # Do the actual sql queries or table reads
         if subset in ['_all', 'unique_all']:
+            # In this case read everything (ie. table read)
 	    summary = pd.read_sql_table('Summary', con=engine)
+            # _all will be used only to write out other serialized versions
+            # of OpSim. Do not drop duplicates, so that different subsets can
+            # be constructed from the same hdf file
 	    if subset == 'unique_all':
 	       summary.drop_duplicates(subset='obsHistID', inplace=True)	
             summary.set_index('obsHistID', inplace=True)
-	    return cls(propIDDict=propDict, summary=summary)
+	    return cls(propIDDict=propDict, summary=summary,
+                       proposalTable=proposals)
 	else:
 	    sql_query = 'SELECT * FROM Summary WHERE PROPID'
 	    if subset == 'ddf':
@@ -129,11 +134,14 @@ class OpSimOutput(object):
 	    if subset == 'wfd':
 		sql_query += ' == {0}'.format(propDict['wfd'])
 	    if subset == 'combined':
-		sql_query += ' in [{0}, {1}]'.format(propDict['wfd'],propDict['ddf'])
+		sql_query += ' in [{0}, {1}]'.format(propDict['wfd'],
+                                                     propDict['ddf'])
+        # Read the summary table 
         summary = pd.read_sql_query(sql_query, con=engine)
 	summary.drop_duplicates(subset='obsHistID', inplace=True)
 	summary.set_index('obsHistID', inplace=True)
-        return cls(propIDDict=propDict, summary=summary)
+        return cls(propIDDict=propDict, summary=summary,
+                   proposalTable=proposals)
 
     @staticmethod
     def get_allowed_subsets():

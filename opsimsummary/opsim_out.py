@@ -9,11 +9,54 @@ import matplotlib.pyplot as plt
 __all__ = ['OpSimOutput']
 
 class OpSimOutput(object):
-    def __init__(self, summary=None, propIDDict=None, proposalTable=None):
+    def __init__(self, summary=None, propIDDict=None, proposalTable=None,
+                 subset=None):
 	self.summary = summary
 	self.propIDDict = propIDDict
         self.proposalTable = proposalTable
 	self.allowed_subsets = self.get_allowed_subsets()
+        self.subset = subset
+    @classmethod
+    def fromOpSimHDF(cls, hdfName, subset='combined',
+                     tableNames=('Summary', 'Proposal')):
+        """
+        """
+	allowed_subsets = cls.get_allowed_subsets()
+	subset = subset.lower()
+	if subset not in allowed_subsets:
+	    raise NotImplementedError('subset {} not implemented'.\
+				      format(subset))
+        # The hdf representation is assumed to be a faithful representation of
+        # the OpSim output
+        summarydf = pd.read_hdf(hdfName, key='Summary')
+
+        if 'obsHistID' not in summarydf.colums:
+            summarydf.reset_index(inplace=True)
+            if 'obsHistID' not in summarydf.colums:
+                raise NotImplementedError('obsHistID is not in columns')
+
+        proposals = pd.read_hdf(hdfName, key='Proposals')
+        propDict = cls.get_propIDDict(proposals)
+
+        if subset.lower() == 'combined':
+            summary = summarydf.query('propID in [{0}, {1}]'.\
+                                      format(propDict['wfd'], propDict['ddf']))
+        elif subset.lower() == 'ddf':
+            summary = summarydf.query('propID == {}'.format(propDict['ddf']))
+        elif subset.lower() == 'wfd':
+            summary = summarydf.query('propID == {}'.format(propDict['wfd']))
+        elif subset.lower() == 'unique_all':
+            pass
+        elif subset.lower() == '_all':
+            raise ValueError('You should not be using the _all subset except'
+                             ' to write')
+        else: 
+            raise NotImplementedError('This subset {} is not implemented'\
+                                      .format(subset))
+	summary.drop_duplicates(subset='obsHistID', inplace=True)
+	summary.set_index('obsHistID', inplace=True)
+        return cls(propIDDict=propDict, summary=summary,
+                   proposalTable=proposals, subset=subset)
 
     @classmethod
     def fromOpSimDB(cls, dbname, subset='combined'):
@@ -50,7 +93,7 @@ class OpSimOutput(object):
 	       summary.drop_duplicates(subset='obsHistID', inplace=True)	
             summary.set_index('obsHistID', inplace=True)
 	    return cls(propIDDict=propDict, summary=summary,
-                       proposalTable=proposals)
+                       proposalTable=proposals, subset=subset)
 	else:
 	    sql_query = 'SELECT * FROM Summary WHERE PROPID'
 	    if subset == 'ddf':
@@ -65,7 +108,7 @@ class OpSimOutput(object):
 	summary.drop_duplicates(subset='obsHistID', inplace=True)
 	summary.set_index('obsHistID', inplace=True)
         return cls(propIDDict=propDict, summary=summary,
-                   proposalTable=proposals)
+                   proposalTable=proposals, subset=subset)
 
     @staticmethod
     def get_allowed_subsets():
@@ -73,6 +116,17 @@ class OpSimOutput(object):
     @staticmethod
     def get_propIDDict(proposalDF):
 	"""
+        Return a dictionary with keys 'ddf', ad 'wfd' with the proposal IDs
+        corresponding to deep drilling fields (ddf) and universal cadence (wfd) 
+
+        Parameters
+        ----------
+        proposalDF : `pd.DataFrame`, mandatory
+            a dataframe with the Proposal Table of the OpSim Run.
+        Returns
+        -------
+        dictionary with keys 'wfd' and 'ddf' with values given by integers
+            corresponding to propIDs for these proposals
 	"""
 	df = proposalDF
 	mydict = dict()

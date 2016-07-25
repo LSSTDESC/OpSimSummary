@@ -10,15 +10,23 @@ __all__ = ['OpSimOutput']
 
 class OpSimOutput(object):
     def __init__(self, summary=None, propIDDict=None, proposalTable=None,
-                 subset=None):
+                 subset=None, propIDs=None):
 	self.summary = summary
 	self.propIDDict = propIDDict
         self.proposalTable = proposalTable
 	self.allowed_subsets = self.get_allowed_subsets()
         self.subset = subset
+        self._propID = propIDs
+    @property
+    def propIds(self):
+        if self._propID is not None:
+            return self._propID
+        elif self.subset is not None and self.propIDDict is not None:
+            return self.propIDvals(self.propIDDict, self.subset)
+
     @classmethod
     def fromOpSimHDF(cls, hdfName, subset='combined',
-                     tableNames=('Summary', 'Proposal')):
+                     tableNames=('Summary', 'Proposal'), propIDs=None):
         """
         """
 	allowed_subsets = cls.get_allowed_subsets()
@@ -35,31 +43,52 @@ class OpSimOutput(object):
             if 'obsHistID' not in summarydf.colums:
                 raise NotImplementedError('obsHistID is not in columns')
 
-        proposals = pd.read_hdf(hdfName, key='Proposals')
-        propDict = cls.get_propIDDict(proposals)
-
-        if subset.lower() == 'combined':
-            summary = summarydf.query('propID in [{0}, {1}]'.\
-                                      format(propDict['wfd'], propDict['ddf']))
-        elif subset.lower() == 'ddf':
-            summary = summarydf.query('propID == {}'.format(propDict['ddf']))
-        elif subset.lower() == 'wfd':
-            summary = summarydf.query('propID == {}'.format(propDict['wfd']))
-        elif subset.lower() == 'unique_all':
+        try:
+            proposals = pd.read_hdf(hdfName, key='Proposals')
+            propDict = cls.get_propIDDict(proposals)
+            _propIDs = cls.propIDvals(subset, propDict)
+        except:
             pass
-        elif subset.lower() == '_all':
-            raise ValueError('You should not be using the _all subset except'
-                             ' to write')
-        else: 
-            raise NotImplementedError('This subset {} is not implemented'\
+        if propIDs is None:
+            propIDs = _propIDs
+        else:
+            if np.asarray(propIDs).sort() != np.asarray(_propIDs).sort():
+                raise ValueError('argument propIDs and subset donot match')
+
+        if subset != '_all':
+            if propIDs is None:
+                if subset != 'unique_all':
+                    raise ValueError('propID {0}, subset {1} combination'
+                                     'does not seem to make sense.'\
+                                     .format(propIDs, subset))
+                summary  = summarydf
+            else:
+                # propIDStrings = ', '.\
+                #    join('{}'.format(cls.propIDvals(subset, propDict)))
+                summary = summarydf.query('propID == @propIDs')
+
+            summary.drop_duplicates(subset='obsHistID', inplace=True)
+        elif subset == '_all':
+            summary = summarydf
+        else :
+            raise NotImplementedError('subset {} not implemented'\
                                       .format(subset))
-	summary.drop_duplicates(subset='obsHistID', inplace=True)
-	summary.set_index('obsHistID', inplace=True)
+
+            summary = summarydf.query('propID == @propIDs')
+        summary.set_index('obsHistID', inplace=True)
         return cls(propIDDict=propDict, summary=summary,
                    proposalTable=proposals, subset=subset)
 
+    def _validatePropIDs(self, propIDs, _propIDs):
+        if propIDs is None:
+            propIDs = _propIDs
+        else:
+            if np.asarray(propIDs).sort() != np.asarray(_propIDs).sort():
+                raise ValueError('argument propIDs and _propIDs do not match')
+        return propIDs
+
     @classmethod
-    def fromOpSimDB(cls, dbname, subset='combined'):
+    def fromOpSimDB(cls, dbname, subset='combined', propIDs=None):
 	"""
 	Class Method to instantiate this from an OpSim sqlite
 	database output
@@ -78,14 +107,22 @@ class OpSimOutput(object):
             dbname =  'sqlite:///' + dbname
         print(' reading from database {}'.format(dbname))
         engine = create_engine(dbname, echo=False)
+
 	# Read the proposal table to find out which propID corresponds to
         proposals = pd.read_sql_table('Proposal', con=engine)
         propDict = cls.get_propIDDict(proposals)
+        _propIDs = cls.propIDvals(subset, propDict)
+
+        propIDs = cls._validatePropIDs(propIDs, _propIDs)
 
         # Do the actual sql queries or table reads
-        if subset in ['_all', 'unique_all']:
+        if subset in ('_all', 'unique_all'):
             # In this case read everything (ie. table read)
 	    summary = pd.read_sql_table('Summary', con=engine)
+        elif subset in ('ddf', 'wfd', 'combined')
+	    sql_query = 'SELECT * FROM Summary WHERE PROPID'
+	    sql_query += ' in {0}'.format(propDict['ddf'])
+	    if subset == 'wfd':
             # _all will be used only to write out other serialized versions
             # of OpSim. Do not drop duplicates, so that different subsets can
             # be constructed from the same hdf file
@@ -139,12 +176,36 @@ class OpSimOutput(object):
 		if 'ddf' in mydict:
 		    raise ValueError('Multiple propIDs for DDF found')
 		mydict['ddf']  = df.propID.iloc[i] 
-	if len(mydict.items()) != 2:
+            else:
+                mydict[vals.lower()] = df.propID.iloc[i]
+	if len(mydict.items()) != len(df):
 	    raise ValueError('Unexpected length of dictionary')
 	return mydict
 
+    @staticmethod
+    def propIDVals(subset, propIDDict, proposalTable):
+        """
+        Parameters: 
+        ----------
+        subset : string
+            must be member of OpSimOutput.allowed_subsets()
+        propIDDict: dictionary, mandatory
+            must have subset as a key, and an integer or seq of ints
+            as values
 
-
+        Returns:
+        -------
+        list of propID values (integers) associated with the subset
+        """
+        if subset.lower() in ('ddf', 'wfd'):
+            return [propIDDict[subset.lower()]]
+        elif subset.lower() == 'combined':
+            return [propIDDict['ddf'], propIDDict['wfd']] 
+        elif subset.lower() in ('_all', 'unique_all'):
+            return None
+        else:
+            raise NotImplementedError('value of subset Not recognized')
+        
 def OpSimDfFromFile(fname, ftype='hdf', subset='Combined'):
     """
     read a serialized form of the OpSim output into `pd.DataFrame`

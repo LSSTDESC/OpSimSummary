@@ -9,10 +9,11 @@ USAGE:
     form of a sqlite database.  Replace 'path' and __OPSIMDB_
     to the opsim output on your machine, and the path to it.
 """
-from __future__ import absolute_import, division, print_funciton
+from __future__ import absolute_import, division, print_function
 import os.path
+import sqlite3
 import opsimsummary as oss
-from .make_smallOpSim import (query_for_schema,
+from make_smallOpSim import (query_for_schema,
                               db_interact,
                               insert_allvals_statement,
                               insertfromdata)
@@ -20,7 +21,6 @@ from .make_smallOpSim import (query_for_schema,
 
 if __name__ == '__main__':
 
-    import sqlite3
 
 
 

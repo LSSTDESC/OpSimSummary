@@ -11,6 +11,7 @@ USAGE:
 """
 import os.path
 import opsimsummary as oss
+import sqlite3
 
 def query_for_schema(tableName):
     """

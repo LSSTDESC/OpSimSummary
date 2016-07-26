@@ -58,7 +58,7 @@ class OpSimOutput(object):
         if self._propID is not None:
             return self._propID
         elif self.subset is not None and self.propIDDict is not None:
-            return self.propIDVals(self.propIDDict, self.subset, self.proposalTable)
+            return self.propIDVals(self.subset, self.propIDDict, self.proposalTable)
 
     @classmethod
     def fromOpSimHDF(cls, hdfName, subset='combined',
@@ -110,7 +110,7 @@ class OpSimOutput(object):
         Serialize the OpSim output to hdf format in a welldefined way
         The output hdf file has two keys: 'Summary' and 'Proposal'
         """
-        if self.subset is not '_all':
+        if self.subset != '_all':
             raise ValueError('Should be Done only for self.subset == _all')
         self.summary.to_hdf(hdfName, key='Summary', append=False)
         self.proposalTable.to_hdf(hdfName, key='Proposal', append=False)
@@ -169,9 +169,10 @@ class OpSimOutput(object):
             # In this case use sql queries rather than reading thw whole table
 
             # obtain propIDs in strings for sql queries
-            pidString = ", ".join(list(pid for pid in propIDs))
+            pidString = ', '.join(list(str(pid) for pid in propIDs))
 	    sql_query = 'SELECT * FROM Summary WHERE PROPID'
-	    sql_query += ' in {0}'.format(pidString)
+	    sql_query += ' in ({})'.format(pidString)
+            print(sql_query)
             summary = pd.read_sql_query(sql_query, con=engine)
         else:
             raise NotImplementedError()

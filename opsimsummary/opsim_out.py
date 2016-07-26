@@ -58,7 +58,7 @@ class OpSimOutput(object):
         if self._propID is not None:
             return self._propID
         elif self.subset is not None and self.propIDDict is not None:
-            return self.propIDvals(self.propIDDict, self.subset)
+            return self.propIDVals(self.propIDDict, self.subset, self.proposalTable)
 
     @classmethod
     def fromOpSimHDF(cls, hdfName, subset='combined',
@@ -89,7 +89,7 @@ class OpSimOutput(object):
         except:
             pass
 
-        propIDs = _validatePropIDs(self, propIDs, _propIDs)
+        propIDs = cls._validatePropIDs(propIDs, _propIDs)
 
         if propIDs is not None:
             summary = summarydf.query('propID == @propIDs')
@@ -115,7 +115,8 @@ class OpSimOutput(object):
         self.summary.to_hdf(hdfName, key='Summary', append=False)
         self.proposalTable.to_hdf(hdfName, key='Proposal', append=False)
 
-    def _validatePropIDs(self, propIDs, _propIDs):
+    @staticmethod
+    def _validatePropIDs(propIDs, _propIDs):
         if propIDs is None:
             propIDs = _propIDs
         else:
@@ -153,7 +154,7 @@ class OpSimOutput(object):
         # the subsets requested
         proposals = pd.read_sql_table('Proposal', con=engine)
         propDict = cls.get_propIDDict(proposals)
-        _propIDs = cls.propIDvals(subset, propDict)
+        _propIDs = cls.propIDVals(subset, propDict, proposals)
 
         # If propIDs and subset were both provided, check consistency
         propIDs = cls._validatePropIDs(propIDs, _propIDs)

@@ -152,7 +152,7 @@ class OpSimOutput(object):
             propDict = cls.get_propIDDict(proposals)
             print('read in proposal')
             print(subset, propDict)
-            _propIDs = cls.propIDVals(subset, propDict)
+            _propIDs = cls.propIDVals(subset, propDict, proposals)
         except:
             print('Proposal not read')
             pass

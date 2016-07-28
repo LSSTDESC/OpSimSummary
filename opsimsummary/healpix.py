@@ -9,6 +9,7 @@ import pandas as pd
 from scipy.sparse import csr_matrix
 from itertools import repeat 
 import sqlite3
+from .opsim_out import OpSimOutput
 
 __all__  = ['addVec', 'HealPixelizedOpSim']
 
@@ -80,6 +81,38 @@ class HealPixelizedOpSim(object):
         self._coldata = None
         self._spmat = None
 
+    @classmethod
+    def fromOpSimDB(cls, opSimDBpath, subset='combined', propIDs=None,
+                    NSIDE=256, raCol='ditheredRA', decCol='ditheredDec',
+                    fieldRadius=1.75):
+        """
+        Parameters
+        ----------
+        opSimDBpath : 
+        subset :
+        propIDs :
+        raCol :
+        decCol :
+        NSIDE :
+        fieldRadius :
+
+        Returns
+        -------
+        instance of the class
+        """
+        tableNames = ('Summary', 'Proposal')
+        subset = subset
+        propIDs = propIDs
+        dbName = opSimDBpath
+
+        opsimout = OpSimOutput
+
+    
+        
+        
+    @classmethod
+    def fromOpSimHDF(self, opsimHDF):
+        pass
     def obsHistIdsForTile(self, tileID):
         """
         return a `np.ndarray` of obsHistID values that intersect with the

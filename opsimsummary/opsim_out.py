@@ -48,82 +48,6 @@ class OpSimOutput(object):
         self.subset = subset
         self._propID = propIDs
 
-    @property
-    def propIds(self):
-        """
-        list of values in propID Column of the Summary Table of OpSim
-        to be considered for this class, either because they were directly
-        provided or through the subset argument.
-        """
-        if self._propID is not None:
-            return self._propID
-        elif self.subset is not None and self.propIDDict is not None:
-            return self.propIDVals(self.subset, self.propIDDict, self.proposalTable)
-
-    @classmethod
-    def fromOpSimHDF(cls, hdfName, subset='combined',
-                     tableNames=('Summary', 'Proposal'),
-                     propIDs=None):
-        """
-        Construct an instance of a subset of the OpSim
-        Output from a serialization in the format of hdf.
-        """
-	allowed_subsets = cls.get_allowed_subsets()
-	subset = subset.lower()
-	if subset not in allowed_subsets:
-	    raise NotImplementedError('subset {} not implemented'.\
-				      format(subset))
-        # The hdf representation is assumed to be a faithful representation of
-        # the OpSim output
-        summarydf = pd.read_hdf(hdfName, key='Summary')
-
-        if 'obsHistID' not in summarydf.colums:
-            summarydf.reset_index(inplace=True)
-            if 'obsHistID' not in summarydf.colums:
-                raise NotImplementedError('obsHistID is not in columns')
-
-        try:
-            proposals = pd.read_hdf(hdfName, key='Proposals')
-            propDict = cls.get_propIDDict(proposals)
-            _propIDs = cls.propIDvals(subset, propDict)
-        except:
-            pass
-
-        propIDs = cls._validatePropIDs(propIDs, _propIDs)
-
-        if propIDs is not None:
-            summary = summarydf.query('propID == @propIDs')
-        else:
-            summary = summarydf
-        if propIDs is None and subset not in ('_all', 'unique_all'):
-            raise ValueError('No sensible propID and subset combination found')
-
-        if subset != '_all':
-            # Usually drop the OpSim duplicates
-            summary.drop_duplicates(subset='obsHistID', inplace=True)
-
-        return cls(propIDDict=propDict, summary=summarydf,
-                       proposalTable=proposals, subset=subset)
-
-    def writeOpSimHDF(self, hdfName):
-        """
-        Serialize the OpSim output to hdf format in a welldefined way
-        The output hdf file has two keys: 'Summary' and 'Proposal'
-        """
-        if self.subset != '_all':
-            raise ValueError('Should be Done only for self.subset == _all')
-        self.summary.to_hdf(hdfName, key='Summary', append=False)
-        self.proposalTable.to_hdf(hdfName, key='Proposal', append=False)
-
-    @staticmethod
-    def _validatePropIDs(propIDs, _propIDs):
-        if propIDs is None:
-            propIDs = _propIDs
-        else:
-            if np.asarray(propIDs).sort() != np.asarray(_propIDs).sort():
-                raise ValueError('argument propIDs and _propIDs do not match')
-        return propIDs
-
     @classmethod
     def fromOpSimDB(cls, dbname, subset='combined',
                      tableNames=('Summary', 'Proposal'),
@@ -134,8 +58,16 @@ class OpSimOutput(object):
 
 	Parameters
 	----------
-	dbname :
-	subset :
+	dbname : string
+            absolute path to database file 
+	subset : string, optional, defaults to 'combined' 
+            one of {'_all', 'unique_all', 'wfd', 'ddf', 'combined'}
+            determines a sequence of propIDs for selecting observations
+            appropriate for the OpSim database in use
+        propIDs : sequence of integers, defaults to None
+            proposal ID values. If present, overrides the use of subset
+        tableNames : tuple of strings, defaults to ('Summary', 'Proposal')
+            names of tables read from the OpSim database
 	"""
         # Check that subset parameter is legal
 	allowed_subsets = cls.get_allowed_subsets()
@@ -154,10 +86,10 @@ class OpSimOutput(object):
         # the subsets requested
         proposals = pd.read_sql_table('Proposal', con=engine)
         propDict = cls.get_propIDDict(proposals)
+        # Seq of propIDs consistent with subset
         _propIDs = cls.propIDVals(subset, propDict, proposals)
-
-        # If propIDs and subset were both provided, check consistency
-        propIDs = cls._validatePropIDs(propIDs, _propIDs)
+        # If propIDs and subset were both provided, override subset propIDs
+        propIDs = cls._overrideSubsetPropID(propIDs, _propIDs)
 
         # Do the actual sql queries or table reads
 
@@ -167,11 +99,11 @@ class OpSimOutput(object):
 
         elif subset in ('ddf', 'wfd', 'combined'):
             # In this case use sql queries rather than reading thw whole table
-
             # obtain propIDs in strings for sql queries
             pidString = ', '.join(list(str(pid) for pid in propIDs))
 	    sql_query = 'SELECT * FROM Summary WHERE PROPID'
 	    sql_query += ' in ({})'.format(pidString)
+            # If propIDs were passed to the method, this would be used
             print(sql_query)
             summary = pd.read_sql_query(sql_query, con=engine)
         else:
@@ -184,6 +116,93 @@ class OpSimOutput(object):
         summary.set_index('obsHistID', inplace=True)
 	return cls(propIDDict=propDict, summary=summary,
                    proposalTable=proposals, subset=subset)
+
+    @classmethod
+    def fromOpSimHDF(cls, hdfName, subset='combined',
+                     tableNames=('Summary', 'Proposal'),
+                     propIDs=None):
+        """
+        Construct an instance of a subset of the OpSim
+        Output from a serialization in the format of hdf
+
+        Parameters
+        ----------
+        hdfName :
+        subset :
+        tableNames :
+        propIDs :
+        """
+	allowed_subsets = cls.get_allowed_subsets()
+	subset = subset.lower()
+	if subset not in allowed_subsets:
+	    raise NotImplementedError('subset {} not implemented'.\
+				      format(subset))
+        # The hdf representation is assumed to be a faithful representation of
+        # the OpSim output
+        summarydf = pd.read_hdf(hdfName, key='Summary')
+
+        if 'obsHistID' not in summarydf.columns:
+            summarydf.reset_index(inplace=True)
+            if 'obsHistID' not in summarydf.columns:
+                raise NotImplementedError('obsHistID is not in columns')
+
+        try:
+            proposals = pd.read_hdf(hdfName, key='Proposal')
+            print('read in proposal')
+            propDict = cls.get_propIDDict(proposals)
+            print('read in proposal')
+            print(subset, propDict)
+            _propIDs = cls.propIDVals(subset, propDict)
+        except:
+            print('Proposal not read')
+            pass
+
+        propIDs = cls._overrideSubsetPropID(propIDs, _propIDs)
+
+        if propIDs is not None:
+            summary = summarydf.query('propID == @propIDs')
+        else:
+            summary = summarydf
+        if propIDs is None and subset not in ('_all', 'unique_all'):
+            raise ValueError('No sensible propID and subset combination found')
+
+        if subset != '_all':
+            # Usually drop the OpSim duplicates
+            summary.drop_duplicates(subset='obsHistID', inplace=True)
+
+        return cls(propIDDict=propDict, summary=summarydf,
+                   proposalTable=proposals, subset=subset)
+
+    @property
+    def propIds(self):
+        """
+        list of values in propID Column of the Summary Table of OpSim
+        to be considered for this class, either because they were directly
+        provided or through the subset argument.
+        """
+        if self._propID is not None:
+            return self._propID
+        elif self.subset is not None and self.propIDDict is not None:
+            return self.propIDVals(self.subset, self.propIDDict, self.proposalTable)
+
+    def writeOpSimHDF(self, hdfName):
+        """
+        Serialize the OpSim output to hdf format in a welldefined way
+        The output hdf file has two keys: 'Summary' and 'Proposal'
+        """
+        if self.subset != '_all':
+            raise ValueError('Should be Done only for self.subset == _all')
+        self.summary.to_hdf(hdfName, key='Summary', append=False)
+        self.proposalTable.to_hdf(hdfName, key='Proposal', append=False)
+
+    @staticmethod
+    def _overrideSubsetPropID(propIDs, _propIDs):
+        if propIDs is None:
+            propIDs = _propIDs
+        else:
+            if np.asarray(propIDs).sort() != np.asarray(_propIDs).sort():
+                raise Warning('argument propIDs and _propIDs do not match')
+        return propIDs
 
     @staticmethod
     def get_allowed_subsets():
@@ -231,12 +250,17 @@ class OpSimOutput(object):
         propIDDict : dictionary, mandatory
             must have subset as a key, and an integer or seq of ints
             as values
-        proposalTable :
+        proposalTable : `pd.DataFrame`
+            Dataframe representing the proposal table in the OpSim datbase
+            output
 
         Returns:
         -------
         list of propID values (integers) associated with the subset
         """
+        if subset is None:
+            raise ValueError('subset arg in propIDVals cannot be None')
+
         if subset.lower() in ('ddf', 'wfd'):
             return [propIDDict[subset.lower()]]
         elif subset.lower() == 'combined':

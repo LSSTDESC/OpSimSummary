@@ -160,7 +160,14 @@ class OpSimOutput(object):
         propIDs = cls._overrideSubsetPropID(propIDs, _propIDs)
 
         if propIDs is not None:
-            summary = summarydf.query('propID == @propIDs')
+            if not isinstance(propIDs, list):
+                propIDs = propIDs.tolist()
+            print('propIDs', propIDs, type(propIDs), type(propIDs[0]))
+            print('summarydf cols', summarydf.columns)
+            query_str = 'propID == @propIDs'
+            print('squery_str', query_str)
+            print(' Num entries ', len(summarydf))
+            summary = summarydf.query(query_str)
         else:
             summary = summarydf
         if propIDs is None and subset not in ('_all', 'unique_all'):
@@ -170,7 +177,8 @@ class OpSimOutput(object):
             # Usually drop the OpSim duplicates
             summary.drop_duplicates(subset='obsHistID', inplace=True)
 
-        return cls(propIDDict=propDict, summary=summarydf,
+        summary.set_index('obsHistID', inplace=True)
+        return cls(propIDDict=propDict, summary=summary,
                    proposalTable=proposals, subset=subset)
 
     @property

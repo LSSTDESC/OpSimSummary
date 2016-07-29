@@ -84,7 +84,7 @@ class HealPixelizedOpSim(object):
     @classmethod
     def fromOpSimDB(cls, opSimDBpath, subset='combined', propIDs=None,
                     NSIDE=256, raCol='ditheredRA', decCol='ditheredDec',
-                    fieldRadius=1.75):
+                    fieldRadius=1.75,  vecColName='vec'):
         """
         Parameters
         ----------
@@ -105,14 +105,38 @@ class HealPixelizedOpSim(object):
         propIDs = propIDs
         dbName = opSimDBpath
 
-        opsimout = OpSimOutput
+        opsimout = OpSimOutput.fromOpSimDB(opSimDBpath, subset=subset,
+                                           tableNames=tableNames,
+                                           propIDs=propIDs)
+        summary = opsimout.summary 
+        return cls(opsimDF=summary, raCol=raCol, decCol=decCol,
+                 NSIDE=NSIDE, vecColName=vecColName,
+                 fieldRadius=fieldRadius)
+
 
     
         
         
     @classmethod
-    def fromOpSimHDF(self, opsimHDF):
-        pass
+    def fromOpSimHDF(cls, opSimHDF, subset='combined', propIDs=None,
+                    NSIDE=256, raCol='ditheredRA', decCol='ditheredDec',
+                    fieldRadius=1.75,  vecColName='vec'):
+        """
+        """
+        tableNames = ('Summary', 'Proposal')
+        subset = subset
+        propIDs = propIDs
+        opsimHDF = opsimHDF
+        
+        opsimout = OpSimOutput.fromOpSimHDF(opSimHDF, subset=subset,
+                                           tableNames=tableNames,
+                                           propIDs=propIDs)
+        summary = opsimout.summary 
+        return cls(opsimDF=summary, raCol=raCol, decCol=decCol,
+                 NSIDE=NSIDE, vecColName=vecColName,
+                 fieldRadius=fieldRadius)
+
+        
     def obsHistIdsForTile(self, tileID):
         """
         return a `np.ndarray` of obsHistID values that intersect with the

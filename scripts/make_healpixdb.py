@@ -27,7 +27,7 @@ import opsimsummary as oss
 import gzip
 import shutil
 
-# outfile = os.path.join('../opsimsummary/example_data', 'healpixels_micro.db')
+outfile = os.path.join('../opsimsummary/example_data', 'healpixels_micro.db')
 if os.path.exists(outfile):
     raise ValueError('output file already exists. If you want to overwrite, '
                      'rerun script after doing \n\nrm {}'\
@@ -41,8 +41,8 @@ dbname = os.path.join(pkgDir, 'example_data', 'enigma_1189_micro.db')
 # OpSim_combined = pd.read_sql_query('SELECT * FROM Summary WHERE PropID is 364',
 #                                    con=engine, index_col='obsHistID')
 
-ho = oss.HealPixelizedOpSim.fromOpSimDB(opSimDBpath=dbname, subset='combined',
-                                        propIDs=None, NSIDE=128,
+ho = oss.HealPixelizedOpSim.fromOpSimDB(opSimDBpath=dbname, subset='wfd',
+                                        propIDs=None, NSIDE=4,
                                         raCol='ditheredRA',
                                         decCol='ditheredDec',
                                         vecColName='vec',

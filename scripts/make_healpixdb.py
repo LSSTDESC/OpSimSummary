@@ -1,7 +1,7 @@
 """
 This script is used to make a standard healpixel database in the
 `opsimsummary/example_data`  repository. This database is a coarse grained
-NSIDE = 1 healpixelized OpSim created from enigma_1189_micro.db and is used for
+NSIDE = 256 healpixelized OpSim created from enigma_1189_micro.db and is used for
 testing purposes. 
 
 NOTE: To make this database, it is important to run this from the scripts
@@ -24,16 +24,30 @@ from itertools import repeat
 import os
 from sqlalchemy import create_engine
 import opsimsummary as oss
+import gzip
+import shutil
 
 # outfile = os.path.join('../opsimsummary/example_data', 'healpixels_micro.db')
+if os.path.exists(outfile):
+    raise ValueError('output file already exists. If you want to overwrite, '
+                     'rerun script after doing \n\nrm {}'\
+                     .format(os.path.abspath(outfile)))
 pkgDir = os.path.split(oss.__file__)[0]
 dbname = os.path.join(pkgDir, 'example_data', 'enigma_1189_micro.db')
-engineFile = 'sqlite:///' + dbname
-engine = create_engine(engineFile)
+# engineFile = 'sqlite:///' + dbname
+# engine = create_engine(engineFile)
 
 # opsim_hdf = '/Users/rbiswas/data/LSST/OpSimData/minion_1016.hdf'
-OpSim_combined = pd.read_sql_query('SELECT * FROM Summary WHERE PropID is 364',
-                                    con=engine, index_col='obsHistID')
+# OpSim_combined = pd.read_sql_query('SELECT * FROM Summary WHERE PropID is 364',
+#                                    con=engine, index_col='obsHistID')
 
-ho = oss.HealPixelizedOpSim(opsimDF=OpSim_combined, NSIDE=1)
+ho = oss.HealPixelizedOpSim.fromOpSimDB(opSimDBpath=dbname, subset='combined',
+                                        propIDs=None, NSIDE=128,
+                                        raCol='ditheredRA',
+                                        decCol='ditheredDec',
+                                        vecColName='vec',
+                                        fieldRadius=1.75)
+
 ho.writeToDB(outfile)
+with open(outfile, 'rb') as f_in, gzip.open(outfile + '.gz', 'wb') as f_out:
+    shutil.copyfileobj(f_in, f_out)

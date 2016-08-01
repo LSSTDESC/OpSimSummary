@@ -27,12 +27,14 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
     
         # read the WFD fields into a `pd.DataFrame` for test opsim db
         # 364 is hard coded rather than reading the table on OpSim
-        opsimdf = pd.read_sql_query('SELECT * FROM Summary WHERE PropID is 364',
+        sql_query = 'SELECT * FROM Summary WHERE PropID == 364'
+        print(sql_query)
+        opsimdf = pd.read_sql_query(sql_query,
                                     con=engine,
                                     index_col='obsHistID') 
         
         # Extremely coarse grained pixels (12 covering the sphere) for tests
-        cls.nside = 1
+        cls.nside = 4
         # Standard DB for integration tests
         stdDBname = os.path.join(pkgDir, 'example_data', 'healpixels_micro.db')
         cls.stdDBConn = sqlite3.Connection(stdDBname)
@@ -76,13 +78,13 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
         newcursor.execute('SELECT COUNT(*) FROM simlib')
         x = newcursor.fetchone()[0]
         # Hard coded value for enigma_micro database and NSIDE =1
-        self.assertEqual(x, 115643)
+        self.assertEqual(x, 159608)
         newcursor.execute('SELECT MIN(ipix) FROM simlib')
         y = newcursor.fetchone()
         self.assertEqual(y[0], 0)
         x = newcursor.execute('SELECT MAX(ipix) FROM simlib')
         y = x.fetchone()
-        self.assertEqual(y[0], 11) 
+        self.assertEqual(y[0], 191) 
         x = newcursor.execute('SELECT MIN(ipix) FROM simlib')
         y = x.fetchone()
         self.assertEqual(y[0], 0) 

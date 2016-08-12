@@ -12,7 +12,7 @@ example, it is discovered that this file is incorrect, then the setup.py must
 be run again to include the new file in the package directories for the tests to
 pass.
 """
-from __future__ import division
+from __future__ import division, absolute_import, print_function
 import numpy as np
 import time
 import sqlite3
@@ -28,12 +28,34 @@ import gzip
 import shutil
 
 # outfile = os.path.join('../opsimsummary/example_data', 'healpixels_micro.db')
+t_begin=time.time()
+print('Time beginning {}'.format(t_begin))
+
+# If outfile not provided, raise ValueError
 if os.path.exists(outfile):
     raise ValueError('output file already exists. If you want to overwrite, '
                      'rerun script after doing \n\nrm {}'\
                      .format(os.path.abspath(outfile)))
+
+# database path that can always be found from the package 
 pkgDir = os.path.split(oss.__file__)[0]
 dbname = os.path.join(pkgDir, 'example_data', 'enigma_1189_micro.db')
+# Create the healpixelizedOpSim
+NSIDE = 128
+ho = oss.HealPixelizedOpSim.fromOpSimDB(opSimDBpath=dbname, subset='combined',
+                                        propIDs=None, NSIDE=NSIDE,
+                                        raCol='ditheredRA',
+                                        decCol='ditheredDec',
+                                        vecColName='vec',
+                                        fieldRadius=1.75)
+
+twriteStart = time.time()
+print('Time {} at starting the write to disk'.format(twriteStart))
+# Write to disk
+ho.writeToDB(outfile)
+# gzip it
+with open(outfile, 'rb') as f_in, gzip.open(outfile + '.gz', 'wb') as f_out:
+    shutil.copyfileobj(f_in, f_out)
 # engineFile = 'sqlite:///' + dbname
 # engine = create_engine(engineFile)
 
@@ -41,13 +63,3 @@ dbname = os.path.join(pkgDir, 'example_data', 'enigma_1189_micro.db')
 # OpSim_combined = pd.read_sql_query('SELECT * FROM Summary WHERE PropID is 364',
 #                                    con=engine, index_col='obsHistID')
 
-ho = oss.HealPixelizedOpSim.fromOpSimDB(opSimDBpath=dbname, subset='combined',
-                                        propIDs=None, NSIDE=128,
-                                        raCol='ditheredRA',
-                                        decCol='ditheredDec',
-                                        vecColName='vec',
-                                        fieldRadius=1.75)
-
-ho.writeToDB(outfile)
-with open(outfile, 'rb') as f_in, gzip.open(outfile + '.gz', 'wb') as f_out:
-    shutil.copyfileobj(f_in, f_out)

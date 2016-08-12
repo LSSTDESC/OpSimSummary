@@ -52,10 +52,14 @@ ho = oss.HealPixelizedOpSim.fromOpSimDB(opSimDBpath=dbname, subset='combined',
 twriteStart = time.time()
 print('Time {} at starting the write to disk'.format(twriteStart))
 # Write to disk
-ho.writeToDB(outfile)
+ho.writeToDB(outfile, verbose=True)
+tendWriteDisk = time.time()
+print('Time {} at ending the write to disk'.format(tendWriteDisk))
 # gzip it
 with open(outfile, 'rb') as f_in, gzip.open(outfile + '.gz', 'wb') as f_out:
     shutil.copyfileobj(f_in, f_out)
+tzipdone = time.time()
+print('Time {} at ending the zip'.format(tzipdone))
 # engineFile = 'sqlite:///' + dbname
 # engine = create_engine(engineFile)
 

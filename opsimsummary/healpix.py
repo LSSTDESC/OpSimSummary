@@ -172,7 +172,7 @@ class HealPixelizedOpSim(object):
             self.doPreCalcs()
         return self._coldata
 
-    def writeToDB(self, dbName):
+    def writeToDB(self, dbName, verbose=False):
         """
         Write association of obsHistIDs and Healpix TileIDs to a SQLITE
         database with absolute path dbName. This is thus a two column database.
@@ -187,6 +187,8 @@ class HealPixelizedOpSim(object):
         """
         rowdata = self.rowdata
         coldata = self.coldata
+        if verbose:
+            print(len(rowdata), len(coldata))
         obsHistIDs = self.opsimdf.ix[rowdata, 'obsHistID'].values
 
         conn = sqlite3.Connection(dbName)
@@ -195,8 +197,10 @@ class HealPixelizedOpSim(object):
         for i in range(len(rowdata)):
             cur.execute('INSERT INTO simlib VALUES'
                         '({1}, {0})'.format(obsHistIDs[i], coldata[i]))
-            if i % 10000000 == 0:
+            if i % 100000 == 0:
                 conn.commit()
+                if verbose:
+                    print('committed 100000 records to db')
         conn.commit()
         print('Committed the table to disk\n')
         # create index

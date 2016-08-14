@@ -1,7 +1,7 @@
 """
 This script is used to make a standard healpixel database in the
 `opsimsummary/example_data`  repository. This database is a coarse grained
-NSIDE = 256 healpixelized OpSim created from enigma_1189_micro.db and is used for
+NSIDE = 128 healpixelized OpSim created from enigma_1189_micro.db and is used for
 testing purposes. 
 
 NOTE: To make this database, it is important to run this from the scripts

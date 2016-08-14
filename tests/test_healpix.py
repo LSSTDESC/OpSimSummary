@@ -2,6 +2,7 @@
 Tests associated with the `opsimsummary/healpix.py` module
 """
 from __future__ import division, print_function, absolute_import
+from nose.tools import nottest
 import opsimsummary as oss
 import os
 import numpy as np
@@ -88,6 +89,7 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
         x = newcursor.execute('SELECT MIN(ipix) FROM simlib')
         y = x.fetchone()
         self.assertEqual(y[0], 0) 
+    @nottest
     def test_compareWithOldDB(self):
         """
         Compare any new database with a stored version of the old database

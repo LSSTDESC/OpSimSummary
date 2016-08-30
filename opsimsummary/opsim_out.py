@@ -148,9 +148,9 @@ class OpSimOutput(object):
 
         try:
             proposals = pd.read_hdf(hdfName, key='Proposal')
-            print('read in proposal')
+            # print('read in proposal')
             propDict = cls.get_propIDDict(proposals)
-            print('read in proposal')
+            # print('read in proposal')
             print(subset, propDict)
             _propIDs = cls.propIDVals(subset, propDict, proposals)
         except:
@@ -162,11 +162,11 @@ class OpSimOutput(object):
         if propIDs is not None:
             if not isinstance(propIDs, list):
                 propIDs = propIDs.tolist()
-            print('propIDs', propIDs, type(propIDs), type(propIDs[0]))
-            print('summarydf cols', summarydf.columns)
+            # print('propIDs', propIDs, type(propIDs), type(propIDs[0]))
+            # print('summarydf cols', summarydf.columns)
             query_str = 'propID == @propIDs'
-            print('squery_str', query_str)
-            print(' Num entries ', len(summarydf))
+            # print('squery_str', query_str)
+            # print(' Num entries ', len(summarydf))
             summary = summarydf.query(query_str)
         else:
             summary = summarydf

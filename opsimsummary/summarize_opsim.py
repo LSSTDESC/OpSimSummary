@@ -5,7 +5,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 import matplotlib.pyplot as plt
 
- # __all__ = ['SummaryOpsim', 'add_simlibCols']
+__all__ = ['SummaryOpsim', 'add_simlibCols']
 def add_simlibCols(opsimtable, pixSize=0.2):
     '''
     Parameters

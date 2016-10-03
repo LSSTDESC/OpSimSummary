@@ -74,7 +74,7 @@ class HealPixelizedOpSim(object):
         self._fieldRadius = np.radians(fieldRadius)
 
         if vecColName not in self.cols:
-            addVec(self.opsimdf)
+            addVec(self.opsimdf, raCol=self.raCol, decCol=self.decCol)
         self.nside = NSIDE
         self.nested = True
         self._rowdata = None

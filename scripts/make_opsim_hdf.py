@@ -23,5 +23,8 @@ parser.add_argument('--outFile', type=str, default=default_outfile,
                     'defaults to {}'.format(default_outfile))
 args = parser.parse_args()
 
-opout = oss.OpSimOutput.fromOpSimDB(dbname=args.OpSimDBPath, subset='_all')
+if args.OpSimDBPath is not None:
+    dbName = args.OpSimDBPath
+    
+opout = oss.OpSimOutput.fromOpSimDB(dbname=dbName, subset='_all')
 opout.writeOpSimHDF(args.outFile)

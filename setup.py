@@ -28,5 +28,6 @@ setup(# package information
       # What data to include as packages
       include_package_data=True,
       package_data={PACKAGENAME:['example_data/*.dat', 'example_data/*.simlib',
-                                 'example_data/enigma_1189_micro.db']}
+                                 'example_data/enigma_1189_micro.db',
+                                 'example_data/enigma_1189_micro.hdf']}
       )

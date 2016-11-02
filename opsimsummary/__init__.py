@@ -5,5 +5,6 @@ from . import simlib
 from .version import __VERSION__
 from .trig import *
 from .healpix import *
+from .tessellations import *
 from .opsim_out import *
-from healpixTiles import *
+from .healpixTiles import *

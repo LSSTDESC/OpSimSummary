@@ -6,3 +6,4 @@ from .version import __VERSION__
 from .trig import *
 from .healpix import *
 from .opsim_out import *
+from healpixTiles import *

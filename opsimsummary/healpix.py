@@ -56,13 +56,24 @@ class HealPixelizedOpSim(object):
         of the pointing direction of the OpSim record.
     fieldRadius : float, optional, defaults to 1.75, units is degrees
         radius of the field in degrees
+    inclusive : bool, optional, defaults to True
+        If False, healpixels whose centers fall within the fieldRadius of an
+        OpSim pointing are associated with the pointing. This misses those
+        Healpixels that partially overlap the pointing. If inclusive = True, an
+        approximate method is used to include such missing pixels, by
+        associating a healpixel to the pointing if the healpixel includes a pixel
+        at a resolution NSIDE*fact which has a center falling within the
+        fieldRadius. 
+    fact : int, optional, defaults to 4
+        Determines the effective NSIDE for associating healpixels to OpSim
+        records, as described in the documentaiton for `inclusive`
 
     Methods
     -------
     """
 
     def __init__(self, opsimDF, raCol='ditheredRA', decCol='ditheredDec',
-                 NSIDE=1,
+                 NSIDE=1, fact=4, inclusive=True, nest=True,
                  vecColName='vec',  fieldRadius=1.75):
 
         self.raCol = raCol
@@ -76,14 +87,17 @@ class HealPixelizedOpSim(object):
         if vecColName not in self.cols:
             addVec(self.opsimdf, raCol=self.raCol, decCol=self.decCol)
         self.nside = NSIDE
-        self.nested = True
         self._rowdata = None
         self._coldata = None
         self._spmat = None
+        self.inclusive  = inclusive
+        self.fact  = fact
+        self.nest = nest
 
     @classmethod
     def fromOpSimDB(cls, opSimDBpath, subset='combined', propIDs=None,
                     NSIDE=256, raCol='ditheredRA', decCol='ditheredDec',
+                    inclusive=True, fact=4, nest=True,
                     fieldRadius=1.75,  vecColName='vec'):
         """
         Parameters
@@ -95,6 +109,9 @@ class HealPixelizedOpSim(object):
         decCol :
         NSIDE :
         fieldRadius :
+        fact :
+        inclusive : 
+        nest :
 
         Returns
         -------
@@ -110,8 +127,8 @@ class HealPixelizedOpSim(object):
                                            propIDs=propIDs)
         summary = opsimout.summary 
         return cls(opsimDF=summary, raCol=raCol, decCol=decCol,
-                 NSIDE=NSIDE, vecColName=vecColName,
-                 fieldRadius=fieldRadius)
+                 NSIDE=NSIDE, vecColName=vecColName, nest=nest,
+                 fieldRadius=fieldRadius, fact=fact, inclusive=inclusive)
 
 
     
@@ -217,8 +234,9 @@ class HealPixelizedOpSim(object):
         Perform the precalculations necessary to set up the sparse matrix.
         """
         self.opsimdf['hids'] = [hp.query_disc(self.nside, vec, self._fieldRadius,
-                                              inclusive=True,
-                                              nest=True)
+                                              inclusive=self.inclusive,
+                                              fact=self.fact,
+                                              nest=self.nest)
                                 for vec in self.opsimdf[self.vecColName]]
         lens = map(len, self.opsimdf.hids.values)
         rowdata = []

@@ -189,11 +189,13 @@ class HealPixelizedOpSim(object):
             self.doPreCalcs()
         return self._coldata
 
-    def writeToDB(self, dbName, verbose=False):
+    def writeToDB(self, dbName, verbose=False, indexed=True):
         """
-        Write association of obsHistIDs and Healpix TileIDs to a SQLITE
-        database with absolute path dbName. This is thus a two column database.
-
+        Write two tables to a SQLITE database. The first table is called Simlib
+        and records association of obsHistIDs and Healpix TileIDs in a two
+        column table. The second table is called metadata which records the
+        provenance information in the table. The Simlib table may or may not be
+        indexed
         Parameters
         ----------
         dbName : string, mandatory
@@ -221,12 +223,15 @@ class HealPixelizedOpSim(object):
         conn.commit()
         print('Committed the table to disk\n')
         # create index
-        print('Createing ipix index\n')
-        cur.execute('CREATE INDEX {ix} on {tn}({cn})'\
-                    .format(ix='ipix_ind', tn='simlib', cn='ipix'))
-        print('Createing obsHistID index\n')
-        cur.execute('CREATE INDEX {ix} on {tn}({cn})'\
-                .format(ix='obshistid_ind', tn='simlib', cn='obsHistId'))
+        if indexed:
+            print('Createing ipix index\n')
+            cur.execute('CREATE INDEX {ix} on {tn}({cn})'\
+                        .format(ix='ipix_ind', tn='simlib', cn='ipix'))
+            print('Createing obsHistID index\n')
+            cur.execute('CREATE INDEX {ix} on {tn}({cn})'\
+                        .format(ix='obshistid_ind', tn='simlib', cn='obsHistId'))
+        else:
+            print('Not creating index \n')
         conn.close()
         
     def doPreCalcs(self):

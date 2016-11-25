@@ -28,7 +28,8 @@ def test_simlibValues():
     opsim_test_df.rename(columns=aliases, inplace=True)
     print(opsim_test_df.columns)
     # Run OpSimSummary to get the summary object
-    testopsim = so.SummaryOpsim(opsim_test_df, calculateSNANASimlibs=True)
+    testopsim = so.SummaryOpsim(opsim_test_df, calculateSNANASimlibs=True,
+                                user='rbiswas')
     # restrict to the data regarding fieldID 519
     sl = testopsim.simlib(519).sort_values(by='expMJD')
     # Read the old simlib file into a dataframe

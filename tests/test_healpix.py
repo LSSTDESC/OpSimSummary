@@ -90,6 +90,17 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
         x = newcursor.execute('SELECT MIN(ipix) FROM simlib')
         y = x.fetchone()
         self.assertEqual(y[0], 0) 
+        newcursor = self.newconn.cursor()
+        x = newcursor.execute('SELECT * FROM metadata')
+        y = x.fetchall()
+        self.assertEqual(len(y), 1)
+        self.assertEqual(len(y[0]), 7)
+        # Check the version
+        version = oss.__VERSION__
+        self.assertEqual(y[0][1], version)
+        self.assertEqual(np.int(y[0][2]), self.nside)
+        self.assertEqual(np.int(y[0][3]), 4)
+
     @nottest
     def test_compareWithOldDB(self):
         """

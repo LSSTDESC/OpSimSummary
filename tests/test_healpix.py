@@ -43,11 +43,12 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
         if os.path.exists(cls.newDB):
             os.remove(cls.newDB)
         cls.newconn = sqlite3.Connection(cls.newDB)
-        h = oss.HealPixelizedOpSim(opsimDF=opsimdf, NSIDE=cls.nside)
+        h = oss.HealPixelizedOpSim(opsimDF=opsimdf, NSIDE=cls.nside, source=dbname)
         h.doPreCalcs()
         try:
-            h.writeToDB(cls.newDB)
-        except OperationError:
+            version = oss.__VERSION__
+            h.writeToDB(cls.newDB, version=version)
+        except:
             cls.tearDownClass()
             raise Warning('Had to erase teardown the class to set it up')
         cls.hpOps = h
@@ -89,6 +90,17 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
         x = newcursor.execute('SELECT MIN(ipix) FROM simlib')
         y = x.fetchone()
         self.assertEqual(y[0], 0) 
+        newcursor = self.newconn.cursor()
+        x = newcursor.execute('SELECT * FROM metadata')
+        y = x.fetchall()
+        self.assertEqual(len(y), 1)
+        self.assertEqual(len(y[0]), 8)
+        # Check the version
+        version = oss.__VERSION__
+        self.assertEqual(y[0][2], version)
+        self.assertEqual(np.int(y[0][3]), self.nside)
+        self.assertEqual(np.int(y[0][4]), 4)
+
     @nottest
     def test_compareWithOldDB(self):
         """

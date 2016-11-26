@@ -230,8 +230,12 @@ class HealPixelizedOpSim(object):
         mytime = datetime.now() 
         timestamp = 'Timestamp: {:%Y-%b-%d %H:%M:%S}'.format(mytime)
 
+        # source
+        source = self.source
+
         cur.execute('CREATE TABLE metadata ('
                                             'hostname varchar(100),'
+                                            'source varchar(100),'
                                             'CodeVersion varchar(100),'
                                             'NSIDE int,'
                                             'fact int,'
@@ -239,10 +243,10 @@ class HealPixelizedOpSim(object):
                                             'indexed varchar(1),'
                                             'timestamp varchar(30))')
         insertStatement = 'INSERT INTO metadata '
-        insertStatement += '(hostname, CodeVersion, NSIDE, fact, inclusive,'
-        insertStatement += ' indexed, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?) '
+        insertStatement += '(hostname, source, CodeVersion, NSIDE, fact, inclusive,'
+        insertStatement += ' indexed, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?) '
 
-        x = '{0},{1},{2},{3},{4},{5},{6}'.format(hostname, version,
+        x = '{0},{1},{2},{3},{4},{5},{6},{7}'.format(hostname, source, version,
                                                        self.nside, self.fact,
                                                        self.inclusive, indexed,
                                                        timestamp)

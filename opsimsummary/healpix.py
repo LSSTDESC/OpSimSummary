@@ -10,6 +10,8 @@ from scipy.sparse import csr_matrix
 from itertools import repeat 
 import sqlite3
 from .opsim_out import OpSimOutput
+import subprocess
+from datetime import datetime
 
 __all__  = ['addVec', 'HealPixelizedOpSim']
 
@@ -68,13 +70,16 @@ class HealPixelizedOpSim(object):
         Determines the effective NSIDE for associating healpixels to OpSim
         records, as described in the documentaiton for `inclusive`
 
+    source : string, optional, defaults to None
+        if not None, used to record the absolute path or name of the OpSim
+        output database on which this object was based
     Methods
     -------
     """
 
     def __init__(self, opsimDF, raCol='ditheredRA', decCol='ditheredDec',
                  NSIDE=1, fact=4, inclusive=True, nest=True,
-                 vecColName='vec',  fieldRadius=1.75):
+                 vecColName='vec',  fieldRadius=1.75, source=None):
 
         self.raCol = raCol
         self.decCol = decCol
@@ -93,6 +98,7 @@ class HealPixelizedOpSim(object):
         self.inclusive  = inclusive
         self.fact  = fact
         self.nest = nest
+        self.source = source
 
     @classmethod
     def fromOpSimDB(cls, opSimDBpath, subset='combined', propIDs=None,
@@ -127,7 +133,7 @@ class HealPixelizedOpSim(object):
                                            propIDs=propIDs)
         summary = opsimout.summary 
         return cls(opsimDF=summary, raCol=raCol, decCol=decCol,
-                 NSIDE=NSIDE, vecColName=vecColName, nest=nest,
+                 NSIDE=NSIDE, vecColName=vecColName, nest=nest, source=dbName,
                  fieldRadius=fieldRadius, fact=fact, inclusive=inclusive)
 
 
@@ -189,7 +195,68 @@ class HealPixelizedOpSim(object):
             self.doPreCalcs()
         return self._coldata
 
-    def writeToDB(self, dbName, verbose=False, indexed=True):
+    def write_metaData_Table(self, dbName, indexed, version=None, hostname=None):
+        """
+        write out the metadata table to the sqlite database `dbName`. The
+        columns of the table are hostname, CodeVersion, NSIDE, fact, indexed,
+        inclusive, timestamp
+
+        Parameters
+        ----------
+        dbName : string, mandatory
+            absolute path to the database
+        indexed : Bool, mandatory
+            information on whether the main table `simlib` is indexed or not
+        version : string, optional, defaults to None
+            if None, this is set to 'Unknonwn'. The recommended way to use this
+            is by supplying this variable to writeToDB, after finding it using
+            `opsimsummary.__VERSION__`
+        hostname : string, optional, defaults to None
+            if None, the hostname is derived by using a subprocess call to the
+            unix commandline `hostname`. Else, can be supplied.
+        """
+        conn = sqlite3.Connection(dbName)
+        cur = conn.cursor()
+
+        if version is None:
+            version = 'UnKnown'
+
+        if hostname is None:
+            proc = subprocess.Popen('hostname', stdout=subprocess.PIPE)
+            hostname, err = proc.communicate()
+        
+
+        # TimeStamp
+        mytime = datetime.now() 
+        timestamp = 'Timestamp: {:%Y-%b-%d %H:%M:%S}'.format(mytime)
+
+        cur.execute('CREATE TABLE metadata ('
+                                            'hostname varchar(100),'
+                                            'CodeVersion varchar(100),'
+                                            'NSIDE int,'
+                                            'fact int,'
+                                            'inclusive varchar(10),'
+                                            'indexed varchar(1),'
+                                            'timestamp varchar(30))')
+        insertStatement = 'INSERT INTO metadata '
+        insertStatement += '(hostname, CodeVersion, NSIDE, fact, inclusive,'
+        insertStatement += ' indexed, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?) '
+
+        x = '{0},{1},{2},{3},{4},{5},{6}'.format(hostname, version,
+                                                       self.nside, self.fact,
+                                                       self.inclusive, indexed,
+                                                       timestamp)
+        vals = tuple(x.split(','))
+        print(insertStatement)
+        cur.execute(insertStatement, vals)
+        conn.commit()                                            
+        return
+
+
+
+
+    def writeToDB(self, dbName, verbose=False, indexed=True, version=None,
+                  hostname=None):
         """
         Write two tables to a SQLITE database. The first table is called Simlib
         and records association of obsHistIDs and Healpix TileIDs in a two
@@ -200,6 +267,18 @@ class HealPixelizedOpSim(object):
         ----------
         dbName : string, mandatory
             absolute path to the location of the database to be written
+        verbose : Bool, optional, defaults to False
+            determines the amount of output on committing records to the
+            database
+        indexed : Bool, optional, defaults to True
+            if True, indexes both the columns of `Simlib` table
+        version : string, optional, defaults to None
+            a string that may be supplied to enumerate version numbers of the
+            code. The recommended way to do this is via the use of
+            `opsimsummary.__VERSION__`
+        hostname : string, optional, defaults to None
+            The hostname is used to supply the parameter in the metadata table.
+            If None, that should be found by using the *NIX `hostname` command.
 
         .. notes : It is assumed that the file does not exist but the directory
         does.
@@ -232,7 +311,12 @@ class HealPixelizedOpSim(object):
                         .format(ix='obshistid_ind', tn='simlib', cn='obsHistId'))
         else:
             print('Not creating index \n')
+
+
         conn.close()
+        # Write metadata table
+        self.write_metaData_Table(dbName=dbName, indexed=indexed,
+                                  version=version, hostname=hostname) 
         
     def doPreCalcs(self):
         """

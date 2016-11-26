@@ -46,8 +46,9 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
         h = oss.HealPixelizedOpSim(opsimDF=opsimdf, NSIDE=cls.nside)
         h.doPreCalcs()
         try:
-            h.writeToDB(cls.newDB)
-        except OperationError:
+            version = oss.__VERSION__
+            h.writeToDB(cls.newDB, version=version)
+        except:
             cls.tearDownClass()
             raise Warning('Had to erase teardown the class to set it up')
         cls.hpOps = h

@@ -12,6 +12,7 @@ import sqlite3
 from .opsim_out import OpSimOutput
 import subprocess
 from datetime import datetime
+import sys
 
 __all__  = ['addVec', 'HealPixelizedOpSim']
 
@@ -215,6 +216,8 @@ class HealPixelizedOpSim(object):
             if None, the hostname is derived by using a subprocess call to the
             unix commandline `hostname`. Else, can be supplied.
         """
+        print('write metadata table to database')
+        sys.stdout.flush()
         conn = sqlite3.Connection(dbName)
         cur = conn.cursor()
 
@@ -236,6 +239,8 @@ class HealPixelizedOpSim(object):
         cur.execute('CREATE TABLE metadata ('
                                             'hostname varchar(100),'
                                             'source varchar(100),'
+                                            'raCol varchar(20),'
+                                            'decCol varchar(20),'
                                             'CodeVersion varchar(100),'
                                             'NSIDE int,'
                                             'fact int,'
@@ -243,10 +248,13 @@ class HealPixelizedOpSim(object):
                                             'indexed varchar(1),'
                                             'timestamp varchar(30))')
         insertStatement = 'INSERT INTO metadata '
-        insertStatement += '(hostname, source, CodeVersion, NSIDE, fact, inclusive,'
-        insertStatement += ' indexed, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?) '
+        insertStatement += '(hostname, source, raCol, decCol, CodeVersion,'
+        insertStatement += ' NSIDE, fact, inclusive,'
+        insertStatement += ' indexed, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) '
 
-        x = '{0},{1},{2},{3},{4},{5},{6},{7}'.format(hostname, source, version,
+        x = '{0},{1},{2},{3},{4},{5},{6},{7}, {8}, {9}'.format(hostname,
+                                                       source, self.raCol,
+                                                       self.decCol, version,
                                                        self.nside, self.fact,
                                                        self.inclusive, indexed,
                                                        timestamp)
@@ -255,9 +263,6 @@ class HealPixelizedOpSim(object):
         cur.execute(insertStatement, vals)
         conn.commit()                                            
         return
-
-
-
 
     def writeToDB(self, dbName, verbose=False, indexed=True, version=None,
                   hostname=None):
@@ -303,6 +308,7 @@ class HealPixelizedOpSim(object):
                 conn.commit()
                 if verbose:
                     print('committed 100000 records to db')
+                    sys.stdout.flush()
         conn.commit()
         print('Committed the table to disk\n')
         # create index

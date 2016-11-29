@@ -94,12 +94,12 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
         x = newcursor.execute('SELECT * FROM metadata')
         y = x.fetchall()
         self.assertEqual(len(y), 1)
-        self.assertEqual(len(y[0]), 8)
+        self.assertEqual(len(y[0]), 10)
         # Check the version
         version = oss.__VERSION__
-        self.assertEqual(y[0][2], version)
-        self.assertEqual(np.int(y[0][3]), self.nside)
-        self.assertEqual(np.int(y[0][4]), 4)
+        self.assertEqual(y[0][4], version)
+        self.assertEqual(np.int(y[0][5]), self.nside)
+        self.assertEqual(np.int(y[0][6]), 4)
 
     @nottest
     def test_compareWithOldDB(self):

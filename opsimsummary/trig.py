@@ -1,7 +1,37 @@
 import numpy as np
 
 __all__ = ['fieldID', 'angSep', 'overlapSummary',
-           'convertToSphericalCoordinates']
+           'convertToSphericalCoordinates', 'convertToCelestialCoordinates']
+
+def convertToCelestialCoordinates(theta, phi, input_unit='radians',
+                                  output_unit='degrees'):
+    """
+    Convert theta, phi in usual spherical coordinates to ra, dec
+    values. 
+
+    Parameters
+    ----------
+    theta : `np.ndarray` or float
+        co-latitude
+    phi :`np.ndarray` or float
+        co longitude 
+    input_unit : {'degrees', 'radians'}, defautls to radians
+    output_unit : {'degrees', 'radians'}, defaults to degrees
+
+    Return
+    ------
+    tuple of (ra, dec) where ra, dec are `numpy.ndarray` of type float
+    of length equal to theta or phi
+    """
+    if input_unit != 'degrees':
+        theta = np.degrees(np.ravel(theta))
+        phi = np.degrees(np.ravel(phi))
+    dec = - theta + 90.0   
+    ra = phi
+    if output_unit != 'degrees':
+        ra = np.radians(phi)
+        dec = np.radians(dec)
+    return ra, dec
 
 def convertToSphericalCoordinates(ra, dec, unit='degrees'):
     """

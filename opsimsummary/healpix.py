@@ -3,16 +3,15 @@ Class for associating Healpixels with OpSim Pointings. An example of usage can
 be found in `examples/ObsHistIDsForTile`
 """
 from __future__ import print_function, absolute_import, division
-import numpy as np
-import healpy as hp
-import pandas as pd
-from scipy.sparse import csr_matrix
-from itertools import repeat 
-import sqlite3
-from .opsim_out import OpSimOutput
 import subprocess
+import sqlite3
+from itertools import repeat
 from datetime import datetime
 import sys
+import numpy as np
+import healpy as hp
+from scipy.sparse import csr_matrix
+from .opsim_out import OpSimOutput
 
 __all__  = ['addVec', 'HealPixelizedOpSim']
 

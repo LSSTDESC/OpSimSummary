@@ -12,9 +12,33 @@ import numpy as np
 import healpy as hp
 from scipy.sparse import csr_matrix
 from .opsim_out import OpSimOutput
+from .trig import convertToCelestialCoordinates
 
-__all__  = ['addVec', 'HealPixelizedOpSim', 'HealpixTree']
+__all__  = ['addVec', 'HealPixelizedOpSim', 'HealpixTree', 'healpix_boundaries']
 
+def healpix_boundaries(ipix, nside=256, step=2, nest=True,
+		       convention='spherical',
+		       units='degrees'):
+    """
+    return an array of points on
+    """
+    corner_vecs = hp.boundaries(nside, ipix, step=step, nest=nest)
+    if len(np.shape(corner_vecs)) > 2:
+        corner_vecs = np.concatenate(corner_vecs, axis=1)
+    
+    phi_theta = hp.vec2ang(np.transpose(corner_vecs))
+    # These are in radians and spherical coordinates by construction
+    theta, phi = phi_theta
+    if convention == 'celestial': 
+	return convertToCelestialCoordinates(theta, phi, output_units=units)	
+    # else return in spherical coordinates, but convert to degrees if requested
+    if units == 'degrees':
+	lon = np.degrees(phi)
+	lat = np.degrees(theta)
+    else :
+	lon = phi
+	lat = theta
+    return lon, lat
 class HealpixTree(object):
     """
     Class describing the hierarchy of Healpix tesselations

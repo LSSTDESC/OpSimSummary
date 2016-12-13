@@ -13,7 +13,107 @@ import healpy as hp
 from scipy.sparse import csr_matrix
 from .opsim_out import OpSimOutput
 
-__all__  = ['addVec', 'HealPixelizedOpSim']
+__all__  = ['addVec', 'HealPixelizedOpSim', 'HealpixTree']
+
+class HealpixTree(object):
+    """
+    Class describing the hierarchy of Healpix tesselations
+    """
+    def __init__(self, nside, nest=True):
+        """
+	Instantiation of the class
+
+	Parameters
+	----------
+	nside : int, mandatory
+	    nside at which the Tree is initialized
+	nest : Bool, defaults to True
+	   False not checked
+	"""
+        self.nside = nside
+        self.nest = nest
+
+    def _pixelsAtNextLevel(self, i, nside=None):
+        """
+	The array of 4 pixels at NSIDE = nside*2 making up pixel with id
+	i at NSIDE = nside.
+
+	Parameters
+	----------
+	i : int, scalar, mandatory
+	    pixel id of pixel at NSIDE=nside
+	nside : int, defaults to None
+	    NSIDE at which i  is the id of the pixel. If None, this defaults to
+	    `self.nside`
+	Returns
+	-------
+	`np.ndarray` of 4 pixel IDs
+        """
+        if nside is None:
+            nside = self.nside
+
+        i = np.ravel(i)
+        if any(i > hp.nside2npix(nside) -1):
+            raise ValueError('ipix too large for nside')
+
+        binval = np.repeat(np.binary_repr(i, width=2), 4)
+        num = np.array(list(np.binary_repr(x, width=2) for x in np.arange(4)))
+        binPix = np.array(list(x + y for (x, y)  in zip(binval, num)))
+        intPix = list(np.int(i, base=2) for i in binPix)
+        return nside*2, np.array(intPix)
+
+    def pixelsAtNextLevel(self, ipix, nside=None):
+        """
+        given an array of pixels ipix at NSIDE=nside, return array of pixels at
+        NSIDE=nside*2 which make up the ipix pixels.
+
+	Parameters
+	----------
+	ipix : `numpy.ndarray` of type int, mandatory
+            pixel ids of pixels at NSIDE=nside
+	nside : int, defaults to None
+            NSIDE at which i  is the id of the pixel. If None, this defaults to
+	    `self.nside`
+        Return
+        ------
+        `numpy.ndarray` of size 4 * len(ipix) with pixel ids of children of the
+        ipix pixels at NSIDE=nside
+        """
+        if nside is None:
+            nside = self.nside
+        ipix = np.ravel(ipix)
+        xx = list(hpt._pixelsAtNextLevel(pix, nside) for pix in ipix)
+        nsides, pix = zip(*xx)
+        return nsides[0], np.concatenate(pix)
+
+    def pixelsAtResolutionLevel(self, ipix, subdivisions, nside=None):
+        """
+        Given a `numpy.ndarray` of pixels at NSIDE=nside, return a
+        `numpy.ndarray` of descendent pixels at
+        NSIDE = nside * (2**subdivisions)
+
+        Parameters
+        ----------
+        ipix : `numpy.ndarray` of integers
+            pixel ids at NSIDE = nside
+        subdivisions : int, mandatory
+            Number of times the pixels must be subdivided into 4 pixels
+        nside : int, optional, defaults to None
+            if not None, the NSIDE value at which the pixels are specified
+            through the ids `ipix`
+        Return
+        ------
+        `numpy.ndarray` of size (4**subdivisions) * len(ipix) with pixel ids of
+        children of the ipix pixels at NSIDE=nside
+        """
+        if nside is None:
+            nside = self.nside
+        levels = subdivisions
+        while levels >= 1:
+            nside, ivals = self.pixelsAtNextLevel(ipix, nside=nside)
+            ipix = ivals
+            levels += -1
+        return nside, ipix
 
 def addVec(df, raCol='ditheredRA', decCol='ditheredDec'):
     """

@@ -14,31 +14,58 @@ from scipy.sparse import csr_matrix
 from .opsim_out import OpSimOutput
 from .trig import convertToCelestialCoordinates
 
-__all__  = ['addVec', 'HealPixelizedOpSim', 'HealpixTree', 'healpix_boundaries']
+__all__ = ['addVec', 'HealPixelizedOpSim', 'HealpixTree', 'healpix_boundaries']
 
 def healpix_boundaries(ipix, nside=256, step=2, nest=True,
 		       convention='spherical',
 		       units='degrees'):
     """
-    return an array of points on
+    return an array of points on the boundaries of the healpixels with ids
+    given by ipix in the form of (colongitudes, colatitudes)
+
+    Parameters
+    ----------
+    ipix : `np.ndarray`, dtype int
+        healpixel ids of pixels whose boundaries are required
+    nside : int, defaults to 256
+        Healpix NSIDE
+    step : int
+        factor by which the number of points in the corners (4) are stepped up.
+        ie. a step of 2 returns 8 points along the boundaries of the Healpixel
+        inlcuding the corners
+    nest : Bool, defaults to True
+        using the `nested` rather than `ring` scheme.
+    convention : {'spherical', 'celestial'}, defaults to 'spherical'
+        (theta, phi) of the usual spherical coordinate system or (ra, dec)
+    units : {'degrees', 'radians'} , defaults to 'degrees'
+        units in which the points are returned
+
+
+    Returns
+    --------
+    tuple (colongitude, colatitude)
+
+    .. note: This also produces the 'inner' boundaries for connected pixels.
     """
     corner_vecs = hp.boundaries(nside, ipix, step=step, nest=nest)
     if len(np.shape(corner_vecs)) > 2:
         corner_vecs = np.concatenate(corner_vecs, axis=1)
-    
+
     phi_theta = hp.vec2ang(np.transpose(corner_vecs))
     # These are in radians and spherical coordinates by construction
     theta, phi = phi_theta
-    if convention == 'celestial': 
-	return convertToCelestialCoordinates(theta, phi, output_units=units)	
+    if convention == 'celestial':
+        return convertToCelestialCoordinates(theta, phi, output_unit=units)
     # else return in spherical coordinates, but convert to degrees if requested
     if units == 'degrees':
-	lon = np.degrees(phi)
-	lat = np.degrees(theta)
-    else :
-	lon = phi
-	lat = theta
+        lon = np.degrees(phi)
+        lat = np.degrees(theta)
+    else:
+        lon = phi
+        lat = theta
     return lon, lat
+
+
 class HealpixTree(object):
     """
     Class describing the hierarchy of Healpix tesselations

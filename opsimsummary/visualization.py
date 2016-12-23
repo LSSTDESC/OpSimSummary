@@ -54,6 +54,8 @@ class HPTileVis(object):
     @staticmethod
     def tileIDfromCelestialCoordinates(ra, dec, nside, units='degrees'):
         """
+        Obtain the tile id for a Healpix tile in the nested convention from
+        the ra and dec in degrees
         Parameters
         -----------
         ra : float, mandatory
@@ -64,8 +66,17 @@ class HPTileVis(object):
         """
         return pixelsForAng(lon=ra,lat=dec, nside=nside, unit=units)
 
-    def tileCenter(self, tileID):
-        theta, phi = hp.pix2ang(self.nside, tileID, nest=True)
+    def tileCenter(self, ipix):
+        """
+        return a tuple of arrays returning the ra, dec in degrees of center of
+        the healpix tile with id tileID in the nest convention for NSIDE given
+        by `self.nside`
+
+        Parameters
+        ----------
+        ipix : 
+        """
+        theta, phi = hp.pix2ang(self.nside, ipix, nest=True)
         ra, dec = convertToCelestialCoordinates(theta, phi, input_unit='radians',
                                                 output_unit='degrees')
         return ra, dec
@@ -77,6 +88,8 @@ class HPTileVis(object):
                         angularUnits='degrees',
                         allPointings=None):
         """
+        returns the OpSim Summary table corresponding to the maximal set of
+        pointings intersecting with the Healpix tile with tileID.
         Parameters
         -----------
         ra : float, mandatory
@@ -106,6 +119,8 @@ class HPTileVis(object):
                 decCol='ditheredDec',
                 query=None,
                 groupby=None):
+        """
+        """
         summary = self.pointingSummary(tileID)#, columns=[raCol, decCol])
         
         if query is not None:
@@ -126,6 +141,8 @@ class HPTileVis(object):
                           corners=None,
                           **kwargs):
         """
+        Plot the Healpix Tile and the maximal set of pointings overlapping with
+        it.
         Parameters
         ----------
         tileID : int, mandatory

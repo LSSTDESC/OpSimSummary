@@ -102,9 +102,9 @@ class HealPixelizedOpSim(object):
         self.source = source
 
     @classmethod
-    def fromOpSimDB(cls, opSimDBpath, subset='combined', propIDs=None,
+    def fromOpSimDB(cls, opSimDBpath, subset='unique_all', propIDs=None,
                     NSIDE=256, raCol='ditheredRA', decCol='ditheredDec',
-                    inclusive=True, fact=4, nest=True,
+                    inclusive=True, fact=4, nest=True, zeroDDFDithers=True,
                     fieldRadius=1.75,  vecColName='vec'):
         """
         Parameters
@@ -129,8 +129,9 @@ class HealPixelizedOpSim(object):
         propIDs = propIDs
         dbName = opSimDBpath
 
-        opsimout = OpSimOutput.fromOpSimDB(opSimDBpath, subset=subset,
+        opsimout = OpSimOutput.fromOpSimDB(opSimDBpath,subset=subset,
                                            tableNames=tableNames,
+                                           zeroDDFDithers=zeroDDFDithers,
                                            propIDs=propIDs)
         summary = opsimout.summary 
         return cls(opsimDF=summary, raCol=raCol, decCol=decCol,

@@ -38,21 +38,29 @@ class OpSimOutput(object):
         subset of proposals included in this class
     propIDs : list of integers
         integers corresponding to the subset selected through proposals
+    zeroDDFDithers : bool, defaults to True
+        if True, set dithers in DDF to 0, by setting ditheredRA,
+        ditheredDec to fieldRA, fieldDec
     """
     def __init__(self, summary=None, propIDDict=None, proposalTable=None,
-                 subset=None, propIDs=None):
-	self.summary = summary
-	self.propIDDict = propIDDict
+                 subset=None, propIDs=None, zeroDDFDithers=True):
+        self.propIDDict = propIDDict
         self.proposalTable = proposalTable
-	self.allowed_subsets = self.get_allowed_subsets()
+        if zeroDDFDithers:
+            ddfPropID = self.propIDDict['ddf']
+            ddfidx = summary.query('propID == @ddfPropID').index
+            summary.loc[ddfidx, 'ditheredRA'] = summary.loc[ddfidx, 'fieldRA']
+            summary.loc[ddfidx, 'ditheredDec'] = summary.loc[ddfidx, 'fieldDec']
+        self.summary = summary
+        self.allowed_subsets = self.get_allowed_subsets()
         self.subset = subset
         self._propID = propIDs
 
     @classmethod
     def fromOpSimDB(cls, dbname, subset='combined',
                      tableNames=('Summary', 'Proposal'),
-                     propIDs=None):
-	"""
+                     propIDs=None, zeroDDFDithers=True):
+        """
 	Class Method to instantiate this from an OpSim sqlite
 	database output
 
@@ -68,6 +76,9 @@ class OpSimOutput(object):
             proposal ID values. If present, overrides the use of subset
         tableNames : tuple of strings, defaults to ('Summary', 'Proposal')
             names of tables read from the OpSim database
+        zeroDDFDithers : bool, defaults to True
+            if True, set dithers in DDF to 0, by setting ditheredRA,
+            ditheredDec to fieldRA, fieldDec
 	"""
         # Check that subset parameter is legal
 	allowed_subsets = cls.get_allowed_subsets()
@@ -101,7 +112,7 @@ class OpSimOutput(object):
             # In this case use sql queries rather than reading thw whole table
             # obtain propIDs in strings for sql queries
             pidString = ', '.join(list(str(pid) for pid in propIDs))
-	    sql_query = 'SELECT * FROM Summary WHERE PROPID'
+            sql_query = 'SELECT * FROM Summary WHERE PROPID'
 	    sql_query += ' in ({})'.format(pidString)
             # If propIDs were passed to the method, this would be used
             print(sql_query)
@@ -109,13 +120,49 @@ class OpSimOutput(object):
         else:
             raise NotImplementedError()
 
-	if subset != '_all':
+        if subset != '_all':
             # Drop duplicates unless this is to write out the entire OpSim
-            summary.drop_duplicates(subset='obsHistID', inplace=True)	
+            summary = cls.dropDuplicates(summary, propDict)
 
         summary.set_index('obsHistID', inplace=True)
-	return cls(propIDDict=propDict, summary=summary,
+        return cls(propIDDict=propDict, summary=summary, zeroDDFDithers=zeroDDFDithers,
                    proposalTable=proposals, subset=subset)
+    
+    @staticmethod
+    def dropDuplicates(df, propIDDict):
+        """
+        drop duplicates ensuring keeping identity of ddf visits
+
+        Parameters
+        ----------
+        df : `pd.DataFrame`
+        propIDDict :dict
+
+        Returns
+        -------
+        `pd.DataFrame` with the correct propID and duplicates dropped
+        """
+        # As duplicates are dropped in order, reorder IDs so that
+        # DDF is lowest, WFD next lowest, everything else as is
+        minPropID = df.propID.min()
+        ddfID = propIDDict['ddf']
+        wfdID = propIDDict['wfd']
+        ddfPropID = minPropID - 2
+        wfdPropID = minPropID - 1
+        df.loc[df.query('propID == @ddfID').index, 'propID'] = ddfPropID
+        df.loc[df.query('propID == @wfdID').index, 'propID'] = wfdPropID
+        df.sort_values(by='propID', inplace=True)
+
+        # drop duplicates keeping the lowest transformed propIDs so that all
+        # DDF visits remain, WFD visits which were duplicates of DDF visits are
+        # dropped, etc.
+ 
+        df = df.drop_duplicates(subset='obsHistID', keep='first', inplace=False)
+
+        # reset the propIDs to values in the OpSim output
+        df.loc[df.query('propID == @ddfPropID').index, 'propID'] = ddfID
+        df.loc[df.query('propID == @wfdPropID').index, 'propID'] = wfdID
+        return df 
 
     @classmethod
     def fromOpSimHDF(cls, hdfName, subset='combined',
@@ -132,9 +179,9 @@ class OpSimOutput(object):
         tableNames :
         propIDs :
         """
-	allowed_subsets = cls.get_allowed_subsets()
-	subset = subset.lower()
-	if subset not in allowed_subsets:
+        allowed_subsets = cls.get_allowed_subsets()
+        subset = subset.lower()
+        if subset not in allowed_subsets:
 	    raise NotImplementedError('subset {} not implemented'.\
 				      format(subset))
         # The hdf representation is assumed to be a faithful representation of

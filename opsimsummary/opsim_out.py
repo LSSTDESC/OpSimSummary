@@ -111,19 +111,21 @@ class OpSimOutput(object):
 
 	if subset != '_all':
             # Drop duplicates unless this is to write out the entire OpSim
-            summary = self.dropDuplicates(summary)
+                summary = cls.dropDuplicates(summary, propDict)
 
-        summary.set_index('obsHistID', inplace=True)
-	return cls(propIDDict=propDict, summary=summary,
+                summary.set_index('obsHistID', inplace=True)
+                return cls(propIDDict=propDict, summary=summary,
                    proposalTable=proposals, subset=subset)
     
-    def dropDuplicates(self, df):
+    @staticmethod
+    def dropDuplicates(df, propIDDict):
         """
         drop duplicates ensuring keeping identity of ddf visits
 
         Parameters
         ----------
-        df : `pda.DataFrame`
+        df : `pd.DataFrame`
+        propIDDict :dict
 
         Returns
         -------
@@ -132,8 +134,8 @@ class OpSimOutput(object):
         # As duplicates are dropped in order, reorder IDs so that
         # DDF is lowest, WFD next lowest, everything else as is
         minPropID = df.propID.min()
-        ddfID = self.propIDDict['ddf']
-        wfdID = sel.propIDDict['wfd']
+        ddfID = propIDDict['ddf']
+        wfdID = propIDDict['wfd']
         ddfPropID = minPropID - 2
         wfdPropID = minPropID - 1
         df.loc[df.query('propID == @ddfID').index, 'propID'] = ddfPropID

@@ -37,8 +37,8 @@ class HPTileVis(object):
 
     Parameters
     ----------
-    hpTile :
-    opsout :
+    hpTile : instance of `HealpixTiles`
+    opsout : instance of `OpSimOutput`
 
     Methods
     -------
@@ -62,6 +62,8 @@ class HPTileVis(object):
             ra for the point
         dec : float, mandatory
             dec for the point
+        nside : int, mandatory
+            NSIDE for `self.hpTile`
         units: {'degrees', 'radians'}
         """
         return pixelsForAng(lon=ra,lat=dec, nside=nside, unit=units)
@@ -74,7 +76,8 @@ class HPTileVis(object):
 
         Parameters
         ----------
-        ipix : 
+        ipix : int
+            integer for healpix Tile whose center is requested
         """
         theta, phi = hp.pix2ang(self.nside, ipix, nest=True)
         ra, dec = convertToCelestialCoordinates(theta, phi, input_unit='radians',
@@ -92,11 +95,15 @@ class HPTileVis(object):
         pointings intersecting with the Healpix tile with tileID.
         Parameters
         -----------
+        tileID : int
+            index for healpix tile
         ra : float, mandatory
             ra for the point
         dec : float, mandatory
             dec for the point
-        units: {'degrees', 'radians'}
+        angularUnits: {'degrees', 'radians'}
+        allPointings : sequence of int
+            obsHistIDs to consider 
         """
         if tileID is None:
             if ra is None or dec is None:
@@ -118,15 +125,35 @@ class HPTileVis(object):
                 raCol='ditheredRA',
                 decCol='ditheredDec',
                 query=None,
+                opsimAngularUnits='radians',
+                outputAngularUnits='degrees',
                 groupby=None):
         """
+        tileID : int
+            index for healpix tile
+        raCol : string, defaults to `ditheredRA`
+            column in an OpSim output to be used for center
+            of pointing in terms of ra
+        decCol : string, defaults to `ditheredRA`
+            column in an OpSim output to be used for center
+            of pointing in terms of dec
+        query : string, defaults to None
+            if not None, passed as a pandas query to restrict the search size
+            in plotting.
+        groupby : Not implemented
         """
         summary = self.pointingSummary(tileID)#, columns=[raCol, decCol])
         
         if query is not None:
             summary = summary.query(query)
-        ra = summary[raCol].apply(np.degrees).values
-        dec = summary[decCol].apply(np.degrees).values
+        if opsimAngularUnits !='radians':
+            raise ValueError('not implemented')
+
+        if outputAngularUnits == 'degrees':
+            ra = summary[raCol].apply(np.degrees).values
+            dec = summary[decCol].apply(np.degrees).values
+        else:
+            raise ValueError('Notimplemented')
         return ra, dec
 
     def plotTilePointings(self,
@@ -139,6 +166,7 @@ class HPTileVis(object):
                           projection='cyl',
                           tile_centers=None,
                           corners=None,
+                          drawPointings=True,
                           **kwargs):
         """
         Plot the Healpix Tile and the maximal set of pointings overlapping with
@@ -168,8 +196,10 @@ class HPTileVis(object):
             in degrees
             if None, the center is set by using the center of the Healpixel of
             tileID and `self.nside`
-        corners: tuple of floats, defaults to None 
+        corners: tuple of floats, defaults to None
         kwargs: passed to the plotting of the the field of veiw
+        drawPointings : Bool, defaults to True
+            if False, draws only Tiles
 
         Returns
         -------
@@ -209,8 +239,8 @@ class HPTileVis(object):
         # Draw some parallels and meridians to get a spatial sense        
         parallels = np.linspace(llcrnrlat, urcrnrlat, 3)
         meridians = np.linspace(llcrnrlon, urcrnrlon, 3)
-        m.drawparallels(parallels, labels=(1, 0, 0, 0)) #np.ones(len(parallels), dtype=bool))
-        m.drawmeridians(meridians, labels=(0, 1, 1, 1)) #np.ones(len(meridians), dtype=bool))
+        m.drawparallels(parallels, labels=(1, 0, 0, 0))
+        m.drawmeridians(meridians, labels=(0, 1, 1, 1))
 
         # obtain the boundaries of the Healpixels and create the polygon patch
         lon, lat = healpix_boundaries(tileID, nside=self.nside, units='degrees',
@@ -221,16 +251,17 @@ class HPTileVis(object):
         healpixels = Polygon(xy, facecolor='w', fill=False, alpha=1.,
                              edgecolor='k', lw=2)
 
-        # Obtain the centers of pointings
-        ra, dec = self.pointingCenters(tileID, raCol=raCol, decCol=decCol, query=query)
-        for ra, dec in zip(ra, dec):
-            m.tissot(ra, dec, radius, 100, **kwargs)
+        if drawPointings:
+            # Obtain the centers of pointings
+            ra, dec = self.pointingCenters(tileID, raCol=raCol, decCol=decCol, query=query)
+            for ra, dec in zip(ra, dec):
+                m.tissot(ra, dec, radius, 100, **kwargs)
 
         # Draw patch
         ax.add_patch(healpixels)
 
         # really important for the case where ax is None
-        if ax is None:
+        if ax is not None:
             fig = ax.figure
 
         return fig, (ra_tile, dec_tile), (llcrnrlat, llcrnrlon, urcrnrlat, urcrnrlon)

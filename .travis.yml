@@ -2,7 +2,7 @@ language: python
 python:
     - "2.7"
 install:
-    - travis_wait 25 ./setup/install.sh lsst-sims-maf scipy pandas nose numpy
+    - travis_wait 25 ./setup/install.sh lsst-sims-maf scipy pandas nose numpy basemap
     - export PATH="$HOME/miniconda/bin:$PATH"
     - source eups-setups.sh
     - setup sims_maf

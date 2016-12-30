@@ -1,7 +1,90 @@
+"""
+Module for trigonometric utilities such as conversion between different
+conventions and units, as well as calculating angular separations between
+points on a sphere.
+"""
 import numpy as np
+import healpy as hp
 
 __all__ = ['fieldID', 'angSep', 'overlapSummary',
-           'convertToSphericalCoordinates']
+           'convertToSphericalCoordinates',
+           'convertToCelestialCoordinates',
+           'angToVec', 'pixelsForAng']
+
+
+def pixelsForAng(lon, lat, nside, nest=True, convention='celestial', unit='degrees'):
+    """
+    Return the array of healpixels in which the set of points represented by
+    the arrays lon, and lat fall
+    """
+    vecs = angToVec(lon, lat, convention, unit)
+    return hp.vec2pix(nside, vecs[:, 0], vecs[:, 1], vecs[:, 2], nest=nest)
+
+
+def angToVec(lon, lat, convention, unit):
+    """
+    Compute an array of unit vectors corresponding to the array of longitude
+    and latitude in either celestial conventions (ra, dec) or usual spherical
+    coordinate system conventions.
+
+    Parameters
+    ----------
+    lon : scalar or `numpy.ndarray` of floats
+        co-longitude which may be ra, or phi depending on the convention
+    lat : scalar or `numpy.ndarray` of floats
+        co-latitude which may be dec, or theta depending on the convention
+    convention : {'celestial'|'spherical'}
+        whether the input angular positions are in spherical or celestial
+        coordinates.
+    unit : string
+        {'degrees'| 'radians'}
+    """
+    if unit.lower() not in ('degrees', 'radians'):
+        raise ValueError('illegal value for units, '
+                         'must be either degrees or radians')
+    if convention.lower() not in ('celestial', 'spherical'):
+        raise ValueError('illegal value for convention, '
+                         'must be either spherical or celestial')
+    lon = np.ravel(lon)
+    lat = np.ravel(lat)
+
+    if convention.lower() == 'celestial':
+        theta, phi = convertToSphericalCoordinates(lon, lat, unit=unit.lower())
+    if convention.lower() == 'spherical' and unit.lower() == 'degrees':
+        theta = np.radians(lat)
+        phi = np.radians(lon)
+
+    return hp.ang2vec(theta, phi)
+
+def convertToCelestialCoordinates(theta, phi, input_unit='radians',
+                                  output_unit='degrees'):
+    """
+    Convert theta, phi in usual spherical coordinates to ra, dec
+    values. 
+
+    Parameters
+    ----------
+    theta : `np.ndarray` or float
+        co-latitude
+    phi :`np.ndarray` or float
+        co longitude 
+    input_unit : {'degrees', 'radians'}, defautls to radians
+    output_unit : {'degrees', 'radians'}, defaults to degrees
+
+    Return
+    ------
+    tuple of (ra, dec) where ra, dec are `numpy.ndarray` of type float
+    of length equal to theta or phi
+    """
+    if input_unit != 'degrees':
+        theta = np.degrees(np.ravel(theta))
+        phi = np.degrees(np.ravel(phi))
+    dec = - theta + 90.0
+    ra = phi
+    if output_unit != 'degrees':
+        ra = np.radians(phi)
+        dec = np.radians(dec)
+    return ra, dec
 
 def convertToSphericalCoordinates(ra, dec, unit='degrees'):
     """
@@ -19,7 +102,7 @@ def convertToSphericalCoordinates(ra, dec, unit='degrees'):
 
     Returns
     -------
-    tuple of `numpy.ndarray` of theta and phi of spherical coordinates in
+    tuple of `numpy.ndarray` (theta, phi) of spherical coordinates in
     radians. If scalars were supplied the return is a tuple of two scalars.
 
     .. note:: The units of ra, dec must be the same. They should have

@@ -1,6 +1,27 @@
 from __future__ import print_function, absolute_import, division
-from opsimsummary import convertToSphericalCoordinates
+from opsimsummary import convertToSphericalCoordinates, convertToCelestialCoordinates
 import numpy as np
+from numpy.testing import assert_allclose
+
+def test_convertToCelestialCoordinates():
+    """
+    Test that some limiting conditions work 
+    - Check that this works correctly for float inputs in default units
+    - Check that this works correctly for numpy inputs in default units
+
+    """
+    phi = np.radians(30.)
+    theta = np.pi/2.0 
+    theta_arr = np.repeat(np.pi/2., 5)
+    phi_arr = np.repeat(np.radians(30.), 5)
+
+    ra, dec = convertToCelestialCoordinates(theta, phi) 
+    ra_arr, dec_arr = convertToCelestialCoordinates(theta_arr, phi_arr) 
+    assert_allclose(dec_arr, np.array([0.0, 0.0, 0.0, 0.0, 0.0]),
+                       13)
+    assert_allclose(ra_arr, np.array([30.0, 30.0, 30.0, 30.0, 30.0]),
+                        13)
+
 
 
 def test_convertToSphericalCoordinates():

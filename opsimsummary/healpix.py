@@ -3,18 +3,168 @@ Class for associating Healpixels with OpSim Pointings. An example of usage can
 be found in `examples/ObsHistIDsForTile`
 """
 from __future__ import print_function, absolute_import, division
-import numpy as np
-import healpy as hp
-import pandas as pd
-from scipy.sparse import csr_matrix
-from itertools import repeat 
-import sqlite3
-from .opsim_out import OpSimOutput
 import subprocess
+import sqlite3
+from itertools import repeat
 from datetime import datetime
 import sys
+import numpy as np
+import healpy as hp
+from scipy.sparse import csr_matrix
+from .opsim_out import OpSimOutput
+from .trig import convertToCelestialCoordinates
 
-__all__  = ['addVec', 'HealPixelizedOpSim']
+__all__ = ['addVec', 'HealPixelizedOpSim', 'HealpixTree', 'healpix_boundaries']
+
+def healpix_boundaries(ipix, nside=256, step=2, nest=True,
+		       convention='spherical',
+		       units='degrees'):
+    """
+    return an array of points on the boundaries of the healpixels with ids
+    given by ipix in the form of (colongitudes, colatitudes)
+
+    Parameters
+    ----------
+    ipix : `np.ndarray`, dtype int
+        healpixel ids of pixels whose boundaries are required
+    nside : int, defaults to 256
+        Healpix NSIDE
+    step : int
+        factor by which the number of points in the corners (4) are stepped up.
+        ie. a step of 2 returns 8 points along the boundaries of the Healpixel
+        inlcuding the corners
+    nest : Bool, defaults to True
+        using the `nested` rather than `ring` scheme.
+    convention : {'spherical', 'celestial'}, defaults to 'spherical'
+        (theta, phi) of the usual spherical coordinate system or (ra, dec)
+    units : {'degrees', 'radians'} , defaults to 'degrees'
+        units in which the points are returned
+
+
+    Returns
+    --------
+    tuple (colongitude, colatitude)
+
+    .. note: This also produces the 'inner' boundaries for connected pixels.
+    """
+    corner_vecs = hp.boundaries(nside, ipix, step=step, nest=nest)
+    if len(np.shape(corner_vecs)) > 2:
+        corner_vecs = np.concatenate(corner_vecs, axis=1)
+
+    phi_theta = hp.vec2ang(np.transpose(corner_vecs))
+    # These are in radians and spherical coordinates by construction
+    theta, phi = phi_theta
+    if convention == 'celestial':
+        return convertToCelestialCoordinates(theta, phi, output_unit=units)
+    # else return in spherical coordinates, but convert to degrees if requested
+    if units == 'degrees':
+        lon = np.degrees(phi)
+        lat = np.degrees(theta)
+    else:
+        lon = phi
+        lat = theta
+    return lon, lat
+
+
+class HealpixTree(object):
+    """
+    Class describing the hierarchy of Healpix tesselations
+    """
+    def __init__(self, nside, nest=True):
+        """
+	Instantiation of the class
+
+	Parameters
+	----------
+	nside : int, mandatory
+	    nside at which the Tree is initialized
+	nest : Bool, defaults to True
+	   False not checked
+	"""
+        self.nside = nside
+        self.nest = nest
+
+    def _pixelsAtNextLevel(self, i, nside=None):
+        """
+	The array of 4 pixels at NSIDE = nside*2 making up pixel with id
+	i at NSIDE = nside.
+
+	Parameters
+	----------
+	i : int, scalar, mandatory
+	    pixel id of pixel at NSIDE=nside
+	nside : int, defaults to None
+	    NSIDE at which i  is the id of the pixel. If None, this defaults to
+	    `self.nside`
+	Returns
+	-------
+	`np.ndarray` of 4 pixel IDs
+        """
+        if nside is None:
+            nside = self.nside
+
+        i = np.ravel(i)
+        if any(i > hp.nside2npix(nside) -1):
+            raise ValueError('ipix too large for nside')
+
+        binval = np.repeat(np.binary_repr(i, width=2), 4)
+        num = np.array(list(np.binary_repr(x, width=2) for x in np.arange(4)))
+        binPix = np.array(list(x + y for (x, y)  in zip(binval, num)))
+        intPix = list(np.int(i, base=2) for i in binPix)
+        return nside*2, np.array(intPix)
+
+    def pixelsAtNextLevel(self, ipix, nside=None):
+        """
+        given an array of pixels ipix at NSIDE=nside, return array of pixels at
+        NSIDE=nside*2 which make up the ipix pixels.
+
+	Parameters
+	----------
+	ipix : `numpy.ndarray` of type int, mandatory
+            pixel ids of pixels at NSIDE=nside
+	nside : int, defaults to None
+            NSIDE at which i  is the id of the pixel. If None, this defaults to
+	    `self.nside`
+        Return
+        ------
+        `numpy.ndarray` of size 4 * len(ipix) with pixel ids of children of the
+        ipix pixels at NSIDE=nside
+        """
+        if nside is None:
+            nside = self.nside
+        ipix = np.ravel(ipix)
+        xx = list(hpt._pixelsAtNextLevel(pix, nside) for pix in ipix)
+        nsides, pix = zip(*xx)
+        return nsides[0], np.concatenate(pix)
+
+    def pixelsAtResolutionLevel(self, ipix, subdivisions, nside=None):
+        """
+        Given a `numpy.ndarray` of pixels at NSIDE=nside, return a
+        `numpy.ndarray` of descendent pixels at
+        NSIDE = nside * (2**subdivisions)
+
+        Parameters
+        ----------
+        ipix : `numpy.ndarray` of integers
+            pixel ids at NSIDE = nside
+        subdivisions : int, mandatory
+            Number of times the pixels must be subdivided into 4 pixels
+        nside : int, optional, defaults to None
+            if not None, the NSIDE value at which the pixels are specified
+            through the ids `ipix`
+        Return
+        ------
+        `numpy.ndarray` of size (4**subdivisions) * len(ipix) with pixel ids of
+        children of the ipix pixels at NSIDE=nside
+        """
+        if nside is None:
+            nside = self.nside
+        levels = subdivisions
+        while levels >= 1:
+            nside, ivals = self.pixelsAtNextLevel(ipix, nside=nside)
+            ipix = ivals
+            levels += -1
+        return nside, ipix
 
 def addVec(df, raCol='ditheredRA', decCol='ditheredDec'):
     """

@@ -8,3 +8,4 @@ from .healpix import *
 from .tessellations import *
 from .opsim_out import *
 from .healpixTiles import *
+from .visualization import *

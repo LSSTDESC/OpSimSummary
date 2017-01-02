@@ -133,7 +133,7 @@ class HealpixTree(object):
         if nside is None:
             nside = self.nside
         ipix = np.ravel(ipix)
-        xx = list(hpt._pixelsAtNextLevel(pix, nside) for pix in ipix)
+        xx = list(self._pixelsAtNextLevel(pix, nside) for pix in ipix)
         nsides, pix = zip(*xx)
         return nsides[0], np.concatenate(pix)
 

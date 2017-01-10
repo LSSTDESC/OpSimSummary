@@ -12,6 +12,7 @@ Tools for studying the LSST OpSim outputs largely based on `pandas`. This can be
 - ipython notebook (only to run example files)
 - healpy (also installed by lsst.sims.maf)
 - lsst.sims.maf (The example can be run, if you already know the propID corresponding to the proposal you want) 
+- basemap: can be installed from conda https://anaconda.org/conda-forge/basemap
 
 Everything other than lsst.sims.maf is part of the anaconda python distribution and available on pip. For lsst.sims.maf installation instructions, see the confluence page. 
 # Running

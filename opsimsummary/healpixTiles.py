@@ -46,8 +46,16 @@ class HealpixTiles(Tiling):
     @property
     def preComputedMap(self):
         if self._preComputedMap is not None:
-            if not self._preComputedMap.startswith('sqlite'):
-                self._preComputedMap = 'sqlite:///' + self._preComputedMap
+            # The precomputed map is a string, assumed to be filename
+            if isinstance(self._preComputedMap, basestring):
+                # This is expected to be a sqlite database
+                if not self._preComputedMap.startswith('sqlite'):
+                    self._preComputedMap = 'sqlite:///' + self._preComputedMap
+            # Or it is a callable function
+            elif callable(self._preComputedMap):
+                pass
+
+
 
         return self._preComputedMap
 
@@ -86,11 +94,15 @@ class HealpixTiles(Tiling):
         return inds
 
     def _pointingFromPrecomputedDB(self, tileID, tableName='simlib'):
-
-        sql = 'SELECT obsHistID FROM {0} WHERE ipix == {1}'\
-            .format(tableName, tileID)
-        return pd.read_sql_query(sql, con=self.preComputedEngine)\
-            .values.flatten()
+        if isinstance(self._preComputedMap, basestring): 
+            sql = 'SELECT obsHistID FROM {0} WHERE ipix == {1}'\
+                .format(tableName, tileID)
+            return pd.read_sql_query(sql, con=self.preComputedEngine)\
+                .values.flatten()
+        elif callable(self._preComputedMap):
+            return self._preComputedMap(tileID)
+        else:
+            raiseValueError('Only options used are sqlite DB and callable')
 
     def _pointingFromHpOpSim(self, tileID):
         return self.hpOpSim.obsHistIdsForTile(tileID)

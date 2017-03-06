@@ -68,7 +68,7 @@ class OpSimOutput(object):
 	----------
 	dbname : string
             absolute path to database file 
-	subset : string, optional, defaults to 'combined' 
+        subset : string, optional, defaults to 'combined' 
             one of {'_all', 'unique_all', 'wfd', 'ddf', 'combined'}
             determines a sequence of propIDs for selecting observations
             appropriate for the OpSim database in use
@@ -81,10 +81,10 @@ class OpSimOutput(object):
             ditheredDec to fieldRA, fieldDec
 	"""
         # Check that subset parameter is legal
-	allowed_subsets = cls.get_allowed_subsets()
-	subset = subset.lower()
-	if subset not in allowed_subsets:
-	    raise NotImplementedError('subset {} not implemented'.\
+        allowed_subsets = cls.get_allowed_subsets()
+        subset = subset.lower()
+        if subset not in allowed_subsets:
+            raise NotImplementedError('subset {} not implemented'.\
 				      format(subset))
 
         # Prepend the abs path with sqlite for use with sqlalchemy
@@ -106,14 +106,14 @@ class OpSimOutput(object):
 
         if subset in ('_all', 'unique_all'):
             # In this case read everything (ie. table read)
-	    summary = pd.read_sql_table('Summary', con=engine)
+            summary = pd.read_sql_table('Summary', con=engine)
 
         elif subset in ('ddf', 'wfd', 'combined'):
             # In this case use sql queries rather than reading thw whole table
             # obtain propIDs in strings for sql queries
             pidString = ', '.join(list(str(pid) for pid in propIDs))
             sql_query = 'SELECT * FROM Summary WHERE PROPID'
-	    sql_query += ' in ({})'.format(pidString)
+            sql_query += ' in ({})'.format(pidString)
             # If propIDs were passed to the method, this would be used
             print(sql_query)
             summary = pd.read_sql_query(sql_query, con=engine)
@@ -182,7 +182,7 @@ class OpSimOutput(object):
         allowed_subsets = cls.get_allowed_subsets()
         subset = subset.lower()
         if subset not in allowed_subsets:
-	    raise NotImplementedError('subset {} not implemented'.\
+            raise NotImplementedError('subset {} not implemented'.\
 				      format(subset))
         # The hdf representation is assumed to be a faithful representation of
         # the OpSim output
@@ -261,11 +261,11 @@ class OpSimOutput(object):
 
     @staticmethod
     def get_allowed_subsets():
-	return ('_all', 'ddf', 'wfd', 'combined', 'unique_all')
+        return ('_all', 'ddf', 'wfd', 'combined', 'unique_all')
 
     @staticmethod
     def get_propIDDict(proposalDF):
-	"""
+        """
         Return a dictionary with keys 'ddf', ad 'wfd' with the proposal IDs
         corresponding to deep drilling fields (ddf) and universal cadence (wfd) 
 
@@ -278,22 +278,22 @@ class OpSimOutput(object):
         dictionary with keys 'wfd' and 'ddf' with values given by integers
             corresponding to propIDs for these proposals
 	"""
-	df = proposalDF
-	mydict = dict()
-	for i, vals in enumerate(df.propConf.values):
-	    if 'universal' in vals.lower():
-		if 'wfd' in mydict:
-		    raise ValueError('Multiple propIDs for WFD found')
-		mydict['wfd']  = df.propID.iloc[i]
-	    elif 'ddcosmology' in vals.lower():
-		if 'ddf' in mydict:
-		    raise ValueError('Multiple propIDs for DDF found')
-		mydict['ddf']  = df.propID.iloc[i] 
+        df = proposalDF
+        mydict = dict()
+        for i, vals in enumerate(df.propConf.values):
+            if 'universal' in vals.lower():
+        	if 'wfd' in mydict:
+        	    raise ValueError('Multiple propIDs for WFD found')
+        	mydict['wfd']  = df.propID.iloc[i]
+            elif 'ddcosmology' in vals.lower():
+        	if 'ddf' in mydict:
+        	    raise ValueError('Multiple propIDs for DDF found')
+        	mydict['ddf']  = df.propID.iloc[i] 
             else:
                 mydict[vals.lower()] = df.propID.iloc[i]
-	if len(mydict.items()) != len(df):
-	    raise ValueError('Unexpected length of dictionary')
-	return mydict
+        if len(mydict.items()) != len(df):
+            raise ValueError('Unexpected length of dictionary')
+        return mydict
 
     @staticmethod
     def propIDVals(subset, propIDDict, proposalTable):

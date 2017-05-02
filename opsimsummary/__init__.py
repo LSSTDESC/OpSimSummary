@@ -8,4 +8,8 @@ from .healpix import *
 from .tessellations import *
 from .opsim_out import *
 from .healpixTiles import *
-from .visualization import *
+try:
+    from .visualization import *
+except:
+    print('Visulization functions based on maps will not work')
+    pass

@@ -1,9 +1,0 @@
-- pytest
-- future
-- pytest-cov
-- pytest-coveralls
-- python-coveralls
-- coverage
-- matplotlib
-- sqlalchemy
-

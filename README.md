@@ -4,6 +4,8 @@ Tools for studying the LSST OpSim outputs largely based on `pandas`. This can be
  simlib files for SNANA simulations or similar products that are useful for generating SN simulations.
 
 [![Build Status](https://travis-ci.org/rbiswas4/OpSimSummary.svg?branch=master)](https://travis-ci.org/rbiswas4/OpSimSummary)
+
+- documentation is hosted at [github_pages](https://rbiswas4.github.io/OpSimSummary)
 # Requirements
 
 - pandas 

@@ -556,7 +556,7 @@ class SummaryOpsim(object):
                 decval = self.dec(fieldID)
 
             # Format field Info from attributes
-            t_txt = 'fieldID: {:0>2d} (ra: {:+3f} dec: {:+3f}), visits: {:4d}, nights: {:3d}, nights in bands: {:3d}'
+            t_txt = 'fieldID: {:0>2d} (ra: {:+3.2f} dec: {:+3.2f}), visits: {:4d}, nights: {:3d}, nights in bands: {:3d}'
             t_txt = t_txt.format(fieldIDval, np.degrees(raval),
                                  np.degrees(decval), numVisits, numNights,
                                  numFiltNights)

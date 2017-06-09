@@ -1,6 +1,8 @@
 language: python
 python:
     - "2.7"
+before_install:
+    - chmod +x ./install/*.sh
 install:
     - travis_wait 25 ./setup/install.sh lsst-sims-maf scipy pandas nose numpy basemap
     - export PATH="$HOME/miniconda/bin:$PATH"
@@ -15,6 +17,7 @@ install:
     - pip install coverage
     - pip install matplotlib
     - pip install sqlalchemy
+    - travis_wait 2 ./install/install_conda_requirements.sh
     - travis_wait 2 ./setup/install_opsimsummary.sh
 cache:
   directories:

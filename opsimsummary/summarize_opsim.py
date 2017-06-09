@@ -1,13 +1,93 @@
-#!/usr/bin/env python 
+"""
+Class to summarize the OpSim output
+"""
+__all__ = ['PointingTree', 'SummaryOpsim', 'add_simlibCols']
 import os
 import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
 import matplotlib.pyplot as plt
+from sklearn.neighbors import BallTree
 
-__all__ = ['SummaryOpsim', 'add_simlibCols']
+
+class PointingTree(object):
+    def __init__(self,
+                 pointings,
+                 raCol='ditheredRA',
+                 decCol='ditheredDec',
+                 indexCol='obsHistID',
+                 leafSize=50):
+        """
+        pointings : `pd.dataFrame` 
+            of pointings with unique index values as the index column
+        raCol :
+        defCol :
+
+        .. note : raCol and decCol are assumed to hold ra and dec in units of
+        radians
+        """
+        self.pointings = pointings
+
+        if self.validatePointings(pointings, raCol, decCol):
+            self.raCol = raCol
+            self.decCol = decCol
+        else:
+            raise ValueError('pointings, and the provided values of raCol, decCol {0}, {1} are incompatible'.format(raCol, decCol))
+
+        # Keep mapping from integer indices to obsHistID
+        pointings['intindex'] = np.arange(len(pointings)).astype(np.int)
+        self.indMapping = pointings['intindex'].reset_index().set_index('intindex')
+
+        # Build Tree
+        self.tree = BallTree(pointings[[decCol, raCol]].values,
+                             leaf_size=leafSize,
+                             metric='haversine')
+
+    @staticmethod
+    def validatePointings(pointings, raCol, decCol):
+        cols = pointings.columns
+        if raCol in cols and decCol in cols:
+            return True
+        else:
+            return False
+
+    def pointingsEnclosing(self, ra, dec, circRadius, pointingRadius=1.75):
+        """
+        Parameters
+        ----------
+        ra : float or sequence, degrees
+            ra of the coordinates
+        dec : float or sequence, degrees
+            dec of the coordinates
+        circRadius : degrees, mandatory
+            radius of circle around point
+        pointingRadius : degrees, defaults to 1.75
+            radius of the field of view
+        """
+        # Treat only arrays
+        ra = np.ravel(ra)
+        dec = np.ravel(dec)
+
+        assert len(ra) == len(dec)
+
+        # flip conventions to dec, ra
+        obj_posns = np.zeros(shape=(len(ra), 2))
+        obj_posns[:, 0] = np.radians(dec)
+        obj_posns[:, 1] = np.radians(ra)
+
+        total_radius = np.radians(circRadius + pointingRadius)
+        inds, dist = self.tree.query_radius(obj_posns, r=total_radius,
+                                            count_only=False,
+                                            return_distance=True)
+
+        xx = self.indMapping
+        return list(self.indMapping.obsHistID.loc[ptval].values for ptval in inds)
+
+
+
+
 def add_simlibCols(opsimtable, pixSize=0.2):
-    '''
+    """
     Parameters
     ----------
     opsimtable: `~pandas.DataFrame` object, mandatory
@@ -27,7 +107,7 @@ def add_simlibCols(opsimtable, pixSize=0.2):
 
     .. note :: This was written from a piece of f77 code by David
         Cinabro sent by email on May 26, 2015. 
-    '''
+    """
     if 'finSeeing' in opsimtable.columns:
         psfwidth = 'finSeeing'
     else:

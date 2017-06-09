@@ -3,13 +3,13 @@ Module for trigonometric utilities such as conversion between different
 conventions and units, as well as calculating angular separations between
 points on a sphere.
 """
-import numpy as np
-import healpy as hp
-
 __all__ = ['fieldID', 'angSep', 'overlapSummary',
            'convertToSphericalCoordinates',
            'convertToCelestialCoordinates',
-           'angToVec', 'pixelsForAng']
+           'angToVec', 'pixelsForAng', 'pixelsToAng']
+
+import numpy as np
+import healpy as hp
 
 
 def pixelsForAng(lon, lat, nside, nest=True, convention='celestial', unit='degrees'):
@@ -19,6 +19,22 @@ def pixelsForAng(lon, lat, nside, nest=True, convention='celestial', unit='degre
     """
     vecs = angToVec(lon, lat, convention, unit)
     return hp.vec2pix(nside, vecs[:, 0], vecs[:, 1], vecs[:, 2], nest=nest)
+
+
+def pixelsToAng(tileID, nside, nest=True, convention='celestial', unit='degrees'):
+    """
+    Return the array of ra, dec for the healpix tile center for the tile with
+    pixel ID tileID, 
+    the arrays lon, and lat fall
+    """
+    theta, phi = hp.pix2ang(nside=nside, ipix=tileID, nest=nest)
+
+    if convention == 'celestial':
+        ra, dec = convertToCelestialCoordinates(theta, phi, input_unit='radians',
+                                                output_unit=unit)
+    else:
+        raise NotImplementedError('convention other than celestial not implemented')
+    return ra, dec
 
 
 def angToVec(lon, lat, convention, unit):

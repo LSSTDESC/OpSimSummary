@@ -246,8 +246,8 @@ class HealPixelizedOpSim(object):
         self._rowdata = None
         self._coldata = None
         self._spmat = None
-        self.inclusive  = inclusive
-        self.fact  = fact
+        self.inclusive = inclusive
+        self.fact = fact
         self.nest = nest
         self.source = source
 

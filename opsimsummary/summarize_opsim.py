@@ -732,7 +732,7 @@ class SummaryOpsim(object):
             data = row[1] # skip the index
             #       MJD EXPID FILTER 
             lst = ['S:',
-                   "{0:5.3f}".format(data.expMJD),
+                   "{0:5.4f}".format(data.expMJD),
                    "{0:10d}".format(data.obsHistID),
                    data['filter'], 
                    "{0:5.2f}".format(1.),                  # CCD Gain

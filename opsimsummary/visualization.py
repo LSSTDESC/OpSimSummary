@@ -110,28 +110,29 @@ class AllSkySNVisualization(ObsVisualization):
                               **kwargs)
         return fig, ax, m
 
-    def generate_camera(self, lon_0, lat_0, m, ax, band='g', default_color='r'):
+    def generate_camera(self, lon_0, lat_0, m, ax, band='g', default_color='k'):
         """Generate an image of a circular field of view representing the
         camera on the projection with a color representing the bandpass
         filter
         """
         try:
             c = self.band_color_dict[band]
-        except:
-            pass
-        else:
+        except (TypeError, KeyError):
+            print('band_color_dict found and band are \n',
+                  self.band_color_dict, band, len(band))
+            print('setting default color\n')
             c = default_color
-        camera_polygons  = m.tissot(lon_0=lon_0, lat_0=lat_0, radius_deg=4.,
-                                    npts=100, ax=ax, add_patch=True,
-                                    **dict(fill=False, edgecolor=c,
-                                           lw=2))
+        camera_polygons = m.tissot(lon_0=lon_0, lat_0=lat_0, radius_deg=4.,
+                                   npts=100, ax=ax, add_patch=True,
+                                   **dict(fill=False, edgecolor=c,
+                                          lw=2))
         return camera_polygons
 
     def label_time_image(self, mjd):
-        label =  '{:0.5f}'.format(mjd)
+        label = '{:0.5f}'.format(mjd)
         return label
 
-    def get_visible_field_polygons(self):
+    def get_visible_field_polygons(self, mjd, m, facecolor, alpha, **kwargs):
         pass
     
     def generate_var_scatter(self):
@@ -139,15 +140,17 @@ class AllSkySNVisualization(ObsVisualization):
 
     def generate_image(self, ra, dec, radius_deg, mjd=None, npts=100, band='g', 
                        projection='moll', drawmapboundary=True,
-                       bg_color='b', alpha=0.5, **kwargs):
+                       bg_color='b', alpha=0.5, vfcolor='k', **kwargs):
         """Use methods above to create an image of the sky and optionally save
         it. 
         """
         fig, ax, m = self.generate_image_bg(projection=projection,
                                             drawmapboundary=drawmapboundary,
                                             bg_color=bg_color, **kwargs)
-        if self.show_visibleFields:
-            visible_polygons = self.get_visible_field_polygons(mjd, *args,
+        if self.show_visible_fields:
+            visible_polygons = self.get_visible_field_polygons(mjd, m, 
+                                                               facecolor=vfcolor,
+                                                               alpha=alpha, 
                                                                **kwargs)
             for poly in visible_polygons:
                 _ = ax.add_patch(poly)

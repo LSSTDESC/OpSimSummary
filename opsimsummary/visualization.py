@@ -2,7 +2,6 @@
 Module dealing with visualizing OpSim results
 """
 from __future__ import absolute_import, print_function, division
-
 import numpy as np
 from mpl_toolkits.basemap import Basemap
 from matplotlib.patches import Polygon 
@@ -11,140 +10,9 @@ from .trig import (pixelsForAng,
                    convertToCelestialCoordinates)
 from .healpix import healpix_boundaries                   
 from .healpixTiles import HealpixTiles
-from matplotlib.patches import Polygon
-from mpl_toolkits.basemap import Basemap
-import pyproj
 import healpy as hp
 
-__all__ = ['plot_south_steradian_view', 'HPTileVis', 'split_PolygonSegments',
-           'AllSkyMap']
-
-
-def split_PolygonSegments(lon, lat, lon_split=180., epsilon = 0.000001):
-    """split spherical segments of colatitude and colongitude that constitute
-    a polygon edge if they go across the edge of a projection map. 
-    
-    Parameters
-    ----------
-    lon : `np.array` of floats, degrees
-        colongitude of points on the borders of a polygon
-    lat : `np.array` of floats, degrees
-        colatitude of points on the border of a polygon
-    lon_split : float in degrees, defaults to 180
-        line along which the polygons are to be split
-    epsilon : float, defaults to 1.0e-6
-        to control overflows
-    
-    Returns
-    --------
-    list of tuples, with each of the tuples containing the segments for a polygon
-    after splitting. Each such tuple is tuple(lon, lat) for a single polygon
-    
-    Examples
-    --------
-    >>> lon, lat = healpix_boundaries([171], nside=8, step=10, convention='celestial)
-    >>> split_segs(lon, lat)
-    [(array([ 180.,  180.,  180.,  180.,  180.,  180.,  180.,  180.,  180., 
-             180.,  180.]),
-      array([54.3409123 ,  53.72610365,  53.11021259,  52.49321549,
-             51.87508838,  51.25580695,  50.63534652,  50.01368203,
-             49.39078804,  48.76663871,  48.14120779])),
-     (array([ 181.26760563,  182.5       ,  183.69863014,  184.86486486,
-              186.        ,  187.10526316,  188.18181818,  189.23076923,
-              190.25316456,  191.25      ,  191.39240506,  191.53846154,
-              191.68831169,  191.84210526,  192.        ,  192.16216216,
-              192.32876712,  192.5       ,  192.67605634,  192.85714286,
-              191.73913043,  190.58823529,  189.40298507,  188.18181818,
-              186.92307692,  185.625     ,  184.28571429,  182.90322581,
-              181.47540984]),
-       array([ 47.51446861,  46.88639405,  46.25695656,  45.62612809,
-          44.99388015,  44.36018373,  43.72500931,  43.08832685,
-          42.45010577,  41.8103149 ,  42.45010577,  43.08832685,
-          43.72500931,  44.36018373,  44.99388015,  45.62612809,
-          46.25695656,  46.88639405,  47.51446861,  48.14120779,
-          48.76663871,  49.39078804,  50.01368203,  50.63534652,
-          51.25580695,  51.87508838,  52.49321549,  53.11021259,  53.72610365]))
-    ]
-    """
-    lon = np.asarray(lon)
-    lat = np.asarray(lat)
-    mask = lon <= lon_split + epsilon
-    lon0 = lon[mask]
-    lat0 = lat[mask]
-            
-    lon1 = lon[~mask]
-    lat1 = lat[~mask]
-    return list(x for x in ((lon0, lat0), (lon1, lat1)))
-
-
-class AllSkyMap(Basemap):
-    
-    def __init__(self, *args, **kwargs):
-        Basemap.__init__(self, *args, **kwargs)
-        
-    def tissot(self, lon_0, lat_0,radius_deg,npts,ax=None, epsilon=1.0e-6, **kwargs):
-        """
-        Draw a polygon centered at ``lon_0,lat_0``.  The polygon
-        approximates a circle on the surface of the earth with radius
-        ``radius_deg`` degrees latitude along longitude ``lon_0``,
-        made up of ``npts`` vertices.
-        The polygon represents a Tissot's indicatrix
-        (http://en.wikipedia.org/wiki/Tissot's_Indicatrix),
-        which when drawn on a map shows the distortion
-        inherent in the map projection.
-        .. note::
-         Cannot handle situations in which the polygon intersects
-         the edge of the map projection domain, and then re-enters the domain.
-        Extra keyword ``ax`` can be used to override the default axis instance.
-        Other \**kwargs passed on to matplotlib.patches.Polygon.
-        returns a matplotlib.patches.Polygon object."""
-        ax = kwargs.pop('ax', None) or self._check_ax()
-        g = pyproj.Geod(a=self.rmajor,b=self.rminor)
-        az12,az21,dist = g.inv(lon_0,lat_0,lon_0,lat_0+radius_deg)
-        seg = [self(lon_0,lat_0+radius_deg)]
-        delaz = 360./npts
-        az = az12
-        for n in range(npts):
-            az = az+delaz
-            lon, lat, az21 = g.fwd(lon_0, lat_0, az, dist)
-            seg.append((lon, lat))
-        ra, dec = zip(*seg)
-        # go to 0, 360.
-        ra = np.asarray(ra)
-        dec = np.asarray(dec)
-        ra[ra < 0] += 360.
-        #if np.any(np.abs(ra - lon_0) < radius_deg - epsilon):
-        polyseg_list = split_PolygonSegments(ra, dec, lon_split=self.lonmax)
-        #else:
-        #    polyseg_list = list((ra, dec))
-        split_poly_normed = list()
-        for radec in polyseg_list:
-            if len(radec) > 0:
-                ra, dec = radec
-                ra = np.asarray(ra)
-                mask = ra < self.lonmax + 1.0e-6
-                ra[~mask] -= 360.
-                split_poly_normed.append((ra, dec))
-        pts = list()
-        
-        for poly_segs in split_poly_normed:
-            lon, lat = poly_segs
-            if len(lon) > 0:
-                pt = self.polygonize(lon, lat, **kwargs)
-                ax.add_patch(pt)
-                pts.append(pt)
-        return split_poly_normed
-    
-    def polygonize(self, lon, lat, **kwargs):
-        x, y = self(lon, lat)
-        x = np.asarray(x)
-        y = np.asarray(y)
-        mask = np.logical_and(x < 1.0e20,  y < 1.0e20)
-        xy = zip(x[mask], y[mask])
-        pt = Polygon(xy, **kwargs)
-        return pt
-
-
+__all__ = ['plot_south_steradian_view', 'HPTileVis']
 def plot_south_steradian_view(ra, dec, numPoints=100, radius=1.75, boundary=20.,
                               ax=None, show_frame=True):
     """

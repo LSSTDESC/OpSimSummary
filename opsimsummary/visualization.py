@@ -427,7 +427,7 @@ class AllSkyMap(Basemap):
     def __init__(self, *args, **kwargs):
         Basemap.__init__(self, *args, **kwargs)
 
-    def tissot(self, lon_0, lat_0, radius_deg, npts, ax=None, epsilon=1.0e-6,
+    def tissot(self, lon_0, lat_0, radius_deg, npts, ax=None, epsilon=1.0e-10,
                add_patch=True, **kwargs):
         """
         Draw a polygon centered at ``lon_0,lat_0``.  The polygon
@@ -458,7 +458,9 @@ class AllSkyMap(Basemap):
         # go to 0, 360.
         ra = np.asarray(ra)
         dec = np.asarray(dec)
-        ra[ra < 0] += 360.
+        ## ra[ra < 0] += 360.
+        ra = ra % 360.
+        lon_0 = lon_0 % 360.
         if np.any(np.abs(ra - lon_0) < radius_deg - epsilon):
             polyseg_list = split_PolygonSegments(
                 ra, dec, lon_split=self.lonmax)
@@ -469,7 +471,7 @@ class AllSkyMap(Basemap):
             if len(radec) > 0:
                 ra, dec = radec
                 ra = np.asarray(ra)
-                mask = ra < self.lonmax + 1.0e-6
+                mask = ra > self.lonmax + epsilon
                 ra[~mask] -= 360.
                 split_poly_normed.append((ra, dec))
 

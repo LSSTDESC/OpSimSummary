@@ -15,11 +15,329 @@ from matplotlib.patches import Polygon
 from mpl_toolkits.basemap import Basemap
 import pyproj
 import healpy as hp
+from future.utils import with_metaclass
+import abc
+
 
 __all__ = ['plot_south_steradian_view', 'HPTileVis', 'split_PolygonSegments',
-           'AllSkyMap']
+           'AllSkyMap', 'ObsVisualization', 'AllSkySNVisualization']
+
+class ObsVisualization(with_metaclass(abc.ABCMeta, object)):
+    def __init__(self):
+        pass
+
+    @abc.abstractproperty
+    def show_var_scatter(self):
+        pass
+    @abc.abstractproperty
+    def show_visible_fields(self):
+        pass
+    @abc.abstractproperty
+    def radius_deg(self):
+        pass
+
+    @abc.abstractproperty
+    def band_color_dict(self):
+        pass
+    
+    @abc.abstractmethod
+    def generate_image_bg(self):
+        pass
+
+    @abc.abstractmethod
+    def generate_camera(self):
+        pass
+
+    @abc.abstractmethod
+    def get_visible_field_polygons(self):
+        pass
+
+    @abc.abstractmethod
+    def generate_var_scatter(self):
+        pass
+
+    @abc.abstractmethod
+    def generate_image(self):
+        """Use methods above to create an image of the sky and optionally save
+        it 
+        """
+        pass
+
+    @abc.abstractmethod
+    def label_time_image(self, mjd):
+        pass
+
+    @abc.abstractmethod
+    def generate_images_from(self):
+        pass
 
 
+class AllSkySNVisualization(ObsVisualization):
+    """ Class implementing simplest ObsVisualization)"""
+    def __init__(self, bandColorDict,  radius_deg=4.,
+                 showVisibleFields=False,
+                 showVarScatter=False):
+        self._radiusDegree = radius_deg
+        self._bandColorDict = bandColorDict
+        self._show_visible_fields = showVisibleFields
+        self._show_var_scatter = showVarScatter
+
+    @property
+    def show_visible_fields(self):
+        return self._show_visible_fields
+    @property
+    def show_var_scatter(self):
+        return self._show_var_scatter
+    @property
+    def radius_deg(self):
+        return self._radiusDegree
+
+    @property
+    def band_color_dict(self):
+        """dictionary definining bands and color reperesentation for bands
+        in the survey""" 
+        return self._bandColorDict
+
+    def generate_image_bg(self, projection='moll', drawmapboundary=True,
+                          bg_color='b',  **kwargs): 
+        """Generate a figure axis, and a Basemap child instance"""
+        fig, ax = plt.subplots()
+        m = AllSkyMap(projection=projection, lon_0=0., lat_0=0.,
+                      ax=ax, celestial=True)
+        _ = m.drawparallels(np.arange(-91.,91.,20.))
+        _ = m.drawmeridians(np.arange(-180., 181., 30.))
+        _ = m.drawmapboundary(color=bg_color, fill_color=bg_color, 
+                              **kwargs)
+        return fig, ax, m
+
+    def generate_camera(self, lon_0, lat_0, m, ax, band='g', default_color='r'):
+        """Generate an image of a circular field of view representing the
+        camera on the projection with a color representing the bandpass
+        filter
+        """
+        try:
+            c = self.band_color_dict[band]
+        except:
+            pass
+        else:
+            c = default_color
+        camera_polygons  = m.tissot(lon_0=lon_0, lat_0=lat_0, radius_deg=4.,
+                                    npts=100, ax=ax, add_patch=True,
+                                    **dict(fill=False, edgecolor=c,
+                                           lw=2))
+        return camera_polygons
+
+    def label_time_image(self, mjd):
+        label =  '{:0.5f}'.format(mjd)
+        return label
+
+    def get_visible_field_polygons(self):
+        pass
+    
+    def generate_var_scatter(self):
+        pass
+
+    def generate_image(self, ra, dec, radius_deg, mjd=None, npts=100, band='g', 
+                       projection='moll', drawmapboundary=True,
+                       bg_color='b', alpha=0.5, **kwargs):
+        """Use methods above to create an image of the sky and optionally save
+        it. 
+        """
+        fig, ax, m = self.generate_image_bg(projection=projection,
+                                            drawmapboundary=drawmapboundary,
+                                            bg_color=bg_color, **kwargs)
+        if self.show_visibleFields:
+            visible_polygons = self.get_visible_field_polygons(mjd, *args,
+                                                               **kwargs)
+            for poly in visible_polygons:
+                _ = ax.add_patch(poly)
+
+        camera_polygons = self.generate_camera(lon_0=ra, lat_0=dec, m=m, ax=ax,
+                                               band=band)
+        
+        if self.show_var_scatter:
+            x, y = self.generate_var_scatter(mjd)
+            ax.scatter(x, y, s=scatter_vals.rad.values, c='w', edgecolors='w',
+                       zorder=10)
+
+        label = self.label_time_image(mjd)
+        ax.set_title(label)
+        return fig, ax
+
+    def generate_images_from(self):
+        pass
+
+
+class SNVisualization(object):
+    """ Not Used here or imported ever! """
+    def __init__(self, data_dir, offset=0.):
+        self._data_dir = data_dir
+        self.visible_fields = glob.glob(data_dir + '/*.da')
+        self.dates = np.array(list(np.float(x.split('/')[-1].strip('.da')) for x in self.visible_fields))
+        self.dates.sort()
+        self.offset = offset
+        self.colordict=dict(g='g', r='r', i='y')
+    def filenameFromMjd(self, mjd):
+        jd = np.int(mjd + 2400000.5 + self.offset)
+        fname = '{:d}'.format(jd)
+        return os.path.join(self._data_dir, fname + '.da')
+    
+    def _minutes_since_noon2mjd(self, expMJD, minutes=0, utc_offset=-5):
+        # Datetime object corresponding to Noon at UTC
+        dt = Time(np.floor(expMJD), format='mjd')
+        # Use utc_offset to switch to Palomar local time
+        DeltaT = TimeDelta(utc_offset * 3600 + minutes*60, format='sec')
+        xx = dt + DeltaT
+        return xx.mjd
+    
+    def fieldCoords(self, mjd):
+        fname = self.filenameFromMjd(mjd)
+        df = pd.read_csv(fname, delim_whitespace=True, skiprows=1, names=['ind', 'ra', 'dec', 'start', 'end', 'on'],
+                         index_col='ind')
+        # convert ra to degrees from -180. to 180. from hours
+        df.ra = df.ra * 360./24.0 - 180.
+        
+        # Start and end times
+        df.start = list(self._minutes_since_noon2mjd(mjd, v) for v in df.start.values)
+        df.end = list(self._minutes_since_noon2mjd(mjd, v) for v in df.end.values)
+        return df
+    
+    def healpixels(self, mjd, nside=8):
+        df = self.fieldCoords(mjd).query('on > 0.5 and @mjd < end and @mjd > start')
+        theta, phi = convertToSphericalCoordinates(df.ra.values, df.dec.values, unit='degrees')
+        phi = phi + np.pi
+        ipix = hp.ang2pix(nside=nside, theta=theta, phi=phi, nest=True)
+        ipix.sort()
+        return np.unique(ipix)
+
+    def split_boundaries(self, lon, lat, step, numObjs, split_lon=180.):
+        
+        numPixels = numObjs
+        numPoints = 4 * step
+        assert len(lon) == len(lat)
+        assert len(lon) == numPoints * numPixels
+        
+        ra = lon.reshape(numPixels, numPoints)
+        dec = lat.reshape(numPixels, numPoints)
+        
+        polypts = []
+        for (llo, lla) in zip(ra, dec):
+            polypts += self.split_boundary(llo, lla, split_lon=split_lon)
+        return polypts
+        
+        
+    def split_boundary(self, lon, lat, split_lon=180):
+        
+        if 1 >0 :
+        #if any(lon<=split_lon) and any(lon>split_lon):
+            mask = lon <= split_lon + 0.000001
+            lon0 = lon[mask]
+            lat0 = lat[mask]
+            
+            lon1 = lon[~mask]
+            lat1 = lat[~mask]
+            return list(((lon0, lat0), (lon1, lat1)))
+        else:
+            return list((lon, lat))
+        
+    def pixel_patches(self, mjd, m, nside=8, facecolor='k', alpha=1., ipix=None, split_lon=180):
+        patches = []
+        if ipix is None:
+            ipix = self.healpixels(mjd=mjd, nside=nside)
+        lon, lat = healpix_boundaries(ipix, nside=nside, units='degrees',
+                                      convention='celestial', step=10,
+                                      nest=True)
+        polypts = self.split_boundaries(lon, lat, step=10, numObjs=len(ipix), split_lon=split_lon)
+        
+        for poly in polypts:
+            ra, dec = poly
+            if len(ra) > 0:
+                patches.append(self._build_poly(ra, dec, m, facecolor=facecolor, alpha=alpha, edgecolor='k'))
+        return patches
+        
+    def _build_poly(self, ra, dec, m, facecolor='k', alpha=1., edgecolor='k'):
+        x, y = m(ra, dec)
+        xy = zip(x, y)
+        p = Polygon(xy, facecolor=facecolor, fill=True,alpha=alpha, edgecolor=edgecolor, lw=0)
+        return p
+        
+    def _pixel_patches(self, mjd, m, nside=8, facecolor='k', alpha=1., ipix=None):
+        patches = []
+        if ipix is None:
+            ipix = self.healpixels(mjd=mjd, nside=nside)
+        for pix in ipix:
+            lon, lat = healpix_boundaries(pix, nside=nside, units='degrees',
+                                          convention='celestial', step=10,
+                                          nest=True)
+            x, y = m(lon, lat)
+            xy = zip(x, y)
+            p = Polygon(xy, facecolor=facecolor, fill=True,alpha=alpha, edgecolor='k', lw=0)
+            patches.append(p)
+        return patches
+    def generate_image(self, obsHistID, df, snsims=None):
+        
+        mjd = df.ix[obsHistID, 'expMJD']
+        band = df.ix[obsHistID, 'filter']
+        ra = np.degrees(df.ix[obsHistID, 'fieldRA'])
+        dec = np.degrees(df.ix[obsHistID, 'fieldDec'])
+        # generate fig
+        fig, ax = plt.subplots()#1, 2)
+        #ax = axx[0]
+        m = AllSkyMap(#llcrnrlat=-32., llcrnrlon=48.,
+                    #urcrnrlat=-22., urcrnrlon=58,
+                    projection='moll', lon_0=0., lat_0=0.,
+                    ax=ax, celestial=True)
+        _ = m.drawparallels(np.arange(-91.,91.,20.))
+        _ = m.drawmeridians(np.arange(-180., 181., 30.))
+        # color the sky blue
+        _ = m.drawmapboundary(color='b', fill_color='b')
+        ####_allpatches = self.pixel_patches(mjd, m=m, nside=32, facecolor='b', alpha=0.8, 
+        ####                                 ipix=np.arange(hp.nside2npix(32)))
+        ####_ = list(ax.add_patch(p) for p in _allpatches)
+        # color visible fields black
+        vispatches = self.pixel_patches(mjd=mjd, m=m, nside=8)
+        _ = list(ax.add_patch(p) for p in vispatches)
+        # put the field of view
+        m.tissot(lon_0=ra, lat_0=dec, radius_deg=4., npts=100, ax=ax,
+         **dict(fill=False, edgecolor=self.colordict[band], lw=2))
+        if snsims is not None:
+            scatter_vals = self.sn_scatter(obsHistID, df, snsims)
+            x, y = m(scatter_vals.ra.values, scatter_vals.dec.values)
+            ax.scatter(x, y, s=scatter_vals.rad.values, c='w', edgecolors='w', zorder=10)
+        return fig, ax, m
+    def generate_images(self, obsHistIDs, df, snsims=None, savefig=False, outdir='./'):
+        figs = list(self.generate_image(obsHistID, df, snsims=snsims)[0] for obsHistID in obsHistIDs)
+        mjd = df.ix[obsHistIDs, 'expMJD'].values
+        if savefig:
+            for obsHistID, fig in zip(obsHistIDs, figs):
+                fname = os.path.join(outdir, 'ztf_obsHistID_{:06d}.png'.format(np.int(obsHistID)))
+                #print(type(fig), fname)
+                fig.savefig(fname)
+        return figs, obsHistIDs
+    def sn_scatter(self, obsHistID, df, simsdf):
+        time = df.ix[obsHistID, 'expMJD']
+        band = 'sdss' + df.ix[obsHistID, 'filter']
+        #if ax is None:
+        #    fig, ax = plt.subplots()x
+        depth = dict(sdssg=22, sdssr=22, sdssi=22)
+        #simsdf = deepcopy(simsdf.query('z > 0.02'))
+        simsdf['time'] = time - simsdf.t0
+        simsdf = simsdf.query('time > -30 and time < 50')
+        model = sncosmo.Model(source='salt2')
+        x0 = np.zeros(len(simsdf))
+        mag = np.zeros(len(simsdf))
+        i = 0
+        for z, time in zip(simsdf.z.values, simsdf.time.values):
+            model.set(z=z)
+            model.set_source_peakabsmag(-19.3, 'bessellb', 'ab', cosmo=Planck15)
+            x0[i] = model.get('x0')
+            mag[i] = model.bandmag(time=time, band=band, magsys='ab')
+            i += 1
+        simsdf['mag'] = mag
+        simsdf['x0'] = x0
+        simsdf['rad'] = 0.1* (depth[band] - simsdf.mag)
+        return simsdf
+        
 def split_PolygonSegments(lon, lat, lon_split=180., epsilon = 0.000001):
     """split spherical segments of colatitude and colongitude that constitute
     a polygon edge if they go across the edge of a projection map. 
@@ -82,7 +400,8 @@ class AllSkyMap(Basemap):
     def __init__(self, *args, **kwargs):
         Basemap.__init__(self, *args, **kwargs)
         
-    def tissot(self, lon_0, lat_0,radius_deg,npts,ax=None, epsilon=1.0e-6, **kwargs):
+    def tissot(self, lon_0, lat_0,radius_deg,npts,ax=None, epsilon=1.0e-6,
+               add_patch=True, **kwargs):
         """
         Draw a polygon centered at ``lon_0,lat_0``.  The polygon
         approximates a circle on the surface of the earth with radius
@@ -113,10 +432,10 @@ class AllSkyMap(Basemap):
         ra = np.asarray(ra)
         dec = np.asarray(dec)
         ra[ra < 0] += 360.
-        #if np.any(np.abs(ra - lon_0) < radius_deg - epsilon):
-        polyseg_list = split_PolygonSegments(ra, dec, lon_split=self.lonmax)
-        #else:
-        #    polyseg_list = list((ra, dec))
+        if np.any(np.abs(ra - lon_0) < radius_deg - epsilon):
+            polyseg_list = split_PolygonSegments(ra, dec, lon_split=self.lonmax)
+        else:
+            polyseg_list = list((ra, dec))
         split_poly_normed = list()
         for radec in polyseg_list:
             if len(radec) > 0:
@@ -125,21 +444,22 @@ class AllSkyMap(Basemap):
                 mask = ra < self.lonmax + 1.0e-6
                 ra[~mask] -= 360.
                 split_poly_normed.append((ra, dec))
+
         pts = list()
-        
         for poly_segs in split_poly_normed:
             lon, lat = poly_segs
-            if len(lon) > 0:
+            if len(lon) > 1:
                 pt = self.polygonize(lon, lat, **kwargs)
-                ax.add_patch(pt)
+                if add_patch:
+                    ax.add_patch(pt)
                 pts.append(pt)
-        return split_poly_normed
-    
+        return pts
+
     def polygonize(self, lon, lat, **kwargs):
         x, y = self(lon, lat)
         x = np.asarray(x)
         y = np.asarray(y)
-        mask = np.logical_and(x < 1.0e20,  y < 1.0e20)
+        mask = np.logical_and(x < 1.0e20, y < 1.0e20)
         xy = zip(x[mask], y[mask])
         pt = Polygon(xy, **kwargs)
         return pt

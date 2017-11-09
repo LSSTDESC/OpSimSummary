@@ -10,6 +10,6 @@ from .opsim_out import *
 from .healpixTiles import *
 try:
     from .visualization import *
-except:
+except ImportError:
     print('Visulization functions based on maps will not work')
     pass

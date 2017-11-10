@@ -16,7 +16,74 @@ from .healpix import healpix_boundaries
 
 
 __all__ = ['plot_south_steradian_view', 'HPTileVis', 'split_PolygonSegments',
-           'AllSkyMap', 'ObsVisualization', 'AllSkySNVisualization']
+           'AllSkyMap', 'ObsVisualization', 'AllSkySNVisualization',
+           'MilkyWayExtension']
+
+class MilkyWayExtension(object):
+    """Class to describe the part of the sky obscured by the MW brightness
+
+    Attributes
+    ----------
+    m :
+    ax : defaults to None
+    color :
+    alpha :
+    rmat :
+    mw_polygon :
+    """
+    def __init__(self, m, ax=None, color='y', alpha=1.0,
+                 rmat=None):
+        self.color = color
+        self.alpha = alpha
+        self.ax = ax
+        self.m = m
+        rmat_def = np.array([[-0.054875539396, -0.873437104728, -0.48383499177],
+                             [0.494109453628, -0.444829594298, 0.7469822487],
+                             [-0.867666135683, -0.198076389613, 0.455983794521]])
+        if rmat is None:
+            rmat = rmat_def
+        self.rmat_inv = np.linalg.inv(rmat)
+
+    def gc2radec(self, gc_phi, gc_theta, min_lon=-30):
+        """
+	convert coordinates in galactic coordinate system to equatorial
+        ra, dec.
+
+	Parameters
+	----------
+        gc_phi : `np.ndarray`, float
+            angular coordinate in Galactic coordinate system, where the MW
+	    disk is at theta=0.
+        gc_theta : `np.ndarray`, float 
+       	    azimuthal coordinate in Galactic coordinate system.
+        min_lon : degrees, defaults to -30 
+            min longitude beyond which the galaxy is cut off.
+        max_lon : None, Not implemented yet	
+        """
+        vec = hp.ang2vec(gc_theta, gc_phi)
+        vec_radec = np.asarray(list(np.dot(self.rmat_inv, v) for v in vec))
+        theta, phi = hp.vec2ang(vec_radec)
+        ra, dec = convertToCelestialCoordinates(theta, phi)
+        mask  = dec > -30
+        return ra[mask], dec[mask]
+
+    @property
+    def mw_polygon(self):
+        phi = np.arange(0.2, 2.0* np.pi - 0.2, 0.2)
+        theta_l = np.ones_like(phi)* 110 * np.pi / 180.
+        theta_h = np.ones_like(phi)* 70 * np.pi / 180.
+        ra_l, dec_l = self.gc2radec(phi, theta_l)
+        ra_h, dec_h = self.gc2radec(phi, theta_h)
+        x_l, y_l = self.m(ra_l, dec_l)
+        x_h, y_h = self.m(ra_h[:-1], dec_h[:-1])
+        x, y = (np.concatenate((x_l, x_h[::-1])),
+                np.concatenate((y_l, y_h[::-1])))
+        p = Polygon(zip(x, y), color=self.color, alpha=self.alpha)
+	return p
+    def add_polygons(self, ax):
+	p = self.mw_polygon
+        _ = self.ax.add_patch(p)
+        return self.ax
 
 
 class ObsVisualization(with_metaclass(abc.ABCMeta, object)):
@@ -28,6 +95,9 @@ class ObsVisualization(with_metaclass(abc.ABCMeta, object)):
     def show_var_scatter(self):
         pass
 
+    @abc.abstractproperty
+    def show_mw(self):
+        pass
     @abc.abstractproperty
     def show_visible_fields(self):
         pass
@@ -42,6 +112,10 @@ class ObsVisualization(with_metaclass(abc.ABCMeta, object)):
 
     @abc.abstractmethod
     def generate_image_bg(self):
+        pass
+
+    @abc.abstractmethod
+    def generate_mw_polygons(self):
         pass
 
     @abc.abstractmethod
@@ -82,12 +156,18 @@ class AllSkySNVisualization(ObsVisualization):
     """ Class implementing simplest ObsVisualization)"""
 
     def __init__(self, bandColorDict,  radius_deg=4.,
+                 showMW=True,
                  showVisibleFields=False,
                  showVarScatter=False):
         self._radiusDegree = radius_deg
         self._bandColorDict = bandColorDict
         self._show_visible_fields = showVisibleFields
         self._show_var_scatter = showVarScatter
+        self._show_mw = showMW
+
+    @property
+    def show_mw(self):
+        return self._show_mw
 
     @property
     def show_visible_fields(self):
@@ -107,19 +187,30 @@ class AllSkySNVisualization(ObsVisualization):
         in the survey"""
         return self._bandColorDict
 
+    def generate_mw_polygons(self, m, color='y', alpha=0.1, ax=None):
+        """obtain polygons representing the extent of the MW"""
+        mwext = MilkyWayExtension(m=m, color=color, ax=ax, alpha=alpha) 
+        return mwext.mw_polygon
+
     def generate_image_bg(self, projection='moll', drawmapboundary=True,
-                          bg_color='b',  **kwargs):
+                          bg_color='b', mwcolor='y', mw_alpha=0.1,
+                          **kwargs):
         """Generate a figure axis, and a Basemap child instance"""
         fig, ax = plt.subplots()
         m = AllSkyMap(projection=projection, lon_0=0., lat_0=0.,
                       ax=ax, celestial=True)
-        _ = m.drawparallels(np.arange(-91., 91., 20.))
-        _ = m.drawmeridians(np.arange(-180., 181., 30.))
+        _ = m.drawparallels(np.arange(-91., 91., 60.))
+        _ = m.drawmeridians(np.arange(-180., 181., 60.))
         _ = m.drawmapboundary(color=bg_color, fill_color=bg_color,
                               **kwargs)
+        if self.show_mw:
+            polygons = self.generate_mw_polygons(m, color=mwcolor,
+                                                 alpha=mw_alpha)
+            _ = ax.add_patch(polygons)
         return fig, ax, m
 
-    def generate_camera(self, lon_0, lat_0, m, ax, band='g', default_color='k'):
+    def generate_camera(self, lon_0, lat_0, m, ax, band='g',
+                        default_color='k'):
         """Generate an image of a circular field of view representing the
         camera on the projection with a color representing the bandpass
         filter
@@ -151,7 +242,8 @@ class AllSkySNVisualization(ObsVisualization):
                        projection='moll', drawmapboundary=True,
                        bg_color='b', alpha=0.5, vfcolor='k', sndf=None,
                        **kwargs):
-        """Use methods above to create an image of the sky and optionally save
+        """
+        Use methods above to create an image of the sky and optionally save
         it.
         """
         fig, ax, m = self.generate_image_bg(projection=projection,

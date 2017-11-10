@@ -2,21 +2,17 @@
 Module dealing with visualizing OpSim results
 """
 from __future__ import absolute_import, print_function, division
-
+import abc
+from future.utils import with_metaclass
 import numpy as np
-from mpl_toolkits.basemap import Basemap
-from matplotlib.patches import Polygon
 import matplotlib.pyplot as plt
-from .trig import (pixelsForAng,
-                   convertToCelestialCoordinates)
-from .healpix import healpix_boundaries
-from .healpixTiles import HealpixTiles
 from matplotlib.patches import Polygon
 from mpl_toolkits.basemap import Basemap
 import pyproj
 import healpy as hp
-from future.utils import with_metaclass
-import abc
+from .trig import (pixelsForAng,
+                   convertToCelestialCoordinates)
+from .healpix import healpix_boundaries
 
 
 __all__ = ['plot_south_steradian_view', 'HPTileVis', 'split_PolygonSegments',
@@ -24,6 +20,7 @@ __all__ = ['plot_south_steradian_view', 'HPTileVis', 'split_PolygonSegments',
 
 
 class ObsVisualization(with_metaclass(abc.ABCMeta, object)):
+    """Abstract base class for describing simulations"""
     def __init__(self):
         pass
 
@@ -53,16 +50,22 @@ class ObsVisualization(with_metaclass(abc.ABCMeta, object)):
 
     @abc.abstractmethod
     def get_visible_field_polygons(self):
+        """get a set of polygons to represent the visible fields. The minimal
+           input is a time specified as mjd, and a location (which is fixed for
+           a ground based observatory. The return values is a list of `Polygons`
+        """
         pass
 
     @abc.abstractmethod
     def generate_var_scatter(self):
+        """should generate ra, dec, mag and point size for SN at the time of
+        observation"""
         pass
 
     @abc.abstractmethod
     def generate_image(self):
         """Use methods above to create an image of the sky and optionally save
-        it 
+        it
         """
         pass
 
@@ -146,7 +149,8 @@ class AllSkySNVisualization(ObsVisualization):
 
     def generate_image(self, ra, dec, radius_deg, mjd=None, npts=100, band='g',
                        projection='moll', drawmapboundary=True,
-                       bg_color='b', alpha=0.5, vfcolor='k', **kwargs):
+                       bg_color='b', alpha=0.5, vfcolor='k', sndf=None,
+                       **kwargs):
         """Use methods above to create an image of the sky and optionally save
         it.
         """
@@ -165,8 +169,12 @@ class AllSkySNVisualization(ObsVisualization):
                                                band=band)
 
         if self.show_var_scatter:
-            x, y = self.generate_var_scatter(mjd)
-            ax.scatter(x, y, s=scatter_vals.rad.values, c='w', edgecolors='w',
+            simdf = self.generate_var_scatter(mjd, band, sndf)
+            ra = simdf.ra.values
+            dec = simdf.dec.values
+            s = simdf.rad
+            x, y = m(ra, dec)
+            ax.scatter(x, y, s=s.values, c='w', edgecolors='w',
                        zorder=10)
 
         label = self.label_time_image(mjd)

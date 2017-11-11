@@ -31,6 +31,16 @@ class MilkyWayExtension(object):
     alpha :
     rmat :
     mw_polygon :
+
+    .. note:: Based on code from @ufeind, and Yannick Copin (ycopin@ipnl.in2p3.fr)
+    Original warning from authors (This routine is only roughly accurate,
+    probably at the arcsec level, and therefore not to be used for astrometric
+    purposes. For most accurate conversion, use dedicated
+    `kapteyn.celestial.sky2sky` routine.) We mostly use the rotation matrix as
+    default rotation matrix and invert it..
+    - http://www.dur.ac.uk/physics.astrolab/py_source/conv.py_source
+    - Rotation matrix from
+      http://www.astro.rug.nl/software/kapteyn/celestialbackground.html
     """
     def __init__(self, m, ax=None, color='y', alpha=1.0,
                  rmat=None):

@@ -5,6 +5,7 @@ from __future__ import absolute_import, print_function, division
 import abc
 from future.utils import with_metaclass
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 from mpl_toolkits.basemap import Basemap
@@ -248,6 +249,7 @@ class AllSkySNVisualization(ObsVisualization):
                        projection='moll', drawmapboundary=True, mwColor=None,
                        mwAlpha=1.0, bg_color='b', alpha=0.5, vfcolor='k',
                        cmap=plt.cm.Reds, sndf=None,
+                       zlow=0., zhigh=0.2,
                        **kwargs):
         """
         Use methods above to create an image of the sky and optionally save
@@ -268,6 +270,7 @@ class AllSkySNVisualization(ObsVisualization):
         camera_polygons = self.generate_camera(lon_0=ra, lat_0=dec, m=m, ax=ax,
                                                band=band)
 
+        xx = None
         if self.show_var_scatter:
             simdf = self.generate_var_scatter(mjd, band, sndf)
             ra = simdf.ra.values
@@ -276,8 +279,12 @@ class AllSkySNVisualization(ObsVisualization):
             x, y = m(ra, dec)
             if self.colorCodeRedshifts:
                 z = simdf.z
-                ax.scatter(x, y, s=s.values, edgecolors='w', lw=0.,
-                           c=z, zorder=10, cmap=cmap)
+                normalize = matplotlib.colors.Normalize(vmin=zlow, vmax=zhigh)
+                xx = ax.scatter(x, y, s=s.values, edgecolors='w', lw=0.,
+                                c=z, zorder=10, norm=normalize, cmap=cmap)
+                cb = plt.colorbar(xx, ax=ax, norm=normalize,
+                                  **dict(orientation='horizontal'))
+                cb.set_label('redshift')
             else:
                 ax.scatter(x, y, s=s.values, c='w', edgecolors='w',
                            zorder=10)
@@ -285,7 +292,7 @@ class AllSkySNVisualization(ObsVisualization):
 
         label = self.label_time_image(mjd)
         ax.set_title(label)
-        return fig, ax
+        return fig, ax, m, xx
 
     def generate_images_from(self):
         pass

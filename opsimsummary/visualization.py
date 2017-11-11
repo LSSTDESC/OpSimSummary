@@ -239,8 +239,8 @@ class AllSkySNVisualization(ObsVisualization):
         pass
 
     def generate_image(self, ra, dec, radius_deg, mjd=None, npts=100, band='g',
-                       projection='moll', drawmapboundary=True,
-                       bg_color='b', alpha=0.5, vfcolor='k', sndf=None,
+                       projection='moll', drawmapboundary=True, mwColor=None,
+                       mwAlpha=1.0, bg_color='b', alpha=0.5, vfcolor='k', sndf=None,
                        **kwargs):
         """
         Use methods above to create an image of the sky and optionally save

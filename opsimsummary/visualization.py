@@ -79,9 +79,9 @@ class MilkyWayExtension(object):
         x, y = (np.concatenate((x_l, x_h[::-1])),
                 np.concatenate((y_l, y_h[::-1])))
         p = Polygon(zip(x, y), color=self.color, alpha=self.alpha)
-	return p
+        return p
     def add_polygons(self, ax):
-	p = self.mw_polygon
+        p = self.mw_polygon
         _ = self.ax.add_patch(p)
         return self.ax
 
@@ -193,7 +193,7 @@ class AllSkySNVisualization(ObsVisualization):
         return mwext.mw_polygon
 
     def generate_image_bg(self, projection='moll', drawmapboundary=True,
-                          bg_color='b', mwcolor='y', mw_alpha=0.1,
+                          bg_color='b', mwcolor='g', mw_alpha=1.0,
                           **kwargs):
         """Generate a figure axis, and a Basemap child instance"""
         fig, ax = plt.subplots()
@@ -239,8 +239,8 @@ class AllSkySNVisualization(ObsVisualization):
         pass
 
     def generate_image(self, ra, dec, radius_deg, mjd=None, npts=100, band='g',
-                       projection='moll', drawmapboundary=True,
-                       bg_color='b', alpha=0.5, vfcolor='k', sndf=None,
+                       projection='moll', drawmapboundary=True, mwColor=None,
+                       mwAlpha=1.0, bg_color='b', alpha=0.5, vfcolor='k', sndf=None,
                        **kwargs):
         """
         Use methods above to create an image of the sky and optionally save
@@ -248,6 +248,7 @@ class AllSkySNVisualization(ObsVisualization):
         """
         fig, ax, m = self.generate_image_bg(projection=projection,
                                             drawmapboundary=drawmapboundary,
+                                            mwcolor='g', mw_alpha=1.0,
                                             bg_color=bg_color, **kwargs)
         if self.show_visible_fields:
             visible_polygons = self.get_visible_field_polygons(mjd, m,

@@ -210,7 +210,8 @@ class AllSkySNVisualization(ObsVisualization):
         return mwext.mw_polygon
 
     def generate_image_bg(self, projection='moll', drawmapboundary=True,
-                          bg_color='b', mwcolor='g', mw_alpha=1.0,
+                          bg_color='b', mwcolor='y',
+                          mw_alpha=1.0,
                           **kwargs):
         """Generate a figure axis, and a Basemap child instance"""
         fig, ax = plt.subplots()
@@ -267,7 +268,7 @@ class AllSkySNVisualization(ObsVisualization):
         """
         fig, ax, m = self.generate_image_bg(projection=projection,
                                             drawmapboundary=drawmapboundary,
-                                            mwcolor='g', mw_alpha=1.0,
+                                            mwcolor=mwColor, mw_alpha=mwAlpha,
                                             bg_color=bg_color, **kwargs)
         if self.show_visible_fields:
             visible_polygons = self.get_visible_field_polygons(mjd, m,

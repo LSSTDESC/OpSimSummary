@@ -81,8 +81,8 @@ class MilkyWayExtension(object):
     @property
     def mw_polygon(self):
         phi = np.arange(0.2, 2.0* np.pi - 0.2, 0.2)
-        theta_l = np.ones_like(phi)* 110 * np.pi / 180.
-        theta_h = np.ones_like(phi)* 70 * np.pi / 180.
+        theta_l = np.ones_like(phi) * 110 * np.pi / 180.
+        theta_h = np.ones_like(phi) * 70 * np.pi / 180.
         ra_l, dec_l = self.gc2radec(phi, theta_l)
         ra_h, dec_h = self.gc2radec(phi, theta_h)
         x_l, y_l = self.m(ra_l, dec_l)
@@ -557,6 +557,8 @@ class AllSkyMap(Basemap):
 
     def __init__(self, *args, **kwargs):
         Basemap.__init__(self, *args, **kwargs)
+        self.lon_split = 180.
+        self.epsilon=1.0e-10
 
     def tissot(self, lon_0, lat_0, radius_deg, npts, ax=None, epsilon=1.0e-10,
                add_patch=True, **kwargs):
@@ -592,19 +594,26 @@ class AllSkyMap(Basemap):
         ## ra[ra < 0] += 360.
         ra = ra % 360.
         lon_0 = lon_0 % 360.
-        if np.any(np.abs(ra - lon_0) < radius_deg - epsilon):
-            polyseg_list = split_PolygonSegments(
-                ra, dec, lon_split=self.lonmax)
-        else:
-            polyseg_list = list((ra, dec))
+        polyseg_list = split_PolygonSegments(ra, dec,
+                                             lon_split=self.lon_split)
+        # if np.any(np.abs(ra - lon_0) < radius_deg - epsilon):
+        #    print('split_polygon being called')
+        #    polyseg_list = split_PolygonSegments(
+        #                        ra, dec, lon_split=self.lonmax)
+        # else:
+        #    polyseg_list = list((ra, dec))
         split_poly_normed = list()
         for radec in polyseg_list:
             if len(radec) > 0:
                 ra, dec = radec
                 ra = np.asarray(ra)
-                mask = ra > self.lonmax + epsilon
-                ra[~mask] -= 360.
-                split_poly_normed.append((ra, dec))
+                mask = ra > self.lon_split
+                ra[mask] -= 360.
+                # Leave out points on the limb
+                points_on_split = np.logical_or(ra > 180. - epsilon,
+                                                ra < -180. + epsilon)
+                split_poly_normed.append((ra[~points_on_split],
+                                          dec[~points_on_split]))
 
         pts = list()
         for poly_segs in split_poly_normed:
@@ -622,7 +631,7 @@ class AllSkyMap(Basemap):
         y = np.asarray(y)
         mask = np.logical_and(x < 1.0e20, y < 1.0e20)
         xy = zip(x[mask], y[mask])
-        pt = Polygon(xy, **kwargs)
+        pt = Polygon(xy,  **kwargs)
         return pt
 
 

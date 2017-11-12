@@ -157,7 +157,7 @@ class ObsVisualization(with_metaclass(abc.ABCMeta, object)):
         pass
 
     @abc.abstractmethod
-    def label_time_image(self, mjd):
+    def label_time_image(self, mjd, surveystart):
         pass
 
     @abc.abstractmethod
@@ -245,7 +245,7 @@ class AllSkySNVisualization(ObsVisualization):
                                           lw=2))
         return camera_polygons
 
-    def label_time_image(self, mjd):
+    def label_time_image(self, mjd, surveystart=None):
         label = '{:0.5f}'.format(mjd)
         return label
 
@@ -259,7 +259,7 @@ class AllSkySNVisualization(ObsVisualization):
                        projection='moll', drawmapboundary=True, mwColor=None,
                        mwAlpha=1.0, bg_color='b', alpha=0.5, vfcolor='k',
                        cmap=plt.cm.Reds, sndf=None,
-                       zlow=0., zhigh=0.2,
+                       zlow=0., zhigh=0.2, surveystart=None,
                        **kwargs):
         """
         Use methods above to create an image of the sky and optionally save
@@ -300,7 +300,7 @@ class AllSkySNVisualization(ObsVisualization):
                            zorder=10)
 
 
-        label = self.label_time_image(mjd)
+        label = self.label_time_image(mjd, surveystart)
         ax.set_title(label)
         return fig, ax, m, xx
 

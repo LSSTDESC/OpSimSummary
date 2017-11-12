@@ -80,13 +80,13 @@ class MilkyWayExtension(object):
 
     @property
     def mw_polygon(self):
-        phi = np.arange(0.2, 2.0* np.pi - 0.2, 0.2)
-        theta_l = np.ones_like(phi) * 110 * np.pi / 180.
-        theta_h = np.ones_like(phi) * 70 * np.pi / 180.
+        phi = np.arange(0., 2.0*np.pi, 0.1)
+        theta_l = np.ones_like(phi)* 110 * np.pi / 180.
+        theta_h = np.ones_like(phi)* 70 * np.pi / 180.
         ra_l, dec_l = self.gc2radec(phi, theta_l)
         ra_h, dec_h = self.gc2radec(phi, theta_h)
         x_l, y_l = self.m(ra_l, dec_l)
-        x_h, y_h = self.m(ra_h[:-1], dec_h[:-1])
+        x_h, y_h = self.m(np.roll(ra_h, 3), np.roll(dec_h, 3))
         x, y = (np.concatenate((x_l, x_h[::-1])),
                 np.concatenate((y_l, y_h[::-1])))
         p = Polygon(zip(x, y), color=self.color, alpha=self.alpha)

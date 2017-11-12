@@ -226,7 +226,7 @@ class AllSkySNVisualization(ObsVisualization):
             _ = ax.add_patch(polygons)
         return fig, ax, m
 
-    def generate_camera(self, lon_0, lat_0, m, ax, band='g',
+    def generate_camera(self, lon_0, lat_0, m, ax, band='g', radius_deg=4.,
                         default_color='k'):
         """Generate an image of a circular field of view representing the
         camera on the projection with a color representing the bandpass
@@ -239,7 +239,7 @@ class AllSkySNVisualization(ObsVisualization):
                   self.band_color_dict, band, len(band))
             print('setting default color\n')
             c = default_color
-        camera_polygons = m.tissot(lon_0=lon_0, lat_0=lat_0, radius_deg=4.,
+        camera_polygons = m.tissot(lon_0=lon_0, lat_0=lat_0, radius_deg=radius_deg,
                                    npts=100, ax=ax, add_patch=True,
                                    **dict(fill=False, edgecolor=c,
                                           lw=2))

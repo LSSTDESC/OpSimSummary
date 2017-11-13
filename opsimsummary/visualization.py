@@ -43,9 +43,13 @@ class MilkyWayExtension(object):
       http://www.astro.rug.nl/software/kapteyn/celestialbackground.html
     """
     def __init__(self, m, ax=None, color='y', alpha=1.0,
+                 edgecolor='y', lw=0., fill=True,
                  rmat=None):
         self.color = color
         self.alpha = alpha
+        self.edgecolor = edgecolor
+        self.fill = fill
+        self.lw=lw
         self.ax = ax
         self.m = m
         rmat_def = np.array([[-0.054875539396, -0.873437104728, -0.48383499177],
@@ -64,7 +68,7 @@ class MilkyWayExtension(object):
 	----------
         gc_phi : `np.ndarray`, float
             angular coordinate in Galactic coordinate system, where the MW
-	    disk is at theta=0.
+            disk is at theta=0.
         gc_theta : `np.ndarray`, float 
        	    azimuthal coordinate in Galactic coordinate system.
         min_lon : degrees, defaults to -30 
@@ -89,7 +93,12 @@ class MilkyWayExtension(object):
         x_h, y_h = self.m(np.roll(ra_h, 3), np.roll(dec_h, 3))
         x, y = (np.concatenate((x_l, x_h[::-1])),
                 np.concatenate((y_l, y_h[::-1])))
-        p = Polygon(zip(x, y), color=self.color, alpha=self.alpha)
+        p = Polygon(zip(x, y),
+                    color=self.color,
+                    fill=self.fill,
+                    alpha=self.alpha,
+                    lw=self.lw,
+                    edgecolor=self.edgecolor)
         return p
 
     def add_polygons(self, ax):
@@ -204,14 +213,18 @@ class AllSkySNVisualization(ObsVisualization):
         in the survey"""
         return self._bandColorDict
 
-    def generate_mw_polygons(self, m, color='y', alpha=0.1, ax=None):
+    def generate_mw_polygons(self, m, fill=True,
+                             color='y', alpha=0.1,
+                             lw=0., edgecolor='y',
+                             ax=None):
         """obtain polygons representing the extent of the MW"""
-        mwext = MilkyWayExtension(m=m, color=color, ax=ax, alpha=alpha) 
+        mwext = MilkyWayExtension(m=m, fill=fill, color=color, alpha=alpha,
+                                  lw=lw, edgecolor=edgecolor, ax=ax) 
         return mwext.mw_polygon
 
     def generate_image_bg(self, projection='moll', drawmapboundary=True,
-                          bg_color='b', mwcolor='y',
-                          mw_alpha=1.0,
+                          bg_color='b', mwcolor='y', mwfill=True,
+                          mw_alpha=1.0, mw_edgecolor='y', mw_lw=0.,
                           **kwargs):
         """Generate a figure axis, and a Basemap child instance"""
         fig, ax = plt.subplots()
@@ -223,7 +236,10 @@ class AllSkySNVisualization(ObsVisualization):
                               **kwargs)
         if self.show_mw:
             polygons = self.generate_mw_polygons(m, color=mwcolor,
-                                                 alpha=mw_alpha)
+                                                 alpha=mw_alpha,
+                                                 fill=mwfill,
+                                                 lw=mw_lw,
+                                                 edgecolor=mw_edgecolor)
             _ = ax.add_patch(polygons)
         return fig, ax, m
 
@@ -258,7 +274,8 @@ class AllSkySNVisualization(ObsVisualization):
 
     def generate_image(self, ra, dec, radius_deg, mjd=None, npts=100, band='g',
                        projection='moll', drawmapboundary=True, mwColor=None,
-                       mwAlpha=1.0, bg_color='b', alpha=0.5, vfcolor='k',
+                       mwAlpha=1.0, mwEdgeColor='y', mwLw=0., mwFill=True,
+                       bg_color='b', alpha=0.5, vfcolor='k',
                        cmap=plt.cm.Reds, sndf=None,
                        zlow=0., zhigh=0.2, surveystart=None,
                        **kwargs):
@@ -269,7 +286,9 @@ class AllSkySNVisualization(ObsVisualization):
         fig, ax, m = self.generate_image_bg(projection=projection,
                                             drawmapboundary=drawmapboundary,
                                             mwcolor=mwColor, mw_alpha=mwAlpha,
-                                            bg_color=bg_color, **kwargs)
+                                            mw_edgecolor=mwEdgeColor, mwfill=mwFill,
+                                            mw_lw=mwLw, bg_color=bg_color,
+                                            **kwargs)
         if self.show_visible_fields:
             visible_polygons = self.get_visible_field_polygons(mjd, m,
                                                                facecolor=vfcolor,

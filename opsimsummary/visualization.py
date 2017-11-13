@@ -226,17 +226,28 @@ class AllSkySNVisualization(ObsVisualization):
                                   zorder=zorder) 
         return mwext.mw_polygon
 
+
+    def _hack_legend(self, ax, colors, labels, bbox=(1, 1), loc='best'):
+        """ hack legend """
+        x = []
+        for (c, l) in zip(colors, labels):
+            ax.hist(x, color=c, label=l)
+            l  = ax.legend(loc=loc, bbox_to_anchor=bbox)
+        return l
+
     def generate_image_bg(self, projection='moll', drawmapboundary=True,
                           bg_color='b', mwcolor='y', mwfill=True,
                           mw_alpha=1.0, mw_edgecolor='y', mw_lw=0.,
+                          figsize=(12, 6),
                           **kwargs):
         """Generate a figure axis, and a Basemap child instance"""
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=figsize)
         m = AllSkyMap(projection=projection, lon_0=0., lat_0=0.,
                       ax=ax, celestial=True)
         _ = m.drawparallels(np.arange(-91., 91., 60.))
         _ = m.drawmeridians(np.arange(-180., 181., 60.))
         _ = m.drawmapboundary(fill_color=bg_color)
+
         if self.show_mw:
             polygons = self.generate_mw_polygons(m, color=mwcolor,
                                                  alpha=mw_alpha,
@@ -244,6 +255,7 @@ class AllSkySNVisualization(ObsVisualization):
                                                  lw=mw_lw,
                                                  edgecolor=mw_edgecolor)
             _ = ax.add_patch(polygons)
+
         return fig, ax, m
 
     def generate_camera(self, lon_0, lat_0, m, ax, band='g', radius_deg=4.,
@@ -281,6 +293,7 @@ class AllSkySNVisualization(ObsVisualization):
                        bg_color='b', alpha=0.5, vfcolor='k',
                        cmap=plt.cm.Reds, sndf=None,
                        zlow=0., zhigh=0.2, surveystart=None,
+                       bbox=(1, 1), loc=None,
                        **kwargs):
         """
         Use methods above to create an image of the sky and optionally save
@@ -326,6 +339,11 @@ class AllSkySNVisualization(ObsVisualization):
 
         label = self.label_time_image(mjd, surveystart)
         ax.set_title(label)
+        # add legend
+        cvals = (mwColor, vfcolor)
+        names = ('MW Region', 'Desired SN fields')
+        legend = self._hack_legend(ax, colors=cvals, labels=names, bbox=bbox,
+                                   loc=loc) 
         return fig, ax, m, xx
 
     def generate_images_from(self):

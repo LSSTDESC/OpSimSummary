@@ -43,7 +43,7 @@ class MilkyWayExtension(object):
       http://www.astro.rug.nl/software/kapteyn/celestialbackground.html
     """
     def __init__(self, m, ax=None, color='y', alpha=1.0,
-                 edgecolor='y', lw=0., fill=True,
+                 edgecolor='y', lw=0., fill=True, zorder=15,
                  rmat=None):
         self.color = color
         self.alpha = alpha
@@ -52,6 +52,7 @@ class MilkyWayExtension(object):
         self.lw=lw
         self.ax = ax
         self.m = m
+        self.zorder = zorder
         rmat_def = np.array([[-0.054875539396, -0.873437104728, -0.48383499177],
                              [0.494109453628, -0.444829594298, 0.7469822487],
                              [-0.867666135683, -0.198076389613, 0.455983794521]])
@@ -98,7 +99,8 @@ class MilkyWayExtension(object):
                     fill=self.fill,
                     alpha=self.alpha,
                     lw=self.lw,
-                    edgecolor=self.edgecolor)
+                    edgecolor=self.edgecolor,
+                    zorder=self.zorder)
         return p
 
     def add_polygons(self, ax):
@@ -216,10 +218,12 @@ class AllSkySNVisualization(ObsVisualization):
     def generate_mw_polygons(self, m, fill=True,
                              color='y', alpha=0.1,
                              lw=0., edgecolor='y',
+                             zorder=15,
                              ax=None):
         """obtain polygons representing the extent of the MW"""
         mwext = MilkyWayExtension(m=m, fill=fill, color=color, alpha=alpha,
-                                  lw=lw, edgecolor=edgecolor, ax=ax) 
+                                  lw=lw, edgecolor=edgecolor, ax=ax,
+                                  zorder=zorder) 
         return mwext.mw_polygon
 
     def generate_image_bg(self, projection='moll', drawmapboundary=True,
@@ -232,8 +236,7 @@ class AllSkySNVisualization(ObsVisualization):
                       ax=ax, celestial=True)
         _ = m.drawparallels(np.arange(-91., 91., 60.))
         _ = m.drawmeridians(np.arange(-180., 181., 60.))
-        _ = m.drawmapboundary(color=bg_color, fill_color=bg_color,
-                              **kwargs)
+        _ = m.drawmapboundary(fill_color=bg_color)
         if self.show_mw:
             polygons = self.generate_mw_polygons(m, color=mwcolor,
                                                  alpha=mw_alpha,

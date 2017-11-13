@@ -661,19 +661,19 @@ class AllSkyMap(Basemap):
         for poly_segs in split_poly_normed:
             lon, lat = poly_segs
             if len(lon) > 1:
-                pt = self.polygonize(lon, lat, **kwargs)
+                pt = self.polygonize(lon, lat, zorder=20., **kwargs)
                 if add_patch:
                     ax.add_patch(pt)
                 pts.append(pt)
         return pts
 
-    def polygonize(self, lon, lat, **kwargs):
+    def polygonize(self, lon, lat, zorder=1, **kwargs):
         x, y = self(lon, lat)
         x = np.asarray(x)
         y = np.asarray(y)
         mask = np.logical_and(x < 1.0e20, y < 1.0e20)
         xy = zip(x[mask], y[mask])
-        pt = Polygon(xy,  **kwargs)
+        pt = Polygon(xy,  zorder=zorder, **kwargs)
         return pt
 
 

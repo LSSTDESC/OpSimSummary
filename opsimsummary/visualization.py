@@ -288,9 +288,10 @@ class AllSkySNVisualization(ObsVisualization):
         pass
 
     def generate_image(self, ra, dec, radius_deg, mjd=None, npts=100, band='g',
-                       projection='moll', drawmapboundary=True, mwColor=None,
-                       mwAlpha=1.0, mwEdgeColor='y', mwLw=0., mwFill=True,
-                       bg_color='b', alpha=0.5, vfcolor='k',
+                       projection='moll', drawmapboundary=True,
+                       mwColor='cornflowerblue', mwAlpha=1.0, mwEdgeColor='y',
+                       mwLw=0., mwFill=True,  bg_color='royalblue', alpha=1.0,
+                       vfcolor='k',
                        cmap=plt.cm.Reds, sndf=None,
                        zlow=0., zhigh=0.2, surveystart=None,
                        bbox=(1, 1), loc=None,
@@ -327,7 +328,7 @@ class AllSkySNVisualization(ObsVisualization):
             if self.colorCodeRedshifts:
                 z = simdf.z
                 normalize = matplotlib.colors.Normalize(vmin=zlow, vmax=zhigh)
-                xx = ax.scatter(x, y, s=s.values, edgecolors='w', lw=0.,
+                xx = ax.scatter(x, y,  lw=0., s=s,
                                 c=z, zorder=10, norm=normalize, cmap=cmap)
                 cb = plt.colorbar(xx, ax=ax, norm=normalize,
                                   **dict(orientation='horizontal'))

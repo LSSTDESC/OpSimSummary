@@ -286,7 +286,8 @@ class AllSkySNVisualization(ObsVisualization):
         fig, ax, m = self.generate_image_bg(projection=projection,
                                             drawmapboundary=drawmapboundary,
                                             mwcolor=mwColor, mw_alpha=mwAlpha,
-                                            mw_edgecolor=mwEdgeColor, mwfill=mwFill,
+                                            mw_edgecolor=mwEdgeColor,
+                                            mwfill=mwFill,
                                             mw_lw=mwLw, bg_color=bg_color,
                                             **kwargs)
         if self.show_visible_fields:

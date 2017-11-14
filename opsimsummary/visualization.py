@@ -15,10 +15,23 @@ from .trig import (pixelsForAng,
                    convertToCelestialCoordinates)
 from .healpix import healpix_boundaries
 
+from matplotlib.legend_handler import HandlerPatch
+import matplotlib.patches as mpatches
 
 __all__ = ['plot_south_steradian_view', 'HPTileVis', 'split_PolygonSegments',
            'AllSkyMap', 'ObsVisualization', 'AllSkySNVisualization',
            'MilkyWayExtension']
+
+class HandlerEllipse(HandlerPatch):
+    def create_artists(self, legend, orig_handle,
+                       xdescent, ydescent, width, height, fontsize, trans):
+        center = 0.5 * width - 0.5 * xdescent, 0.5 * height - 0.5 * ydescent
+        p = mpatches.Ellipse(xy=center, width=width + xdescent,
+                             height=height + ydescent)
+        self.update_prop(p, orig_handle, legend)
+        p.set_transform(trans)
+        return [p]
+
 
 class MilkyWayExtension(object):
     """Class to describe the part of the sky obscured by the MW brightness
@@ -253,10 +266,22 @@ class AllSkySNVisualization(ObsVisualization):
 
     def _hack_legend(self, ax, colors, labels, bbox=(1, 1), loc='best'):
         """ hack legend """
-        x = []
-        for (c, l) in zip(colors, labels):
-            ax.hist(x, color=c, label=l)
-            l  = ax.legend(loc=loc, bbox_to_anchor=bbox)
+        cs, texts = [], []    
+        for (colors, text) in zip(('g', 'r','y'),
+                                 ('ZTF g band', 'ZTF r band', 'ZTF i band')):
+            c = mpatches.Circle((0.5, 0.5), 0.25, facecolor="w",
+                                edgecolor=colors, linewidth=1)
+            cs.append(c)
+            texts.append(text)
+
+        # ax.plot([], [], label='MW', color='w', ls='--')
+        l = ax.legend(cs, texts,
+                      handler_map={mpatches.Circle: HandlerEllipse()},
+                      loc=loc, bbox_to_anchor=bbox)
+        #x = []
+        #for (c, l) in zip(colors, labels):
+        #    ax.hist(x, color=c, label=l)
+        #    l  = ax.legend(loc=loc, bbox_to_anchor=bbox)
         return l
 
     def _breakpoint(self, x):
@@ -264,7 +289,7 @@ class AllSkySNVisualization(ObsVisualization):
         return ind + 1
 
     def generate_image_bg(self, projection='moll', drawmapboundary=True,
-                          bg_color='b', mwcolor='y', mwfill=True,
+                          bg_color='b', mwcolor='y', mwfill=False,
                           mw_alpha=1.0, mw_edgecolor='y', mw_lw=0.,
                           figsize=(12, 6),
                           **kwargs):
@@ -295,7 +320,8 @@ class AllSkySNVisualization(ObsVisualization):
                 break_h = len(x_h) - self._breakpoint(x_h)
                 break_l = len(x_l) - self._breakpoint(x_l)
                 _ = ax.plot(np.roll(x_h, break_h) , np.roll(y_h, break_h),
-                                    ls='dashed', color=mw_edgecolor, lw=mw_lw)
+                                    ls='dashed', color=mw_edgecolor, lw=mw_lw,
+                                    label='MW')
                 _ = ax.plot(np.roll(x_l, break_l), np.roll(y_l, break_l),
                                     ls='dashed', color=mw_edgecolor, lw=mw_lw)
         return fig, ax, m
@@ -331,7 +357,7 @@ class AllSkySNVisualization(ObsVisualization):
 
     def generate_image(self, ra, dec, radius_deg, mjd=None, npts=100, band='g',
                        projection='moll', drawmapboundary=True, mwColor=None,
-                       mwAlpha=1.0, mwEdgeColor='y', mwLw=0., mwFill=True,
+                       mwAlpha=1.0, mwEdgeColor='y', mwLw=0., mwFill=False,
                        bg_color='b', alpha=0.5, vfcolor='k',
                        cmap=plt.cm.Reds, sndf=None,
                        zlow=0., zhigh=0.2, surveystart=None,
@@ -385,7 +411,7 @@ class AllSkySNVisualization(ObsVisualization):
         cvals = (mwColor, vfcolor)
         names = ('MW Region', 'Desired SN fields')
         legend = self._hack_legend(ax, colors=cvals, labels=names, bbox=bbox,
-                                   loc=loc) 
+                                  loc=loc) 
         return fig, ax, m, xx
 
     def generate_images_from(self):

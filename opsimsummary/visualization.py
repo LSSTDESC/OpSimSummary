@@ -278,10 +278,15 @@ class AllSkySNVisualization(ObsVisualization):
         _ = m.drawmapboundary(fill_color=bg_color)
 
         if self.show_mw:
+            if mwfill:
+                min_lon=-30
+            else:
+                min_lon=-90
             polygons, bounds = self.generate_mw_polygons(m, color=mwcolor,
                                                          alpha=mw_alpha,
                                                          fill=mwfill,
                                                          lw=mw_lw,
+                                                         min_lon=min_lon,
                                                          edgecolor=mw_edgecolor)
             if mwfill:
                 _ = ax.add_patch(polygons)

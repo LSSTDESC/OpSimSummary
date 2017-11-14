@@ -290,9 +290,9 @@ class AllSkySNVisualization(ObsVisualization):
                 break_h = len(x_h) - self._breakpoint(x_h)
                 break_l = len(x_l) - self._breakpoint(x_l)
                 _ = ax.plot(np.roll(x_h, break_h) , np.roll(y_h, break_h),
-                                    ls='dashed', color=mw_edgecolor, lw=3)
+                                    ls='dashed', color=mw_edgecolor, lw=mw_lw)
                 _ = ax.plot(np.roll(x_l, break_l), np.roll(y_l, break_l),
-                                    ls='dashed', color=mw_edgecolor, lw=3)
+                                    ls='dashed', color=mw_edgecolor, lw=mw_lw)
         return fig, ax, m
 
     def generate_camera(self, lon_0, lat_0, m, ax, band='g', radius_deg=4.,

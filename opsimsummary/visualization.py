@@ -289,8 +289,8 @@ class AllSkySNVisualization(ObsVisualization):
         return ind + 1
 
     def generate_image_bg(self, projection='moll', drawmapboundary=True,
-                          bg_color='b', mwcolor='y', mwfill=False,
-                          mw_alpha=1.0, mw_edgecolor='y', mw_lw=0.,
+                          bg_color='k', mwcolor='w', mwfill=False,
+                          mw_alpha=1.0, mw_edgecolor='w', mw_lw=1.,
                           figsize=(12, 6),
                           **kwargs):
         """Generate a figure axis, and a Basemap child instance"""
@@ -356,9 +356,9 @@ class AllSkySNVisualization(ObsVisualization):
         pass
 
     def generate_image(self, ra, dec, radius_deg, mjd=None, npts=100, band='g',
-                       projection='moll', drawmapboundary=True, mwColor=None,
-                       mwAlpha=1.0, mwEdgeColor='y', mwLw=0., mwFill=False,
-                       bg_color='b', alpha=0.5, vfcolor='k',
+                       projection='moll', drawmapboundary=True, mwColor='w',
+                       mwAlpha=1.0, mwEdgeColor='w', mwLw=1., mwFill=False,
+                       bg_color='k', alpha=0.5, vfcolor='k',
                        cmap=plt.cm.Reds, sndf=None,
                        zlow=0., zhigh=0.2, surveystart=None,
                        bbox=(1, 1), loc=None,

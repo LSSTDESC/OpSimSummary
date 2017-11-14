@@ -15,10 +15,23 @@ from .trig import (pixelsForAng,
                    convertToCelestialCoordinates)
 from .healpix import healpix_boundaries
 
+from matplotlib.legend_handler import HandlerPatch
+import matplotlib.patches as mpatches
 
 __all__ = ['plot_south_steradian_view', 'HPTileVis', 'split_PolygonSegments',
            'AllSkyMap', 'ObsVisualization', 'AllSkySNVisualization',
            'MilkyWayExtension']
+
+class HandlerEllipse(HandlerPatch):
+    def create_artists(self, legend, orig_handle,
+                       xdescent, ydescent, width, height, fontsize, trans):
+        center = 0.5 * width - 0.5 * xdescent, 0.5 * height - 0.5 * ydescent
+        p = mpatches.Ellipse(xy=center, width=width + xdescent,
+                             height=height + ydescent)
+        self.update_prop(p, orig_handle, legend)
+        p.set_transform(trans)
+        return [p]
+
 
 class MilkyWayExtension(object):
     """Class to describe the part of the sky obscured by the MW brightness
@@ -44,7 +57,7 @@ class MilkyWayExtension(object):
     """
     def __init__(self, m, ax=None, color='y', alpha=1.0,
                  edgecolor='y', lw=0., fill=True, zorder=15,
-                 rmat=None):
+                 rmat=None, min_lon=-30.):
         self.color = color
         self.alpha = alpha
         self.edgecolor = edgecolor
@@ -53,6 +66,7 @@ class MilkyWayExtension(object):
         self.ax = ax
         self.m = m
         self.zorder = zorder
+        self.min_lon = min_lon
         rmat_def = np.array([[-0.054875539396, -0.873437104728, -0.48383499177],
                              [0.494109453628, -0.444829594298, 0.7469822487],
                              [-0.867666135683, -0.198076389613, 0.455983794521]])
@@ -60,7 +74,7 @@ class MilkyWayExtension(object):
             rmat = rmat_def
         self.rmat_inv = np.linalg.inv(rmat)
 
-    def gc2radec(self, gc_phi, gc_theta, min_lon=-30):
+    def gc2radec(self, gc_phi, gc_theta, min_lon=None):
         """
 	convert coordinates in galactic coordinate system to equatorial
         ra, dec.
@@ -72,24 +86,36 @@ class MilkyWayExtension(object):
             disk is at theta=0.
         gc_theta : `np.ndarray`, float 
        	    azimuthal coordinate in Galactic coordinate system.
-        min_lon : degrees, defaults to -30 
-            min longitude beyond which the galaxy is cut off.
+        min_lon : degrees, defaults to None
+            min longitude beyond which the galaxy is cut off. If None,
+            `self.min_lon` is used.
         max_lon : None, Not implemented yet	
         """
         vec = hp.ang2vec(gc_theta, gc_phi)
         vec_radec = np.asarray(list(np.dot(self.rmat_inv, v) for v in vec))
         theta, phi = hp.vec2ang(vec_radec)
         ra, dec = convertToCelestialCoordinates(theta, phi)
-        mask  = dec > -30
+        if min_lon is None:
+            min_lon = self.min_lon
+        mask  = dec > min_lon
         return ra[mask], dec[mask]
 
     @property
-    def mw_polygon(self):
+    def mw_boundaries(self):
+        """tuple of points in ra, dec in degrees wihich show the +20, -20 degree
+           boundariess of the MW disk. The return value is
+           (ra_h, dec_h), (ra_l, dec_l) with all of the parameters in degrees.
+        """
         phi = np.arange(0., 2.0*np.pi, 0.1)
         theta_l = np.ones_like(phi)* 110 * np.pi / 180.
         theta_h = np.ones_like(phi)* 70 * np.pi / 180.
         ra_l, dec_l = self.gc2radec(phi, theta_l)
         ra_h, dec_h = self.gc2radec(phi, theta_h)
+        return (ra_h, dec_h), (ra_l, dec_l)
+
+    @property
+    def mw_polygon(self):
+        (ra_h, dec_h), (ra_l, dec_l) = self.mw_boundaries
         x_l, y_l = self.m(ra_l, dec_l)
         x_h, y_h = self.m(np.roll(ra_h, 3), np.roll(dec_h, 3))
         x, y = (np.concatenate((x_l, x_h[::-1])),
@@ -112,9 +138,11 @@ class ObsVisualization(with_metaclass(abc.ABCMeta, object)):
     """Abstract base class for describing simulations"""
     def __init__(self):
         pass
+
     @abc.abstractproperty
     def colorCodeRedshifts(self):
         pass
+
     @abc.abstractproperty
     def show_var_scatter(self):
         pass
@@ -122,6 +150,7 @@ class ObsVisualization(with_metaclass(abc.ABCMeta, object)):
     @abc.abstractproperty
     def show_mw(self):
         pass
+
     @abc.abstractproperty
     def show_visible_fields(self):
         pass
@@ -193,6 +222,7 @@ class AllSkySNVisualization(ObsVisualization):
     @property
     def colorCodeRedshifts(self):
         return self._colorCodez
+
     @property
     def show_mw(self):
         return self._show_mw
@@ -219,28 +249,52 @@ class AllSkySNVisualization(ObsVisualization):
                              color='y', alpha=0.1,
                              lw=0., edgecolor='y',
                              zorder=15,
+                             min_lon=-90.,
                              ax=None):
         """obtain polygons representing the extent of the MW"""
         mwext = MilkyWayExtension(m=m, fill=fill, color=color, alpha=alpha,
                                   lw=lw, edgecolor=edgecolor, ax=ax,
-                                  zorder=zorder) 
-        return mwext.mw_polygon
+                                  zorder=zorder, min_lon=min_lon)
+        polygons = mwext.mw_polygon
+        boundaries = mwext.mw_boundaries
+        (ra_h, dec_h), (ra_l, dec_l) = boundaries
+        x_h, y_h = m(ra_h, dec_h)
+        x_l, y_l = m(ra_l, dec_l)
+        bounds = (x_h, y_h), (x_l, y_l)
+        return polygons, bounds
 
 
     def _hack_legend(self, ax, colors, labels, bbox=(1, 1), loc='best'):
         """ hack legend """
-        x = []
-        for (c, l) in zip(colors, labels):
-            ax.hist(x, color=c, label=l)
-            l  = ax.legend(loc=loc, bbox_to_anchor=bbox)
+        cs, texts = [], []    
+        for (colors, text) in zip(('g', 'r','y'),
+                                 ('ZTF g band', 'ZTF r band', 'ZTF i band')):
+            c = mpatches.Circle((0.5, 0.5), 0.25, facecolor="w",
+                                edgecolor=colors, linewidth=1)
+            cs.append(c)
+            texts.append(text)
+
+        # ax.plot([], [], label='MW', color='w', ls='--')
+        l = ax.legend(cs, texts,
+                      handler_map={mpatches.Circle: HandlerEllipse()},
+                      loc=loc, bbox_to_anchor=bbox)
+        #x = []
+        #for (c, l) in zip(colors, labels):
+        #    ax.hist(x, color=c, label=l)
+        #    l  = ax.legend(loc=loc, bbox_to_anchor=bbox)
         return l
 
+    def _breakpoint(self, x):
+        ind = np.diff(x).argmax()
+        return ind + 1
+
     def generate_image_bg(self, projection='moll', drawmapboundary=True,
-                          bg_color='b', mwcolor='y', mwfill=True,
-                          mw_alpha=1.0, mw_edgecolor='y', mw_lw=0.,
+                          bg_color='k', mwcolor='w', mwfill=False,
+                          mw_alpha=1.0, mw_edgecolor='w', mw_lw=1.,
                           figsize=(12, 6),
                           **kwargs):
         """Generate a figure axis, and a Basemap child instance"""
+
         fig, ax = plt.subplots(figsize=figsize)
         m = AllSkyMap(projection=projection, lon_0=0., lat_0=0.,
                       ax=ax, celestial=True)
@@ -249,13 +303,27 @@ class AllSkySNVisualization(ObsVisualization):
         _ = m.drawmapboundary(fill_color=bg_color)
 
         if self.show_mw:
-            polygons = self.generate_mw_polygons(m, color=mwcolor,
-                                                 alpha=mw_alpha,
-                                                 fill=mwfill,
-                                                 lw=mw_lw,
-                                                 edgecolor=mw_edgecolor)
-            _ = ax.add_patch(polygons)
-
+            if mwfill:
+                min_lon=-30
+            else:
+                min_lon=-90
+            polygons, bounds = self.generate_mw_polygons(m, color=mwcolor,
+                                                         alpha=mw_alpha,
+                                                         fill=mwfill,
+                                                         lw=mw_lw,
+                                                         min_lon=min_lon,
+                                                         edgecolor=mw_edgecolor)
+            if mwfill:
+                _ = ax.add_patch(polygons)
+            else:
+                (x_h, y_h), (x_l, y_l) = bounds
+                break_h = len(x_h) - self._breakpoint(x_h)
+                break_l = len(x_l) - self._breakpoint(x_l)
+                _ = ax.plot(np.roll(x_h, break_h) , np.roll(y_h, break_h),
+                                    ls='dashed', color=mw_edgecolor, lw=mw_lw,
+                                    label='MW')
+                _ = ax.plot(np.roll(x_l, break_l), np.roll(y_l, break_l),
+                                    ls='dashed', color=mw_edgecolor, lw=mw_lw)
         return fig, ax, m
 
     def generate_camera(self, lon_0, lat_0, m, ax, band='g', radius_deg=4.,
@@ -288,10 +356,9 @@ class AllSkySNVisualization(ObsVisualization):
         pass
 
     def generate_image(self, ra, dec, radius_deg, mjd=None, npts=100, band='g',
-                       projection='moll', drawmapboundary=True,
-                       mwColor='cornflowerblue', mwAlpha=1.0, mwEdgeColor='y',
-                       mwLw=0., mwFill=True,  bg_color='royalblue', alpha=1.0,
-                       vfcolor='k',
+                       projection='moll', drawmapboundary=True, mwColor='w',
+                       mwAlpha=1.0, mwEdgeColor='w', mwLw=1., mwFill=False,
+                       bg_color='k', alpha=0.5, vfcolor='k',
                        cmap=plt.cm.Reds, sndf=None,
                        zlow=0., zhigh=0.2, surveystart=None,
                        bbox=(1, 1), loc=None,
@@ -344,7 +411,7 @@ class AllSkySNVisualization(ObsVisualization):
         cvals = (mwColor, vfcolor)
         names = ('MW Region', 'Desired SN fields')
         legend = self._hack_legend(ax, colors=cvals, labels=names, bbox=bbox,
-                                   loc=loc) 
+                                  loc=loc) 
         return fig, ax, m, xx
 
     def generate_images_from(self):

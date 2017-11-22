@@ -61,12 +61,12 @@ class OpSimOutput(object):
                      tableNames=('Summary', 'Proposal'),
                      propIDs=None, zeroDDFDithers=True):
         """
-	Class Method to instantiate this from an OpSim sqlite
-	database output
+        Class Method to instantiate this from an OpSim sqlite
+        database output
 
-	Parameters
-	----------
-	dbname : string
+        Parameters
+        ----------
+        dbname : string
             absolute path to database file 
         subset : string, optional, defaults to 'combined' 
             one of {'_all', 'unique_all', 'wfd', 'ddf', 'combined'}
@@ -79,13 +79,13 @@ class OpSimOutput(object):
         zeroDDFDithers : bool, defaults to True
             if True, set dithers in DDF to 0, by setting ditheredRA,
             ditheredDec to fieldRA, fieldDec
-	"""
+        """
         # Check that subset parameter is legal
         allowed_subsets = cls.get_allowed_subsets()
         subset = subset.lower()
         if subset not in allowed_subsets:
             raise NotImplementedError('subset {} not implemented'.\
-				      format(subset))
+                      format(subset))
 
         # Prepend the abs path with sqlite for use with sqlalchemy
         if not dbname.startswith('sqlite'):
@@ -93,7 +93,7 @@ class OpSimOutput(object):
         print(' reading from database {}'.format(dbname))
         engine = create_engine(dbname, echo=False)
 
-	# Read the proposal table to find out which propID corresponds to
+    # Read the proposal table to find out which propID corresponds to
         # the subsets requested
         proposals = pd.read_sql_table('Proposal', con=engine)
         propDict = cls.get_propIDDict(proposals)
@@ -183,7 +183,7 @@ class OpSimOutput(object):
         subset = subset.lower()
         if subset not in allowed_subsets:
             raise NotImplementedError('subset {} not implemented'.\
-				      format(subset))
+                      format(subset))
         # The hdf representation is assumed to be a faithful representation of
         # the OpSim output
         summarydf = pd.read_hdf(hdfName, key='Summary')
@@ -277,18 +277,18 @@ class OpSimOutput(object):
         -------
         dictionary with keys 'wfd' and 'ddf' with values given by integers
             corresponding to propIDs for these proposals
-	"""
+    """
         df = proposalDF
         mydict = dict()
         for i, vals in enumerate(df.propConf.values):
             if 'universal' in vals.lower():
-        	if 'wfd' in mydict:
-        	    raise ValueError('Multiple propIDs for WFD found')
-        	mydict['wfd']  = df.propID.iloc[i]
+                if 'wfd' in mydict:
+                    raise ValueError('Multiple propIDs for WFD found')
+                mydict['wfd']  = df.propID.iloc[i]
             elif 'ddcosmology' in vals.lower():
-        	if 'ddf' in mydict:
-        	    raise ValueError('Multiple propIDs for DDF found')
-        	mydict['ddf']  = df.propID.iloc[i] 
+                if 'ddf' in mydict:
+                    raise ValueError('Multiple propIDs for DDF found')
+                mydict['ddf']  = df.propID.iloc[i] 
             else:
                 mydict[vals.lower()] = df.propID.iloc[i]
         if len(mydict.items()) != len(df):

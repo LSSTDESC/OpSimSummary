@@ -10,6 +10,7 @@ from .tessellations import Tiling
 from sqlalchemy import create_engine
 from .trig import pixelsToAng
 from .summarize_opsim import PointingTree
+from past.builtins import basestring, xrange
 
 __all__ = ['HealpixTiles']
 

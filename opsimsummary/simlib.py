@@ -3,8 +3,9 @@
 """
 Module with functionality to represent SNANA simlib data. 
 """
+from __future__ import division, print_function
 import pandas as pd
-from cStringIO import StringIO
+from io import StringIO
 
 
 class FieldSimlib(object):
@@ -39,12 +40,6 @@ class FieldSimlib(object):
         these columns are discussed in the SNANA manual in the sub-section
         'The 'SIMLIB' Observing file (4.7)
     """
-
-
-    import pandas as pd
-    from cStringIO import StringIO
-    
-
     def __init__(self, simlibdata, simlib_meta):
         """
         Instantiate the class from the basic data
@@ -100,13 +95,13 @@ class FieldSimlib(object):
 
         val = eval(validate_string.split()[-1])
         if int(self.meta['LIBID']) != val:
-            print 'LIBID value at beginning: ', self.meta['LIBID']
-            print 'LIBID value at the end', val
+            print('LIBID value at beginning: ', self.meta['LIBID'])
+            print('LIBID value at the end', val)
             raise ValueError('the LIBID values do not match')
 
         if len(self.data) != self.meta['NOBS']:
-            print 'NOBS :', self.meta['NOBS']
-            print 'len(data) :', len(self.data)
+            print('NOBS :', self.meta['NOBS'])
+            print('len(data) :', len(self.data))
             raise ValueError('the number of observations recorded does not'
                              'match size of data')
 
@@ -137,7 +132,7 @@ class FieldSimlib(object):
 
         data : data
         '''
-        fhandle = StringIO(data)
+        fhandle = StringIO(unicode(data))
         df = pd.read_csv(fhandle, delimiter="\s+",
                          names=['trash', 'MJD', 'IDEXPT', 'FLT', 'GAIN',
                                 'NOISE', 'SKYSIG', 'PSF1', 'PSF2',

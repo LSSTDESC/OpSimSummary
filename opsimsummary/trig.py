@@ -149,8 +149,23 @@ def convertToSphericalCoordinates(ra, dec, unit='degrees'):
 
 def angSep(ra1, dec1, ra2, dec2):
     """
-    Angular separation between to points on a sphere with coordinates ra, dec
-    in the usual conditions for astronomy.
+    Angular separation in radians between to points on a sphere with
+    coordinates ra, dec in radians.
+
+    Parameters
+    ----------
+    ra1 : np.ndarray /float, radians
+        ra of the first point
+    dec1 : np.ndarray /float, radians
+        dec of the first point
+    ra2 : np.ndarray /float, radians
+        ra of the second point
+    dec2 : np.ndarray /float, radians
+        dec of the first point
+
+    Returns
+    -------
+    Angular separation in units of radians
     """
     th1 = - dec1 + np.pi / 2.
     th2 = - dec2 + np.pi / 2.

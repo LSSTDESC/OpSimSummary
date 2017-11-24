@@ -119,7 +119,7 @@ class HealpixTiles(Tiling):
         elif callable(self._preComputedMap):
             return self._preComputedMap(tileID)
         else:
-            raiseValueError('Only options used are sqlite DB and callable')
+            raise ValueError('Only options used are sqlite DB and callable')
 
     def _pointingFromHpOpSim(self, tileID):
         return self.hpOpSim.obsHistIdsForTile(tileID)
@@ -183,11 +183,18 @@ class HealpixTiles(Tiling):
             raise ValueError(
                 'both attributes preComputedMap and hpOpSim cannot'
                 ' be None')
+
+        # At this point obsHistIDs is a list of `np.ndarray` of obsHistIDs
+        # Each of these arrays are the values for a tileID. If the argument
+        # was a single tileID, then all we care about are the first one
+
+        obsHistIDs = obsHistIDs[0]
+
         if allPointings is None or columns is None:
             return obsHistIDs
         else:
             names = list(columns)
-            return allPointings.summary.ix[obsHistIDs][names]
+            return allPointings.ix[obsHistIDs][names]
 
     def _angularSamples(self, phi_c, theta_c, radius, numSamples, tileID, rng):
 

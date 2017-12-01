@@ -13,6 +13,7 @@ import healpy as hp
 from scipy.sparse import csr_matrix
 from .opsim_out import OpSimOutput
 from .trig import convertToCelestialCoordinates
+from past.builtins import basestring, xrange
 
 __all__ = ['addVec', 'HealPixelizedOpSim', 'HealpixTree', 'healpix_boundaries']
 
@@ -488,7 +489,7 @@ class HealPixelizedOpSim(object):
                                               fact=self.fact,
                                               nest=self.nest)
                                 for vec in self.opsimdf[self.vecColName]]
-        lens = map(len, self.opsimdf.hids.values)
+        lens = list(map(len, self.opsimdf.hids.values))
         rowdata = []
         _ = list(rowdata.extend(repeat(i, lens[i]))
                  for i in xrange(len(self.opsimdf)))

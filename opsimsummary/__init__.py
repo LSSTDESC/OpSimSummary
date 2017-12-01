@@ -8,6 +8,11 @@ from .healpix import *
 from .tessellations import *
 from .opsim_out import *
 from .healpixTiles import *
+import os
+
+here = __file__
+basedir = os.path.split(here)[0]
+example_data = os.path.join(basedir, 'example_data')
 try:
     from .visualization import *
 except ImportError:

@@ -2,9 +2,9 @@
 Tests associated with the `opsimsummary/healpix.py` module
 """
 from __future__ import division, print_function, absolute_import
-from nose.tools import nottest
 import opsimsummary as oss
 import os
+import pytest
 import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
@@ -101,7 +101,7 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
         self.assertEqual(np.int(y[0][5]), self.nside)
         self.assertEqual(np.int(y[0][6]), 4)
 
-    @nottest
+    @pytest.mark.skip(reason='skipped before')
     def test_compareWithOldDB(self):
         """
         Compare any new database with a stored version of the old database
@@ -121,7 +121,7 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
                               .format(hid))
             _std = stdCursor.fetchall()
             std = np.asarray(list(xx[0] for xx in _std))
-            self.assertItemsEqual(std, new, msg='std = {0} and new ={1}'\
+            np.testing.assert_equal(std, new, verbose=True, err_msg='std = {0} and new ={1}'\
                                   .format(std, new))
         
 
@@ -145,7 +145,7 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
     
             h = self.hpOps
             z = h.obsHistIdsForTile(hid)
-            self.assertItemsEqual(y, z, msg='x = {0} and y ={1}'.format(y, z))
+            np.testing.assert_equal(y, z, verbose=True, err_msg='x = {0} and y ={1}'.format(y, z))
         
 
 

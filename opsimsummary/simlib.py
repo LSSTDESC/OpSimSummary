@@ -3,9 +3,9 @@
 """
 Module with functionality to represent SNANA simlib data. 
 """
-from __future__ import division, print_function
+from __future__ import division, print_function, unicode_literals
 import pandas as pd
-from io import StringIO
+from io import StringIO, BytesIO
 
 
 class FieldSimlib(object):
@@ -132,7 +132,7 @@ class FieldSimlib(object):
 
         data : data
         '''
-        fhandle = StringIO(unicode(data))
+        fhandle = StringIO(data)
         df = pd.read_csv(fhandle, delimiter="\s+",
                          names=['trash', 'MJD', 'IDEXPT', 'FLT', 'GAIN',
                                 'NOISE', 'SKYSIG', 'PSF1', 'PSF2',
@@ -173,10 +173,10 @@ class FieldSimlib(object):
 
         # Even index values 0, 2, 4 are keys
         # remove ':' char at end
-        keys = map(lambda x: x[:-1], header_metadata[0::2])
+        keys = list(map(lambda x: x[:-1], header_metadata[0::2]))
 
         # odd index values are floats or ints
-        vals = map(eval, header_metadata[1::2])
+        vals = list(map(eval, header_metadata[1::2]))
 
         return dict(zip(keys, vals))
 
@@ -221,7 +221,7 @@ class Simlib(object):
     def validate(self, file_footer):
         '''
         '''
-        numberlist = filter(lambda x: x.isdigit(), file_footer.split())
+        numberlist = list(filter(lambda x: x.isdigit(), file_footer.split()))
         if len(numberlist) !=1:
             raise ValueError('There should only be one integer in the footer')
         numLibId = int(numberlist[0])
@@ -259,7 +259,7 @@ class Simlib(object):
                 fields.append(line)
         ss = ' '.join(fields)
         words = ss.split()
-        keys = map(lambda x: x[:-1], words[0::2])
+        keys = list(map(lambda x: x[:-1], words[0::2]))
         vals = words[1::2]
         if len(keys) != len(vals):
             raise ValueError('the numberof fields in dict should match vals')

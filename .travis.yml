@@ -25,4 +25,4 @@ cache:
   - $HOME/miniconda.tarball
   timeout: 1200
 script:
-    - nosetests -s --with-coverage --cover-package=opsimsummary
+    - py.test tests/ 

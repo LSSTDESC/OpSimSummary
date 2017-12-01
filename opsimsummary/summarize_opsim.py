@@ -336,7 +336,7 @@ class SummaryOpsim(object):
             else:
                 return x
 
-        self.df['filter'] = map(capitalizeY, self.df['filter']) 
+        self.df['filter'] = list(map(capitalizeY, self.df['filter']))
         self.minMJD = self.df.expMJD.min()
         self.minNight = self.df.night.min()
         self._fieldsimlibs = self.df.groupby(by='fieldID')
@@ -419,8 +419,8 @@ class SummaryOpsim(object):
         
     def coords(self):
 
-        ra = map(lambda x: self.ra(x), self.fieldIds)
-        dec = map(lambda x: self.dec(x), self.fieldIds)
+        ra = list(map(lambda x: self.ra(x), self.fieldIds))
+        dec = list(map(lambda x: self.dec(x), self.fieldIds))
 
         return ra, dec
 
@@ -732,6 +732,7 @@ class SummaryOpsim(object):
         y =''
         for row in opSimSummary.iterrows():
             data = row[1] # skip the index
+            # print(data['filter'], type(data['filter']), list(data['filter']))
             #       MJD EXPID FILTER 
             lst = ['S:',
                    "{0:5.4f}".format(data.expMJD),

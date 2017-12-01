@@ -7,7 +7,7 @@ Tools for studying the LSST OpSim outputs largely based on `pandas`. This can be
 
 - documentation is hosted at [github_pages](https://rbiswas4.github.io/OpSimSummary)
 # Requirements
-
+- python 2.7 or 3.5
 - pandas 
 - numpy
 - sqlalchemy

@@ -1,10 +1,8 @@
-# Generating simlib Files
+# OpSimSummary
 
-Tools for studying the LSST OpSim outputs largely based on `pandas`. This can be used for example to generates
- simlib files for SNANA simulations or similar products that are useful for generating SN simulations.
+Tools for summarizing the LSST Operations Simulations outputs for use with catalog simulation tools or other analyses. 
 
 [![Build Status](https://travis-ci.org/rbiswas4/OpSimSummary.svg?branch=master)](https://travis-ci.org/rbiswas4/OpSimSummary)
-
 - documentation is hosted at [github_pages](https://rbiswas4.github.io/OpSimSummary)
 # Requirements
 - python 2.7 or 3.5
@@ -18,10 +16,14 @@ Tools for studying the LSST OpSim outputs largely based on `pandas`. This can be
 
 Everything other than lsst.sims.maf is part of the anaconda python distribution and available on pip. For lsst.sims.maf installation instructions, see the confluence page. 
 # Running
-- Install the package by 
-
+- Assuming you have miniconda installed, 
+you can install the code and its dependencies for the current user by 
 ```
-python setup.py install --user
+./install/install_all.sh
+```
+If you have the dependecies installed, you can install the code only by running 
+```
+.install/install_opsimsummary.sh
 ```
 
 

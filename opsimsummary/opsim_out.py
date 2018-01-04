@@ -93,7 +93,7 @@ class OpSimOutput(object):
         print(' reading from database {}'.format(dbname))
         engine = create_engine(dbname, echo=False)
 
-    # Read the proposal table to find out which propID corresponds to
+        # Read the proposal table to find out which propID corresponds to
         # the subsets requested
         proposals = pd.read_sql_table('Proposal', con=engine)
         propDict = cls.get_propIDDict(proposals)
@@ -109,7 +109,7 @@ class OpSimOutput(object):
             summary = pd.read_sql_table('Summary', con=engine)
 
         elif subset in ('ddf', 'wfd', 'combined'):
-            # In this case use sql queries rather than reading thw whole table
+            # In this case use sql queries rather than reading the whole table
             # obtain propIDs in strings for sql queries
             pidString = ', '.join(list(str(pid) for pid in propIDs))
             sql_query = 'SELECT * FROM Summary WHERE PROPID'
@@ -147,22 +147,36 @@ class OpSimOutput(object):
         minPropID = df.propID.min()
         ddfID = propIDDict['ddf']
         wfdID = propIDDict['wfd']
-        ddfPropID = minPropID - 2
-        wfdPropID = minPropID - 1
-        df.loc[df.query('propID == @ddfID').index, 'propID'] = ddfPropID
-        df.loc[df.query('propID == @wfdID').index, 'propID'] = wfdPropID
-        df.sort_values(by='propID', inplace=True)
+        ddfPropID = minPropID - 1
+        wfdPropID = minPropID - 2
+
+        ddfmask = df.propID == ddfID
+        wfdmask = df.propID == wfdID
+        df.loc[ddfmask, 'propID'] = ddfPropID
+        df.loc[wfdmask, 'propID'] = wfdPropID
+
+        # df.loc[df.query('propID == @ddfID').index, 'propID'] = ddfPropID
+        # df.loc[df.query('propID == @wfdID').index, 'propID'] = wfdPropID
+        # df.sort_values(by='propID', inplace=True)
 
         # drop duplicates keeping the lowest transformed propIDs so that all
-        # DDF visits remain, WFD visits which were duplicates of DDF visits are
+        # WFD visits remain, DDF visits which were duplicates of WFD visits are
         # dropped, etc.
  
-        df = df.drop_duplicates(subset='obsHistID', keep='first', inplace=False)
+        # df = df.drop_duplicates(subset='obsHistID', keep='first', inplace=False)
+        df = df.reset_index().drop_duplicates(subset='obsHistID',
+                                              keep='first')#.set_index('obsHistID')
 
         # reset the propIDs to values in the OpSim output
-        df.loc[df.query('propID == @ddfPropID').index, 'propID'] = ddfID
-        df.loc[df.query('propID == @wfdPropID').index, 'propID'] = wfdID
-        return df 
+        ddfmask = df.propID == ddfPropID
+        wfdmask = df.propID == wfdPropID
+        df.loc[ddfmask, 'propID'] = ddfID
+        df.loc[wfdmask, 'propID'] = wfdID
+        # df.loc[df.query('propID == @ddfPropID').index, 'propID'] = ddfID
+        # df.loc[df.query('propID == @wfdPropID').index, 'propID'] = wfdID
+        df.sort_values(by='expMJD', inplace=True)
+        return df
+
 
     @classmethod
     def fromOpSimHDF(cls, hdfName, subset='combined',

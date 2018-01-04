@@ -5,21 +5,16 @@ python:
 before_install:
     - chmod +x ./install/*.sh
 install:
-    - travis_wait 25 ./setup/install.sh lsst-sims-maf scipy pandas nose numpy basemap
+    - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+          wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
+      else
+          wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+      fi
+    - bash miniconda.sh -b -p $HOME/miniconda
     - export PATH="$HOME/miniconda/bin:$PATH"
-    - source eups-setups.sh
-    - setup sims_maf
-    - setup healpy
-    - pip install pytest
-    - pip install future
-    - pip install pytest-cov
-    - pip install python-coveralls
-    - pip install coveralls
-    - pip install coverage
-    - pip install matplotlib
-    - pip install sqlalchemy
-    - travis_wait 2 ./install/install_conda_requirements.sh
-    - travis_wait 2 ./setup/install_opsimsummary.sh
+    - hash -r
+    - conda config --set always_yes yes --set changeps1 no
+    - travis_wait 6 ./install/install_all.sh
 cache:
   directories:
   - $HOME/miniconda.tarball

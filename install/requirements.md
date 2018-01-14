@@ -1,0 +1,13 @@
+# Required Packages beyond miniconda install
+- pytest
+- future
+- pytest-cov
+- python-coveralls
+- coverage
+- matplotlib
+- sqlalchemy
+- pyproj
+- healpy
+- basemap
+- scikit-learn
+- pandas

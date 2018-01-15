@@ -2,7 +2,9 @@ lines = []
 with open('install/pip-requirements.txt', 'r') as f:
     lines = f.read() 
 
-with open('install/conda_requirements.txt', 'r') as f:
+with open('install/conda_requirements_anaconda.txt', 'r') as f:
+    lines += f.read()
+with open('install/conda_requirements_anaconda.txt', 'r') as f:
     lines += f.read()
 
 res = (list('- ' + l  +'\n' for l in lines.split('\n')))

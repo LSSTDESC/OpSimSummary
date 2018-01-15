@@ -1,4 +1,3 @@
-healpy
 basemap
 scikit-learn
 pandas

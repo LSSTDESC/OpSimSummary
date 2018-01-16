@@ -5,7 +5,7 @@ def test_versionName():
     """
     The only objective of this test is to check that this is running,
     """
-    version = oss.__VERSION__
+    version = oss.__version__
     print("test_versionName")
     print("Running version ", version)
     return None

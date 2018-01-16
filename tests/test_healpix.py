@@ -46,7 +46,7 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
         h = oss.HealPixelizedOpSim(opsimDF=opsimdf, NSIDE=cls.nside, source=dbname)
         h.doPreCalcs()
         try:
-            version = oss.__VERSION__
+            version = oss.__version__
             h.writeToDB(cls.newDB, version=version)
         except:
             cls.tearDownClass()
@@ -96,7 +96,7 @@ class Test_obsHistIDsFortileID(unittest.TestCase):
         self.assertEqual(len(y), 1)
         self.assertEqual(len(y[0]), 10)
         # Check the version
-        version = oss.__VERSION__
+        version = oss.__version__
         self.assertEqual(y[0][4], version)
         self.assertEqual(np.int(y[0][5]), self.nside)
         self.assertEqual(np.int(y[0][6]), 4)

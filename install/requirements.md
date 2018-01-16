@@ -7,7 +7,9 @@
 - matplotlib
 - sqlalchemy
 - pyproj
-- healpy
+- basemap
+- scikit-learn
+- pandas
 - basemap
 - scikit-learn
 - pandas

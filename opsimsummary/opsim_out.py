@@ -125,6 +125,8 @@ class OpSimOutput(object):
             summary = cls.dropDuplicates(summary, propDict)
 
         summary.set_index('obsHistID', inplace=True)
+
+        del summary['index']
         return cls(propIDDict=propDict, summary=summary, zeroDDFDithers=zeroDDFDithers,
                    proposalTable=proposals, subset=subset)
     

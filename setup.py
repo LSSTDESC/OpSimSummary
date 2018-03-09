@@ -35,6 +35,7 @@ setup(# package information
       include_package_data=True,
       package_data={PACKAGENAME:['example_data/*.dat', 'example_data/*.simlib',
                                  'example_data/enigma_1189_micro.db',
+                                 'example_data/opsimv4_feat_micro.db',
                                  'example_data/healpixels_micro.db',
                                  'example_data/enigma_1189_micro.hdf']}
       )

@@ -48,9 +48,11 @@ class OpSimOutput(object):
                  subset=None, propIDs=None, zeroDDFDithers=True,
                  opsimversion='lsstv3'):
 
-        self.opsimversion = version
+        self.opsimversion = opsimversion
         self.propIDDict = propIDDict
         self.proposalTable = proposalTable
+        if opsimversion == 'lsstv4':
+            zeroDDFDithers = False
         if zeroDDFDithers:
             ddfPropID = self.propIDDict['ddf']
             ddfidx = summary.query('propID == @ddfPropID').index
@@ -64,7 +66,8 @@ class OpSimOutput(object):
     @classmethod
     def fromOpSimDB(cls, dbname, subset='combined',
                      tableNames=('Summary', 'Proposal'),
-                     propIDs=None, zeroDDFDithers=True):
+                     propIDs=None, zeroDDFDithers=True,
+                     opsimversion='lsst3'):
         """
         Class Method to instantiate this from an OpSim sqlite
         database output
@@ -85,6 +88,7 @@ class OpSimOutput(object):
             if True, set dithers in DDF to 0, by setting ditheredRA,
             ditheredDec to fieldRA, fieldDec
         """
+        opsimVars = cls.get_opsimVariablesForVersion(opsimversion)
         # Check that subset parameter is legal
         allowed_subsets = cls.get_allowed_subsets()
         subset = subset.lower()
@@ -101,27 +105,41 @@ class OpSimOutput(object):
         # Read the proposal table to find out which propID corresponds to
         # the subsets requested
         proposals = pd.read_sql_table('Proposal', con=engine)
-        propDict = cls.get_propIDDict(proposals)
+        propDict = cls.get_propIDDict(proposals, opsimversion=opsimversion)
+        
         # Seq of propIDs consistent with subset
         _propIDs = cls.propIDVals(subset, propDict, proposals)
         # If propIDs and subset were both provided, override subset propIDs
         propIDs = cls._overrideSubsetPropID(propIDs, _propIDs)
 
         # Do the actual sql queries or table reads
-
+        summaryTableName = opsimVars['summaryTableName']
+        propIDNameInSummary = opsimVars['propIDNameInSummary']
         if subset in ('_all', 'unique_all'):
             # In this case read everything (ie. table read)
-            summary = pd.read_sql_table('Summary', con=engine)
+            summary = pd.read_sql_table(summaryTableName, con=engine)
 
         elif subset in ('ddf', 'wfd', 'combined'):
+
             # In this case use sql queries rather than reading the whole table
             # obtain propIDs in strings for sql queries
             pidString = ', '.join(list(str(pid) for pid in propIDs))
-            sql_query = 'SELECT * FROM Summary WHERE PROPID'
+            sql_query = 'SELECT * FROM {0} WHERE {1}'.format(summaryTableName,
+                                                             propIDNameInSummary
+                                                             ) 
             sql_query += ' in ({})'.format(pidString)
+
             # If propIDs were passed to the method, this would be used
             print(sql_query)
             summary = pd.read_sql_query(sql_query, con=engine)
+            replacedict = dict()
+            replacedict[opsimVars['obsHistID']] = 'obsHistID'
+            replacedict[opsimVars['propIDNameInSummary']] = 'propID'
+            replacedict[opsimVars['pointingRA']] = 'ditheredRA'
+            replacedict[opsimVars['pointingDec']] = 'ditheredDec'
+            replacedict[opsimVars['expMJD']] = 'expMJD'
+            replacedict[opsimVars['FWHMeff']] = 'fwhmeff'
+            summary.rename(columns=replacedict, inplace=True)
         else:
             raise NotImplementedError()
 
@@ -132,8 +150,11 @@ class OpSimOutput(object):
         summary.set_index('obsHistID', inplace=True)
 
         del summary['index']
-        return cls(propIDDict=propDict, summary=summary, zeroDDFDithers=zeroDDFDithers,
-                   proposalTable=proposals, subset=subset)
+        return cls(propIDDict=propDict,
+                   summary=summary,
+                   zeroDDFDithers=zeroDDFDithers,
+                   proposalTable=proposals, subset=subset,
+                   opsimversion=opsimversion)
     
     @staticmethod
     def dropDuplicates(df, propIDDict):
@@ -143,7 +164,7 @@ class OpSimOutput(object):
         Parameters
         ----------
         df : `pd.DataFrame`
-        propIDDict :dict
+        propIDDict : dict
 
         Returns
         -------
@@ -217,7 +238,7 @@ class OpSimOutput(object):
         try:
             proposals = pd.read_hdf(hdfName, key='Proposal')
             print('read in proposal')
-            propDict = cls.get_propIDDict(proposals)
+            propDict = cls.get_propIDDict(proposal)
             print('read in proposal')
             print(subset, propDict)
             _propIDs = cls.propIDVals(subset, propDict, proposals)
@@ -233,7 +254,7 @@ class OpSimOutput(object):
             print('propIDs', propIDs, type(propIDs), type(propIDs[0]))
             print('summarydf cols', summarydf.columns)
             query_str = 'propID == @propIDs'
-            print('squery_str', query_str)
+            print('query_str', query_str)
             print(' Num entries ', len(summarydf))
             summary = summarydf.query(query_str)
         else:
@@ -329,6 +350,36 @@ class OpSimOutput(object):
             else:
                 pass
         return dict(df.set_index(propName)[propIDName])
+
+    @staticmethod
+    def get_opsimVariablesForVersion(opsimversion='lsstv3'):
+        if opsimversion == 'lsstv3':
+            x = dict(summaryTableName='Summary',
+                     obsHistID='obsHistID',
+                     propName='propConf',
+                     propIDName='propID',
+                     propIDNameInSummary='propID',
+                     ops_wfdname='conf/survey/Universal-18-0824B.conf',
+                     ops_ddfname='conf/survey/DDcosmology1.conf',
+                     expMJD='expMJD',
+                     FWHMeff='FWHMeff',
+                     pointingRA='ditheredRA',
+                     pointingDec='pointingDec')
+        elif opsimversion == 'lsstv4':
+            x = dict(summaryTableName='SummaryAllProps',
+                     obsHistID='observationId',
+                     propName='propName',
+                     propIDName='propId',
+                     propIDNameInSummary='proposalId',
+                     ops_wfdname='WideFastDeep',
+                     ops_ddfname='Deep Drilling',
+                     expMJD='observationStartMJD',
+                     FWHMeff='seeingFWHMeff',
+                     pointingRA='fieldRA',
+                     pointingDec='fieldDec')
+        else:
+            raise NotImplementedError('`get_propIDDict` is not implemented for this `opsimverson`')
+        return x
 
     @staticmethod
     def propIDVals(subset, propIDDict, proposalTable):

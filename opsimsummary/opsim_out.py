@@ -285,7 +285,7 @@ class OpSimOutput(object):
         return ('_all', 'ddf', 'wfd', 'combined', 'unique_all')
 
     @staticmethod
-    def get_propIDDict(proposalDF):
+    def get_propIDDict(proposalDF, opsimversion='lsstv3'):
         """
         Return a dictionary with keys 'ddf', ad 'wfd' with the proposal IDs
         corresponding to deep drilling fields (ddf) and universal cadence (wfd) 
@@ -294,27 +294,41 @@ class OpSimOutput(object):
         ----------
         proposalDF : `pd.DataFrame`, mandatory
             a dataframe with the Proposal Table of the OpSim Run.
+        opsimversion: {'lsstv3'|'lsstv4'}, defaults to 'lsstv3'
+            version of opsim from which output is drawn
         Returns
         -------
         dictionary with keys 'wfd' and 'ddf' with values given by integers
             corresponding to propIDs for these proposals
-    """
+        """
+        oss_wfdName = 'wfd'
+        oss_ddfName = 'ddf'
+
         df = proposalDF
         mydict = dict()
-        for i, vals in enumerate(df.propConf.values):
-            if 'universal' in vals.lower():
-                if 'wfd' in mydict:
-                    raise ValueError('Multiple propIDs for WFD found')
-                mydict['wfd']  = df.propID.iloc[i]
-            elif 'ddcosmology' in vals.lower():
-                if 'ddf' in mydict:
-                    raise ValueError('Multiple propIDs for DDF found')
-                mydict['ddf']  = df.propID.iloc[i] 
+        if opsimversion == 'lsstv3':
+            propName = 'propConf'
+            propIDName = 'propID'
+            ops_wfdname = 'conf/survey/Universal-18-0824B.conf'
+            ops_ddfname = 'conf/survey/DDcosmology1.conf'
+        elif opsimversion == 'lsstv4':
+            propName = 'propName'
+            propIDName = 'propId'
+            ops_wfdname = 'WideFastDeep'
+            ops_ddfname = 'Deep Drilling'
+        else:
+            raise NotImplementedError('`get_propIDDict` is not implemented for this `opsimverson`')
+
+        # Rename version based proposal names to internal values
+        for idx, row in df.iterrows():
+            # remember in enigma outputs, these came with `..` in the beginning
+            if ops_wfdname in row[propName]:
+                df.loc[idx, propName] = oss_wfdName
+            elif ops_ddfname in row[propName]:
+                df.loc[idx, propName] = oss_ddfName
             else:
-                mydict[vals.lower()] = df.propID.iloc[i]
-        if len(mydict.items()) != len(df):
-            raise ValueError('Unexpected length of dictionary')
-        return mydict
+                pass
+        return dict(df.set_index(propName)[propIDName])
 
     @staticmethod
     def propIDVals(subset, propIDDict, proposalTable):

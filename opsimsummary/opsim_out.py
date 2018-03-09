@@ -27,7 +27,7 @@ class OpSimOutput(object):
 
     Attribute
     ---------
-    version: {'lsstv3'|'lsstv4'} 
+    opsimversion: {'lsstv3'|'lsstv4'} 
         version of OpSim corresponding to the output format.
     summary : `pd.DataFrame`
         selected records from the Summary Table of pointings
@@ -46,7 +46,7 @@ class OpSimOutput(object):
     """
     def __init__(self, summary=None, propIDDict=None, proposalTable=None,
                  subset=None, propIDs=None, zeroDDFDithers=True,
-                 version='lsstv3'):
+                 opsimversion='lsstv3'):
 
         self.opsimversion = version
         self.propIDDict = propIDDict

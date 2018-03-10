@@ -1,4 +1,4 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 """
 This module deals with representing the data in an OpSim output (to the extent
 we will care about it). A description of the OpSim output can be found at
@@ -10,13 +10,11 @@ In brief, we will use two tables from the OpSim output:
         of Summary.
 """
 from __future__ import absolute_import, division, print_function
-import os
+__all__ = ['OpSimOutput']
 import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
-import matplotlib.pyplot as plt
 
-__all__ = ['OpSimOutput']
 
 class OpSimOutput(object):
     """
@@ -27,7 +25,7 @@ class OpSimOutput(object):
 
     Attribute
     ---------
-    opsimversion: {'lsstv3'|'lsstv4'} 
+    opsimversion: {'lsstv3'|'lsstv4'}
         version of OpSim corresponding to the output format.
     summary : `pd.DataFrame`
         selected records from the Summary Table of pointings
@@ -63,6 +61,14 @@ class OpSimOutput(object):
         self.subset = subset
         self._propID = propIDs
 
+    @property
+    def opsimVars(self):
+        """
+        a set of opsim version dependent variables
+        """
+        opsimvars = self.get_opsimVariablesForVersion(self.opsimversion)
+        return opsimvars
+
     @classmethod
     def fromOpSimDB(cls, dbname, subset='combined',
                      tableNames=('Summary', 'Proposal'),
@@ -75,8 +81,8 @@ class OpSimOutput(object):
         Parameters
         ----------
         dbname : string
-            absolute path to database file 
-        subset : string, optional, defaults to 'combined' 
+            absolute path to database file
+        subset : string, optional, defaults to 'combined'
             one of {'_all', 'unique_all', 'wfd', 'ddf', 'combined'}
             determines a sequence of propIDs for selecting observations
             appropriate for the OpSim database in use
@@ -88,17 +94,21 @@ class OpSimOutput(object):
             if True, set dithers in DDF to 0, by setting ditheredRA,
             ditheredDec to fieldRA, fieldDec
         """
+
+        # Because this is in the class method, I am using the staticmethod
+        # rather than a property
         opsimVars = cls.get_opsimVariablesForVersion(opsimversion)
+
         # Check that subset parameter is legal
         allowed_subsets = cls.get_allowed_subsets()
         subset = subset.lower()
         if subset not in allowed_subsets:
             raise NotImplementedError('subset {} not implemented'.\
-                      format(subset))
+                                      format(subset))
 
         # Prepend the abs path with sqlite for use with sqlalchemy
         if not dbname.startswith('sqlite'):
-            dbname =  'sqlite:///' + dbname
+            dbname = 'sqlite:///' + dbname
         print(' reading from database {}'.format(dbname))
         engine = create_engine(dbname, echo=False)
 
@@ -106,7 +116,7 @@ class OpSimOutput(object):
         # the subsets requested
         proposals = pd.read_sql_table('Proposal', con=engine)
         propDict = cls.get_propIDDict(proposals, opsimversion=opsimversion)
-        
+
         # Seq of propIDs consistent with subset
         _propIDs = cls.propIDVals(subset, propDict, proposals)
         # If propIDs and subset were both provided, override subset propIDs
@@ -126,7 +136,7 @@ class OpSimOutput(object):
             pidString = ', '.join(list(str(pid) for pid in propIDs))
             sql_query = 'SELECT * FROM {0} WHERE {1}'.format(summaryTableName,
                                                              propIDNameInSummary
-                                                             ) 
+                                                            )
             sql_query += ' in ({})'.format(pidString)
 
             # If propIDs were passed to the method, this would be used
@@ -145,7 +155,7 @@ class OpSimOutput(object):
 
         if subset != '_all':
             # Drop duplicates unless this is to write out the entire OpSim
-            summary = cls.dropDuplicates(summary, propDict)
+            summary = cls.dropDuplicates(summary, propDict, opsimversion)
 
         summary.set_index('obsHistID', inplace=True)
 
@@ -155,9 +165,9 @@ class OpSimOutput(object):
                    zeroDDFDithers=zeroDDFDithers,
                    proposalTable=proposals, subset=subset,
                    opsimversion=opsimversion)
-    
+
     @staticmethod
-    def dropDuplicates(df, propIDDict):
+    def dropDuplicates(df, propIDDict, opsimversion):
         """
         drop duplicates ensuring keeping identity of ddf visits
 
@@ -170,6 +180,9 @@ class OpSimOutput(object):
         -------
         `pd.DataFrame` with the correct propID and duplicates dropped
         """
+        if opsimversion == 'lsstv4':
+            return df
+
         # As duplicates are dropped in order, reorder IDs so that
         # DDF is lowest, WFD next lowest, everything else as is
         minPropID = df.propID.min()
@@ -183,14 +196,10 @@ class OpSimOutput(object):
         df.loc[ddfmask, 'propID'] = ddfPropID
         df.loc[wfdmask, 'propID'] = wfdPropID
 
-        # df.loc[df.query('propID == @ddfID').index, 'propID'] = ddfPropID
-        # df.loc[df.query('propID == @wfdID').index, 'propID'] = wfdPropID
-        # df.sort_values(by='propID', inplace=True)
-
         # drop duplicates keeping the lowest transformed propIDs so that all
         # WFD visits remain, DDF visits which were duplicates of WFD visits are
         # dropped, etc.
- 
+
         # df = df.drop_duplicates(subset='obsHistID', keep='first', inplace=False)
         df = df.reset_index().drop_duplicates(subset='obsHistID',
                                               keep='first')#.set_index('obsHistID')
@@ -221,6 +230,7 @@ class OpSimOutput(object):
         tableNames :
         propIDs :
         """
+        raise NotImplementedError('Not quite working at this moment')
         allowed_subsets = cls.get_allowed_subsets()
         subset = subset.lower()
         if subset not in allowed_subsets:
@@ -364,7 +374,8 @@ class OpSimOutput(object):
                      expMJD='expMJD',
                      FWHMeff='FWHMeff',
                      pointingRA='ditheredRA',
-                     pointingDec='pointingDec')
+                     pointingDec='pointingDec',
+                     angleUnits='radians')
         elif opsimversion == 'lsstv4':
             x = dict(summaryTableName='SummaryAllProps',
                      obsHistID='observationId',
@@ -376,7 +387,8 @@ class OpSimOutput(object):
                      expMJD='observationStartMJD',
                      FWHMeff='seeingFWHMeff',
                      pointingRA='fieldRA',
-                     pointingDec='fieldDec')
+                     pointingDec='fieldDec',
+                     angleUnits='degrees')
         else:
             raise NotImplementedError('`get_propIDDict` is not implemented for this `opsimverson`')
         return x
@@ -413,7 +425,7 @@ class OpSimOutput(object):
                 return None
         else:
             raise NotImplementedError('value of subset Not recognized')
-        
+ 
 def OpSimDfFromFile(fname, ftype='hdf', subset='Combined'):
     """
     read a serialized form of the OpSim output into `pd.DataFrame`
@@ -437,14 +449,15 @@ def OpSimDfFromFile(fname, ftype='hdf', subset='Combined'):
         'DDF' : Unique pointings in DDF Cosmology
         'All' : Entire Summary Table From OpSim
     """
+    print('This seems to have changed since first written, fixing not a priority')
+    raise NotImplementedError('This seems to have changed since first written')
     if ftype == 'sqlite':
         dbname = 'sqlite:///' + fname
         engine = create_engine(dbname, echo=False)
         proposalTable =  pd.read_sql_table('Proposal', con=engine)
 
-        if subset == 'DDF':
-            sql
-
+        # if subset == 'DDF':
+        #    sql
 
     elif ftype == 'hdf' :
         pass
@@ -452,5 +465,3 @@ def OpSimDfFromFile(fname, ftype='hdf', subset='Combined'):
         pass
     else:
         raise NotImplementedError('ftype {} not implemented'.format(ftype))
-
-

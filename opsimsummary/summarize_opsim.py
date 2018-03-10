@@ -15,6 +15,7 @@ class PointingTree(object):
                  pointings,
                  raCol='ditheredRA',
                  decCol='ditheredDec',
+                 angleUnit='degrees',
                  indexCol='obsHistID',
                  leafSize=50):
         """
@@ -24,7 +25,7 @@ class PointingTree(object):
         defCol :
 
         .. note : raCol and decCol are assumed to hold ra and dec in units of
-        radians
+        angleUnit
         """
         self.pointings = pointings
 

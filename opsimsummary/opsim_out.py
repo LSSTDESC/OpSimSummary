@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """
 This module deals with representing the data in an OpSim output (to the extent
 we will care about it). A description of the OpSim output can be found at
@@ -9,7 +8,7 @@ In brief, we will use two tables from the OpSim output:
     - Proposals which contains a dictionary to interpreting the `propID` column
         of Summary.
 """
-from __future__ import absolute_import, division, print_function
+from __future__ import division, print_function, unicode_literals
 __all__ = ['OpSimOutput']
 import numpy as np
 import pandas as pd
@@ -149,6 +148,7 @@ class OpSimOutput(object):
             replacedict[opsimVars['pointingDec']] = 'ditheredDec'
             replacedict[opsimVars['expMJD']] = 'expMJD'
             replacedict[opsimVars['FWHMeff']] = 'fwhmeff'
+            replacedict[opsimVars['filtSkyBrightness']] = 'filtSkyBrightness'
             summary.rename(columns=replacedict, inplace=True)
         else:
             raise NotImplementedError()
@@ -375,6 +375,7 @@ class OpSimOutput(object):
                      FWHMeff='FWHMeff',
                      pointingRA='ditheredRA',
                      pointingDec='pointingDec',
+                     filtSkyBrightness='filtSkyBrightness',
                      angleUnits='radians')
         elif opsimversion == 'lsstv4':
             x = dict(summaryTableName='SummaryAllProps',
@@ -388,6 +389,7 @@ class OpSimOutput(object):
                      FWHMeff='seeingFWHMeff',
                      pointingRA='fieldRA',
                      pointingDec='fieldDec',
+                     filtSkyBrightness='SkyBrightness',
                      angleUnits='degrees')
         else:
             raise NotImplementedError('`get_propIDDict` is not implemented for this `opsimverson`')

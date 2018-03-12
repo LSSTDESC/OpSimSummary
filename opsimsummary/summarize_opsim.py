@@ -1,13 +1,141 @@
 """
 Class to summarize the OpSim output
 """
-__all__ = ['PointingTree', 'SummaryOpsim', 'add_simlibCols']
+from __future__ import absolute_import
+__all__ = ['SynOpSim', 'PointingTree', 'SummaryOpsim', 'add_simlibCols']
 import os
 import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
 import matplotlib.pyplot as plt
 from sklearn.neighbors import BallTree
+import healpy as hp
+from .opsim_out import OpSimOutput
+from .trig import (convertToSphericalCoordinates,
+                   convertToCelestialCoordinates,
+                   angSep)
+
+class SynOpSim(object):
+    """
+    """
+    def __init__(self,
+                 pointings,
+                 opsimversion='lsst3',
+                 raCol='ditheredRA',
+                 decCol='ditheredDec',
+                 angleUnit='degrees',
+                 indexCol='obsHistID',
+                 usePointingTree=False):
+
+        self.pointings = pointings
+        self.raCol = raCol
+        self.decCol = decCol
+        self.angleUnit = angleUnit
+        self.indexCol = indexCol
+
+        self.usePointingTree = usePointingTree
+        self._pointingTree = None
+
+
+    @classmethod
+    def fromOpSimDBinSYN(bls, dbname, subset='combined',
+                    tableNames=('Summary', 'Proposal'),
+                    propIDs=None, zeroDDFDithers=True,
+                    opsimversion='lsst3', raCol='ditheredRA',
+                    decCol='ditheredDec', angleUnit='degrees',
+                    indexCol='obsHistID', usePointingTree=False):
+        """
+        Class Method to instantiate this from an OpSim sqlite
+        database output
+
+        Parameters
+        ----------
+        dbname : string
+            absolute path to database file
+        subset : string, optional, defaults to 'combined'
+            one of {'_all', 'unique_all', 'wfd', 'ddf', 'combined'}
+            determines a sequence of propIDs for selecting observations
+            appropriate for the OpSim database in use
+        propIDs : sequence of integers, defaults to None
+            proposal ID values. If present, overrides the use of subset
+        tableNames : tuple of strings, defaults to ('Summary', 'Proposal')
+            names of tables read from the OpSim database
+        zeroDDFDithers : bool, defaults to True
+            if True, set dithers in DDF to 0, by setting ditheredRA,
+            ditheredDec to fieldRA, fieldDec
+        """
+        print('Issue #189')
+        raise NotImplementedError('Does not work, some bug needs to be fixed')
+        print(dbname, subset, opsimversion)
+        opsout = OpSimOutput.fromOpSimDB(dbname, opsimversion='lsstv3',
+                                         tableNames=('Summary', 'Proposal'))
+        # opsout = OpSimOutput.fromOpSimDB(dbname, subset=subset,
+        #                                 # tableNames=tableNames,
+        #                                 propIDs=propIDs,
+        #                                 zeroDDFDithers=zeroDDFDithers,
+        #                                 opsimversion=opsimversion)
+        #
+        return bls(opsout.summary, opsimversion=opsimversion, raCol=raCol,
+                   decCol=decCol, angleUnit=angleUnit, indexCol=indexCol,
+                   usePointingTree=usePointingTree)
+
+    @property
+    def pointingTree(self):
+        """
+        if self.usePointingTree is False, this is set to None. Otherewise
+        contains a `PointingTree` Object. This contains a `BallTree` of the
+        pointings, and a method to find all pointings enclosed in a given radii. 
+        """
+        if self.usePointingTree is True:
+            if self._pointingTree is None:
+                self._pointingTree = PointingTree(self.pointings,
+                                                  raCol=self.raCol,
+                                                  decCol=self.decCol,
+                                                  angleUnit=self.angleUnit,
+                                                  indexCol=self.indexCol,
+                                                  leafSize=50)
+        return self._pointingTree
+
+    def sampleRegion(self, numFields=50000, minVisits=1, nest=True, nside=256):
+        """
+        """
+        theta, phi = convertToSphericalCoordinates(ra=self.pointings._ra,
+                                                   dec=self.pointings._dec,
+                                                   unit='radians')
+        field = Field()
+        ipix = hp.ang2pix(nside=nside, theta=theta, phi=phi, nest=nest)
+        hid, count = np.unique(ipix, return_counts=True)
+        mask = count > minVisits - 1
+        fieldIDs = np.random.choice(hid, size=numFields, replace=False) 
+        ra, dec = hp.pix2ang(nside=nside, ipix=fieldIDs, nest=nest, lonlat=True)
+        rarad = np.radians(ra)
+        decrad = np.radians(dec)
+        for i, fieldID in enumerate(fieldIDs):
+            dd = angSep(rarad[i], decrad[i],
+                        self.pointings._ra, self.pointings._dec)
+            self.pointings['dist'] = dd 
+            # idx = self.pointingTree.pointingsEnclosing(ra[i], dec[i], circRadius=0.)[0]
+            # opsimtable = self.pointings.loc[idx]
+            opsimtable = self.pointings.query('dist < 0.030543261909900768')
+            field.setfields(fieldID, ra[i], dec[i], opsimtable)
+            yield field 
+
+
+
+class Field(object):
+    def __init__(self, fieldID=None, ra=None, dec=None, opsimtable=None,
+                 mwebv=0.1):
+        self.fieldID = fieldID
+        self.ra = ra
+        self.dec = dec
+        self.mwebv = mwebv
+        self.opsimtable = opsimtable
+
+    def setfields(self, fieldID, ra, dec, opsimtable):
+        self.fieldID = fieldID
+        self.ra = ra
+        self.dec = dec
+        self.opsimtable = opsimtable
 
 
 class PointingTree(object):
@@ -77,7 +205,8 @@ class PointingTree(object):
         obj_posns[:, 1] = np.radians(ra)
 
         total_radius = np.radians(circRadius + pointingRadius)
-        inds, dist = self.tree.query_radius(obj_posns, r=total_radius,
+        inds, dist = self.tree.query_radius(obj_posns,
+                                            r=total_radius,
                                             count_only=False,
                                             return_distance=True)
 

@@ -2,7 +2,7 @@ from __future__ import absolute_import
 import os
 from .summarize_opsim import *
 from . import summarize_opsim
-from . import simlib
+from .simlib import SimlibMixin
 from .version import __VERSION__ as __version__
 here = __file__
 basedir = os.path.split(here)[0]

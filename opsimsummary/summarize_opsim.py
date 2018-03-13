@@ -97,7 +97,19 @@ class SynOpSim(object):
         return self._pointingTree
 
     def sampleRegion(self, numFields=50000, minVisits=1, nest=True, nside=256):
-        """
+        """This method samples a number `numFields` fields provided they have
+        a minimal number of visits `minVisits`
+
+        Parameters
+        ----------
+        numFields : int, mandatory
+            Number of fields to sample
+        minVisits : int, number, defaults to 1
+            minimal number of visits required to consider the tile.
+        nest : Bool, defaults to True
+            use the `nest` method rather than `ring`
+        nside : int, defaults to 256
+            `Healpix.NSIDE`
         """
         theta, phi = convertToSphericalCoordinates(ra=self.pointings._ra,
                                                    dec=self.pointings._dec,

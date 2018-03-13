@@ -4,13 +4,15 @@
 Module with functionality to represent SNANA simlib data. 
 """
 from __future__ import division, print_function, unicode_literals
-__all__ = ['SimlibMixin']
+__all__ = ['SimlibMixin', 'Simlib']
 import os
 import numpy as np
 import subprocess
 from io import StringIO, BytesIO
 from collections import OrderedDict
 import pandas as pd
+from .summarize_opsim import SynOpSim
+
 
 class SimlibMixin(object):
     """
@@ -274,7 +276,7 @@ class SimlibMixin(object):
         # comment: I would like to generalize ugrizY to a sort but am not sure
         # of the logic for other filter names. so ducking for now
         s = 'SURVEY: {0:}    FILTERS: ugrizY  TELESCOPE: {1:}\n'.format(survey, telescope)
-        s += 'USER: {0:}     HOST: {1:}\n'.format(user, host) 
+        s += 'USER: {0:}     HOST: {1}\n'.format(user, host) 
         s += 'BEGIN LIBGEN\n'
         return s
     
@@ -319,6 +321,19 @@ class SimlibMixin(object):
             # Now write out the footer to the entire simlib file 
             simlib_footer = self.simLibFooter(num_fields)
             fh.write(simlib_footer)
+
+class Simlib(SynOpSim, SimlibMixin):
+    """A class to write out simlibs to disk
+    """
+    pixelSize = 0.2
+    host = None
+    user = None
+    telescope = None
+    survey = None
+    
+    def randomSimlibs(self, numFields=50, fname='test.simlib'):
+        fields= self.sampleRegion(numFields=numFields)
+        self.writeSimlib(fname, fields)
 
 class FieldSimlib(object):
     """
@@ -492,132 +507,3 @@ class FieldSimlib(object):
 
         return dict(zip(keys, vals))
 
-class Simlib(object):
-
-    def __init__(self, simlibDict, simlibMetaData=None):
-
-
-        self.simlibDict = simlibDict
-        self.fieldIDs = self.simlibDict.keys()
-        if simlibMetaData is not None:
-            self.meta = simlibMetaData
-
-    @classmethod
-    def fromSimlibFile(cls, simlibFileName):
-        '''
-        Constructor for class using an ASCII 
-
-        Parameters
-        ----------
-        simlibFileName: string, mandatory
-            absolute path to SNANA simlib file
-
-        Returns
-        -------
-        dictionary with LIBIDs (fieldIDs) of type int as keys, and the
-        corresponding FieldSimlib objects as values
-
-        Examples
-        --------
-        >>> sl = Simlib.fromSimlibFile(simlibFileName)
-        '''
-
-        file_header, file_data, file_footer = cls.read_simlibFile(simlibFileName)
-        mydict = cls.getSimlibs(file_data)
-        meta = cls.simlibMetaData(file_header) 
-        cls = cls(simlibDict=mydict, simlibMetaData=meta)
-        cls.validate(file_footer)
-
-        return cls
-
-    def validate(self, file_footer):
-        '''
-        '''
-        numberlist = list(filter(lambda x: x.isdigit(), file_footer.split()))
-        if len(numberlist) !=1:
-            raise ValueError('There should only be one integer in the footer')
-        numLibId = int(numberlist[0])
-
-        if numLibId != len(self.fieldIDs):
-            raise ValueError('The number of fieldIDs is in the simlib does not match the number stated in footer')
-
-        return
-
-    @staticmethod
-    def simlibMetaData(simlibHeader):
-        '''
-        parse the string corresponding to the header of a SNANA simlib file to
-        get the simlib MetaData, stored in the form of a string valued
-        dictionary with the following keys:
-        'SURVEY', 'FILTERS', 'HOST', 'USER', 'COMMENT'
-
-        Parameters
-        ----------
-        simlibHeader: string corresponding the header of an SNANA simlib file as
-            parsed by cls.read_simlibFile.
-        Returns
-        -------
-        dictionary of keys above and values.
-        '''
-
-        comments = []
-        fields = []
-
-        lines = simlibHeader.split('\n')
-        for line in lines:
-            if line.startswith('COMMENT') or line.startswith('#'):
-                comments.append(line)
-            else:
-                fields.append(line)
-        ss = ' '.join(fields)
-        words = ss.split()
-        keys = list(map(lambda x: x[:-1], words[0::2]))
-        vals = words[1::2]
-        if len(keys) != len(vals):
-            raise ValueError('the numberof fields in dict should match vals')
-
-        meta = dict(zip(keys, vals))
-        meta['COMMENTS'] = '\n'.join(comments)
-
-        return meta
-
-
-    def simlibData(self, fieldID):
-       return self.simlibDict[fieldID].data
-
-    @classmethod
-    def getSimlibs(cls, file_data):
-    # def getSimlibs(cls, simlibFile):
-        # file_header, file_data, file_footer = cls.read_simlibFile(simlibFile)
-        simlibStrings = cls.split_simlibStrings(file_data)
-        mydict = dict()
-        for strings in simlibStrings:
-            s = FieldSimlib.fromSimlibString(strings)
-            mydict[s.fieldID] = s
-
-        return mydict 
-            
-
-    @staticmethod
-    def read_simlibFile(simlibfile):
-    
-        # slurp into a string
-        with open(simlibfile) as f:
-            ss = f.read()
-        
-        # split into header, footer and data
-        fullfile = ss.split('BEGIN LIBGEN')
-        file_header = fullfile[0]
-        if 'END_OF_SIMLIB' in ss:
-            data, footer = fullfile[1].split('END_OF_SIMLIB')
-        else:
-            data = fullfile[1]
-            footer = ''
-
-        return file_header, data, footer
-
-    @staticmethod
-    def split_simlibStrings(simlibStrings):
-        simlibs = simlibStrings.split('\nLIBID')[1:]
-        simlibs = map(lambda x: 'LIBID' + x.split('# -')[0], simlibs)
-        return simlibs

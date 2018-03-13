@@ -255,7 +255,11 @@ class SimlibMixin(object):
     
     def simlibFieldasString(self, fh, fieldID, ra, dec, opsimtable, mwebv=0.1):
 
+<<<<<<< HEAD
         opsimtable = opsimtable.reset_index()
+=======
+
+>>>>>>> master
         #raise NotImplementedError("Has not been checked")
         # Write out the header for each field
         s = self.fieldheader(fieldID, ra, dec, opsimtable, mwebv=mwebv)
@@ -285,7 +289,11 @@ class SimlibMixin(object):
         return s
 
 
+<<<<<<< HEAD
     def writeSimlib(self, filename, fields, comments='\n'):
+=======
+    def writeSimlib(self, filename, fields, opsimtables, comments='\n'):
+>>>>>>> master
             
         num_fields = 0
         with open(filename, 'w') as fh:
@@ -295,14 +303,21 @@ class SimlibMixin(object):
             fh.write(comments)
 
             # Now write the actual simlib data to file
+<<<<<<< HEAD
             for field in fields:
+=======
+            for field, opsimtable in zip(fields, opsimtables):
+>>>>>>> master
 
                 # obtain the set of field dependent parameters from `SynOpSim`
                 fieldID = field.fieldID
                 ra = field.ra
                 dec = field.dec
                 mwebv = field.mwebv
+<<<<<<< HEAD
                 opsimtable = field.opsimtable
+=======
+>>>>>>> master
 
                 fh.write(self.simlibFieldasString(self, fieldID, ra, dec,
                                                   opsimtable, mwebv=0.1))

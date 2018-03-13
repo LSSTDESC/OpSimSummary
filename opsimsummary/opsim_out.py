@@ -55,6 +55,16 @@ class OpSimOutput(object):
             ddfidx = summary.query('propID == @ddfPropID').index
             summary.loc[ddfidx, 'ditheredRA'] = summary.loc[ddfidx, 'fieldRA']
             summary.loc[ddfidx, 'ditheredDec'] = summary.loc[ddfidx, 'fieldDec']
+        # Have a clear unambiguous ra, dec in radians following LSST convention
+        if self.opsimVars['angleUnits'] == 'degrees':
+            summary['_ra'] = np.radians(summary['ditheredRA'])
+            summary['_dec'] = np.radians(summary['ditheredDec'])
+        elif self.opsimVars['angleUnits'] == 'radians':
+            summary['_ra'] = summary['ditheredRA']
+            summary['_dec'] = summary['ditheredDec']
+        else:
+            raise ValueError('angle unit of ra and dec Columns not recognized\n')
+
         self.summary = summary
         self.allowed_subsets = self.get_allowed_subsets()
         self.subset = subset
@@ -70,9 +80,9 @@ class OpSimOutput(object):
 
     @classmethod
     def fromOpSimDB(cls, dbname, subset='combined',
-                     tableNames=('Summary', 'Proposal'),
-                     propIDs=None, zeroDDFDithers=True,
-                     opsimversion='lsst3'):
+                    tableNames=('Summary', 'Proposal'),
+                    propIDs=None, zeroDDFDithers=True,
+                    opsimversion='lsst3'):
         """
         Class Method to instantiate this from an OpSim sqlite
         database output
@@ -141,18 +151,18 @@ class OpSimOutput(object):
             # If propIDs were passed to the method, this would be used
             print(sql_query)
             summary = pd.read_sql_query(sql_query, con=engine)
-            replacedict = dict()
-            replacedict[opsimVars['obsHistID']] = 'obsHistID'
-            replacedict[opsimVars['propIDNameInSummary']] = 'propID'
-            replacedict[opsimVars['pointingRA']] = 'ditheredRA'
-            replacedict[opsimVars['pointingDec']] = 'ditheredDec'
-            replacedict[opsimVars['expMJD']] = 'expMJD'
-            replacedict[opsimVars['FWHMeff']] = 'fwhmeff'
-            replacedict[opsimVars['filtSkyBrightness']] = 'filtSkyBrightness'
-            summary.rename(columns=replacedict, inplace=True)
         else:
             raise NotImplementedError()
 
+        replacedict = dict()
+        replacedict[opsimVars['obsHistID']] = 'obsHistID'
+        replacedict[opsimVars['propIDNameInSummary']] = 'propID'
+        replacedict[opsimVars['pointingRA']] = 'ditheredRA'
+        replacedict[opsimVars['pointingDec']] = 'ditheredDec'
+        replacedict[opsimVars['expMJD']] = 'expMJD'
+        replacedict[opsimVars['FWHMeff']] = 'FWHMeff'
+        replacedict[opsimVars['filtSkyBrightness']] = 'filtSkyBrightness'
+        summary.rename(columns=replacedict, inplace=True)
         if subset != '_all':
             # Drop duplicates unless this is to write out the entire OpSim
             summary = cls.dropDuplicates(summary, propDict, opsimversion)
@@ -386,10 +396,10 @@ class OpSimOutput(object):
                      ops_wfdname='WideFastDeep',
                      ops_ddfname='Deep Drilling',
                      expMJD='observationStartMJD',
-                     FWHMeff='seeingFWHMeff',
+                     FWHMeff='seeingFwhmEff',
                      pointingRA='fieldRA',
                      pointingDec='fieldDec',
-                     filtSkyBrightness='SkyBrightness',
+                     filtSkyBrightness='skyBrightness',
                      angleUnits='degrees')
         else:
             raise NotImplementedError('`get_propIDDict` is not implemented for this `opsimverson`')

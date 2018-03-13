@@ -151,18 +151,6 @@ class OpSimOutput(object):
             # If propIDs were passed to the method, this would be used
             print(sql_query)
             summary = pd.read_sql_query(sql_query, con=engine)
-<<<<<<< HEAD
-=======
-            replacedict = dict()
-            replacedict[opsimVars['obsHistID']] = 'obsHistID'
-            replacedict[opsimVars['propIDNameInSummary']] = 'propID'
-            replacedict[opsimVars['pointingRA']] = 'ditheredRA'
-            replacedict[opsimVars['pointingDec']] = 'ditheredDec'
-            replacedict[opsimVars['expMJD']] = 'expMJD'
-            replacedict[opsimVars['FWHMeff']] = 'fwhmeff'
-            replacedict[opsimVars['filtSkyBrightness']] = 'filtSkyBrightness'
-            summary.rename(columns=replacedict, inplace=True)
->>>>>>> master
         else:
             raise NotImplementedError()
 
@@ -411,11 +399,7 @@ class OpSimOutput(object):
                      FWHMeff='seeingFwhmEff',
                      pointingRA='fieldRA',
                      pointingDec='fieldDec',
-<<<<<<< HEAD
                      filtSkyBrightness='skyBrightness',
-=======
-                     filtSkyBrightness='SkyBrightness',
->>>>>>> master
                      angleUnits='degrees')
         else:
             raise NotImplementedError('`get_propIDDict` is not implemented for this `opsimverson`')

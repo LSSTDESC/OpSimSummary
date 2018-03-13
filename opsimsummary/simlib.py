@@ -328,11 +328,16 @@ class Simlibs(SynOpSim, SimlibMixin):
     pixelSize = 0.2
     host = None
     user = None
-    telescope = None
-    survey = None
+    telescope = 'LSST'
+    survey = 'LSST'
     
-    def randomSimlibs(self, numFields=50, fname='test.simlib'):
-        fields= self.sampleRegion(numFields=numFields)
+    def randomSimlibs(self, numFields=50, fname='test.simlib',
+                      rng=np.random.RandomState(1), outfile=None):
+
+        if outfile is None:
+            outfile = fname  + '.hdf'
+        fields = self.sampleRegion(numFields=numFields, rng=rng,
+                                   outfile=outfile)
         self.writeSimlib(fname, fields)
 
 class Simlib(object):

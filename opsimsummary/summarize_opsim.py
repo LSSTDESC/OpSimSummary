@@ -96,7 +96,8 @@ class SynOpSim(object):
                                                   leafSize=50)
         return self._pointingTree
 
-    def sampleRegion(self, numFields=50000, minVisits=1, nest=True, nside=256):
+    def sampleRegion(self, numFields=50000, minVisits=1, nest=True, nside=256,
+                     rng=np.random.choice(1), outfile=None):
         """This method samples a number `numFields` fields provided they have
         a minimal number of visits `minVisits`
 
@@ -118,10 +119,23 @@ class SynOpSim(object):
         ipix = hp.ang2pix(nside=nside, theta=theta, phi=phi, nest=nest)
         hid, count = np.unique(ipix, return_counts=True)
         mask = count > minVisits - 1
-        fieldIDs = np.random.choice(hid, size=numFields, replace=False) 
+        hids = hid[mask]
+
+        print('number of fields with visits above {0} is {1}'.format(minVisits,
+                                                                     len(hids)))
+        fieldIDs = rng.choice(hids, size=numFields, replace=False)
         ra, dec = hp.pix2ang(nside=nside, ipix=fieldIDs, nest=nest, lonlat=True)
         rarad = np.radians(ra)
         decrad = np.radians(dec)
+
+        # write out the survey files to an output file
+        # if an outfile is provided
+        if outfile is not None:
+            hdf_fname = outfile + '.hdf'
+            survey = pd.DataFrame(dict(hid=hid, count=count))
+            survey.to_hdf(hdf_fname, key='survey')
+            surveySample = pd.DataFrame(dict(fieldIDs=fieldIDs, ra=ra, dec=dec)) 
+            surveySample.to_hdf(hdf_fname, key='surveySample')
         for i, fieldID in enumerate(fieldIDs):
             dd = angSep(rarad[i], decrad[i],
                         self.pointings._ra, self.pointings._dec)

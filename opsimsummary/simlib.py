@@ -306,12 +306,12 @@ class SimlibMixin(object):
                 mwebv = field.mwebv
                 opsimtable = field.opsimtable
 
-                fh.write(self.simlibFieldasString(self, fieldID, ra, dec,
+                fh.write(self.simlibFieldasString(self, num_fields, ra, dec,
                                                   opsimtable, mwebv=0.1))
 
                 # Write out the header for each field
                 # fh.write(self.fieldheader(fieldID, ra, dec, opsimtable,
-                #                          mwebv=mwebv))
+                #                           mwebv=mwebv))
                 # fh.write(self.formatSimLibField(fieldID, opsimtable))
 
                 # Write out the footer for each field
@@ -332,13 +332,20 @@ class Simlibs(SynOpSim, SimlibMixin):
     survey = 'LSST'
     
     def randomSimlibs(self, numFields=50, fname='test.simlib',
-                      rng=np.random.RandomState(1), outfile=None):
+                      rng=np.random.RandomState(1), outfile=None,
+                      mapping_outfile='mapping.csv'):
 
         if outfile is None:
             outfile = fname  + '.hdf'
         fields = self.sampleRegion(numFields=numFields, rng=rng,
                                    outfile=outfile)
         self.writeSimlib(fname, fields)
+
+        fields = self.sampleRegion(numFields=numFields, rng=rng,
+                                   outfile=outfile)
+        df = pd.DataFrame(dict(SNANAID=np.arange(numFields),
+                               healpixID=list(field.fieldID for field in fields))) 
+        df.to_csv(mapping_outfile)
 
 class Simlib(object):
 

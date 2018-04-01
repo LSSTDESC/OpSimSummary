@@ -16,7 +16,7 @@ from .trig import (convertToSphericalCoordinates,
                    angSep)
 
 class SynOpSim(object):
-    """
+    """Class with a summary of OpSim data base output.
     """
     def __init__(self,
                  pointings,
@@ -38,7 +38,6 @@ class SynOpSim(object):
 
 
     @classmethod
-    # #def fromOpSimDBinSYN(bls, dbname, subset='combined',
     def fromOpSimDB(bls, dbname, subset='combined',
                     tableNames=('Summary', 'Proposal'),
                     propIDs=None, zeroDDFDithers=True,
@@ -85,9 +84,8 @@ class SynOpSim(object):
         if self.usePointingTree is True:
             if self._pointingTree is None:
                 self._pointingTree = PointingTree(self.pointings,
-                                                  raCol=self.raCol,
-                                                  decCol=self.decCol,
-                                                  angleUnit=self.angleUnit,
+                                                  raCol='_ra',
+                                                  decCol='_dec',
                                                   indexCol=self.indexCol,
                                                   leafSize=50)
         return self._pointingTree
@@ -161,19 +159,20 @@ class Field(object):
 class PointingTree(object):
     def __init__(self,
                  pointings,
-                 raCol='ditheredRA',
-                 decCol='ditheredDec',
-                 angleUnit='degrees',
+                 raCol='_ra',
+                 decCol='_dec',
                  indexCol='obsHistID',
                  leafSize=50):
         """
         pointings : `pd.dataFrame` 
             of pointings with unique index values as the index column
-        raCol :
-        defCol :
+        raCol :  string
+            column name for a column holding ra values in radians
+        decCol :  string
+            column name for a column holding dec values in radians
 
         .. note : raCol and decCol are assumed to hold ra and dec in units of
-        angleUnit
+        radians
         """
         self.pointings = pointings
 
@@ -183,6 +182,7 @@ class PointingTree(object):
         else:
             raise ValueError('pointings, and the provided values of raCol, decCol {0}, {1} are incompatible'.format(raCol, decCol))
 
+        # tree queries
         # Keep mapping from integer indices to obsHistID
         pointings['intindex'] = np.arange(len(pointings)).astype(np.int)
         self.indMapping = pointings['intindex'].reset_index().set_index('intindex')
@@ -194,10 +194,24 @@ class PointingTree(object):
 
     @staticmethod
     def validatePointings(pointings, raCol, decCol):
+        """
+        Validates `pointings` as having required properties according to list
+        of tests below
+
+        Parameters
+        ----------
+        raCol : column name that should be in `pointings`
+        decCol : column name that should be in `pointings`
+
+        List of Tests:
+        1. raCol and decCol should be in the columns of `pointings` 
+        """
         cols = pointings.columns
         if raCol in cols and decCol in cols:
             return True
         else:
+            print('the column name provided to PointingTree for ra and decs')
+            print(' do not exist')
             return False
 
     def pointingsEnclosing(self, ra, dec, circRadius, pointingRadius=1.75):

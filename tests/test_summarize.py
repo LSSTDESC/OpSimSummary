@@ -116,3 +116,38 @@ def test_synopsimPTree(fname, opsimversion, tableNames):
     costhresh = np.cos(np.radians(1.75))
     assert_array_equal(np.sort(X.query('dist > @costhresh').index),
                        res)
+
+
+@pytest.mark.parametrize("fname,opsimversion,tableNames",
+                         testdata_synopsiminit)
+def test_synopsimPointings(fname, opsimversion, tableNames):
+    """
+    test that the lengths of pointings for a random set of 100 positions
+    in the approximate LSST region match when calculated directly or with
+    the pointing tree
+    """
+    fname = os.path.join(oss.example_data, fname)
+    synopsim = SynOpSim.fromOpSimDB(fname,
+                                    opsimversion=opsimversion,
+                                    tableNames=tableNames,
+                                    usePointingTree=True)
+
+
+    # Find distances to a specific location ra=54.0 deg, dec=-27.5 deg
+    num = 100
+    radeg = np.random.uniform(0., 360., size=num)
+    decdeg = np.random.uniform(-66., 0., size=num)
+
+    # Use the PointingTree
+    pts = synopsim.pointingsEnclosing(ra=radeg, dec=decdeg,
+                                      circRadius=0., pointingRadius=1.75, 
+                                      usePointingTree=True, subset=[])
+    ptsh = synopsim.pointingsEnclosing(ra=radeg, dec=decdeg,
+                                       circRadius=0., pointingRadius=1.75, 
+                                       usePointingTree=False, subset=[])
+
+    ptslens = np.array(list(len(pt) for pt in pts))
+    ptshlens = np.array(list(len(pt) for pt in ptsh))
+    np.testing.assert_array_equal(ptslens, ptshlens)
+    assert max(ptslens) > 0
+    

@@ -36,6 +36,39 @@ class SynOpSim(object):
         self.usePointingTree = usePointingTree
         self._pointingTree = None
 
+    @staticmethod
+    def df_subset_columns(df, subset):
+        """return the dataframe `df` with only a subset of the columns as
+        specified in the list `subset`
+
+        Parameters
+        ----------
+        df : `pd.DataFrame`
+            the input dataframe to be returned with subset of the columns
+        subset: (list of strings| 'all')
+            if 'all', df is returned. Otherwise, return
+            df[subset], with the same index.
+
+        ..note: subset=[] returns only the index
+        """
+        if subset == 'all':
+            # While we could be uniform and do according to the line below
+            # there seems to be no reason to just return this
+            # subset = df.columns
+            return df
+
+        # This protects us if `subset` is formed by taking `df.columns` and
+        # performing some operations, even though the docstrings are specific
+        # about `list`
+        if isinstance(subset, pd.core.indexes.base.Index):
+            subset = list(subset.values)
+
+        # slightly roundabout method to work even if `subset` includes
+        # name of index variable
+        name = df.index.name
+        subset = list(np.unique(np.array(subset + [name])))
+        return df.reset_index()[subset].set_index(name)
+
 
     @classmethod
     def fromOpSimDB(bls, dbname, subset='combined',
@@ -90,8 +123,65 @@ class SynOpSim(object):
                                                   leafSize=50)
         return self._pointingTree
 
+    def pointingsEnclosing(self, ra, dec, circRadius=0., pointingRadius=1.75,
+                           usePointingTree=None, transform=None, subset='all'):
+        """
+        Helper method returning a generator of pointings overlapping with
+        circles of radius `circRadius around a sequence of positions given in
+        terms of `ra` and `dec`. The calculation uses a `Tree` to make the
+        calculations more efficient if `usePointingTree` is True, or uses direct
+        calculations if this variable is set to `False`. A user may choose to
+        obtain a subset of the `pointing` by supplying a subset in the form a
+        list via the parameter `subset`.
+ 
+        Parameters
+        ----------
+        ra : `np.ndarray` or a float, unit of degrees
+            a float or an array of floats representing the ra values
+        dec : `np.ndarray` or a float, unit of degrees
+            a float or an array of floats representing the dec values
+        circRadius: float, unit of degrees, defaults to 0.
+            a circle around each of the 
+        pointingRadius : degrees, defaults to 1.75
+            radius of the field of view
+        usePointingTree: {None|True|False}, defaults to `None`
+            if None, usePointingTree = self.usePointingTree
+            else the variable takes the {True|False} values assigned
+        transform: function, Not implemented
+        subset: (list of strings| 'all')
+            if 'all', df is returned. Otherwise, return
+            df[subset], with the same index.
+
+        Returns
+        -------
+        A generator with the pointings that overlap with ra, dec 
+
+        .. note: 1. the values in the generator may be accessed by next(generator)
+            2. subset=[] returns only the index
+        """
+        if transform is not None:
+            raise NotImplementedError('transforms are not implemented yet')
+        if usePointingTree is None:
+            usePointingTree = self.usePointingTree
+
+        if usePointingTree:
+            hidxs = self.pointingTree.pointingsEnclosing(ra, dec, circRadius,
+                                                         pointingRadius)
+            for hidx in hidxs:
+                yield self.df_subset_columns(self.pointings.loc[hidx], subset)
+        else:
+            x = self.pointings[['_ra', '_dec']].copy().apply(np.degrees)
+            pvecs = hp.ang2vec(x._ra, x._dec, lonlat=True)
+            vecs = hp.ang2vec(ra, dec, lonlat=True)
+            prad = np.radians(pointingRadius + circRadius)
+            for vec in vecs:
+                x['dist'] = np.arccos(np.dot(pvecs, vec))
+                idx = x.query('dist < @prad').index
+                yield self.df_subset_columns(self.pointings.loc[idx], subset)
+
     def sampleRegion(self, numFields=50000, minVisits=1, nest=True, nside=256,
-                     rng=np.random.choice(1), outfile=None):
+                     rng=np.random.choice(1), outfile=None,
+                     usePointingTree=True):
         """This method samples a number `numFields` fields provided they have
         a minimal number of visits `minVisits`
 
@@ -105,6 +195,7 @@ class SynOpSim(object):
             use the `nest` method rather than `ring`
         nside : int, defaults to 256
             `Healpix.NSIDE`
+        rng : 
         """
         theta, phi = convertToSphericalCoordinates(ra=self.pointings._ra,
                                                    dec=self.pointings._dec,
@@ -118,9 +209,11 @@ class SynOpSim(object):
         print('number of fields with visits above {0} is {1}'.format(minVisits,
                                                                      len(hids)))
         fieldIDs = rng.choice(hids, size=numFields, replace=False)
-        ra, dec = hp.pix2ang(nside=nside, ipix=fieldIDs, nest=nest, lonlat=True)
-        rarad = np.radians(ra)
-        decrad = np.radians(dec)
+        ra, dec = hp.pix2ang(nside, fieldIDs, nest=nest, lonlat=True)
+        pts = self.pointingsEnclosing(ra, dec, circRadius=0.,
+                                      pointingRadius=1.75,
+                                      usePointingTree=usePointingTree)
+
 
         # write out the survey files to an output file
         # if an outfile is provided
@@ -128,14 +221,11 @@ class SynOpSim(object):
             hdf_fname = outfile + '.hdf'
             survey = pd.DataFrame(dict(hid=hid, count=count))
             survey.to_hdf(hdf_fname, key='survey')
-            surveySample = pd.DataFrame(dict(fieldIDs=fieldIDs, ra=ra, dec=dec)) 
+            surveySample = pd.DataFrame(dict(fieldIDs=fieldIDs, ra=ra, dec=dec))
             surveySample.to_hdf(hdf_fname, key='surveySample')
         for i, fieldID in enumerate(fieldIDs):
-            dd = angSep(rarad[i], decrad[i],
-                        self.pointings._ra, self.pointings._dec)
-            self.pointings['dist'] = dd 
-            opsimtable = self.pointings.query('dist < 0.030543261909900768')
-            field.setfields(fieldID, ra[i], dec[i], opsimtable)
+            field.setfields(fieldID, ra[i], dec[i],
+                            next(pts).sort_values(by='expMJD'))
             yield field 
 
 

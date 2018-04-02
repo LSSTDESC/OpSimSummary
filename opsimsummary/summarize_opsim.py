@@ -180,7 +180,8 @@ class SynOpSim(object):
                 yield self.df_subset_columns(self.pointings.loc[idx], subset)
 
     def sampleRegion(self, numFields=50000, minVisits=1, nest=True, nside=256,
-                     rng=np.random.choice(1), outfile=None):
+                     rng=np.random.choice(1), outfile=None,
+                     usePointingTree=True):
         """This method samples a number `numFields` fields provided they have
         a minimal number of visits `minVisits`
 
@@ -194,6 +195,7 @@ class SynOpSim(object):
             use the `nest` method rather than `ring`
         nside : int, defaults to 256
             `Healpix.NSIDE`
+        rng : 
         """
         theta, phi = convertToSphericalCoordinates(ra=self.pointings._ra,
                                                    dec=self.pointings._dec,
@@ -207,9 +209,11 @@ class SynOpSim(object):
         print('number of fields with visits above {0} is {1}'.format(minVisits,
                                                                      len(hids)))
         fieldIDs = rng.choice(hids, size=numFields, replace=False)
-        ra, dec = hp.pix2ang(nside=nside, ipix=fieldIDs, nest=nest, lonlat=True)
-        rarad = np.radians(ra)
-        decrad = np.radians(dec)
+        ra, dec = hp.pix2ang(nside, fieldIDs, nest=nest, lonlat=True)
+        pts = self.pointingsEnclosing(ra, dec, circRadius=0.,
+                                      pointingRadius=1.75,
+                                      usePointingTree=usePointingTree)
+
 
         # write out the survey files to an output file
         # if an outfile is provided
@@ -217,14 +221,11 @@ class SynOpSim(object):
             hdf_fname = outfile + '.hdf'
             survey = pd.DataFrame(dict(hid=hid, count=count))
             survey.to_hdf(hdf_fname, key='survey')
-            surveySample = pd.DataFrame(dict(fieldIDs=fieldIDs, ra=ra, dec=dec)) 
+            surveySample = pd.DataFrame(dict(fieldIDs=fieldIDs, ra=ra, dec=dec))
             surveySample.to_hdf(hdf_fname, key='surveySample')
         for i, fieldID in enumerate(fieldIDs):
-            dd = angSep(rarad[i], decrad[i],
-                        self.pointings._ra, self.pointings._dec)
-            self.pointings['dist'] = dd 
-            opsimtable = self.pointings.query('dist < 0.030543261909900768')
-            field.setfields(fieldID, ra[i], dec[i], opsimtable)
+            field.setfields(fieldID, ra[i], dec[i],
+                            next(pts).sort_values(by='expMJD'))
             yield field 
 
 

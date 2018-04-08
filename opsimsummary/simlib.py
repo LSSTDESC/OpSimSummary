@@ -136,67 +136,67 @@ class SimlibMixin(object):
             meet the criteria.
         pixelSize: float, units of arc sec, defaults to LSST value of 0.2
             pixel Size
-    
-    
+
+
         Returns
         -------
         DataFrame with additional columns of 'simLibPsf', 'simLibZPTAVG', and
         'simLibSkySig' 
-    
+
         .. note :: This was written from a piece of f77 code by David
-            Cinabro sent by email on May 26, 2015. 
+            Cinabro sent by email on May 26, 2015.
         """
         if 'finSeeing' in opsimtable.columns:
             psfwidth = 'finSeeing'
         else:
             psfwidth = 'FWHMeff'
-    
+
         opsim_seeing = opsimtable[psfwidth] # unit of arc sec sq
         # magsky is in units of mag/arcsec^2
         # opsim_maglim is in units of mag
         opsim_maglim = opsimtable['fiveSigmaDepth']
         opsim_magsky = opsimtable['filtSkyBrightness']
-    
+
         # Calculate two variables that come up in consistent units:
         # term1  = 2.0 * opsim_maglim - opsim_magsky
-    
+
         # Area of pixel in arcsec squared
         pixArea = pixelSize * pixelSize
-    
+
         term1 = 2.0 * opsim_maglim - opsim_magsky # * pixArea
         # term2 = opsim_maglim - opsim_magsky
         term2 = - (opsim_maglim - opsim_magsky) # * pixArea
-    
-    
+
+
         # Calculate SIMLIB PSF VALUE
         opsimtable['simLibPsf'] = opsim_seeing /2.35 /pixelSize
-       
+
         # 4 \pi (\sigma_PSF / 2.35 )^2
         area = (1.51 * opsim_seeing)**2.
-        
+
         opsim_snr = 5.
         arg = area * opsim_snr * opsim_snr
-    
+
         # Background dominated limit assuming counts with system transmission only
         # is approximately equal to counts with total transmission
         zpt_approx = term1 + 2.5 * np.log10(arg)
         # zpt_approx = 2.0 * opsim_maglim - opsim_magsky + 2.5 * np.log10(arg)
         # ARG again in David Cinabro's code
-    
+
         val = -0.4 * term2
         # val = -0.4 * (opsim_magsky - opsim_maglim)
-    
+
         tmp = 10.0 ** val
         # Additional term to account for photons from the source, again assuming
         # that counts with system transmission approximately equal counts with total
         # transmission.
-    
+
         zpt_cor = 2.5 * np.log10(1.0 + 1.0 / (area * tmp))
         simlib_zptavg = zpt_approx + zpt_cor
         # ZERO PT CALCULATION 
         opsimtable['simLibZPTAVG'] = simlib_zptavg
 
-    
+
         # SKYSIG Calculation
         npix_asec = 1. / pixelSize**2.
         opsimtable['simLibSkySig'] = np.sqrt((1.0 / npix_asec) \
@@ -220,16 +220,16 @@ class SimlibMixin(object):
         s += tmp.format(ra, dec, nobs, mwebv, self.pixelSize) + '\n'
         # s += 'LIBID: {0:10d}'.format(fieldID) + '\n'
         s += '#                           CCD  CCD         PSF1 PSF2 PSF2/1' +'\n'
-        s += '#     MJD      IDEXPT  FLT GAIN NOISE SKYSIG (pixels)  RATIO  ZPTAVG ZPTERR  MAG' + '\n'
+        s += '#     MJD      ID*NEXPOSE  FLT GAIN NOISE SKYSIG (pixels)  RATIO  ZPTAVG ZPTERR  MAG' + '\n'
         return s
 
     @staticmethod
     def fieldfooter(fieldID):
-        
+
         s = 'END_LIBID: {0:10d}'.format(fieldID)
         s += '\n'
         return s
-      
+
     def formatSimLibField(self, fieldID, opsimtable, sep=' '):
 
         opsimtable = self.preprocess_lib(opsimtable)
@@ -240,7 +240,7 @@ class SimlibMixin(object):
             #       MJD EXPID FILTER
             lst = ['S:',
                    "{0:5.4f}".format(data.expMJD),
-                   "{0:10d}".format(data.obsHistID),
+                   "{0:10d}*2".format(data.obsHistID),
                    data['filter'],
                    "{0:5.2f}".format(1.),                  # CCD Gain
                    "{0:5.2f}".format(0.25),                # CCD Noise
@@ -270,13 +270,15 @@ class SimlibMixin(object):
     def simLibheader(self):
         sv = self.simlibVars
         user = sv['user']
-        host = sv['host']
+        host = sv['host'].splitlines()[0]
         telescope = sv['telescope']
         survey = sv['survey']
         # comment: I would like to generalize ugrizY to a sort but am not sure
         # of the logic for other filter names. so ducking for now
         s = 'SURVEY: {0:}    FILTERS: ugrizY  TELESCOPE: {1:}\n'.format(survey, telescope)
         s += 'USER: {0:}     HOST: {1}\n'.format(user, host) 
+        s += 'NPE_PIXEL_SATURATE:   100000\n'
+        s += 'PHOTFLAG_SATURATE:    2048\n'
         s += 'BEGIN LIBGEN\n'
         return s
     

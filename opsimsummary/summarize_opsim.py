@@ -25,13 +25,15 @@ class SynOpSim(object):
                  decCol='ditheredDec',
                  angleUnit='degrees',
                  indexCol='obsHistID',
-                 usePointingTree=False):
+                 usePointingTree=False,
+                 subset='None'):
 
         self.pointings = pointings
         self.raCol = raCol
         self.decCol = decCol
         self.angleUnit = angleUnit
         self.indexCol = indexCol
+        self.subset = subset
 
         self.usePointingTree = usePointingTree
         self._pointingTree = None
@@ -97,15 +99,13 @@ class SynOpSim(object):
             if True, set dithers in DDF to 0, by setting ditheredRA,
             ditheredDec to fieldRA, fieldDec
         """
-        print('Issue #189')
-        print(dbname, subset, opsimversion)
         opsout = OpSimOutput.fromOpSimDB(dbname, subset=subset,
                                          tableNames=('Summary', 'Proposal'),
                                          propIDs=propIDs, zeroDDFDithers=True,
                                          opsimversion=opsimversion)
         return bls(opsout.summary, opsimversion=opsimversion, raCol=raCol,
                    decCol=decCol, angleUnit=angleUnit, indexCol=indexCol,
-                   usePointingTree=usePointingTree)
+                   usePointingTree=usePointingTree, subset=subset)
 
     @property
     def pointingTree(self):

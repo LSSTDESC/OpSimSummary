@@ -203,16 +203,25 @@ class SimlibMixin(object):
         * 10.0 **(-0.4 * (opsim_magsky - simlib_zptavg)))
         return opsimtable
 
-    def fieldheader(self, fieldID, ra, dec, opsimtable, mwebv=0.01):
+    def fieldheader(self, fieldID, ra, dec, opsimtable, mwebv=0.0):
         """
         Parameters
         ----------
-        ra : degrees
-        dec : degrees
+        fieldID : int
+            integer for the unique field ID
+        ra : float, degrees
+            ra of the field location
+        dec : float, degrees
+            dec of the field location
+        opsimtable : `np.array` of `pd.DataFrame`
+            sequence of OpSim observations in above format to find number of
+            observations.
+        mwebv : float, defaults to 0.0
+            milky way E(B-v) value. This is usually recomputed in SNANA
+            depending on flags, and hence can be left as 0.0
         """
-        # ra = np.degrees(self.ra(fieldID))
-        # dec = np.degrees(self.dec(fieldID))
         nobs = len(opsimtable)
+        # String formatting
         s = '# --------------------------------------------' +'\n' 
         s += 'LIBID: {0:10d}'.format(fieldID) +'\n'
         tmp = 'RA: {0:+10.6f} DECL: {1:+10.6f}   NOBS: {2:10d} MWEBV: {3:5.2f}'

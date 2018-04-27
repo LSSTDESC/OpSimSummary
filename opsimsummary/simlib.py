@@ -267,7 +267,15 @@ class SimlibMixin(object):
         s += self.fieldfooter(fieldID)
         return s
 
-    def simLibheader(self):
+    def simLibheader(self, saturation_flag=1024):
+        """
+        return a string that is the header of the simlib file
+
+        Parameters
+        ----------
+        saturation_flag : int, defaults to 1024
+            value desired as saturation flag
+        """
         sv = self.simlibVars
         user = sv['user']
         host = sv['host'].splitlines()[0]
@@ -278,7 +286,7 @@ class SimlibMixin(object):
         s = 'SURVEY: {0:}    FILTERS: ugrizY  TELESCOPE: {1:}\n'.format(survey, telescope)
         s += 'USER: {0:}     HOST: {1}\n'.format(user, host) 
         s += 'NPE_PIXEL_SATURATE:   100000\n'
-        s += 'PHOTFLAG_SATURATE:    2048\n'
+        s += 'PHOTFLAG_SATURATE:    {0}\n'.format(saturation_flag)
         s += 'BEGIN LIBGEN\n'
         return s
     

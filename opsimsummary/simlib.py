@@ -24,11 +24,14 @@ class SimlibMixin(object):
     - Calculate variables required for SNANA simlib outside the Opsim data
 
     The parent class must have the following attributes:
+        - subset (must be a valid string)
+        The following attributes cannot be set by the user and are
+        set by `simlibVars`
         - user (default can be None)
         - host (default can be None)
         - telescope
         - survey 
-        - pixelSize 
+        - pixelSize
     In order to be able to write out the simlibs to disk, it should also have
     a method to provide a sequence (may be a generator) of fields, and
     `opsimtables`. The fields are instances of a class which has the following
@@ -46,6 +49,12 @@ class SimlibMixin(object):
 
     @property
     def simlibVars(self):
+        """
+        Collection of Attributes provided by the static method
+        `self.get_simlibVars` as an ordered dict with the following keys
+        (`user`, `host`, `pixelSize`, `survey`, `telescope`). Calling this.
+        also sets class variables for each of these keys.
+        """
         simlibVars = self.get_simlibVars(user=self.user,
                                          host=self.host,
                                          pixelSize=self.pixelSize,
@@ -58,6 +67,7 @@ class SimlibMixin(object):
         self.survey = simlibVars['survey']
 
         return simlibVars
+
 
     @staticmethod
     def get_simlibVars(user=None, host=None, pixelSize=0.2, telescope='LSST',
@@ -203,7 +213,8 @@ class SimlibMixin(object):
         * 10.0 **(-0.4 * (opsim_magsky - simlib_zptavg)))
         return opsimtable
 
-    def fieldheader(self, fieldID, ra, dec, opsimtable, mwebv=0.0):
+    def fieldheader(self, fieldID, ra, dec, opsimtable, mwebv=0.0,
+                    fieldtype=None):
         """
         Parameters
         ----------
@@ -219,11 +230,16 @@ class SimlibMixin(object):
         mwebv : float, defaults to 0.0
             milky way E(B-v) value. This is usually recomputed in SNANA
             depending on flags, and hence can be left as 0.0
+        fieldtype : string, defaults to None
+            string used to construct `Field: fieldtype` line, if None this
+            line is left out.
         """
         nobs = len(opsimtable)
         # String formatting
         s = '# --------------------------------------------' +'\n' 
         s += 'LIBID: {0:10d}'.format(fieldID) +'\n'
+        if fieldtype is not None:
+            s += 'Field: {}\n'.format(fieldtype)
         tmp = 'RA: {0:+10.6f} DECL: {1:+10.6f}   NOBS: {2:10d} MWEBV: {3:5.2f}'
         tmp += ' PIXSIZE: {4:5.3f}'
         s += tmp.format(ra, dec, nobs, mwebv, self.pixelSize) + '\n'
@@ -245,8 +261,6 @@ class SimlibMixin(object):
         y = ''
         for row in opsimtable.iterrows():
             data = row[1] # skip the index
-            # print(data['filter'], type(data['filter']), list(data['filter']))
-            #       MJD EXPID FILTER
             lst = ['S:',
                    "{0:5.4f}".format(data.expMJD),
                    "{0:10d}*2".format(data.obsHistID),
@@ -264,12 +278,14 @@ class SimlibMixin(object):
             y += s + '\n'
         return y
     
-    def simlibFieldasString(self, fh, fieldID, ra, dec, opsimtable, mwebv=0.1):
+    def simlibFieldasString(self, fh, fieldID, ra, dec, opsimtable,
+                            mwebv=0.0, fieldtype=None):
 
         opsimtable = opsimtable.reset_index()
         #raise NotImplementedError("Has not been checked")
         # Write out the header for each field
-        s = self.fieldheader(fieldID, ra, dec, opsimtable, mwebv=mwebv)
+        s = self.fieldheader(fieldID, ra, dec, opsimtable,
+                             mwebv=mwebv, fieldtype=fieldtype)
         # Write out the actual field
         s += self.formatSimLibField(fieldID, opsimtable, sep=' ')
         # Write out the footer for each field
@@ -288,11 +304,16 @@ class SimlibMixin(object):
         sv = self.simlibVars
         user = sv['user']
         host = sv['host'].splitlines()[0]
+        # The decode lines below do the correct thing in py3
+        # However the isinstance line does not, needs fixing
+        # if isinstance(host, unicode):
+        #    host = host.decode('utf-8')
         telescope = sv['telescope']
         survey = sv['survey']
         # comment: I would like to generalize ugrizY to a sort but am not sure
         # of the logic for other filter names. so ducking for now
-        s = 'SURVEY: {0:}    FILTERS: ugrizY  TELESCOPE: {1:}\n'.format(survey, telescope)
+        s = 'SURVEY: {0:}    FILTERS: ugrizY  TELESCOPE: {1:}\n'.format(survey,
+                                                                        telescope)
         s += 'USER: {0:}     HOST: {1}\n'.format(user, host) 
         s += 'NPE_PIXEL_SATURATE:   100000\n'
         s += 'PHOTFLAG_SATURATE:    {0}\n'.format(saturation_flag)
@@ -306,7 +327,8 @@ class SimlibMixin(object):
         return s
 
 
-    def writeSimlib(self, filename, fields, comments='\n'):
+    def writeSimlib(self, filename, fields, comments='\n',
+                    fieldtype=None, mwebv=0.):
             
         num_fields = 0
         with open(filename, 'w') as fh:
@@ -326,7 +348,8 @@ class SimlibMixin(object):
                 opsimtable = field.opsimtable
 
                 fh.write(self.simlibFieldasString(self, num_fields, ra, dec,
-                                                  opsimtable, mwebv=0.1))
+                                                  opsimtable, mwebv=mwebv,
+                                                  fieldtype=fieldtype))
 
                 # Write out the header for each field
                 # fh.write(self.fieldheader(fieldID, ra, dec, opsimtable,
@@ -352,18 +375,24 @@ class Simlibs(SynOpSim, SimlibMixin):
     
     def randomSimlibs(self, numFields=50, fname='test.simlib',
                       rng=np.random.RandomState(1), outfile=None,
-                      mapping_outfile='mapping.csv'):
+                      mapping_outfile='mapping.csv', mwebv=0.,
+                      fieldtype=None):
+
+        if fieldtype is None:
+            fieldtype = self.subset.upper()
+
 
         if outfile is None:
             outfile = fname  + '.hdf'
         fields = self.sampleRegion(numFields=numFields, rng=rng,
                                    outfile=outfile)
-        self.writeSimlib(fname, fields)
+        self.writeSimlib(fname, fields, fieldtype=fieldtype, mwebv=mwebv)
 
         fields = self.sampleRegion(numFields=numFields, rng=rng,
                                    outfile=outfile)
         df = pd.DataFrame(dict(SNANAID=np.arange(numFields),
-                               healpixID=list(field.fieldID for field in fields))) 
+                               healpixID=list(field.fieldID for field in fields
+                                             )))
         df.to_csv(mapping_outfile)
 
 class Simlib(object):

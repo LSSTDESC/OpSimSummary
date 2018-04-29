@@ -180,7 +180,7 @@ class SynOpSim(object):
                 yield self.df_subset_columns(self.pointings.loc[idx], subset)
 
     def sampleRegion(self, numFields=50000, minVisits=1, nest=True, nside=256,
-                     rng=np.random.choice(1), outfile=None,
+                     rng=np.random.RandomState(1), outfile=None,
                      usePointingTree=True, subset='wfd'):
         """This method samples a number `numFields` fields provided they have
         a minimal number of visits `minVisits`
@@ -204,19 +204,25 @@ class SynOpSim(object):
         """
         if subset == 'ddf':
             X = self.pointings[['_ra', '_dec']].drop_duplicates().apply(np.degrees)
-            ra = X[:, 0].values
-            dec = X[:, 1].values
+            ra = X._ra.values
+            dec = X._dec.values
+
+            # WARNING: hp.ang2pix calls theta ra, and phi dec if lonlat is True
+            hids = hp.ang2pix(nside=nside, theta=ra, phi=dec, lonlat=True)
+            fieldIDs = hids
+            counts = np.ones_like(hids)
+            field = Field()
         else:
             if self.usePointingTree is False:
                 raise NotImplementedError('This method works only with `PointingTree`')
             ipix = np.arange(hp.nside2npix(nside))
             hpix_ra, hpix_dec = hp.pix2ang(nside, ipix, nest=nest, lonlat=True)
             X = np.zeros(shape=(len(hpix_ra), 2))
-            X[:, 0] = np.radians(hpix_ra)
-            X[:, -1]= np.radians(hpix_dec)
+            X[:, 0] = np.radians(hpix_dec)
+            X[:, 1]= np.radians(hpix_ra)
             counts = self.pointingTree.tree.query_radius(X, r=np.radians(1.75),
                                                          count_only=True)
-    
+
             mask = counts > minVisits
             hids = ipix[mask]
             fieldarea = hp.nside2pixarea(nside, degrees=True)
@@ -242,13 +248,16 @@ class SynOpSim(object):
 
         # write out the survey files to an output file
         # if an outfile is provided
-        if outfile is not None:
-            hdf_fname = outfile + '.hdf'
-            survey = pd.DataFrame(dict(hid=hids, count=counts[hids]))
-            survey.to_hdf(hdf_fname, key='survey')
-            surveySample = pd.DataFrame(dict(fieldIDs=fieldIDs, ra=ra, dec=dec))
-            surveySample.to_hdf(hdf_fname, key='surveySample')
+
+        # Skipping this for now
+        # if outfile is not None:
+        #    hdf_fname = outfile + '.hdf'
+        #    survey = pd.DataFrame(dict(hid=hids, count=counts[hids]))
+        #    survey.to_hdf(hdf_fname, key='survey')
+        #    surveySample = pd.DataFrame(dict(fieldIDs=fieldIDs, ra=ra, dec=dec))
+        #    surveySample.to_hdf(hdf_fname, key='surveySample')
         for i, fieldID in enumerate(fieldIDs):
+            print(i, fieldID)
             field.setfields(fieldID, ra[i], dec[i],
                             next(pts).sort_values(by='expMJD'))
             yield field 

@@ -181,7 +181,7 @@ class SynOpSim(object):
 
     def sampleRegion(self, numFields=50000, minVisits=1, nest=True, nside=256,
                      rng=np.random.choice(1), outfile=None,
-                     usePointingTree=True):
+                     usePointingTree=True, subset='wfd'):
         """This method samples a number `numFields` fields provided they have
         a minimal number of visits `minVisits`
 
@@ -195,21 +195,46 @@ class SynOpSim(object):
             use the `nest` method rather than `ring`
         nside : int, defaults to 256
             `Healpix.NSIDE`
-        rng : 
+        rng :
+        outfile :
+        usePointingTree : Bool, defaults to True
+            whether to use PointingTree or not
+        subset : {'wfd'|'ddf'|'combined'}
+            which subset to use.
         """
-        theta, phi = convertToSphericalCoordinates(ra=self.pointings._ra,
-                                                   dec=self.pointings._dec,
-                                                   unit='radians')
-        field = Field()
-        ipix = hp.ang2pix(nside=nside, theta=theta, phi=phi, nest=nest)
-        hid, count = np.unique(ipix, return_counts=True)
-        mask = count > minVisits - 1
-        hids = hid[mask]
-
-        print('number of fields with visits above {0} is {1}'.format(minVisits,
-                                                                     len(hids)))
-        fieldIDs = rng.choice(hids, size=numFields, replace=False)
-        ra, dec = hp.pix2ang(nside, fieldIDs, nest=nest, lonlat=True)
+        if subset == 'ddf':
+            X = self.pointings[['_ra', '_dec']].drop_duplicates().apply(np.degrees)
+            ra = X[:, 0].values
+            dec = X[:, 1].values
+        else:
+            if self.usePointingTree is False:
+                raise NotImplementedError('This method works only with `PointingTree`')
+            ipix = np.arange(hp.nside2npix(nside))
+            hpix_ra, hpix_dec = hp.pix2ang(nside, ipix, nest=nest, lonlat=True)
+            X = np.zeros(shape=(len(hpix_ra), 2))
+            X[:, 0] = np.radians(hpix_ra)
+            X[:, -1]= np.radians(hpix_dec)
+            counts = self.pointingTree.tree.query_radius(X, r=np.radians(1.75),
+                                                         count_only=True)
+    
+            mask = counts > minVisits
+            hids = ipix[mask]
+            fieldarea = hp.nside2pixarea(nside, degrees=True)
+    
+            print('number of fields with visits above {0} is {1}'.format(minVisits,
+                                                                         len(hids)))
+            print('The total area of such fields is {} sq deg'.format(len(hids) * fieldarea))
+            # theta, phi = convertToSphericalCoordinates(ra=self.pointings._ra,
+            #                                           dec=self.pointings._dec,
+            #                                           unit='radians')
+            field = Field()
+            # ipix = hp.ang2pix(nside=nside, theta=theta, phi=phi, nest=nest)
+            # hid, count = np.unique(ipix, return_counts=True)
+            # mask = count > minVisits - 1
+            # hids = hid[mask]
+    
+            fieldIDs = rng.choice(hids, size=numFields, replace=False)
+            ra, dec = hp.pix2ang(nside, fieldIDs, nest=nest, lonlat=True)
         pts = self.pointingsEnclosing(ra, dec, circRadius=0.,
                                       pointingRadius=1.75,
                                       usePointingTree=usePointingTree)
@@ -219,7 +244,7 @@ class SynOpSim(object):
         # if an outfile is provided
         if outfile is not None:
             hdf_fname = outfile + '.hdf'
-            survey = pd.DataFrame(dict(hid=hid, count=count))
+            survey = pd.DataFrame(dict(hid=hids, count=counts[hids]))
             survey.to_hdf(hdf_fname, key='survey')
             surveySample = pd.DataFrame(dict(fieldIDs=fieldIDs, ra=ra, dec=dec))
             surveySample.to_hdf(hdf_fname, key='surveySample')

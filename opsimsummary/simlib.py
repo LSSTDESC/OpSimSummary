@@ -363,6 +363,7 @@ class SimlibMixin(object):
             # Now write out the footer to the entire simlib file 
             simlib_footer = self.simLibFooter(num_fields)
             fh.write(simlib_footer)
+            return num_fields
 
 class Simlibs(SynOpSim, SimlibMixin):
     """A class to write out simlibs to disk
@@ -376,7 +377,7 @@ class Simlibs(SynOpSim, SimlibMixin):
     def randomSimlibs(self, numFields=50, fname='test.simlib',
                       rng=np.random.RandomState(1), outfile=None,
                       mapping_outfile='mapping.csv', mwebv=0.,
-                      fieldtype=None):
+                      fieldtype=None, minVisits=1):
 
         if fieldtype is None:
             fieldtype = self.subset.upper()
@@ -385,12 +386,13 @@ class Simlibs(SynOpSim, SimlibMixin):
         if outfile is None:
             outfile = fname  + '.hdf'
         fields = self.sampleRegion(numFields=numFields, rng=rng,
-                                   outfile=outfile)
-        self.writeSimlib(fname, fields, fieldtype=fieldtype, mwebv=mwebv)
+                                   outfile=outfile, subset=self.subset,
+                                   minVisits=minVisits, nside=256)
+        num_fields = self.writeSimlib(fname, fields, fieldtype=fieldtype, mwebv=mwebv)
 
         fields = self.sampleRegion(numFields=numFields, rng=rng,
-                                   outfile=outfile)
-        df = pd.DataFrame(dict(SNANAID=np.arange(numFields),
+                                   outfile=outfile, subset=self.subset)
+        df = pd.DataFrame(dict(SNANAID=np.arange(num_fields),
                                healpixID=list(field.fieldID for field in fields
                                              )))
         df.to_csv(mapping_outfile)

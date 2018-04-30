@@ -181,7 +181,7 @@ class SynOpSim(object):
 
     def sampleRegion(self, numFields=50000, minVisits=1, nest=True, nside=256,
                      rng=np.random.RandomState(1), outfile=None,
-                     usePointingTree=True, subset='wfd'):
+                     usePointingTree=True, subset='wfd', mwebv=0.):
         """This method samples a number `numFields` fields provided they have
         a minimal number of visits `minVisits`
 
@@ -259,21 +259,23 @@ class SynOpSim(object):
         for i, fieldID in enumerate(fieldIDs):
             print(i, fieldID)
             field.setfields(fieldID, ra[i], dec[i],
-                            next(pts).sort_values(by='expMJD'))
+                            next(pts).sort_values(by='expMJD'), mwebv=mwebv)
             yield field 
 
 
 
 class Field(object):
     def __init__(self, fieldID=None, ra=None, dec=None, opsimtable=None,
-                 mwebv=0.1):
+                 mwebv=0.0):
         self.fieldID = fieldID
         self.ra = ra
         self.dec = dec
         self.mwebv = mwebv
         self.opsimtable = opsimtable
 
-    def setfields(self, fieldID, ra, dec, opsimtable):
+    def setfields(self, fieldID, ra, dec, opsimtable, mwebv=None):
+        if mwebv is None:
+            mwebv = mwebv
         self.fieldID = fieldID
         self.ra = ra
         self.dec = dec

@@ -387,7 +387,8 @@ class Simlibs(SynOpSim, SimlibMixin):
             outfile = fname  + '.hdf'
         fields = self.sampleRegion(numFields=numFields, rng=rng,
                                    outfile=outfile, subset=self.subset,
-                                   minVisits=minVisits, nside=256)
+                                   minVisits=minVisits, nside=256,
+                                   mwebv=mwebv)
         num_fields = self.writeSimlib(fname, fields, fieldtype=fieldtype, mwebv=mwebv)
 
         fields = self.sampleRegion(numFields=numFields, rng=rng,

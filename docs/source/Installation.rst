@@ -3,7 +3,7 @@ Installation
 
 The engine of `OpSimSummary` depends on commonly used python packages has both essential and and optional requirements. 
 
-Currently, all of the requirements can be installed with `anaconda`
+Currently, all of the requirements can be installed with `anaconda` and `pip`
 
 Install Dependencies
 ====================

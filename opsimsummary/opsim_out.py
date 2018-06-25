@@ -82,7 +82,7 @@ class OpSimOutput(object):
     def fromOpSimDB(cls, dbname, subset='combined',
                     tableNames=('Summary', 'Proposal'),
                     propIDs=None, zeroDDFDithers=True,
-                    opsimversion='lsst3'):
+                    opsimversion='lsstv3'):
         """
         Class Method to instantiate this from an OpSim sqlite
         database output

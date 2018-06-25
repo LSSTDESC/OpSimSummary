@@ -179,6 +179,47 @@ class SynOpSim(object):
                 idx = x.query('dist < @prad').index
                 yield self.df_subset_columns(self.pointings.loc[idx], subset)
 
+
+    def observedVisitsinRegion(self, nside=256, nest=True, minVisits=1,
+                               maxVisits=None, outFile=None, writeFile=False):
+        """
+        return a `pd.DataFrame` with the healpixelID='hid', ra and dec of the
+        healpixels 'hpix_ra', 'hpix_dec' in radians, and count the number of
+        visits for all healpixels that have visits satisfying
+        minVisits <= count <= maxVisits . This will also write out a csv
+        outFile clobbering past version with this dataframe. 
+        """
+        if self.usePointingTree is False:
+            raise NotImplementedError('This method works only with `PointingTree`')
+
+        if writeFile:
+            assert outFile is not None
+
+        ipix = np.arange(hp.nside2npix(nside))
+        hpix_ra, hpix_dec = hp.pix2ang(nside, ipix, nest=nest, lonlat=True)
+
+        # Input array for Tree query
+        X = np.zeros(shape=(len(hpix_ra), 2))
+        X[:, 0] = np.radians(hpix_dec)
+        X[:, 1]= np.radians(hpix_ra)
+
+        # count visits for each healpixel in the sky
+        counts = self.pointingTree.tree.query_radius(X, r=np.radians(1.75),
+                                                     count_only=True)
+        survey = pd.DataFrame(dict(hid=ipix, ra=hpix_ra, dec=hpix_dec,
+                                   numVisits=counts)).set_index('hid')
+
+        # maxVisits is None, imply don't apply maxVisits 
+        if maxVisits is None:
+            maxVisits =  counts.max() + 1
+
+        survey = survey.query('numVisits >= @minVisits and numVisits <=@maxVisits')
+        if writeFile:
+            survey.to_csv(outFile)
+        return survey
+
+
+
     def sampleRegion(self, numFields=50000, minVisits=1, nest=True, nside=256,
                      rng=np.random.RandomState(1), outfile=None,
                      usePointingTree=True, subset='wfd', mwebv=0.):

@@ -45,10 +45,14 @@ def genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields,
 parser = ArgumentParser(description='write out simlibs from an OpSim Database')
 parser.add_argument('--dbname', help='absolute path to sqlite database output from OpSim',
                     default='/Users/rbiswas/data/LSST/OpSimData/minion_1016_sqlite.db')
-parser.add_argument('--write_ddf_simlib', help='Whether to write out DDF simlib',
-                    type=bool, default=True)
-parser.add_argument('--write_wfd_simlib', help='Whether to write out WFD simlib',
-                    type=bool, default=True)
+# parser.add_argument('--write_ddf_simlib', help='Whether to write out DDF simlib',
+#                    dest='write_ddf_simlib', action='store_true')
+parser.add_argument('--no_write_ddf_simlib', help='Whether to write out DDF simlib',
+                    dest='write_ddf_simlib', action='store_false')
+# parser.add_argument('--write_wfd_simlib', help='Whether to write out WFD simlib',
+#                    dest='write_wfd_simlib', action='store_true')
+parser.add_argument('--no_write_wfd_simlib', help='Whether to write out WFD simlib',
+                    dest='write_wfd_simlib', action='store_false')
 parser.add_argument('--opsimversion', help='version of opsim used lsstv3|lsstv4',
                     default='lsstv3')
 parser.add_argument('--summaryTableName', help='name of Summary Table Summary|SummaryAllProps',
@@ -77,11 +81,13 @@ opsout = OpSimOutput.fromOpSimDB(dbname,
                                  subset='combined')
 summary = opsout.summary
 if write_ddf_simlib :
+    print('writing out simlib for DDF')
     x = genericSimlib(simlibFilename=ddf_simlibfilename,
                       summary=summary, minVisits=10000, maxVisits=None,
                       numFields=50000, mapFile='ddf_minion_1016_sqlite.csv',
                       fieldType='DDF', opsimoutput=opsimoutput)
 if write_wfd_simlib :
+    print('writing out simlib for WFD')
     x = genericSimlib(simlibFilename=wfd_simlibfilename,
                       summary=summary, minVisits=500, maxVisits=10000,
                       numFields=50000, mapFile='wfd_minion_1016_sqlite.csv',

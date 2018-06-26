@@ -48,7 +48,7 @@ https://conda.anaconda.org/conda-forge/noarch/more-itertools-4.2.0-py_0.tar.bz2
 https://conda.anaconda.org/anaconda/osx-64/python-dateutil-2.7.3-py36_0.tar.bz2
 https://repo.anaconda.com/pkgs/main/osx-64/setuptools-39.2.0-py36_0.tar.bz2
 https://repo.anaconda.com/pkgs/main/osx-64/cryptography-2.2.2-py36h1de35cc_0.tar.bz2
-https://conda.anaconda.org/conda-forge/osx-64/pytest-3.6.1-py36_0.tar.bz2
+https://conda.anaconda.org/conda-forge/osx-64/pytest-3.6.2-py36_0.tar.bz2
 https://repo.anaconda.com/pkgs/main/osx-64/wheel-0.31.1-py36_0.tar.bz2
 https://repo.anaconda.com/pkgs/main/osx-64/pip-10.0.1-py36_0.tar.bz2
 https://repo.anaconda.com/pkgs/main/osx-64/pyopenssl-18.0.0-py36_0.tar.bz2

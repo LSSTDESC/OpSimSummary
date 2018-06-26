@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -22,28 +24,21 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="OpSimSummary 0.8.5 documentation" href="index.html"/>
-        <link rel="next" title="API Reference" href="API.html"/>
-        <link rel="prev" title="Overview" href="overview.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="API.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -77,11 +72,14 @@
           
             
             
-                <p class="caption"><span class="caption-text">Contents:</span></p>
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#install-dependencies">Install Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#installing-dependencies">Installing Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API Reference</a></li>
 </ul>
 
@@ -94,34 +92,54 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">OpSimSummary</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OpSimSummary</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Installation</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Installation</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/Installation.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -129,38 +147,43 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>The engine of <cite>OpSimSummary</cite> depends on commonly used python packages has both essential and and optional requirements.</p>
-<p>Currently, all of the requirements can be installed with <cite>anaconda</cite></p>
+<p>The engine of <cite>OpSimSummary</cite> depends on commonly used python packages. Currently, all of the
+requirements can be installed with <cite>anaconda</cite> and <cite>pip</cite>. To use <cite>OpSimSummary</cite> as a library or
+the scripts in <cite>OpSimSummary</cite>, you will need the requirements listed <a class="reference external" href="https://github.com/rbiswas4/OpSimSummary/blob/fix_release_help/install/requirements.md">here</a> .</p>
 </div>
-<div class="section" id="install-dependencies">
-<h1>Install Dependencies<a class="headerlink" href="#install-dependencies" title="Permalink to this headline">¶</a></h1>
-<p>There are scripts in the <cite>./install</cite> directory which can be used to install the dependencies:</p>
-<p>From the root level of the package:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span>./install/install_pip_requirements.sh
-<span class="gp">$</span>./install_conda_requirements.sh
+<div class="section" id="installing-dependencies">
+<h1>Installing Dependencies<a class="headerlink" href="#installing-dependencies" title="Permalink to this headline">¶</a></h1>
+<p>There are scripts in the <cite>./install</cite> directory which can be used to install the dependencies. To use these, you must have a conda python
+installation. If you don’t have a such a python installation, you can use a <a href="#id1"><span class="problematic" id="id2">script_</span></a>
+.. _script: <a class="reference external" href="https://github.com/rbiswas4/install_utils/tree/master/scripts">https://github.com/rbiswas4/install_utils/tree/master/scripts</a>
+to install a miniconda distribution.</p>
+<p>To install the dependenencies and <cite>OpSimSummary</cite>, from the root level of the package:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span>bash ./install/install_all.sh
 </pre></div>
 </div>
-<p>installs the dependencies aside from <cite>lsst.sims.maf</cite>. Currently, this is not an essential requirement, but his might become the case.</p>
-<p>To install <cite>lsst.sims.maf</cite> , please look at the <a class="reference external" href="https://confluence.lsstcorp.org/display/SIM/Catalogs+and+MAF">instructions here</a> .</p>
-<p>Finally, to install <cite>OpSimSummary</cite> please clone the the <a href="#id1"><span class="problematic" id="id2">`repository&lt;https://github.com/rbiswas4/OpSimSummary&gt;`_</span></a> and run the setup:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span>git clone git@github.com:rbiswas4/OpSimSummary.git
-<span class="gp">$</span><span class="nb">cd</span> OpSimSummary
-<span class="gp">$</span>python setup.py install --user
+<p>installs the dependencies and <cite>OpSimSummary</cite>.</p>
+<p>To just install <cite>OpSimSummary</cite> if you already have taken care of the requirements, use :</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span>bash install/install_opsimsummary
+</pre></div>
+</div>
+<p>To install other dependencies that are useful (for example for notebooks, and utlities for plotting) use:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span>conda install jupyter seaborn
 </pre></div>
 </div>
 </div>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="API.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="API.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="overview.html" class="btn btn-neutral" title="Overview" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="overview.html" class="btn btn-neutral" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -173,7 +196,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -192,31 +215,27 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
             VERSION:'0.8.5',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

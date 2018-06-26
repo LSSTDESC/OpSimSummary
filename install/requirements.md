@@ -10,6 +10,4 @@
 - basemap
 - scikit-learn
 - pandas
-- basemap
-- scikit-learn
-- pandas
+- healpy

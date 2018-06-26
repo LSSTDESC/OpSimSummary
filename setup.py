@@ -20,7 +20,7 @@ print(__version__)
 # create requirements file
 setupDir = os.path.join(packageDir, '..', 'setup')
 genRequirements = os.path.join(setupDir, 'generate_requirements.py')
-
+print(genRequirements)
 
 
 setup(# package information

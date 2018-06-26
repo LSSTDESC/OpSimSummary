@@ -14,23 +14,6 @@ import pandas as pd
 from .summarize_opsim import SynOpSim
 
 
-class SimlibField(object):
-    def __init__(self, fieldID=None, ra=None, dec=None, opsimtable=None,
-                 mwebv=0.0):
-        self.fieldID = fieldID
-        self.ra = ra
-        self.dec = dec
-        self.mwebv = mwebv
-        self.opsimtable = opsimtable
-
-    def setfields(self, fieldID, ra, dec, opsimtable, mwebv=None):
-        if mwebv is None:
-            mwebv = mwebv
-        self.fieldID = fieldID
-        self.ra = ra
-        self.dec = dec
-        self.opsimtable = opsimtable
-
 class SimlibMixin(object):
     """
     Mixin for `SummaryOpsim` to provide the following additional functionality
@@ -369,7 +352,7 @@ class SimlibMixin(object):
                                                   fieldtype=fieldtype))
 
                 # Write out the header for each field
-                # fh.write(self.fieldheader(num_fields, ra, dec, opsimtable,
+                # fh.write(self.fieldheader(fieldID, ra, dec, opsimtable,
                 #                           mwebv=mwebv))
                 # fh.write(self.formatSimLibField(fieldID, opsimtable))
 
@@ -390,75 +373,7 @@ class Simlibs(SynOpSim, SimlibMixin):
     user = None
     telescope = 'LSST'
     survey = 'LSST'
-
-    def simlibs_for_fields(self, surveyPix, mwebv=0.):
-        """Generator for simlib fields for a sequence of fields
-        defined in a dataFrame called `surveyPix`. The dataFrame
-        `surveyPix` must have the following columns `simlibId`,
-	`ra`, `dec` and must be sorted in increasing order of 
-	`simlibId`.
-
-	Parameters
-	----------
-	surveyPix : `pd.dataFrame`
-	    with the following columns `simlibId`, `ra`, `dec`
-	mwebv : `np.float` defaults to 0.
-	   A default value for the MW extinction
-
-
-        Returns
-        -------
-        a generator of fields for the simlib file
-        """
-
-        surveyPix = surveyPix.reset_index().query('simlibId > -1').set_index('simlibId')
-        ra = surveyPix.ra.values
-        dec = surveyPix.dec.values
-        pts = self.pointingsEnclosing(ra, dec, circRadius=0.,
-                                      pointingRadius=1.75,
-                                      usePointingTree=True)
-        field = SimlibField()
-        for i, fieldID in enumerate(surveyPix.reset_index().simlibId.values):
-            field.setfields(fieldID, ra[i], dec[i],
-                            next(pts).sort_values(by='expMJD'), mwebv=mwebv)
-            yield field
-
-    def get_surveyPix(self, surveydf, numFields=15, rng=np.random.RandomState(0)):
-        """ Get a random selection of survey pixels observed that have numbers
-	of visits in between the min and max visits.
-
-	Parameters
-	----------
-	surveydf : `pd.DataFrame`
-	    a pandas dataframe with a collection of selected fields with at
-            least the  the following columns a unique index `hid` for each
-            field, an `ra`, and a `dec`
-	numFields : integer, defaults to 15
-	    number of samples of fields desired.
-	rng : instance of `np.random.RandomState`, defualts to using 0 as seed
-	   a random state.
-
-
-	Returns
-	-------
-	a dataframe with at least `hid` the original index for each field, `ra`,
-	`dec`, and `simlibID` sorted by `simlibId`. This dataframe contains a
-	mapping from the new index `simlibId` to the old index `hid`
-	"""
-        surveydf['simlibId'] = -1
-
-        if numFields < len(surveydf):
-            hids = rng.choice(surveydf.reset_index()['hid'].values, size=numFields,
-                          replace=False)
-        else:
-            hids = surveydf.reset_index()['hid'].values
-            print("Warning: You have asked for more samples than the original number of fields")
-            print('Printing original number of fields instead')
-
-        surveydf.reset_index().set_index('hid')
-        surveydf.loc[hids, 'simlibId'] = np.arange(len(hids))
-        return surveydf
-
+    
     def randomSimlibs(self, numFields=50, fname='test.simlib',
                       rng=np.random.RandomState(1), outfile=None,
                       mapping_outfile='mapping.csv', mwebv=0.,

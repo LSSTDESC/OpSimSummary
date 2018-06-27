@@ -77,6 +77,10 @@ parser.add_argument('--ddf_simlibfilename', help='absolute path to DDF simlib fi
                     default='ddf_minion_1016_sqlite.simlib')
 parser.add_argument('--wfd_simlibfilename', help='absolute path to WFD simlib file to write out',
                     default='wfd_minion_1016_sqlite.simlib')
+parser.add_argument('--numFields_DDF', help='number of locations in DDF where simlib fields are located',
+                    default=133, type=int)
+parser.add_argument('--numFields_WFD', help='number of locations in DDF where simlib fields are located',
+                    default=50000, type=int)
 
 args = parser.parse_args()
 
@@ -88,6 +92,8 @@ write_wfd_simlib = args.write_wfd_simlib
 write_ddf_simlib = args.write_ddf_simlib
 wfd_simlibfilename = args.wfd_simlibfilename
 ddf_simlibfilename = args.ddf_simlibfilename
+numFields_DDF = args.numFields_DDF
+numFields_WFD = args.numFields_WFD
 
 print(args)
 # read the database into a `pd.DataFrame`
@@ -98,13 +104,14 @@ opsout = OpSimOutput.fromOpSimDB(dbname,
 summary = opsout.summary
 if write_ddf_simlib :
     print('writing out simlib for DDF')
+    # 133 random locations is similar density of locations in WFD.
     x = genericSimlib(simlibFilename=ddf_simlibfilename,
                       summary=summary, minVisits=10000, maxVisits=None,
-                      numFields=50000, mapFile='ddf_minion_1016_sqlite.csv',
+                      numFields=numFields_DDF, mapFile='ddf_minion_1016_sqlite.csv',
                       fieldType='DDF', opsimoutput=opsimoutput)
 if write_wfd_simlib :
     print('writing out simlib for WFD')
     x = genericSimlib(simlibFilename=wfd_simlibfilename,
                       summary=summary, minVisits=500, maxVisits=10000,
-                      numFields=50000, mapFile='wfd_minion_1016_sqlite.csv',
+                      numFields=numFields_WFD, mapFile='wfd_minion_1016_sqlite.csv',
                       fieldType='WFD', opsimoutput=opsimoutput)

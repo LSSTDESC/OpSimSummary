@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Module with functionality to represent SNANA simlib data. 
+Module with functionality to represent SNANA simlib data.
 """
 from __future__ import division, print_function, unicode_literals
 __all__ = ['SimlibMixin', 'Simlibs']
@@ -309,12 +309,14 @@ class SimlibMixin(object):
         s += self.fieldfooter(fieldID)
         return s
 
-    def simLibheader(self, saturation_flag=1024):
+    def simLibheader(self, numLibId=None, saturation_flag=1024):
         """
         return a string that is the header of the simlib file
 
         Parameters
         ----------
+        numLibId : int, defaults to None
+            number of libids in simlib
         saturation_flag : int, defaults to 1024
             value desired as saturation flag
         """
@@ -332,6 +334,8 @@ class SimlibMixin(object):
         s = 'SURVEY: {0:}    FILTERS: ugrizY  TELESCOPE: {1:}\n'.format(survey,
                                                                         telescope)
         s += 'USER: {0:}     HOST: {1}\n'.format(user, host) 
+        if numLibId is not None:
+            s += 'NLIBID: {}\n'.format(numLibId)
         s += 'NPE_PIXEL_SATURATE:   100000\n'
         s += 'PHOTFLAG_SATURATE:    {0}\n'.format(saturation_flag)
         s += 'BEGIN LIBGEN\n'
@@ -345,12 +349,12 @@ class SimlibMixin(object):
 
 
     def writeSimlib(self, filename, fields, comments='\n',
-                    fieldtype=None, mwebv=0.):
+                    fieldtype=None, mwebv=0., numLibId=None):
             
         num_fields = 0
         with open(filename, 'w') as fh:
             # Write out the header to the simlib file
-            simlib_header = self.simLibheader()
+            simlib_header = self.simLibheader(numLibId=numLibId)
             fh.write(simlib_header)
             fh.write(comments)
 
@@ -401,7 +405,7 @@ class Simlibs(SynOpSim, SimlibMixin):
 	Parameters
 	----------
 	surveyPix : `pd.dataFrame`
-	    with the following columns `simlibId`, `ra`, `dec`
+            with the following columns `simlibId`, `ra`, `dec`
 	mwebv : `np.float` defaults to 0.
 	   A default value for the MW extinction
 

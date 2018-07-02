@@ -51,8 +51,8 @@ def genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields,
     
     area = hp.nside2pixarea(nside, degrees=True) * np.float(totalfields)
     solidangle = hp.nside2pixarea(nside, degrees=False) * np.float(totalfields)
-    comment = '# Total area corresponding to this simlib is {0:.1f} sq degrees or a solid angle of {1:4f} \n'.format(area, solidangle) 
-    comment += '# This is a simlib corresponding to {0} in the OpSim Output {1} using the script OpSimSummary/script/makesimlibs.py in version {2}\n'.format(fieldType, opsimoutput, opsimsummary_version) 
+    comment = 'COMMENT: Total area corresponding to this simlib is {0:.1f} sq degrees or a solid angle of {1:4f} \n'.format(area, solidangle) 
+    comment += 'COMMENT: This is a simlib corresponding to {0} in the OpSim Output {1} using the script OpSimSummary/script/makesimlibs.py in version {2}\n'.format(fieldType, opsimoutput, opsimsummary_version) 
     simlibs.writeSimlib(simlibFilename, fields, mwebv=mwebv, comments=comment,
                         numLibId=numFields)
     surveyPix = surveyPix.reset_index().query('simlibId > -1').set_index('simlibId')

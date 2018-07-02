@@ -309,7 +309,8 @@ class SimlibMixin(object):
         s += self.fieldfooter(fieldID)
         return s
 
-    def simLibheader(self, numLibId=None, saturation_flag=1024):
+    def simLibheader(self, numLibId=None, saturation_flag=1024,
+                     comments='\n'):
         """
         return a string that is the header of the simlib file
 
@@ -319,6 +320,8 @@ class SimlibMixin(object):
             number of libids in simlib
         saturation_flag : int, defaults to 1024
             value desired as saturation flag
+        comments: string, defaults to `\n`
+            comments passed on to `simlib` output
         """
         sv = self.simlibVars
         user = sv['user']
@@ -338,6 +341,7 @@ class SimlibMixin(object):
             s += 'NLIBID: {}\n'.format(numLibId)
         s += 'NPE_PIXEL_SATURATE:   100000\n'
         s += 'PHOTFLAG_SATURATE:    {0}\n'.format(saturation_flag)
+        s += comments + '\n'
         s += 'BEGIN LIBGEN\n'
         return s
     
@@ -354,9 +358,8 @@ class SimlibMixin(object):
         num_fields = 0
         with open(filename, 'w') as fh:
             # Write out the header to the simlib file
-            simlib_header = self.simLibheader(numLibId=numLibId)
+            simlib_header = self.simLibheader(numLibId=numLibId, comments=comments)
             fh.write(simlib_header)
-            fh.write(comments)
 
             # Now write the actual simlib data to file
             for field in fields:

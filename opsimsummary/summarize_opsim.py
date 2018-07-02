@@ -20,7 +20,7 @@ class SynOpSim(object):
     """
     def __init__(self,
                  pointings,
-                 opsimversion='lsst3',
+                 opsimversion='lsstv3',
                  raCol='ditheredRA',
                  decCol='ditheredDec',
                  angleUnit='degrees',
@@ -76,7 +76,7 @@ class SynOpSim(object):
     def fromOpSimDB(bls, dbname, subset='combined',
                     tableNames=('Summary', 'Proposal'),
                     propIDs=None, zeroDDFDithers=True,
-                    opsimversion='lsst3', raCol='ditheredRA',
+                    opsimversion='lsstv3', raCol='ditheredRA',
                     decCol='ditheredDec', angleUnit='degrees',
                     indexCol='obsHistID', usePointingTree=False):
         """

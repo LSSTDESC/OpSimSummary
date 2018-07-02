@@ -24,7 +24,7 @@ class OpSimOutput(object):
 
     Attribute
     ---------
-    opsimversion: {'lsstv3'|'lsstv4'}
+    opsimversion: {'lsstv3'|'sstf'}
         version of OpSim corresponding to the output format.
     summary : `pd.DataFrame`
         selected records from the Summary Table of pointings
@@ -48,7 +48,7 @@ class OpSimOutput(object):
         self.opsimversion = opsimversion
         self.propIDDict = propIDDict
         self.proposalTable = proposalTable
-        if opsimversion == 'lsstv4':
+        if opsimversion == 'sstf':
             zeroDDFDithers = False
         if zeroDDFDithers:
             ddfPropID = self.propIDDict['ddf']
@@ -190,7 +190,7 @@ class OpSimOutput(object):
         -------
         `pd.DataFrame` with the correct propID and duplicates dropped
         """
-        if opsimversion == 'lsstv4':
+        if opsimversion == 'sstf':
             return df
 
         # As duplicates are dropped in order, reorder IDs so that
@@ -335,7 +335,7 @@ class OpSimOutput(object):
         ----------
         proposalDF : `pd.DataFrame`, mandatory
             a dataframe with the Proposal Table of the OpSim Run.
-        opsimversion: {'lsstv3'|'lsstv4'}, defaults to 'lsstv3'
+        opsimversion: {'lsstv3'|'sstf'}, defaults to 'lsstv3'
             version of opsim from which output is drawn
         Returns
         -------
@@ -352,7 +352,7 @@ class OpSimOutput(object):
             propIDName = 'propID'
             ops_wfdname = 'conf/survey/Universal-18-0824B.conf'
             ops_ddfname = 'conf/survey/DDcosmology1.conf'
-        elif opsimversion == 'lsstv4':
+        elif opsimversion == 'sstf':
             propName = 'propName'
             propIDName = 'propId'
             ops_wfdname = 'WideFastDeep'
@@ -387,7 +387,7 @@ class OpSimOutput(object):
                      pointingDec='pointingDec',
                      filtSkyBrightness='filtSkyBrightness',
                      angleUnits='radians')
-        elif opsimversion == 'lsstv4':
+        elif opsimversion == 'sstf':
             x = dict(summaryTableName='SummaryAllProps',
                      obsHistID='observationId',
                      propName='propName',

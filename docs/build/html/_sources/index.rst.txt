@@ -12,6 +12,7 @@ Welcome to OpSimSummary's documentation!
 
    overview
    Installation
+   OpSimOutputs
    API
 
 Indices and tables

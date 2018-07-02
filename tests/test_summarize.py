@@ -19,7 +19,7 @@ def opsfile(fname):
 
 testdata_synopsiminit = [('enigma_1189_micro.db', 'lsstv3',
                          ('Summary', 'Proposal')),
-                         ('opsimv4_feat_micro.db', 'lsstv4',
+                         ('opsimv4_feat_micro.db', 'sstf',
                          ('SummaryAllProps', 'Proposal'))]
 
 

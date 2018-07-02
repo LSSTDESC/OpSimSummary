@@ -16,7 +16,7 @@ def opsfile(fname):
     print('teardown')
 
 testdata_propIDDict = [('enigma_1189_micro.db', 'lsstv3', (364, 366)),
-                       ('opsimv4_feat_micro.db','lsstv4', (0, 1))]
+                       ('opsimv4_feat_micro.db','sstf', (0, 1))]
 @pytest.mark.parametrize("fname,opsimversion,expected", testdata_propIDDict)
 def test_get_propIDDict(fname, opsimversion, expected):
     fname = os.path.join(oss.example_data, fname)
@@ -28,7 +28,7 @@ def test_get_propIDDict(fname, opsimversion, expected):
 
 test_fromOpSimDB = [('enigma_1189_micro.db', 'lsstv3', 'Summary',
                      (76665, 5, 'radians')),
-                    ('opsimv4_feat_micro.db', 'lsstv4', 'SummaryAllProps',
+                    ('opsimv4_feat_micro.db', 'sstf', 'SummaryAllProps',
                      (90846, 5, 'degrees'))]
 @pytest.mark.parametrize("fname,opsimversion,tableName,expected", test_fromOpSimDB)
 def test_OpSimOutput_fromOmSimDB(fname, opsimversion, tableName, expected):

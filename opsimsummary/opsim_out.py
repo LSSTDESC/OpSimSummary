@@ -24,7 +24,7 @@ class OpSimOutput(object):
 
     Attribute
     ---------
-    opsimversion: {'lsstv3'|'lsstv4'}
+    opsimversion: {'lsstv3'|'sstf'|'lsstv4'}
         version of OpSim corresponding to the output format.
     summary : `pd.DataFrame`
         selected records from the Summary Table of pointings
@@ -39,7 +39,10 @@ class OpSimOutput(object):
         integers corresponding to the subset selected through proposals
     zeroDDFDithers : bool, defaults to True
         if True, set dithers in DDF to 0, by setting ditheredRA,
-        ditheredDec to fieldRA, fieldDec
+        ditheredDec to fieldRA, fieldDec. This should only be used for
+        opsimversion='lsstv3'. For opsimversion='sstf' or 'lsstv4', this
+        will be set to False despite inputs, since this is already done, and
+        cannot be done with the inputs.
     """
     def __init__(self, summary=None, propIDDict=None, proposalTable=None,
                  subset=None, propIDs=None, zeroDDFDithers=True,
@@ -48,13 +51,21 @@ class OpSimOutput(object):
         self.opsimversion = opsimversion
         self.propIDDict = propIDDict
         self.proposalTable = proposalTable
-        if opsimversion == 'lsstv4':
+        if opsimversion in ('sstf', 'lsstv4'):
             zeroDDFDithers = False
+            ss = 'Warning: Input is zeroDDFDithers = True. But opsimversion is'
+            ss += '{} for which this must be False. Setting to False and proceeding\n'.format(opsimversion)
+            print(ss) 
+
         if zeroDDFDithers:
             ddfPropID = self.propIDDict['ddf']
+            print('ddfPropID should be 5 ?', ddfPropID)
+            print('the columns in summary are ', summary.columns)
             ddfidx = summary.query('propID == @ddfPropID').index
+            print('ddf indx', ddfidx)
             summary.loc[ddfidx, 'ditheredRA'] = summary.loc[ddfidx, 'fieldRA']
             summary.loc[ddfidx, 'ditheredDec'] = summary.loc[ddfidx, 'fieldDec']
+
         # Have a clear unambiguous ra, dec in radians following LSST convention
         if self.opsimVars['angleUnits'] == 'degrees':
             summary['_ra'] = np.radians(summary['ditheredRA'])
@@ -102,7 +113,11 @@ class OpSimOutput(object):
         zeroDDFDithers : bool, defaults to True
             if True, set dithers in DDF to 0, by setting ditheredRA,
             ditheredDec to fieldRA, fieldDec
+        opsimversion: {'lsstv3'|'sstf'|'lsstv4'}
+            version of OpSim corresponding to the output format.
         """
+        if opsimversion in ('sstf', 'lsstv4'):
+            tableNames=('Summary', 'Proposal')
 
         # Because this is in the class method, I am using the staticmethod
         # rather than a property
@@ -190,7 +205,7 @@ class OpSimOutput(object):
         -------
         `pd.DataFrame` with the correct propID and duplicates dropped
         """
-        if opsimversion == 'lsstv4':
+        if opsimversion == 'sstf':
             return df
 
         # As duplicates are dropped in order, reorder IDs so that
@@ -335,7 +350,7 @@ class OpSimOutput(object):
         ----------
         proposalDF : `pd.DataFrame`, mandatory
             a dataframe with the Proposal Table of the OpSim Run.
-        opsimversion: {'lsstv3'|'lsstv4'}, defaults to 'lsstv3'
+        opsimversion: {'lsstv3'|'sstf'|'lsstv4'}, defaults to 'lsstv3'
             version of opsim from which output is drawn
         Returns
         -------
@@ -352,13 +367,18 @@ class OpSimOutput(object):
             propIDName = 'propID'
             ops_wfdname = 'conf/survey/Universal-18-0824B.conf'
             ops_ddfname = 'conf/survey/DDcosmology1.conf'
-        elif opsimversion == 'lsstv4':
+        elif opsimversion == 'sstf':
             propName = 'propName'
             propIDName = 'propId'
             ops_wfdname = 'WideFastDeep'
             ops_ddfname = 'Deep Drilling'
+        elif opsimversion == 'lsstv4':
+            propName = 'propName'
+            propIDName = 'propId'
+            ops_wfdname = 'WideFastDeep'
+            ops_ddfname = 'DeepDrillingCosmology1'
         else:
-            raise NotImplementedError('`get_propIDDict` is not implemented for this `opsimverson`')
+            raise NotImplementedError('`get_propIDDict` is not implemented for this `opsimversion`')
 
         # Rename version based proposal names to internal values
         for idx, row in df.iterrows():
@@ -387,7 +407,7 @@ class OpSimOutput(object):
                      pointingDec='pointingDec',
                      filtSkyBrightness='filtSkyBrightness',
                      angleUnits='radians')
-        elif opsimversion == 'lsstv4':
+        elif opsimversion == 'sstf':
             x = dict(summaryTableName='SummaryAllProps',
                      obsHistID='observationId',
                      propName='propName',
@@ -401,8 +421,22 @@ class OpSimOutput(object):
                      pointingDec='fieldDec',
                      filtSkyBrightness='skyBrightness',
                      angleUnits='degrees')
+        elif opsimversion == 'lsstv4':
+            x = dict(summaryTableName='SummaryAllProps',
+                     obsHistID='observationId',
+                     propName='propName',
+                     propIDName='propId',
+                     propIDNameInSummary='proposalId',
+                     ops_wfdname='WideFastDeep',
+                     ops_ddfname='DeepDrillingCosmology1',
+                     expMJD='observationStartMJD',
+                     FWHMeff='seeingFwhmEff',
+                     pointingRA='fieldRA',
+                     pointingDec='fieldDec',
+                     filtSkyBrightness='skyBrightness',
+                     angleUnits='degrees')
         else:
-            raise NotImplementedError('`get_propIDDict` is not implemented for this `opsimverson`')
+            raise NotImplementedError('`get_propIDDict` is not implemented for this `opsimversion`')
         return x
 
     @staticmethod

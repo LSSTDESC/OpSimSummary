@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; OpSimSummary 0.8.5 documentation</title>
+  <title>Operation Simulator Outputs &mdash; OpSimSummary 0.8.5 documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Installation" href="Installation.html" />
-    <link rel="prev" title="Welcome to OpSimSummary’s documentation!" href="index.html" /> 
+    <link rel="next" title="API Reference" href="API.html" />
+    <link rel="prev" title="Installation" href="Installation.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -77,10 +77,10 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Installation.html#installing-dependencies">Installing Dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="OpSimOutputs.html">Operation Simulator Outputs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Operation Simulator Outputs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API Reference</a></li>
 </ul>
 
@@ -127,13 +127,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Overview</li>
+      <li>Operation Simulator Outputs</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/overview.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/OpSimOutputs.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -146,18 +146,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> was developed to interact with outputs of the <a class="reference external" href="https://www.lsst.org/scientists/simulations/opsim">LSST Operations Simulator</a>  for the purposes of transient and variable (mostly supernova cosmology) studies. Examples of such outputs are downloadable from <a class="reference external" href="https://www.lsst.org/scientists/simulations/opsim/opsim-v335-benchmark-surveys">here</a> formatted as sqlite databases with fixed <a class="reference external" href="https://www.lsst.org/scientists/simulations/opsim/summary-table-column-descriptions-v335">schema</a>.</p>
-<p>The main functionality of <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> is to find out the set of LSST visits in an <code class="docutils literal notranslate"><span class="pre">OpSim</span></code> database that will observe a given location of the sky. This can be done in
-two ways:</p>
-<ol class="arabic simple">
-<li>In memory : where the visit properties are passed as a <code class="docutils literal notranslate"><span class="pre">pandas.dataFrame</span></code> using a generator.  This is demonstrated in this <a class="reference external" href="https://github.com/rbiswas4/OpSimSummary/blob/master/example/Demo_SynOpSim.ipynb">notebook</a></li>
-</ol>
-<ol class="arabic simple" start="2">
-<li>Written out to a text file: This is to provide a <code class="docutils literal notranslate"><span class="pre">simlib</span></code> file to <a class="reference external" href="http://snana.uchicago.edu">SNANA</a>  to enable SNANA simulations of LSST. To use this, one could (after installing <cite>OpSimSummary</cite>) run to get the options for this <a class="reference external" href="https://github.com/rbiswas4/OpSimSummary/blob/master/scripts/make_simlibs.py">script</a>.</li>
-</ol>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span>python scripts/make_simlibs.py -h
+  <div class="section" id="operation-simulator-outputs">
+<h1>Operation Simulator Outputs<a class="headerlink" href="#operation-simulator-outputs" title="Permalink to this headline">¶</a></h1>
+<p><cite>OpSimSummary</cite> can be used with Operation Simulator Outputs for OpSim version 3, and 4 as well as a set of OpSim outputs released for the work of the DESC Survey Strategy Task Force listed <a class="reference external" href="http://altsched.rothchild.me:8080/">here</a> . The outputs of these versions are different, and as of now, <cite>OpSimSummary</cite> requires an input to know which of these versions are being used.</p>
+<dl class="docutils">
+<dt>The main class of <cite>OpSimSummary</cite> are required to read in <cite>OpSim</cite> outputs is <cite>OpSimOutputs</cite>. Note that the class <cite>SynOpSim</cite> also uses <cite>OpSimOutputs</cite> to</dt>
+<dd>read in <cite>OpSim</cite> databases. <cite>OpSimOutput</cite> can be instantiated using a <cite>summary</cite> table and <cite>proposal</cite> table read in from any source. The <cite>summary</cite> table has a set of unique pointings of the telescope with observational characteristics of each of the pointings (such as found in the OpSim <cite>summary</cite> or <cite>summaryAllProps</cite> tables). The <cite>Proposal</cite> Table has a list of different <cite>proposals</cite> with an identifying integer index and descriptive names.</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opsimout</span> <span class="o">=</span> <span class="n">OpSimOutput</span><span class="p">(</span><span class="n">summary</span><span class="o">=</span><span class="n">summary</span><span class="p">,</span> <span class="n">proposalTable</span><span class="o">=</span><span class="n">proposalTable</span><span class="p">,</span>
+                       <span class="n">zeroDDFDithers</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is, however, far easier and strongly recommended to use this directly using a class method and an absolute path to the <cite>OpSim</cite> database <cite>dbname</cite>. The following is the example code for <cite>lsstv3</cite> (for example <cite>minion_1016_sqlite.db</cite>. The choices for <cite>opsimversion</cite> and <cite>tableNames</cite> for the names of the <cite>summary</cite> and <cite>proposal</cite> table in OpSim v3 are important:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>$opsout = OpSimOutput.fromOpSimDB(dbname, subset=&#39;combined&#39;,
+                                  tableNames=(&#39;Summary&#39;, &#39;Proposal&#39;),
+                                  propIDs=None, zeroDDFDithers=True,
+                                  opsimversion=&#39;lsstv3&#39;)
+</pre></div>
+</div>
+<p>For the set of outputs for <cite>OpSim</cite> versions used by the DESC Survey Strategy Task Force: these variables are :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>$opsout = OpSimOutput.fromOpSimDB(dbname, subset=&#39;combined&#39;,
+                                  tableNames=(&#39;summaryAllProps&#39;, &#39;Proposal&#39;),
+                                  propIDs=None, zeroDDFDithers=True,
+                                  opsimversion=&#39;sstf&#39;)
 </pre></div>
 </div>
 </div>
@@ -170,10 +181,10 @@ two ways:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="API.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Welcome to OpSimSummary’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Installation.html" class="btn btn-neutral" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

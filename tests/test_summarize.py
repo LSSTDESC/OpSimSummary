@@ -11,6 +11,7 @@ import healpy as hp
 from numpy.testing import assert_allclose, assert_array_equal
 
 
+
 @pytest.fixture()
 def opsfile(fname):
     yield os.path.join(oss.example_data, fname)
@@ -18,14 +19,15 @@ def opsfile(fname):
 
 
 testdata_synopsiminit = [('enigma_1189_micro.db', 'lsstv3',
-                         ('Summary', 'Proposal')),
+                         ('Summary', 'Proposal'), 'radians'),
                          ('opsimv4_feat_micro.db', 'sstf',
-                         ('SummaryAllProps', 'Proposal'))]
+                         ('SummaryAllProps', 'Proposal'),
+                         'degrees')]
 
 
-@pytest.mark.parametrize("fname,opsimversion,tableNames",
+@pytest.mark.parametrize("fname,opsimversion,tableNames,angleUnit",
                          testdata_synopsiminit)
-def test_SynOpSim_init(fname, opsimversion, tableNames):
+def test_SynOpSim_init(fname, opsimversion, tableNames, angleUnit):
     fname = os.path.join(oss.example_data, fname)
     ops_out = OpSimOutput.fromOpSimDB(fname, opsimversion=opsimversion,
                                       tableNames=tableNames)
@@ -33,21 +35,22 @@ def test_SynOpSim_init(fname, opsimversion, tableNames):
     synopsim = SynOpSim(ops_out.summary)
     assert synopsim.pointings.night.size == num_visits
 
-@pytest.mark.parametrize("fname,opsimversion,tableNames",
+@pytest.mark.parametrize("fname,opsimversion,tableNames,angleUnit",
                          testdata_synopsiminit)
-def test_fromOpSimDB(fname, opsimversion, tableNames):
+def test_fromOpSimDB(fname, opsimversion, tableNames, angleUnit):
     fname = os.path.join(oss.example_data, fname)
     ops_out = OpSimOutput.fromOpSimDB(fname, opsimversion=opsimversion,
                                       tableNames=tableNames)
     synopsim = SynOpSim(ops_out.summary)
     synopsimd = SynOpSim.fromOpSimDB(fname, opsimversion=opsimversion,
-                                          tableNames=tableNames)
+                                     tableNames=tableNames,
+                                     angleUnit=angleUnit)
     assert synopsim.pointings.equals(synopsimd.pointings)
 
 
-@pytest.mark.parametrize("fname,opsimversion,tableNames",
+@pytest.mark.parametrize("fname,opsimversion,tableNames,angleUnit",
                          testdata_synopsiminit)
-def test_pointingTree(fname, opsimversion, tableNames):
+def test_pointingTree(fname, opsimversion, tableNames, angleUnit):
     """test that `PointingTree` is set up correctly to handle
     pointings provided by `OpSimOutput.summary` by checking that
     distance calculations for the 10 nearest ones match
@@ -78,9 +81,9 @@ def test_pointingTree(fname, opsimversion, tableNames):
     assert_allclose(np.dot(vecs, vec), np.cos(dists[0]))
 
 
-@pytest.mark.parametrize("fname,opsimversion,tableNames",
+@pytest.mark.parametrize("fname,opsimversion,tableNames,angleUnit",
                          testdata_synopsiminit)
-def test_synopsimPTree(fname, opsimversion, tableNames):
+def test_synopsimPTree(fname, opsimversion, tableNames, angleUnit):
     """
     test that the pointings for a particular point at ra = 54.0 deg and
     dec = -27.5 deg are found through the pointing tree and through a
@@ -90,7 +93,8 @@ def test_synopsimPTree(fname, opsimversion, tableNames):
     synopsim = SynOpSim.fromOpSimDB(fname,
                                     opsimversion=opsimversion,
                                     tableNames=tableNames,
-                                    usePointingTree=True)
+                                    usePointingTree=True,
+                                    angleUnit=angleUnit)
 
 
     # Find distances to a specific location ra=54.0 deg, dec=-27.5 deg
@@ -111,16 +115,16 @@ def test_synopsimPTree(fname, opsimversion, tableNames):
     vecs = hp.ang2vec(ra, dec, lonlat=True)
     vec = hp.ang2vec(radeg, decdeg, lonlat=True)
 
-    X['dist'] = np.dot(vecs, vec)
+    X.loc[:, 'dist'] = np.dot(vecs, vec)
 
     costhresh = np.cos(np.radians(1.75))
     assert_array_equal(np.sort(X.query('dist > @costhresh').index),
                        res)
 
 
-@pytest.mark.parametrize("fname,opsimversion,tableNames",
+@pytest.mark.parametrize("fname,opsimversion,tableNames,angleUnit",
                          testdata_synopsiminit)
-def test_synopsimPointings(fname, opsimversion, tableNames):
+def test_synopsimPointings(fname, opsimversion, tableNames, angleUnit):
     """
     test that the lengths of pointings for a random set of 100 positions
     in the approximate LSST region match when calculated directly or with
@@ -130,7 +134,8 @@ def test_synopsimPointings(fname, opsimversion, tableNames):
     synopsim = SynOpSim.fromOpSimDB(fname,
                                     opsimversion=opsimversion,
                                     tableNames=tableNames,
-                                    usePointingTree=True)
+                                    usePointingTree=True,
+                                    angleUnit=angleUnit)
 
 
     # Find distances to a specific location ra=54.0 deg, dec=-27.5 deg

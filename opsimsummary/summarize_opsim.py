@@ -68,8 +68,10 @@ class SynOpSim(object):
         # slightly roundabout method to work even if `subset` includes
         # name of index variable
         name = df.index.name
-        subset = list(np.unique(np.array(subset + [name])))
-        return df.reset_index()[subset].set_index(name)
+        if name in subset:
+            return df.reset_index()[subset].set_index(name)
+        else:
+            return df[subset]
 
 
     @classmethod
@@ -78,7 +80,8 @@ class SynOpSim(object):
                     propIDs=None, zeroDDFDithers=True,
                     opsimversion='lsstv3', raCol='ditheredRA',
                     decCol='ditheredDec', angleUnit='degrees',
-                    indexCol='obsHistID', usePointingTree=False):
+                    indexCol='obsHistID', usePointingTree=False,
+                    dithercolumns=None, add_dithers=False):
         """
         Class Method to instantiate this from an OpSim sqlite
         database output
@@ -98,11 +101,22 @@ class SynOpSim(object):
         zeroDDFDithers : bool, defaults to True
             if True, set dithers in DDF to 0, by setting ditheredRA,
             ditheredDec to fieldRA, fieldDec
+        opsimversion: {'lsstv3'|'sstf'|'lsstv4'}
+            version of OpSim corresponding to the output format.
+        dithercolumns: `pd.DataFrame`, defaults to None
+            a pandas dataframe with the columns `ditheredRA`, `ditheredDec` and
+            index `obsHistID`
+        add_dithers : Bool, defaults to False
+            if add_dithers is True, the `ditheredRA`, `ditheredDec`
+            columns will be removed and additional dithered columns
+            either by `dithercolumns` or `get_dithercolumns` will
+            be used.
         """
         opsout = OpSimOutput.fromOpSimDB(dbname, subset=subset,
                                          tableNames=('Summary', 'Proposal'),
                                          propIDs=propIDs, zeroDDFDithers=True,
-                                         opsimversion=opsimversion)
+                                         opsimversion=opsimversion,
+                                         dithercolumns=dithercolumns)
         return bls(opsout.summary, opsimversion=opsimversion, raCol=raCol,
                    decCol=decCol, angleUnit=angleUnit, indexCol=indexCol,
                    usePointingTree=usePointingTree, subset=subset)
@@ -159,6 +173,7 @@ class SynOpSim(object):
         .. note: 1. the values in the generator may be accessed by next(generator)
             2. subset=[] returns only the index
         """
+        print('check using ptree', usePointingTree)
         if transform is not None:
             raise NotImplementedError('transforms are not implemented yet')
         if usePointingTree is None:
@@ -170,12 +185,13 @@ class SynOpSim(object):
             for hidx in hidxs:
                 yield self.df_subset_columns(self.pointings.loc[hidx], subset)
         else:
+            print(self.pointings['_ra'].max())
             x = self.pointings[['_ra', '_dec']].copy().apply(np.degrees)
             pvecs = hp.ang2vec(x._ra, x._dec, lonlat=True)
             vecs = hp.ang2vec(ra, dec, lonlat=True)
             prad = np.radians(pointingRadius + circRadius)
             for vec in vecs:
-                x['dist'] = np.arccos(np.dot(pvecs, vec))
+                x.loc[:, 'dist'] = np.arccos(np.dot(pvecs, vec))
                 idx = x.query('dist < @prad').index
                 yield self.df_subset_columns(self.pointings.loc[idx], subset)
 
@@ -331,6 +347,10 @@ class PointingTree(object):
                  indexCol='obsHistID',
                  leafSize=50):
         """
+        Create a tree of pointings
+
+        Parameters
+        ----------
         pointings : `pd.dataFrame` 
             of pointings with unique index values as the index column
         raCol :  string
@@ -351,7 +371,7 @@ class PointingTree(object):
 
         # tree queries
         # Keep mapping from integer indices to obsHistID
-        pointings['intindex'] = np.arange(len(pointings)).astype(np.int)
+        pointings.loc[:, 'intindex'] = np.arange(len(pointings)).astype(np.int)
         self.indMapping = pointings['intindex'].reset_index().set_index('intindex')
 
         # Build Tree
@@ -375,6 +395,8 @@ class PointingTree(object):
         """
         cols = pointings.columns
         if raCol in cols and decCol in cols:
+            assert pointings[raCol].max() < 2.0 * np.pi
+            assert pointings[decCol].min() > - 1.0 * np.pi / 2.0
             return True
         else:
             print('the column name provided to PointingTree for ra and decs')
@@ -462,7 +484,7 @@ def add_simlibCols(opsimtable, pixSize=0.2):
 
 
     # Calculate SIMLIB PSF VALUE
-    opsimtable['simLibPsf'] = opsim_seeing /2.35 /pixSize
+    opsimtable.loc[:, 'simLibPsf'] = opsim_seeing /2.35 /pixSize
    
     # 4 \pi (\sigma_PSF / 2.35 )^2
     area = (1.51 * opsim_seeing)**2.
@@ -487,11 +509,11 @@ def add_simlibCols(opsimtable, pixSize=0.2):
     zpt_cor = 2.5 * np.log10(1.0 + 1.0 / (area * tmp))
     simlib_zptavg = zpt_approx + zpt_cor
     # ZERO PT CALCULATION 
-    opsimtable['simLibZPTAVG'] = simlib_zptavg
+    opsimtable.loc[:, 'simLibZPTAVG'] = simlib_zptavg
     
     # SKYSIG Calculation
     npix_asec = 1. / pixSize**2.
-    opsimtable['simLibSkySig'] = np.sqrt((1.0 / npix_asec) \
+    opsimtable.loc[:, 'simLibSkySig'] = np.sqrt((1.0 / npix_asec) \
     *10.0 **(-0.4 * (opsim_magsky - simlib_zptavg)))
     return opsimtable
 
@@ -667,7 +689,7 @@ class SummaryOpsim(object):
             else:
                 return x
 
-        self.df['filter'] = list(map(capitalizeY, self.df['filter']))
+        self.df.loc[:, 'filter'] = list(map(capitalizeY, self.df['filter']))
         self.minMJD = self.df.expMJD.min()
         self.minNight = self.df.night.min()
         self._fieldsimlibs = self.df.groupby(by='fieldID')
@@ -761,8 +783,8 @@ class SummaryOpsim(object):
         Adds an 'MJDay' column calculted from the expMJD variable
         """
 
-        data['MJDay'] = np.floor(data.expMJD.values)
-        data['MJDay'] = data['MJDay'].astype(int)
+        data.loc[:, 'MJDay'] = np.floor(data.expMJD.values)
+        data.loc[:, 'MJDay'] = data['MJDay'].astype(int)
 
 
 

@@ -48,9 +48,11 @@ def test_OpSimOutput_fromOmSimDB(fname, opsimversion, tableName, expected):
     assert 'wfd' in proposalNames
     assert 'ddf' in proposalNames
 
+    pointingRA = opsout.opsimVars['pointingRA']
+    pointingDec = opsout.opsimVars['pointingDec']
     # Check that ra are in the right units
     assert opsout.opsimVars['angleUnits'] == expected[2]
     if opsout.opsimVars['angleUnits'] == 'degrees':
-        assert opsout.summary.ditheredRA.max() > 10.
+        assert opsout.summary[pointingRA].max() > 10.
     elif opsout.opsimVars['angleUnits'] == 'radians':
-        assert opsout.summary.ditheredRA.max() < 2.* np.pi + 1.0e-5
+        assert opsout.summary[pointingDec].max() < 2.* np.pi + 1.0e-5

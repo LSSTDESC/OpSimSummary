@@ -191,7 +191,7 @@ class SynOpSim(object):
             vecs = hp.ang2vec(ra, dec, lonlat=True)
             prad = np.radians(pointingRadius + circRadius)
             for vec in vecs:
-                x['dist'] = np.arccos(np.dot(pvecs, vec))
+                x.loc[:, 'dist'] = np.arccos(np.dot(pvecs, vec))
                 idx = x.query('dist < @prad').index
                 yield self.df_subset_columns(self.pointings.loc[idx], subset)
 
@@ -371,7 +371,7 @@ class PointingTree(object):
 
         # tree queries
         # Keep mapping from integer indices to obsHistID
-        pointings['intindex'] = np.arange(len(pointings)).astype(np.int)
+        pointings.loc[:, 'intindex'] = np.arange(len(pointings)).astype(np.int)
         self.indMapping = pointings['intindex'].reset_index().set_index('intindex')
 
         # Build Tree
@@ -484,7 +484,7 @@ def add_simlibCols(opsimtable, pixSize=0.2):
 
 
     # Calculate SIMLIB PSF VALUE
-    opsimtable['simLibPsf'] = opsim_seeing /2.35 /pixSize
+    opsimtable.loc[:, 'simLibPsf'] = opsim_seeing /2.35 /pixSize
    
     # 4 \pi (\sigma_PSF / 2.35 )^2
     area = (1.51 * opsim_seeing)**2.
@@ -509,11 +509,11 @@ def add_simlibCols(opsimtable, pixSize=0.2):
     zpt_cor = 2.5 * np.log10(1.0 + 1.0 / (area * tmp))
     simlib_zptavg = zpt_approx + zpt_cor
     # ZERO PT CALCULATION 
-    opsimtable['simLibZPTAVG'] = simlib_zptavg
+    opsimtable.loc[:, 'simLibZPTAVG'] = simlib_zptavg
     
     # SKYSIG Calculation
     npix_asec = 1. / pixSize**2.
-    opsimtable['simLibSkySig'] = np.sqrt((1.0 / npix_asec) \
+    opsimtable.loc[:, 'simLibSkySig'] = np.sqrt((1.0 / npix_asec) \
     *10.0 **(-0.4 * (opsim_magsky - simlib_zptavg)))
     return opsimtable
 
@@ -689,7 +689,7 @@ class SummaryOpsim(object):
             else:
                 return x
 
-        self.df['filter'] = list(map(capitalizeY, self.df['filter']))
+        self.df.loc[:, 'filter'] = list(map(capitalizeY, self.df['filter']))
         self.minMJD = self.df.expMJD.min()
         self.minNight = self.df.night.min()
         self._fieldsimlibs = self.df.groupby(by='fieldID')
@@ -783,8 +783,8 @@ class SummaryOpsim(object):
         Adds an 'MJDay' column calculted from the expMJD variable
         """
 
-        data['MJDay'] = np.floor(data.expMJD.values)
-        data['MJDay'] = data['MJDay'].astype(int)
+        data.loc[:, 'MJDay'] = np.floor(data.expMJD.values)
+        data.loc[:, 'MJDay'] = data['MJDay'].astype(int)
 
 
 

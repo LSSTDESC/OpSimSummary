@@ -11,6 +11,7 @@ import healpy as hp
 from numpy.testing import assert_allclose, assert_array_equal
 
 
+
 @pytest.fixture()
 def opsfile(fname):
     yield os.path.join(oss.example_data, fname)
@@ -114,7 +115,7 @@ def test_synopsimPTree(fname, opsimversion, tableNames, angleUnit):
     vecs = hp.ang2vec(ra, dec, lonlat=True)
     vec = hp.ang2vec(radeg, decdeg, lonlat=True)
 
-    X['dist'] = np.dot(vecs, vec)
+    X.loc[:, 'dist'] = np.dot(vecs, vec)
 
     costhresh = np.cos(np.radians(1.75))
     assert_array_equal(np.sort(X.query('dist > @costhresh').index),

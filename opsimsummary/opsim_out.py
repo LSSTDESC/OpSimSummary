@@ -114,13 +114,13 @@ class OpSimOutput(object):
 
         # Have a clear unambiguous ra, dec in radians following LSST convention
         if self.opsimVars['angleUnits'] == 'degrees':
-            summary['_ra'] = np.radians(summary['ditheredRA'])
-            summary['_dec'] = np.radians(summary['ditheredDec'])
+            summary.loc[:, '_ra'] = np.radians(summary['ditheredRA'])
+            summary.loc[:, '_dec'] = np.radians(summary['ditheredDec'])
             print('Changing units for {0} from {1}'.format(opsimversion, 'degrees'))
         elif self.opsimVars['angleUnits'] == 'radians':
             print('Keeping units for {0} from {1}'.format(opsimversion, 'radians'))
-            summary['_ra'] = summary['ditheredRA']
-            summary['_dec'] = summary['ditheredDec']
+            summary.loc[:, '_ra'] = summary['ditheredRA']
+            summary.loc[:, '_dec'] = summary['ditheredDec']
         else:
             raise ValueError('angle unit of ra and dec Columns not recognized\n')
 

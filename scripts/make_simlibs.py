@@ -17,6 +17,7 @@ def genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields,
                   angleUnit='degrees', opsimversion='lsstv3',
                   indexCol='obsHistID', nside=256, fieldType='DDF',
                   opsimoutput='minion_1016_sqlite.db',
+                  vetoed_hids=None,
                   opsimsummary_version=oss.__version__):
     """
     Write out simlibs from a summary dataFrame
@@ -37,6 +38,9 @@ def genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields,
         number of sample fields requested in the simlib file. If this number
         exceeds the number of fields satisfying the number of visits, all of the
         fields satisfying the constraints are included in the simlib
+    vetoed_hids : set of integers, defaults to `None`
+       if not `None`, set of integers representing healpix Ids in the same
+       (`nest`|`ring`) which should not be used. If `None`, ignore.
     """
     simlibs = Simlibs(summary, usePointingTree=True, raCol=raCol,
                       decCol=decCol, angleUnit=angleUnit,
@@ -45,6 +49,10 @@ def genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields,
                                               maxVisits=maxVisits,
                                               writeFile=False,
                                               nside=nside)
+    if vetoed_hids is not None:
+        hids = set(surveydf.index.values)
+        selected = hids - vetoed_hids
+        surveydf = surveydf.loc[selected]
     totalfields = len(surveydf)
     surveyPix = simlibs.get_surveyPix(surveydf, numFields=numFields, rng=rng)
     fields = simlibs.simlibs_for_fields(surveyPix, mwebv=mwebv)
@@ -98,6 +106,13 @@ numFields_DDF = args.numFields_DDF
 numFields_WFD = args.numFields_WFD
 
 print(args)
+# find ddf healpixels
+opsout_ddf = OpSimOutput.fromOpSimDB(dbname, opsimversion=opsimversion,
+                                     subset='ddf')
+simlib_ddf = Simlibs(opsout_ddf.summary, opsimversion=opsimversion,
+                     usePointingTree=True)
+ddf_hid = set(simlib_ddf.observedVisitsinRegion().index.values) 
+print('There are {} pixels in the ddf fields'.format(len(ddf_hid)))
 # read the database into a `pd.DataFrame`
 opsout = OpSimOutput.fromOpSimDB(dbname,
                                  opsimversion=opsimversion,
@@ -108,7 +123,7 @@ if write_ddf_simlib :
     print('writing out simlib for DDF')
     # 133 random locations is similar density of locations in WFD.
     x = genericSimlib(simlibFilename=ddf_simlibfilename,
-                      summary=summary, minVisits=10000, maxVisits=None,
+                      summary=opsout_ddf.summary, minVisits=500, maxVisits=None,
                       numFields=numFields_DDF, mapFile='ddf_minion_1016_sqlite.csv',
                       fieldType='DDF', opsimoutput=opsimoutput)
 if write_wfd_simlib :
@@ -116,4 +131,5 @@ if write_wfd_simlib :
     x = genericSimlib(simlibFilename=wfd_simlibfilename,
                       summary=summary, minVisits=500, maxVisits=10000,
                       numFields=numFields_WFD, mapFile='wfd_minion_1016_sqlite.csv',
-                      fieldType='WFD', opsimoutput=opsimoutput)
+                      fieldType='WFD', opsimoutput=opsimoutput, 
+                      vetoed_hids=ddf_hid)

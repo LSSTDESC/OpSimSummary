@@ -183,10 +183,14 @@ class OpSimOutput(object):
 
     @staticmethod
     def get_dithercolumns(summary,
-                          opsimversion='lsstv3',
-                          method='default'):
+                          opsimversion,
+                          angleUnit,
+                          method='default',
+                          rng=np.random.RandomState(1),
+                          **kwargs):
         """
         get dithers
+
         Parameters
         ----------
         summary : `pd.DataFrame`
@@ -194,21 +198,23 @@ class OpSimOutput(object):
         opsimversion : string, defaults to `lsstv3`
            version of the OpSim producing the database.
         method : string
-           {'default'} only implemented
+           {'default|FlatSky'} only implemented
+        rng : randomState
+        kwargs : 
         """
+        df = summary[['fieldRA', 'fieldDec']]
         if method == 'default':
-
-           df = summary[['fieldRA', 'fieldDec']]
-           # ditheredRA = summary.fieldRA.values
-           # ditheredDec = summary.fieldDec.values
-           # df = pd.DataFrame(dict(obsHistID=summary.index.values,
-           #                       ditheredRA=ditheredRA,
-           #                       ditheredDec=ditheredDec))
            df.rename(columns=dict(fieldRA='ditheredRA',
                                   fieldDec='ditheredDec'), inplace=True)
+        elif method == 'FlatSky':
+            random_angs = rng.uniform(high=2.0*np.pi, size=len(df))
+            random_devs_ra = np.cos(random_angs) 
+            random_devs_dec = np.sin(random_angs) 
+            df.loc[:, 'ditheredRA'] = df['fieldRA'] + factor * random_devs_ra 
+            df.loc[:, 'ditheredDec'] = df['fieldDec'] + factor * random_devs_dec 
         else:
             raise NotImplementedError('Only the default identity method has been implemented yet\n')
-        return df
+        return df[['ditheredRA', 'ditheredDec']]
 
     @classmethod
     def fromOpSimDB(cls, dbname, subset='combined',

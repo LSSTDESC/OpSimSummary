@@ -186,7 +186,11 @@ class OpSimOutput(object):
                           opsimversion,
                           angleUnit,
                           method='default',
+                          ddfId=5,
+                          wfdID=3,
                           rng=np.random.RandomState(1),
+                          ddf_ditherscale=1.75,
+                          wfd_ditherscale=0.2,
                           **kwargs):
         """
         get dithers
@@ -202,18 +206,52 @@ class OpSimOutput(object):
         rng : randomState
         kwargs : 
         """
-        df = summary[['fieldRA', 'fieldDec']]
+        # start off with a fieldRA, fieldDec, propID
+        df = summary[['fieldRA', 'fieldDec', 'propID']]
+
         if method == 'default':
+           # Simply write the fieldRA to ditheredRA
            df.rename(columns=dict(fieldRA='ditheredRA',
-                                  fieldDec='ditheredDec'), inplace=True)
+                                  fieldDec='ditheredDec'),
+                     inplace=True)
+
         elif method == 'FlatSky':
-            random_angs = rng.uniform(high=2.0*np.pi, size=len(df))
-            random_devs_ra = np.cos(random_angs) 
-            random_devs_dec = np.sin(random_angs) 
-            df.loc[:, 'ditheredRA'] = df['fieldRA'] + factor * random_devs_ra 
-            df.loc[:, 'ditheredDec'] = df['fieldDec'] + factor * random_devs_dec 
+            # Choose chip size, random directional DDF dithers 
+            # Choose focal plane radius size, random directional dithers elsewhere
+            # Very roughly these scales are 1.75 deg, and 0.2 deg
+
+            df.loc[:, 'factor'] = 1.75
+            df.query('propID == @ddfId').loc[:, 'factor'] = 0.2
+
+            if angleUnit == 'degrees':
+                pass
+            elif angleUnit == 'radians':
+                df.loc[:, 'factor'] = df.factor.apply(np.radians)
+            else:
+                raise NotImplementedError("Don't recognize angleUnit")
+
+            # Random directions
+            df.loc[:, 'random_angs'] = rng.uniform(high=2.0*np.pi,
+                                                   size=len(df))
+
+            # Use the flat sky approximation
+            df.loc[:, 'ditheredRA'] = df['fieldRA'] + \
+                df['factor'] * np.cos(df['random_angs'])
+            df.loc[:, 'ditheredDec'] = df['fieldDec'] + \
+                df['factor'] * np.sin(df['random_angs'])
         else:
-            raise NotImplementedError('Only the default identity method has been implemented yet\n')
+            raise NotImplementedError('method {} has not been implemented yet\n'.format(method))
+
+        if angleUnit == 'degrees':
+            assert all(df.ditheredRA.values < 370.0)
+            maxval = 360.
+        elif angleUnit == 'radians':
+            maxval  = 2.0 * np.pi
+            assert all(df.ditheredRA.values < maxval + 0.2)
+
+        mask = df.ditheredRA.values > maxval
+        df.ditheredRA[mask] = df.ditheredRA[mask] - maxval
+
         return df[['ditheredRA', 'ditheredDec']]
 
     @classmethod
@@ -357,15 +395,15 @@ class OpSimOutput(object):
                 assert 'ditheredRA' in dithercolumns.columns
                 assert 'ditheredDec' in dithercolumns.columns
                 assert 'obsHistID' == dithercolumns.index.name
-                
+
                 # if the column names already exist in the table remove them
                 if 'ditheredra' in list(x.lower() for x in summary.columns):
-                    del summary['ditheredRA'] 
-                    del summary['ditheredDec'] 
+                    del summary['ditheredRA']
+                    del summary['ditheredDec']
 
                 # Assumption : I have the dither columns in a `pd.DataFrame`
                 # with minimal columns `ditheredRA` and `ditheredDec` and
-                # index name `obsHistID` which indexes the visits in the 
+                # index name `obsHistID` which indexes the visits in the
                 # Summary Table
 
                 summary = summary.join(dithercolumns)
@@ -373,11 +411,19 @@ class OpSimOutput(object):
             elif add_dithers:
                 # No dither column provided
                 dithercolumns = cls.get_dithercolumns(summary[['fieldRA',
-                                                           'fieldDec']],
+                                                               'fieldDec',
+                                                               'propID']],
                                                       opsimversion=opsimversion,
-                                                      method='default')
+                                                      angleUnit=opsimVars['angleUnits'],
+                                                      method='FlatSky',
+                                                      ddfId=propDict['ddf'],
+                                                      wfdID=propDict['wfd'],
+                                                      )
+                print(dithercolumns.ditheredRA.max())
+                #print('max ra values are {}.'format(dithercolumns.ditheredRA.max()))
                 if cls.validate_pointings(dithercolumns, opsimVars=None):
                     print('dithercolumns good!')
+                    # print('max ra values are {}.'format(dithercolumns.ditheredRA.max()))
                 try:
                     print('before join number of rows is {}'.format(len(summary)))
                     print('before join, if nulls existed {}'.format(any(summary.isnull())))
@@ -393,7 +439,7 @@ class OpSimOutput(object):
             # let pass without further action
             pass
 
-        
+ 
         if cls.validate_pointings(summary, opsimVars=None):
             print('joining dithers works')
 

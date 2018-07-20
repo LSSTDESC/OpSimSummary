@@ -189,8 +189,8 @@ class OpSimOutput(object):
                           ddfId=5,
                           wfdID=3,
                           rng=np.random.RandomState(1),
-                          ddf_ditherscale=1.75,
-                          wfd_ditherscale=0.2,
+                          wfd_ditherscale=1.75,
+                          ddf_ditherscale=0.2,
                           **kwargs):
         """
         get dithers
@@ -220,8 +220,8 @@ class OpSimOutput(object):
             # Choose focal plane radius size, random directional dithers elsewhere
             # Very roughly these scales are 1.75 deg, and 0.2 deg
 
-            df.loc[:, 'factor'] = 1.75
-            df.query('propID == @ddfId').loc[:, 'factor'] = 0.2
+            df.loc[:, 'factor'] = wfd_ditherscale
+            df.query('propID == @ddfId').loc[:, 'factor'] = ddf_ditherscale
 
             if angleUnit == 'degrees':
                 pass

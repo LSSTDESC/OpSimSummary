@@ -27,7 +27,8 @@ class OpSimOutput(object):
 
     Attributes
     ----------
-    opsimversion: {'lsstv3'|'sstf'|'lsstv4'}
+    opsimversion:
+        {'lsstv3'|'sstf'|'lsstv4'}
         version of OpSim corresponding to the output format.
     summary : `pd.DataFrame`
         selected records from the Summary Table of pointings
@@ -184,16 +185,14 @@ class OpSimOutput(object):
     @staticmethod
     def get_dithercolumns(summary,
                           opsimversion,
-                          angleUnit,
                           method='default',
                           ddfId=5,
-                          wfdID=3,
                           rng=np.random.RandomState(1),
                           wfd_ditherscale=1.75,
-                          ddf_ditherscale=0.2,
-                          **kwargs):
+                          ddf_ditherscale=0.2):
         """
-        get dithers
+        Use a `method` prescription to obtain dithered values of pointings
+        starting from a fixed pointing.
 
         Parameters
         ----------
@@ -208,6 +207,10 @@ class OpSimOutput(object):
         """
         # start off with a fieldRA, fieldDec, propID
         df = summary[['fieldRA', 'fieldDec', 'propID']]
+
+
+        OpSimVars = OpSimOutput.get_opsimVariablesForVersion(opsimversion)
+        angleUnit = OpSimVars['angleUnits']
 
         if method == 'default':
            # Simply write the fieldRA to ditheredRA
@@ -255,11 +258,15 @@ class OpSimOutput(object):
         return df[['ditheredRA', 'ditheredDec']]
 
     @classmethod
-    def fromOpSimDB(cls, dbname, subset='combined',
+    def fromOpSimDB(cls, dbname,
+                    subset='combined',
+                    opsimversion='lsstv3',
+                    zeroDDFDithers=True,
+                    propIDs=None,
+                    dithercolumns=None,
+                    add_dithers=False,
                     tableNames=('Summary', 'Proposal'),
-                    propIDs=None, zeroDDFDithers=True,
-                    opsimversion='lsstv3', dithercolumns=None,
-                    add_dithers=False):
+                    **kwargs):
         """
         Class Method to instantiate this from an OpSim sqlite
         database output
@@ -273,22 +280,27 @@ class OpSimOutput(object):
             determines a sequence of propIDs for selecting observations
             appropriate for the OpSim database in use
         propIDs : sequence of integers, defaults to None
-            proposal ID values. If present, overrides the use of subset
+            proposal ID values. If not `None`, overrides the use of subset
+        opsimversion: {'lsstv3'|'sstf'|'lsstv4'}
+            version of OpSim corresponding to the output format.
+        dithercolumns: `pd.DataFrame`, defaults to `None`
+            a pandas dataframe with the columns `ditheredRA`, `ditheredDec` and
+            index `obsHistID`
         tableNames : tuple of strings, defaults to ('Summary', 'Proposal')
             names of tables read from the OpSim database
         zeroDDFDithers : bool, defaults to True
             if True, set dithers in DDF to 0, by setting ditheredRA,
             ditheredDec to fieldRA, fieldDec
-        opsimversion: {'lsstv3'|'sstf'|'lsstv4'}
-            version of OpSim corresponding to the output format.
-        dithercolumns: `pd.DataFrame`, defaults to None
-            a pandas dataframe with the columns `ditheredRA`, `ditheredDec` and
-            index `obsHistID`
         add_dithers : Bool, defaults to False
             if add_dithers is True, the `ditheredRA`, `ditheredDec`
             columns will be removed and additional dithered columns
             either by `dithercolumns` or `get_dithercolumns` will
             be used.
+        kwargs: dict
+            of options relating to changing the methods of adding dithers.
+            keywords are rng of type `np.random.RandomState`, `ddf_ditherscale`,
+            `wfd_ditherscale`, `method`. If not provided, the parameters take
+            default values.
 
         """
         print(tableNames)# = ('summary', 'Proposal')
@@ -410,15 +422,26 @@ class OpSimOutput(object):
 
             elif add_dithers:
                 # No dither column provided
+                method = 'default'
+                ddfID = propDict['ddf']
+                ddf_ditherscale = 1.75
+                wfd_ditherscale = 0.2
+                rng = np.random.RandomState(1)
+
+                if kwargs:
+                    method = kwargs['method']
+                    ddfID = kwargs['ddfID']
+                    ddf_ditherscale = kwargs['ddf_ditherscale']
+                    wfd_ditherscale = kwargs['wfd_ditherscale']
+
                 dithercolumns = cls.get_dithercolumns(summary[['fieldRA',
                                                                'fieldDec',
                                                                'propID']],
                                                       opsimversion=opsimversion,
-                                                      angleUnit=opsimVars['angleUnits'],
-                                                      method='FlatSky',
-                                                      ddfId=propDict['ddf'],
-                                                      wfdID=propDict['wfd'],
-                                                      )
+                                                      method=method,
+                                                      ddfID=ddfID,
+                                                      ddf_ditherscale=ddf_ditherscale,
+                                                      wfd_ditherscale=wfd_ditherscale)
                 print(dithercolumns.ditheredRA.max())
                 #print('max ra values are {}.'format(dithercolumns.ditheredRA.max()))
                 if cls.validate_pointings(dithercolumns, opsimVars=None):
@@ -594,6 +617,8 @@ class OpSimOutput(object):
 
     @staticmethod
     def get_allowed_subsets():
+        """Provide a sequence of implemented subset values"""
+
         return ('_all', 'ddf', 'wfd', 'combined', 'unique_all')
 
     @staticmethod

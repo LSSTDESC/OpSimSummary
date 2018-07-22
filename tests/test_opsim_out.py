@@ -51,8 +51,8 @@ def test_OpSimOutput_fromOmSimDB(fname, opsimversion, tableName, expected):
     pointingRA = opsout.opsimVars['pointingRA']
     pointingDec = opsout.opsimVars['pointingDec']
     # Check that ra are in the right units
-    assert opsout.opsimVars['angleUnits'] == expected[2]
-    if opsout.opsimVars['angleUnits'] == 'degrees':
+    assert opsout.opsimVars['angleUnit'] == expected[2]
+    if opsout.opsimVars['angleUnit'] == 'degrees':
         assert opsout.summary[pointingRA].max() > 10.
-    elif opsout.opsimVars['angleUnits'] == 'radians':
+    elif opsout.opsimVars['angleUnit'] == 'radians':
         assert opsout.summary[pointingDec].max() < 2.* np.pi + 1.0e-5

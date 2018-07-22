@@ -27,15 +27,14 @@ class OpSimOutput(object):
 
     Attributes
     ----------
-    opsimversion:
-        {'lsstv3'|'sstf'|'lsstv4'}
+    opsimversion: {'lsstv3'|'sstf'|'lsstv4'}
         version of OpSim corresponding to the output format.
-    summary : `pd.DataFrame`
+    summary: `pd.DataFrame`
         selected records from the Summary Table of pointings
-    propIDDict : dict
+    propIDDict: dict
         dictionary with strings as keys and integers used in the Summary
         Table to denote these proposals
-    proposalTable : `pd.DataFrame`
+    proposalTable: `pd.DataFrame`
         the propsal table in the output
     subset: string
         subset of proposals included in this class
@@ -67,6 +66,8 @@ class OpSimOutput(object):
             describing the FWHM seeing, sky brightness in the filter of
             observation, and the five sigma depth of the observation and
             an integer index for different programs that an observation.
+        proposalTable: `pd.DataFrame`, defaults to `None`
+            modified table of proposals from the OpSim output
         propIDDict: dict, defaults to None
             dictionary with keys giving integers that identify proposals and
             values in the form of strings describing the program
@@ -77,8 +78,6 @@ class OpSimOutput(object):
             `WFD` and `DDF` while, `unique_all` keeps all of the unique
             observations. `_all` is the entire table of of observations from
             OpSim outputs.
-        proposalTable: `pd.DataFrame`
-            modified table of proposals from the OpSim output
         propIDs: 
         zeroDDFDithers:
         opsimversion: {'lsstv3'|'sstf'|'lsstv4'} , defaults to 'lsstv3'
@@ -114,11 +113,11 @@ class OpSimOutput(object):
         self._opsimvars = None
 
         # Have a clear unambiguous ra, dec in radians following LSST convention
-        if self.opsimVars['angleUnits'] == 'degrees':
+        if self.opsimVars['angleUnit'] == 'degrees':
             summary.loc[:, '_ra'] = np.radians(summary['ditheredRA'])
             summary.loc[:, '_dec'] = np.radians(summary['ditheredDec'])
             print('Changing units for {0} from {1}'.format(opsimversion, 'degrees'))
-        elif self.opsimVars['angleUnits'] == 'radians':
+        elif self.opsimVars['angleUnit'] == 'radians':
             print('Keeping units for {0} from {1}'.format(opsimversion, 'radians'))
             summary.loc[:, '_ra'] = summary['ditheredRA']
             summary.loc[:, '_dec'] = summary['ditheredDec']
@@ -210,7 +209,7 @@ class OpSimOutput(object):
 
 
         OpSimVars = OpSimOutput.get_opsimVariablesForVersion(opsimversion)
-        angleUnit = OpSimVars['angleUnits']
+        angleUnit = OpSimVars['angleUnit']
 
         if method == 'default':
            # Simply write the fieldRA to ditheredRA
@@ -262,7 +261,7 @@ class OpSimOutput(object):
                     subset='combined',
                     opsimversion='lsstv3',
                     zeroDDFDithers=True,
-                    propIDs=None,
+                    user_propIDs=None,
                     dithercolumns=None,
                     add_dithers=False,
                     tableNames=('Summary', 'Proposal'),
@@ -279,23 +278,26 @@ class OpSimOutput(object):
             one of {'_all', 'unique_all', 'wfd', 'ddf', 'combined'}
             determines a sequence of propIDs for selecting observations
             appropriate for the OpSim database in use
-        propIDs : sequence of integers, defaults to None
-            proposal ID values. If not `None`, overrides the use of subset
-        opsimversion: {'lsstv3'|'sstf'|'lsstv4'}
+        opsimversion : {'lsstv3'|'sstf'|'lsstv4'}
             version of OpSim corresponding to the output format.
-        dithercolumns: `pd.DataFrame`, defaults to `None`
-            a pandas dataframe with the columns `ditheredRA`, `ditheredDec` and
-            index `obsHistID`
-        tableNames : tuple of strings, defaults to ('Summary', 'Proposal')
-            names of tables read from the OpSim database
         zeroDDFDithers : bool, defaults to True
             if True, set dithers in DDF to 0, by setting ditheredRA,
             ditheredDec to fieldRA, fieldDec
-        add_dithers : Bool, defaults to False
-            if add_dithers is True, the `ditheredRA`, `ditheredDec`
-            columns will be removed and additional dithered columns
-            either by `dithercolumns` or `get_dithercolumns` will
-            be used.
+        dithercolumns: `pd.DataFrame`, defaults to `None`
+            a pandas dataframe with the columns `ditheredRA`, `ditheredDec` and
+            index `obsHistID`, when not `None` this is used to create
+            `opsimVars[pointingRA]` and `opsimVars[pointingDec]` deleting the
+            these columns if they existed.
+        add_dithers : Bool, defaults to `False`
+            if `True` add dithers by generate ourselves by invoking
+            `cls.get_dithers` and options through `**kwargs`.
+            Even if `False`, becomes `True` if `opsimVars['pointingRA']
+            is not in the list of `summary[columns]` so that it needs to be
+            created, and dithercolumns is `None`.
+        user_propIDs : sequence of integers, defaults to `None`
+            proposal ID values. If not `None`, overrides the use of subset
+        tableNames : tuple of strings, defaults to ('Summary', 'Proposal')
+            names of tables read from the OpSim database
         kwargs: dict
             of options relating to changing the methods of adding dithers.
             keywords are rng of type `np.random.RandomState`, `ddf_ditherscale`,
@@ -303,13 +305,14 @@ class OpSimOutput(object):
             default values.
 
         """
-        print(tableNames)# = ('summary', 'Proposal')
-        if opsimversion in ('sstf', 'lsstv4'):
-            tableNames=('summaryAllProps', 'Proposal')
-
         # Because this is in the class method, I am using the staticmethod
-        # rather than a property
+        # rather than the property, but note that the property is calculated
+        # through this method. So this gives the same thing
         opsimVars = cls.get_opsimVariablesForVersion(opsimversion)
+
+        # Set tablenames
+        tableNames=(opsimVars['summaryTableName'], 'Proposal')
+
 
         # Check that subset parameter is legal
         allowed_subsets = cls.get_allowed_subsets()
@@ -318,56 +321,18 @@ class OpSimOutput(object):
             raise NotImplementedError('subset {} not implemented'.\
                                       format(subset))
 
-        # Prepend the abs path with sqlite for use with sqlalchemy
-        if not dbname.startswith('sqlite'):
-            dbname = 'sqlite:///' + dbname
-        print(' reading from database {}'.format(dbname))
-        engine = create_engine(dbname, echo=False)
+        engine = cls._get_sql_engine(dbname)
 
-        # Read the proposal table to find out which propID corresponds to
-        # the subsets requested
-        proposals = pd.read_sql_table(tableNames[1], con=engine)
-        propDict = cls.get_propIDDict(proposals, opsimversion=opsimversion)
-
-        # Seq of propIDs consistent with subset
-        _propIDs = cls.propIDVals(subset, propDict, proposals)
-        # If propIDs and subset were both provided, override subset propIDs
-        propIDs = cls._overrideSubsetPropID(propIDs, _propIDs)
-
-        # Do the actual sql queries or table reads
-        summaryTableName = opsimVars['summaryTableName']
-
-
-        # Note OpSim version 4 has different names for the same variable
-        # in the Proposal Table and Summary Table.
-        propIDNameInSummary = opsimVars['propIDNameInSummary']
-        if subset in ('_all', 'unique_all'):
-            # In this case read everything (ie. table read)
-            summary = pd.read_sql_table(summaryTableName, con=engine)
-
-        elif subset in ('ddf', 'wfd', 'combined'):
-            print('Doing combined subset here')
-            # In this case use sql queries rather than reading the whole table
-            # obtain propIDs in strings for sql queries
-            pidString = ', '.join(list(str(pid) for pid in propIDs))
-            print(pidString, subset)
-            sql_query = 'SELECT * FROM {0} WHERE {1}'.format(summaryTableName,
-                                                             propIDNameInSummary
-                                                            )
-            sql_query += ' in ({})'.format(pidString)
-
-            # If propIDs were passed to the method, this would be used
-            print(sql_query)
-            summary = pd.read_sql_query(sql_query, con=engine)
-        else:
-            raise NotImplementedError()
-
-
+        propDict, propIDs, proposals = cls._get_propIDs(tableNames, engine,
+                                                        opsimversion,
+                                                        subset,
+                                                        user_propIDs=user_propIDs)
+        summary = cls. _read_summary_table_raw(engine, opsimVars, propIDs, subset)
         if cls.validate_pointings(summary, opsimVars=None):
-            print('Raw readin works')
+            print('Reading in raw tables successful')
 
 
-        # Standardize names
+        # Standardize names of summary table columns
         replacedict = dict()
         replacedict[opsimVars['obsHistID']] = 'obsHistID'
         replacedict[opsimVars['propIDNameInSummary']] = 'propID'
@@ -400,6 +365,7 @@ class OpSimOutput(object):
         if 'ditheredra' not in list(x.lower() for x in summary.columns):
             # eg. has to be done in `lsstv4` and `sstf` unless supplied
             add_dithers = True
+
         if add_dithers:
             if dithercolumns is not None:
                 # If provided with dithers in a dataFrame, use them
@@ -422,6 +388,11 @@ class OpSimOutput(object):
 
             elif add_dithers:
                 # No dither column provided
+                ditherdict = dict(method='default',
+                                  ddfID=propDict['ddf'],
+                                  ddf_ditherscale=1.75,
+                                  wfd_ditherscale=0.2,
+                                  rng=np.random.RandomState(1))
                 method = 'default'
                 ddfID = propDict['ddf']
                 ddf_ditherscale = 1.75
@@ -429,27 +400,25 @@ class OpSimOutput(object):
                 rng = np.random.RandomState(1)
 
                 if kwargs:
-                    method = kwargs['method']
-                    ddfID = kwargs['ddfID']
-                    ddf_ditherscale = kwargs['ddf_ditherscale']
-                    wfd_ditherscale = kwargs['wfd_ditherscale']
+                    for key in kwargs:
+                        ditherdict[key] = kwargs[key]
 
                 dithercolumns = cls.get_dithercolumns(summary[['fieldRA',
                                                                'fieldDec',
                                                                'propID']],
                                                       opsimversion=opsimversion,
-                                                      method=method,
-                                                      ddfID=ddfID,
-                                                      ddf_ditherscale=ddf_ditherscale,
-                                                      wfd_ditherscale=wfd_ditherscale)
+                                                      method=ditherdict['method'],
+                                                      ddfId=ditherdict['ddfID'],
+                                                      ddf_ditherscale=ditherdict['ddf_ditherscale'],
+                                                      wfd_ditherscale=ditherdict['wfd_ditherscale'],
+                                                      rng=rng)
+
                 print(dithercolumns.ditheredRA.max())
                 #print('max ra values are {}.'format(dithercolumns.ditheredRA.max()))
                 if cls.validate_pointings(dithercolumns, opsimVars=None):
                     print('dithercolumns good!')
                     # print('max ra values are {}.'format(dithercolumns.ditheredRA.max()))
                 try:
-                    print('before join number of rows is {}'.format(len(summary)))
-                    print('before join, if nulls existed {}'.format(any(summary.isnull())))
                     summary = summary.join(dithercolumns)
                     print(len(summary), len(dithercolumns))
                     if cls.validate_pointings(summary, opsimVars=None):
@@ -471,6 +440,83 @@ class OpSimOutput(object):
                    zeroDDFDithers=zeroDDFDithers,
                    proposalTable=proposals, subset=subset,
                    opsimversion=opsimversion)
+
+    @staticmethod
+    def _read_summary_table_raw(engine, opsimVars, propIDs, subset):
+
+        # Do the actual sql queries or table reads for observations
+        summaryTableName = opsimVars['summaryTableName']
+
+
+        # Note OpSim version 4 has different names for the same variable
+        # in the Proposal Table and Summary Table.
+        propIDNameInSummary = opsimVars['propIDNameInSummary']
+        if subset in ('_all', 'unique_all'):
+            # In this case read everything (ie. table read)
+            summary = pd.read_sql_table(summaryTableName, con=engine)
+
+        elif subset in ('ddf', 'wfd', 'combined'):
+            print('Not doing all observations here ')
+            # In this case use sql queries rather than reading the whole table
+            # obtain propIDs in strings for sql queries
+            pidString = ', '.join(list(str(pid) for pid in propIDs))
+            print(pidString, subset)
+            sql_query = 'SELECT * FROM {0} WHERE {1}'.format(summaryTableName,
+                                                             propIDNameInSummary
+                                                            )
+            sql_query += ' in ({})'.format(pidString)
+
+            # If propIDs were passed to the method, this would be used
+            print(sql_query)
+            summary = pd.read_sql_query(sql_query, con=engine)
+        else:
+            raise NotImplementedError()
+        return summary
+
+    @staticmethod
+    def _get_propIDs(tableNames, engine, opsimversion, subset,
+                     user_propIDs=None):
+        """return a sequence of `proposalId` which determine the subset of 
+        observations from tha `summary` table. 
+       
+        Parameters
+        ----------
+        tableNames :
+
+        engine : 
+        
+        opsimversion :
+
+        subset :
+
+        Returns
+        -------
+        propIDs : a sequence of integers
+
+        Notes: The `proposalId` in the `proposal` table indexes science
+        programs.
+        """
+        # Read the proposal table to find out which propID corresponds to
+        # the subsets requested
+        proposals = pd.read_sql_table(tableNames[1], con=engine)
+        propDict = OpSimOutput.get_propIDDict(proposals, opsimversion=opsimversion)
+
+        # Seq of propIDs consistent with subset
+        _propIDs = OpSimOutput.propIDVals(subset, propDict, proposals)
+
+        # If propIDs and subset were both provided, override subset propIDs
+        propIDs = OpSimOutput._overrideSubsetPropID(user_propIDs, _propIDs)
+        return propDict, propIDs, proposals
+
+    @staticmethod
+    def _get_sql_engine(dbname):
+
+        # Prepend the abs path with sqlite for use with sqlalchemy
+        if not dbname.startswith('sqlite'):
+            dbname = 'sqlite:///' + dbname
+        print(' reading from database {}'.format(dbname))
+        engine = create_engine(dbname, echo=False)
+        return engine
 
     @staticmethod
     def dropDuplicates(df, propIDDict, opsimversion):
@@ -520,7 +566,7 @@ class OpSimOutput(object):
 
 
     @classmethod
-    def fromOpSimHDF(cls, hdfName, subset='combined',
+    def _fromOpSimHDF(cls, hdfName, subset='combined',
                      tableNames=('Summary', 'Proposal'),
                      propIDs=None):
         """
@@ -596,7 +642,7 @@ class OpSimOutput(object):
         elif self.subset is not None and self.propIDDict is not None:
             return self.propIDVals(self.subset, self.propIDDict, self.proposalTable)
 
-    def writeOpSimHDF(self, hdfName):
+    def _writeOpSimHDF(self, hdfName):
         """
         Serialize the OpSim output to hdf format in a welldefined way
         The output hdf file has two keys: 'Summary' and 'Proposal'
@@ -687,7 +733,7 @@ class OpSimOutput(object):
                      pointingRA='ditheredRA',
                      pointingDec='ditheredDec',
                      filtSkyBrightness='filtSkyBrightness',
-                     angleUnits='radians')
+                     angleUnit='radians')
         elif opsimversion == 'sstf':
             x = dict(summaryTableName='SummaryAllProps',
                      obsHistID='observationId',
@@ -701,7 +747,7 @@ class OpSimOutput(object):
                      pointingRA='fieldRA',
                      pointingDec='fieldDec',
                      filtSkyBrightness='skyBrightness',
-                     angleUnits='degrees')
+                     angleUnit='degrees')
         elif opsimversion == 'lsstv4':
             x = dict(summaryTableName='SummaryAllProps',
                      obsHistID='observationId',
@@ -715,7 +761,7 @@ class OpSimOutput(object):
                      pointingRA='ditheredRA',
                      pointingDec='ditheredDec',
                      filtSkyBrightness='skyBrightness',
-                     angleUnits='degrees')
+                     angleUnit='degrees')
         else:
             raise NotImplementedError('`get_propIDDict` is not implemented for this `opsimversion`')
         return x

@@ -6,18 +6,18 @@
 Welcome to OpSimSummary's documentation!
 ========================================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+.. include:: overview.rst
+.. include:: installation.rst
+.. include:: modules.rst
+.. Contents
+.. #--------
+.. # .. toctree::
+.. #   :maxdepth: 2
+.. #   :modules
 
-   overview
-   Installation
-   OpSimOutputs
-   API
+.. #Indices and tables
+.. #==================
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. #* :ref:`genindex`
+..  #* :ref:`modindex`
+.. #* :ref:`search`

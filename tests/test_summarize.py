@@ -39,12 +39,13 @@ def test_SynOpSim_init(fname, opsimversion, tableNames, angleUnit):
                          testdata_synopsiminit)
 def test_fromOpSimDB(fname, opsimversion, tableNames, angleUnit):
     fname = os.path.join(oss.example_data, fname)
+    print(fname, opsimversion)
     ops_out = OpSimOutput.fromOpSimDB(fname, opsimversion=opsimversion,
-                                      tableNames=tableNames)
+                                      ditherColumns=None, add_dithers=False)
+    print('finished ops_out', len(ops_out.summary))
     synopsim = SynOpSim(ops_out.summary)
     synopsimd = SynOpSim.fromOpSimDB(fname, opsimversion=opsimversion,
-                                     tableNames=tableNames,
-                                     angleUnit=angleUnit)
+                                      ditherColumns=None, add_dithers=False)
     assert synopsim.pointings.equals(synopsimd.pointings)
 
 

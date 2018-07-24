@@ -2,7 +2,7 @@
 Class to summarize the OpSim output
 """
 from __future__ import absolute_import
-__all__ = ['SynOpSim', 'PointingTree', 'SummaryOpsim', 'add_simlibCols']
+__all__ = ['SynOpSim', 'PointingTree', 'add_simlibCols']
 import os
 import numpy as np
 import pandas as pd
@@ -75,16 +75,20 @@ class SynOpSim(object):
 
 
     @classmethod
-    def fromOpSimDB(bls, dbname, subset='combined',
+    def fromOpSimDB(bls,
+                    dbname,
+                    subset='combined',
+                    opsimversion='lsstv3',
+                    zeroDDFDithers=True,
+                    user_propIDs=None,
+                    dithercolumns=None,
+                    add_dithers=False,
                     tableNames=('Summary', 'Proposal'),
-                    propIDs=None, zeroDDFDithers=True,
-                    opsimversion='lsstv3', raCol='ditheredRA',
-                    decCol='ditheredDec', angleUnit='degrees',
-                    indexCol='obsHistID', usePointingTree=False,
-                    dithercolumns=None, add_dithers=False):
+                    usePointingTree=False,
+                    **kwargs):
         """
         Class Method to instantiate this from an OpSim sqlite
-        database output
+        database output which largely uses `OpSimOutput.fromOpSimDB`
 
         Parameters
         ----------
@@ -112,11 +116,33 @@ class SynOpSim(object):
             either by `dithercolumns` or `get_dithercolumns` will
             be used.
         """
-        opsout = OpSimOutput.fromOpSimDB(dbname, subset=subset,
-                                         tableNames=('Summary', 'Proposal'),
-                                         propIDs=propIDs, zeroDDFDithers=True,
-                                         opsimversion=opsimversion,
-                                         dithercolumns=dithercolumns)
+        if kwargs:
+            opsout = OpSimOutput.fromOpSimDB(dbname,
+                                             subset=subset,
+                                             opsimversion=opsimversion,
+                                             zeroDDFDithers=zeroDDFDithers,
+                                             user_propIDs=user_propIDs,
+                                             dithercolumns=dithercolumns,
+                                             add_dithers=add_dithers,
+                                             tableNames=tableNames,
+                                             **kwargs)
+        else:
+            opsout = OpSimOutput.fromOpSimDB(dbname,
+                                             subset=subset,
+                                             opsimversion=opsimversion,
+                                             zeroDDFDithers=zeroDDFDithers,
+                                             user_propIDs=user_propIDs,
+                                             dithercolumns=dithercolumns,
+                                             add_dithers=add_dithers,
+                                             tableNames=tableNames)
+
+        opsimvars = OpSimOutput.get_opsimVariablesForVersion(opsimversion)
+
+        raCol = opsimvars['pointingRA']
+        decCol = opsimvars['pointingDec']
+        angleUnit = opsimvars['angleUnit']
+        indexCol = opsimvars['obsHistID']
+
         return bls(opsout.summary, opsimversion=opsimversion, raCol=raCol,
                    decCol=decCol, angleUnit=angleUnit, indexCol=indexCol,
                    usePointingTree=usePointingTree, subset=subset)

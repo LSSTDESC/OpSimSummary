@@ -69,8 +69,13 @@ def genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields,
     return surveyPix
 
 parser = ArgumentParser(description='write out simlibs from an OpSim Database')
-parser.add_argument('--dbname', help='absolute path to sqlite database output from OpSim',
-                    default='/Users/rbiswas/data/LSST/OpSimData/minion_1016_sqlite.db')
+parser.add_argument('--data_root', help='absolute path to data directory containing dither files and opsim database',
+                    default='/')
+parser.add_argument('--dbname', help='path to sqlite database output from OpSim relative to data_root',
+                    default='minion_1016_sqlite.db')
+parser.add_argument('--ditherfiles', help='path to ditherfile relative to data root', default=None) 
+parser.add_argument('--no_construct_ditherfiles', help='do not try to construct ditherfiles if ditherfiles is None',
+                    dest='No_construct_ditherfiles', action='store_true')
 # parser.add_argument('--write_ddf_simlib', help='Whether to write out DDF simlib',
 #                    dest='write_ddf_simlib', action='store_true')
 parser.add_argument('--no_write_ddf_simlib', help='Whether to write out DDF simlib',
@@ -84,9 +89,9 @@ parser.add_argument('--opsimversion', help='version of opsim used lsstv3|lsstv4'
 parser.add_argument('--summaryTableName', help='name of Summary Table Summary|SummaryAllProps',
                     default='Summary')
 parser.add_argument('--ddf_simlibfilename', help='absolute path to DDF simlib file to write out',
-                    default='ddf_minion_1016_sqlite.simlib')
+                    default=None)
 parser.add_argument('--wfd_simlibfilename', help='absolute path to WFD simlib file to write out',
-                    default='wfd_minion_1016_sqlite.simlib')
+                    default=None)
 parser.add_argument('--numFields_DDF', help='number of locations in DDF where simlib fields are located',
                     default=133, type=int)
 parser.add_argument('--numFields_WFD', help='number of locations in DDF where simlib fields are located',
@@ -94,7 +99,23 @@ parser.add_argument('--numFields_WFD', help='number of locations in DDF where si
 
 args = parser.parse_args()
 
-dbname = args.dbname
+data_root = args.data_root
+dbname = os.path.join(data_root, args.dbname)
+basename = dbname.split('/')[-1].split('.db')[0]
+if args.ditherfiles is None:
+    if args.No_construct_ditherfiles:
+        print('Not constructing ditherfile from dbname')
+    else:
+        print('Constructing ditherfiles')
+        ditherfiles = os.path.join(args.data_root, 'descDithers_{}.csv'.format(basename))
+        print('abs path to  ditherfiles is {}'.format(ditherfiles))
+else:
+    print('obtaining ditherfiles from input')
+    ditherfiles = os.path.join(args.data_root, args.ditherfiles)
+    print(ditherfiles)
+assert os.path.exists(ditherfiles)
+assert os.path.getsize(ditherfiles) > 0
+
 summaryTableName = args.summaryTableName
 opsimoutput = os.path.basename(dbname)
 opsimversion = args.opsimversion
@@ -102,13 +123,24 @@ write_wfd_simlib = args.write_wfd_simlib
 write_ddf_simlib = args.write_ddf_simlib
 wfd_simlibfilename = args.wfd_simlibfilename
 ddf_simlibfilename = args.ddf_simlibfilename
+
+if wfd_simlibfilename is None:
+    wfd_simlibfilename = basename +'_wfd.simlib'
+if ddf_simlibfilename is None:
+    ddf_simlibfilename = basename +'_ddf.simlib'
+
 numFields_DDF = args.numFields_DDF
 numFields_WFD = args.numFields_WFD
 
+dithercolumns = pd.read_csv(ditherfiles)
+dithercolumns = dithercolumns.rename(columns=dict(observationId='obsHistID',
+                                                  descDitheredRA='ditheredRA',
+                                                  descDitheredDec='ditheredDec')
+                                                 ).set_index('obsHistID')
 print(args)
 # find ddf healpixels
 opsout_ddf = OpSimOutput.fromOpSimDB(dbname, opsimversion=opsimversion,
-                                     subset='ddf')
+                                     subset='ddf', dithercolumns=dithercolumns)
 simlib_ddf = Simlibs(opsout_ddf.summary, opsimversion=opsimversion,
                      usePointingTree=True)
 ddf_hid = set(simlib_ddf.observedVisitsinRegion().index.values) 
@@ -117,7 +149,7 @@ print('There are {} pixels in the ddf fields'.format(len(ddf_hid)))
 opsout = OpSimOutput.fromOpSimDB(dbname,
                                  opsimversion=opsimversion,
                                  tableNames=(summaryTableName, 'Proposal'),
-                                 subset='combined')
+                                 subset='combined', dithercolumns=dithercolumns)
 summary = opsout.summary
 if write_ddf_simlib :
     print('writing out simlib for DDF')

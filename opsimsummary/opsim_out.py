@@ -546,12 +546,12 @@ class OpSimOutput(object):
 
         orig_propID = df.propID.values
         df['orig_propID'] = orig_propID
-        if np.__version__ >= 1.13:
-            ddfmask = np.isin(df.propID, ddfID)
-            wfdmask = np.isin(df.propID, wfdID)
-        else:
-            ddfmask = np.in1d(df.propID, ddfID)
-            wfdmask = np.in1d(df.propID, wfdID)
+        # if np.__version__ >= 1.13:
+        #    ddfmask = np.isin(df.propID, ddfID)
+        #    wfdmask = np.isin(df.propID, wfdID)
+        # else:
+        ddfmask = np.in1d(df.propID, ddfID)
+        wfdmask = np.in1d(df.propID, wfdID)
 
         df.loc[ddfmask, 'propID'] = ddfPropID
         df.loc[wfdmask, 'propID'] = wfdPropID

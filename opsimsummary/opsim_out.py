@@ -16,6 +16,7 @@ import numpy as np
 import pandas as pd
 import pdb
 from sqlalchemy import create_engine
+import collections
 
 
 class OpSimOutput(object):
@@ -543,8 +544,10 @@ class OpSimOutput(object):
         ddfPropID = minPropID - 1
         wfdPropID = minPropID - 2
 
-        ddfmask = df.propID == ddfID
-        wfdmask = df.propID == wfdID
+        orig_propID = df.propID.values
+        df['orig_propID'] = orig_propID
+        ddfmask = np.isin(df.propID, ddfID)
+        wfdmask = np.isin(df.propID, wfdID)
         df.loc[ddfmask, 'propID'] = ddfPropID
         df.loc[wfdmask, 'propID'] = wfdPropID
 
@@ -557,10 +560,12 @@ class OpSimOutput(object):
         #                                      keep='first')#.set_index('obsHistID')
 
         # reset the propIDs to values in the OpSim output
-        ddfmask = df.propID == ddfPropID
-        wfdmask = df.propID == wfdPropID
-        df.loc[ddfmask, 'propID'] = ddfID
-        df.loc[wfdmask, 'propID'] = wfdID
+        # ddfmask = df.propID == ddfPropID
+        # wfdmask = df.propID == wfdPropID
+        # df.loc[ddfmask, 'propID'] = ddfID
+        # df.loc[wfdmask, 'propID'] = wfdID
+        del df['propID']
+        df.rename(columns=dict(orig_propID='propID'), inplace=True)
         df.sort_values(by='expMJD', inplace=True)
         return df
 
@@ -716,7 +721,14 @@ class OpSimOutput(object):
                 df.loc[idx, propName] = oss_ddfName
             else:
                 pass
-        return dict(df.set_index(propName)[propIDName])
+        pdict = dict(df.set_index(propName)[propIDName])
+
+        # To support multiple proposals
+        for key in pdict:
+            if isinstance(pdict[key], collections.Iterable):
+                pdict[key] = pdict[key].values
+
+        return pdict
 
     @staticmethod
     def get_opsimVariablesForVersion(opsimversion='lsstv3'):
@@ -788,17 +800,27 @@ class OpSimOutput(object):
             raise ValueError('subset arg in propIDVals cannot be None')
 
         if subset.lower() in ('ddf', 'wfd'):
-            return [propIDDict[subset.lower()]]
+            x = [propIDDict[subset.lower()]]
         elif subset.lower() == 'combined':
-            return [propIDDict['ddf'], propIDDict['wfd']] 
+            x = [propIDDict['ddf'], propIDDict['wfd']] 
         elif subset.lower() in ('_all', 'unique_all'):
             if proposalTable is not None:
-                return proposalTable.propID.values
+                x = proposalTable.propID.values
             else:
                 return None
         else:
             raise NotImplementedError('value of subset Not recognized')
- 
+
+        # unroll lists
+        l = list()
+        for elem in x:
+            if isinstance(elem, collections.Iterable):
+                for e in elem:
+                    l.append(e)
+            else:
+                l.append(elem)
+        return l
+
 def OpSimDfFromFile(fname, ftype='hdf', subset='Combined'):
     """
     read a serialized form of the OpSim output into `pd.DataFrame`

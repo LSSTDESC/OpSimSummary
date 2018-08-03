@@ -9,6 +9,7 @@ import pandas as pd
 import healpy as hp
 import opsimsummary as oss
 from opsimsummary import Simlibs, OpSimOutput
+import sys
 
 
 def genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields,
@@ -116,6 +117,7 @@ else:
 assert os.path.exists(ditherfiles)
 assert os.path.getsize(ditherfiles) > 0
 
+sys.stdout.flush()
 summaryTableName = args.summaryTableName
 opsimoutput = os.path.basename(dbname)
 opsimversion = args.opsimversion
@@ -138,6 +140,7 @@ dithercolumns = dithercolumns.rename(columns=dict(observationId='obsHistID',
                                                   descDitheredDec='ditheredDec')
                                                  ).set_index('obsHistID')
 print(args)
+sys.stdout.flush()
 # find ddf healpixels
 opsout_ddf = OpSimOutput.fromOpSimDB(dbname, opsimversion=opsimversion,
                                      subset='ddf', dithercolumns=dithercolumns)
@@ -146,6 +149,7 @@ simlib_ddf = Simlibs(opsout_ddf.summary, opsimversion=opsimversion,
 ddf_hid = set(simlib_ddf.observedVisitsinRegion().index.values) 
 print('There are {} pixels in the ddf fields'.format(len(ddf_hid)))
 # read the database into a `pd.DataFrame`
+sys.stdout.flush()
 opsout = OpSimOutput.fromOpSimDB(dbname,
                                  opsimversion=opsimversion,
                                  tableNames=(summaryTableName, 'Proposal'),
@@ -165,3 +169,5 @@ if write_wfd_simlib :
                       numFields=numFields_WFD, mapFile='wfd_minion_1016_sqlite.csv',
                       fieldType='WFD', opsimoutput=opsimoutput, 
                       vetoed_hids=ddf_hid)
+print('finished job')
+sys.stdout.flush()

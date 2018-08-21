@@ -454,13 +454,18 @@ class Simlibs(SynOpSim, SimlibMixin):
 	"""
         surveydf['simlibId'] = -1
 
-        if numFields < len(surveydf):
-            hids = rng.choice(surveydf.reset_index()['hid'].values, size=numFields,
-                          replace=False)
+        if numFields <= len(surveydf):
+            surveydf = surveydf.sample(n=numFields, replace=False,
+                                       random_state=rng)
+            # hids = rng.choice(surveydf.reset_index()['hid'].values, size=numFields,
+            #               replace=False)
         else:
-            hids = surveydf.reset_index()['hid'].values
+            surveydf = surveydf.sample(size=numFields, replace=True,
+                                       random_state=rng)
             print("Warning: You have asked for more samples than the original number of fields")
             print('Printing original number of fields instead')
+
+        hids = surveydf.reset_index()['hid'].values
 
         surveydf.reset_index().set_index('hid')
         surveydf.loc[hids, 'simlibId'] = np.arange(len(hids))

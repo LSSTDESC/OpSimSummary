@@ -79,7 +79,7 @@ def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields
     surveyPix = surveyPix.reset_index().query('simlibId > -1').set_index('simlibId')
     surveyPix = surveyPix.reset_index().sort_values(by='simlibId').set_index('simlibId')
     surveyPix.to_csv(mapFile)
-    return surveyPix
+    return surveyPix, surveydf
 
 if __name__ == '__main__':
     parser = ArgumentParser(description='write out simlibs from an OpSim Database')
@@ -152,8 +152,14 @@ if __name__ == '__main__':
     
     if wfd_simlibfilename is None:
         wfd_simlibfilename = basename +'_wfd.simlib'
+        availwfdFileName = basename + "_wfd_avail.csv"
+        selectedwfdFileName = basename + "_wfd_sel.csv"
+        print('output file names for wfd are {0}, {1}, {2}'.format(wfd_simlibfilename, availwfdFileName, selectedwfdFileName))
     if ddf_simlibfilename is None:
         ddf_simlibfilename = basename +'_ddf.simlib'
+        availddfFileName = basename + "_ddf_avail.csv"
+        selectedddfFileName = basename + "_ddf_sel.csv"
+        print('output file names for DDF are {0}, {1}, {2}'.format(ddf_simlibfilename, availddfFileName, selectedddfFileName))
     
     numFields_DDF = args.numFields_DDF
     numFields_WFD = args.numFields_WFD
@@ -178,22 +184,37 @@ if __name__ == '__main__':
     tend = time.time()
     print("finished reading database {0} at time {1}".format(dbname, tend))
     print("reading the db took {} minutes".format((tend-tstart)/60.0))
+    sys.stdout.flush()
     summary = opsout.summary
     script_name = os.path.abspath(__file__)
     if write_ddf_simlib:
         print('writing out simlib for DDF')
         # 133 random locations is similar density of locations in WFD.
-        x = write_genericSimlib(simlibFilename=ddf_simlibfilename,
-                          summary=opsout_ddf.summary, minVisits=500, maxVisits=None,
-                          numFields=numFields_DDF, mapFile='ddf_minion_1016_sqlite.csv',
-                          fieldType='DDF', opsimoutput=dbname,
-                          script_name=script_name)
+        x, y = write_genericSimlib(simlibFilename=ddf_simlibfilename,
+                                   summary=opsout_ddf.summary, minVisits=500, maxVisits=None,
+                                   numFields=numFields_DDF, mapFile='ddf_minion_1016_sqlite.csv',
+                                   fieldType='DDF', opsimoutput=dbname,
+                                   script_name=script_name)
+        print('Finished writing out simlib for DDF')
+        print('write mapping to csv')
+        x.to_csv(selectedddfFileName)
+        y.to_csv(availddfFileName)
+        print('Finished writing mapping to csv')
+        sys.stdout.flush()
+    sys.stdout.flush()
     if write_wfd_simlib :
         print('writing out simlib for WFD')
-        x = write_genericSimlib(simlibFilename=wfd_simlibfilename,
-                          summary=summary, minVisits=500, maxVisits=10000,
-                          numFields=numFields_WFD, mapFile='wfd_minion_1016_sqlite.csv',
-                          fieldType='WFD', opsimoutput=dbname, 
-                          vetoed_hids=ddf_hid, script_name=script_name)
+        sys.stdout.flush()
+        x, y  = write_genericSimlib(simlibFilename=wfd_simlibfilename,
+                                    summary=summary, minVisits=500, maxVisits=10000,
+                                    numFields=numFields_WFD, mapFile='wfd_minion_1016_sqlite.csv',
+                                    fieldType='WFD', opsimoutput=dbname, 
+                                    vetoed_hids=ddf_hid, script_name=script_name)
+        print('Finished writing out simlib for WFD')
+        print('write mapping to csv')
+        x.to_csv(selectedwfdFileName)
+        y.to_csv(availwfdFileName)
+        print('Finished writing mapping to csv')
+        sys.stdout.flush()
     print('finished job')
     sys.stdout.flush()

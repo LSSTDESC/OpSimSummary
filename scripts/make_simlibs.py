@@ -111,25 +111,29 @@ if __name__ == '__main__':
     parser.add_argument('--numFields_WFD', help='number of locations in DDF where simlib fields are located, defaults to 50000',
                         default=50000, type=int)
     
+    print("read in command line options and figuring out what to do\n")
+    print("we are using opsimsummary version {0} and the library is located at {1}".format(oss.__version__, oss.__file__))
+    print("we are using the path {}".format(sys.path))
+    print("Our python version is {}".format(sys.version))
+    sys.stdout.flush()
     args = parser.parse_args()
     
     data_root = args.data_root
     dbname = os.path.join(data_root, args.dbname)
     basename = dbname.split('/')[-1].split('.db')[0]
 
-    print("read in command line options and figuring out what to do\n")
 
-    print("Obtaining pointing location \n")
+    print("\n\n Task: Obtaining pointing location \n")
     dithercolumns = None
     if args.No_construct_ditherfiles:
         print('Not constructing ditherfile from dbname')
     else:
         if args.ditherfiles is None:
-            print('Constructing ditherfiles')
+            print('\n\n Task: Constructing ditherfiles')
             ditherfiles = os.path.join(args.data_root, 'descDithers_{}.csv'.format(basename))
             print('abs path to  ditherfiles is {}'.format(ditherfiles))
         else:
-            print('obtaining ditherfiles from input')
+            print('\n\n Task: obtaining ditherfiles from input')
             ditherfiles = os.path.join(args.data_root, args.ditherfiles)
             print(ditherfiles)
             assert os.path.exists(ditherfiles)
@@ -152,14 +156,15 @@ if __name__ == '__main__':
     
     if wfd_simlibfilename is None:
         wfd_simlibfilename = basename +'_wfd.simlib'
-        availwfdFileName = basename + "_wfd_avail.csv"
-        selectedwfdFileName = basename + "_wfd_sel.csv"
-        print('output file names for wfd are {0}, {1}, {2}'.format(wfd_simlibfilename, availwfdFileName, selectedwfdFileName))
+    availwfdFileName = basename + "_wfd_avail.csv"
+    selectedwfdFileName = basename + "_wfd_sel.csv"
+    print('output file names for wfd are {0}, {1}, {2}'.format(wfd_simlibfilename, availwfdFileName, selectedwfdFileName))
+
     if ddf_simlibfilename is None:
         ddf_simlibfilename = basename +'_ddf.simlib'
-        availddfFileName = basename + "_ddf_avail.csv"
-        selectedddfFileName = basename + "_ddf_sel.csv"
-        print('output file names for DDF are {0}, {1}, {2}'.format(ddf_simlibfilename, availddfFileName, selectedddfFileName))
+    availddfFileName = basename + "_ddf_avail.csv"
+    selectedddfFileName = basename + "_ddf_sel.csv"
+    print('output file names for DDF are {0}, {1}, {2}'.format(ddf_simlibfilename, availddfFileName, selectedddfFileName))
     
     numFields_DDF = args.numFields_DDF
     numFields_WFD = args.numFields_WFD
@@ -175,7 +180,7 @@ if __name__ == '__main__':
     print('There are {} pixels in the ddf fields'.format(len(ddf_hid)))
     # read the database into a `pd.DataFrame`
     tstart = time.time()
-    print("reading database {0} at time {1}. This can take a while ... ".format(dbname, tstart))
+    print("\n\n Task: reading database {0} at time {1}. This can take a while ... ".format(dbname, tstart))
     sys.stdout.flush()
     opsout = OpSimOutput.fromOpSimDB(dbname,
                                      opsimversion=opsimversion,
@@ -188,7 +193,7 @@ if __name__ == '__main__':
     summary = opsout.summary
     script_name = os.path.abspath(__file__)
     if write_ddf_simlib:
-        print('writing out simlib for DDF')
+        print('\n\n Task: writing out simlib for DDF')
         # 133 random locations is similar density of locations in WFD.
         x, y = write_genericSimlib(simlibFilename=ddf_simlibfilename,
                                    summary=opsout_ddf.summary, minVisits=500, maxVisits=None,
@@ -196,14 +201,14 @@ if __name__ == '__main__':
                                    fieldType='DDF', opsimoutput=dbname,
                                    script_name=script_name)
         print('Finished writing out simlib for DDF')
-        print('write mapping to csv')
+        print('\n\n Task: write mapping to csv')
         x.to_csv(selectedddfFileName)
         y.to_csv(availddfFileName)
         print('Finished writing mapping to csv')
         sys.stdout.flush()
     sys.stdout.flush()
     if write_wfd_simlib :
-        print('writing out simlib for WFD')
+        print('\n\n Task: writing out simlib for WFD')
         sys.stdout.flush()
         x, y  = write_genericSimlib(simlibFilename=wfd_simlibfilename,
                                     summary=summary, minVisits=500, maxVisits=10000,
@@ -211,7 +216,7 @@ if __name__ == '__main__':
                                     fieldType='WFD', opsimoutput=dbname, 
                                     vetoed_hids=ddf_hid, script_name=script_name)
         print('Finished writing out simlib for WFD')
-        print('write mapping to csv')
+        print('\n\n Task: write mapping to csv')
         x.to_csv(selectedwfdFileName)
         y.to_csv(availwfdFileName)
         print('Finished writing mapping to csv')

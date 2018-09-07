@@ -155,15 +155,15 @@ if __name__ == '__main__':
     ddf_simlibfilename = args.ddf_simlibfilename
     
     if wfd_simlibfilename is None:
-        wfd_simlibfilename = basename +'_wfd.simlib'
-    availwfdFileName = basename + "_wfd_avail.csv"
-    selectedwfdFileName = basename + "_wfd_sel.csv"
+        wfd_simlibfilename = basename +'_WFD.simlib'
+    availwfdFileName = basename + "_WFD_avail.csv"
+    selectedwfdFileName = basename + "_WFD_sel.csv"
     print('output file names for wfd are {0}, {1}, {2}'.format(wfd_simlibfilename, availwfdFileName, selectedwfdFileName))
 
     if ddf_simlibfilename is None:
-        ddf_simlibfilename = basename +'_ddf.simlib'
-    availddfFileName = basename + "_ddf_avail.csv"
-    selectedddfFileName = basename + "_ddf_sel.csv"
+        ddf_simlibfilename = basename +'_DDF.simlib'
+    availddfFileName = basename + "_DDF_avail.csv"
+    selectedddfFileName = basename + "_DDF_sel.csv"
     print('output file names for DDF are {0}, {1}, {2}'.format(ddf_simlibfilename, availddfFileName, selectedddfFileName))
     
     numFields_DDF = args.numFields_DDF

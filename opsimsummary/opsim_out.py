@@ -102,6 +102,7 @@ class OpSimOutput(object):
 
 
         # Check `summary` does not have `nan`s
+        print('Checking for nans in the summary table which has {} elements\n'.format(summary))
         if not self.validate_pointings(summary, opsimVars=None):
             print('summary table has nans, exiting\n')
             sys.exit(1)
@@ -130,6 +131,10 @@ class OpSimOutput(object):
         if self.validate_pointings(summary, self.opsimVars):
             self.summary = summary
         else:
+            print('summary head', summary.head())
+
+            print ("----------")
+            print(summary.isnull())
             raise AssertionError('Pointings are not in required format')
         self._propID = propIDs
 

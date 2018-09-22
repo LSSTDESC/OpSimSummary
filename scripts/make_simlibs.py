@@ -194,6 +194,7 @@ if __name__ == '__main__':
     tend = time.time()
     print("finished reading database {0} at time {1}".format(dbname, tend))
     print("reading the db took {} minutes".format((tend-tstart)/60.0))
+    # print('The database includes proposal Ids ').format(opsout.propIDs)
     sys.stdout.flush()
     summary = opsout.summary
     script_name = os.path.abspath(__file__)

@@ -166,7 +166,11 @@ class OpSimOutput(object):
                 assert np.fabs(summary['_ra'].max()) <= 2.0 * np.pi
                 assert np.fabs(summary['_dec'].min()) >= -1.0 * np.pi
 
-            assert summary.isnull().values.any() == False
+            # Makes sure that null exceptions are not raised in every column but only in filter
+            # This is a change to accomodate versions of opsim outputs which have nulls in them.
+            # This will not be merged to master
+            print(summary.columns)
+            # assert summary['fiveSigmaDepth'].isnull().any() == False
         except AssertionError:
             _, _, tb = sys.exc_info()
             traceback.print_tb(tb) # Fixed format
@@ -812,7 +816,7 @@ class OpSimOutput(object):
         if subset.lower() in ('ddf', 'wfd'):
             x = [propIDDict[subset.lower()]]
         elif subset.lower() == 'combined':
-            x = [propIDDict['ddf'], propIDDict['wfd']] 
+            x = [propIDDict['ddf'], propIDDict['wfd'], 6] 
         elif subset.lower() in ('_all', 'unique_all'):
             if proposalTable is not None:
                 x = proposalTable.propID.values

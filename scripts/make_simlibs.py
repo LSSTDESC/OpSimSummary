@@ -172,8 +172,12 @@ if __name__ == '__main__':
     
     sys.stdout.flush()
     # find ddf healpixels
+    print("\n\n Task: Obtaining DDF footprint \n")
+    print('Reading DDF output')
     opsout_ddf = OpSimOutput.fromOpSimDB(dbname, opsimversion=opsimversion,
-                                         subset='ddf', dithercolumns=dithercolumns)
+                                         subset='ddf', dithercolumns=dithercolumns,
+                                         add_dithers=True)
+    print('read in database for DDF\n')
     simlib_ddf = Simlibs(opsout_ddf.summary, opsimversion=opsimversion,
                          usePointingTree=True)
     ddf_hid = set(simlib_ddf.observedVisitsinRegion().index.values) 
@@ -185,10 +189,12 @@ if __name__ == '__main__':
     opsout = OpSimOutput.fromOpSimDB(dbname,
                                      opsimversion=opsimversion,
                                      tableNames=(summaryTableName, 'Proposal'),
-                                     subset='combined', dithercolumns=dithercolumns)
+                                     subset='combined', dithercolumns=dithercolumns,
+                                     add_dithers=True)
     tend = time.time()
     print("finished reading database {0} at time {1}".format(dbname, tend))
     print("reading the db took {} minutes".format((tend-tstart)/60.0))
+    # print('The database includes proposal Ids ').format(opsout.propIDs)
     sys.stdout.flush()
     summary = opsout.summary
     script_name = os.path.abspath(__file__)

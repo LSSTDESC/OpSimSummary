@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-pip install -r ./install/pip-requirements.txt
+pip install -U -r ./install/pip-requirements.txt

@@ -7,4 +7,7 @@ echo "Done installing repositories"
 echo "Install OpSimSummary"
 ./install/install_opsimsummary.sh
 
+echo "run install test script"
+# python ./install/check_install.py
+
 

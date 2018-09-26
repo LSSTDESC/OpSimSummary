@@ -49,6 +49,8 @@ def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields
     opsimsummary_version :
     script_name : 
     """
+    minMJD = summary.expMJD.min()
+    maxMJD = summary.expMJD.max()
     simlibs = Simlibs(summary, usePointingTree=True, raCol=raCol,
                       decCol=decCol, angleUnit=angleUnit,
                       indexCol=indexCol, opsimversion=opsimversion)
@@ -74,6 +76,11 @@ def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields
 
     comment = 'COMMENT: Total area corresponding to this simlib is {0:.1f} sq degrees or a solid angle of {1:4f} \n'.format(area, solidangle) 
     comment += 'COMMENT: This is a simlib corresponding to {0} in the OpSim Output {1} using the script {3} in version {2} at time {4}\n'.format(fieldType, opsimoutput, opsimsummary_version, script_name, ts) 
+    comment += '\nCOMMENT: PARAMS MINMJD: {}\n'.format(minMJD)
+    comment += 'COMMENT: PARAMS MAXMJD: {}\n'.format(maxMJD)
+    comment += 'COMMENT: PARAMS TOTAL_AREA: {}\n'.format(area)
+    comment += 'COMMENT: PARAMS SOLID_ANGLE: {}\n'.format(solidangle)
+
     simlibs.writeSimlib(simlibFilename, fields, mwebv=mwebv, comments=comment,
                         numLibId=numFields)
     surveyPix = surveyPix.reset_index().query('simlibId > -1').set_index('simlibId')

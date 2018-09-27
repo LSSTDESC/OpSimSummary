@@ -117,6 +117,8 @@ if __name__ == '__main__':
                         default=133, type=int)
     parser.add_argument('--numFields_WFD', help='number of locations in DDF where simlib fields are located, defaults to 50000',
                         default=50000, type=int)
+    parser.add_argument('--filterNull', help='if added, then the summary table of the OpSim file will be filtered of rows that appear to have null values',
+                        dest='filt_Null', action='store_true')
     
     print("read in command line options and figuring out what to do\n")
     print("we are using opsimsummary version {0} and the library is located at {1}".format(oss.__version__, oss.__file__))
@@ -129,6 +131,10 @@ if __name__ == '__main__':
     dbname = os.path.join(data_root, args.dbname)
     basename = dbname.split('/')[-1].split('.db')[0]
 
+    filternulls = False
+    if args.filt_Null :
+        print('filterning the raw summary table')
+        filternulls = True
 
     print("\n\n Task: Obtaining pointing location \n")
     dithercolumns = None
@@ -180,7 +186,8 @@ if __name__ == '__main__':
     sys.stdout.flush()
     # find ddf healpixels
     opsout_ddf = OpSimOutput.fromOpSimDB(dbname, opsimversion=opsimversion,
-                                         subset='ddf', dithercolumns=dithercolumns)
+                                         subset='ddf', dithercolumns=dithercolumns,
+                                         filterNull=filternulls)
     simlib_ddf = Simlibs(opsout_ddf.summary, opsimversion=opsimversion,
                          usePointingTree=True)
     ddf_hid = set(simlib_ddf.observedVisitsinRegion().index.values) 
@@ -192,7 +199,8 @@ if __name__ == '__main__':
     opsout = OpSimOutput.fromOpSimDB(dbname,
                                      opsimversion=opsimversion,
                                      tableNames=(summaryTableName, 'Proposal'),
-                                     subset='combined', dithercolumns=dithercolumns)
+                                     subset='combined', dithercolumns=dithercolumns,
+                                     filterNull=filternulls)
     tend = time.time()
     print("finished reading database {0} at time {1}".format(dbname, tend))
     print("reading the db took {} minutes".format((tend-tstart)/60.0))

@@ -134,7 +134,7 @@ class OpSimOutput(object):
         self._propID = propIDs
 
     @staticmethod
-    def validate_pointings(summary, opsimVars=None):
+    def validate_pointings(summary, opsimVars=None, check_anycols=False):
         """
         Validate a dataframe of pointings for further use. If
         `opsimVars` is `None` then only check that there are no `no.nan`s,
@@ -148,6 +148,8 @@ class OpSimOutput(object):
         opsimVars: dictionary, defaults to None 
             should be dictionary for each supported OpSim version availble
             from `OpSimOutput.get_opsimVariablesForVersion(opsimversion)`
+        check_anycols: Bool, defaults to False
+            if True, this will check all columns rather than fiveSigmaDepth for nans
 
         Returns
         -------
@@ -161,7 +163,13 @@ class OpSimOutput(object):
                 assert np.fabs(summary['_ra'].max()) <= 2.0 * np.pi
                 assert np.fabs(summary['_dec'].min()) >= -1.0 * np.pi
 
-            assert summary.isnull().values.any() == False
+            if check_anycols:
+                assert summary.isnull().values.any() == False
+            else:
+                # We only check the fiveSigmaDepth column
+                assert 'fiveSigmaDepth' in summary.columns.values
+
+                assert all(summary['fiveSigmaDepth'].isnull().values == False)
         except AssertionError:
             _, _, tb = sys.exc_info()
             traceback.print_tb(tb) # Fixed format
@@ -169,6 +177,7 @@ class OpSimOutput(object):
             filename, line, func, text = tb_info[-1]
 
             print ('pointings are not in required format')
+            print(summary.head()) 
             print('An error occurred on line {} in statement {}'.format(line, text))
             sys.exit(1)
         return True
@@ -369,6 +378,7 @@ class OpSimOutput(object):
 
         if add_dithers:
             if dithercolumns is not None:
+                print('Trying to join input dithercolumns\n')
                 # If provided with dithers in a dataFrame, use them
                 # Check that dithercolumns are available in input
                 assert 'ditheredRA' in dithercolumns.columns
@@ -388,6 +398,8 @@ class OpSimOutput(object):
                 summary = summary.join(dithercolumns)
 
             elif add_dithers:
+                print('creating dither columns \n')
+
                 # No dither column provided
                 ditherdict = dict(method='default',
                                   ddfID=propDict['ddf'],
@@ -416,7 +428,7 @@ class OpSimOutput(object):
 
                 print(dithercolumns.ditheredRA.max())
                 #print('max ra values are {}.'format(dithercolumns.ditheredRA.max()))
-                if cls.validate_pointings(dithercolumns, opsimVars=None):
+                if cls.validate_pointings(dithercolumns, opsimVars=None, check_anycols=True):
                     print('dithercolumns good!')
                     # print('max ra values are {}.'format(dithercolumns.ditheredRA.max()))
                 try:

@@ -275,6 +275,7 @@ class OpSimOutput(object):
                     dithercolumns=None,
                     add_dithers=False,
                     tableNames=('Summary', 'Proposal'),
+                    filterNull=False,
                     **kwargs):
         """
         Class Method to instantiate this from an OpSim sqlite
@@ -308,6 +309,9 @@ class OpSimOutput(object):
             proposal ID values. If not `None`, overrides the use of subset
         tableNames : tuple of strings, defaults to ('Summary', 'Proposal')
             names of tables read from the OpSim database
+        filterNull : Bool, defaults to False
+            if True, the summary table should be filtered to rows that do not
+            contain `NULL` values in the `fiveSigmaDepth` column.
         kwargs: dict
             of options relating to changing the methods of adding dithers.
             keywords are rng of type `np.random.RandomState`, `ddf_ditherscale`,
@@ -337,7 +341,17 @@ class OpSimOutput(object):
                                                         opsimversion,
                                                         subset,
                                                         user_propIDs=user_propIDs)
-        summary = cls. _read_summary_table_raw(engine, opsimVars, propIDs, subset)
+        summary = cls._read_summary_table_raw(engine, opsimVars, propIDs, subset)
+
+        # filter read in summary table
+        print('We have filterNull set to', filterNull)
+        if filterNull:
+            print('With given option, filtering the raw summary table of NaNs')
+            num_orig = len(summary)
+            summary = summary[np.isfinite(summary['fiveSigmaDepth'])]
+            print('This option reduced the number of rows from {0} to {1}'.format(num_orig, len(summary)))
+
+        print('checking that summary table read in\n')
         if cls.validate_pointings(summary, opsimVars=None):
             print('Reading in raw tables successful')
 

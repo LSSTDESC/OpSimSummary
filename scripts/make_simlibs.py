@@ -23,7 +23,8 @@ def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields
                   opsimoutput='minion_1016_sqlite.db',
                   vetoed_hids=None,
                   opsimsummary_version=oss.__version__,
-                  script_name=None):
+                  script_name=None,
+                  surveypix_file=None):
     """
     Write out simlibs from a summary dataFrame
 
@@ -48,6 +49,9 @@ def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields
        (`nest`|`ring`) which should not be used. If `None`, ignore.
     opsimsummary_version :
     script_name : 
+    surveypix_file : abspath to surveypix_file, defaults to None
+        If not None, uses this file to find the libids to simulate. Should
+        have an ordered dataframe of ra, dec, simlibIds
     """
     minMJD = summary.expMJD.min()
     maxMJD = summary.expMJD.max()
@@ -58,12 +62,20 @@ def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields
                                               maxVisits=maxVisits,
                                               writeFile=False,
                                               nside=nside)
-    if vetoed_hids is not None:
-        hids = set(surveydf.index.values)
-        selected = hids - vetoed_hids
-        surveydf = surveydf.loc[selected]
-    totalfields = len(surveydf)
-    surveyPix = simlibs.get_surveyPix(surveydf, numFields=numFields, rng=rng)
+
+    if surveypix_file is None:
+        if vetoed_hids is not None:
+            hids = set(surveydf.index.values)
+            selected = hids - vetoed_hids
+            surveydf = surveydf.loc[selected]
+        totalfields = len(surveydf)
+        surveyPix = simlibs.get_surveyPix(surveydf, numFields=numFields, rng=rng)
+    else:
+        print('Reading in surveypix file\n')
+        print('You should only be using this if you are studying ToO proposals\n')
+        surveyPix = pd.read_csv(surveypix_file)
+        totalfields = len(surveyPix)
+
     fields = simlibs.simlibs_for_fields(surveyPix, mwebv=mwebv)
     
     area = hp.nside2pixarea(nside, degrees=True) * np.float(totalfields)
@@ -109,6 +121,10 @@ if __name__ == '__main__':
                         default='lsstv3')
     parser.add_argument('--summaryTableName', help='name of Summary Table Summary|SummaryAllProps, defaults to "Summary"',
                         default='Summary')
+    parser.add_argument('--ddf_surveypix_file', help='absolute path to DDF surveypix_file, defaults to `None`',
+                        default=None)
+    parser.add_argument('--wfd_surveypix_file', help='absolute path to WFD surveypix_file, defaults to `None`',
+                        default=None)
     parser.add_argument('--ddf_simlibfilename', help='absolute path to DDF simlib file to write out, defaults to `None`',
                         default=None)
     parser.add_argument('--wfd_simlibfilename', help='absolute path to WFD simlib file to write out, defaults to `None`',
@@ -133,16 +149,17 @@ if __name__ == '__main__':
 
     filternulls = False
     if args.filt_Null :
-        print('filterning the raw summary table')
+        print('filtering the raw summary table, with this option, null values in `fiveSigmaDepth` will be skipped')
+        print("We do not recommend using this option unless you are sure you want this\n")
         filternulls = True
 
     print("\n\n Task: Obtaining pointing location \n")
     dithercolumns = None
     if args.No_construct_ditherfiles:
-        print('Not constructing ditherfile from dbname')
+        print('Not constructing ditherfile from dbname to search for a csv file')
     else:
         if args.ditherfiles is None:
-            print('\n\n Task: Constructing ditherfiles')
+            print('\n\n Task: Constructing ditherfiles as csv files based on opsim output name')
             ditherfiles = os.path.join(args.data_root, 'descDithers_{}.csv'.format(basename))
             print('abs path to  ditherfiles is {}'.format(ditherfiles))
         else:
@@ -214,7 +231,8 @@ if __name__ == '__main__':
                                    summary=opsout_ddf.summary, minVisits=500, maxVisits=None,
                                    numFields=numFields_DDF, mapFile='ddf_minion_1016_sqlite.csv',
                                    fieldType='DDF', opsimoutput=dbname,
-                                   script_name=script_name)
+                                   script_name=script_name,
+                                   surveypix_file=args.ddf_surveypix_file)
         print('Finished writing out simlib for DDF')
         print('\n\n Task: write mapping to csv')
         x.to_csv(selectedddfFileName)
@@ -229,7 +247,9 @@ if __name__ == '__main__':
                                     summary=summary, minVisits=500, maxVisits=10000,
                                     numFields=numFields_WFD, mapFile='wfd_minion_1016_sqlite.csv',
                                     fieldType='WFD', opsimoutput=dbname, 
-                                    vetoed_hids=ddf_hid, script_name=script_name)
+                                    vetoed_hids=ddf_hid,
+                                    script_name=script_name,
+                                    surveypix_file=args.wfd_surveypix_file)
         print('Finished writing out simlib for WFD')
         print('\n\n Task: write mapping to csv')
         x.to_csv(selectedwfdFileName)

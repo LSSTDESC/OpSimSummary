@@ -113,6 +113,8 @@ if __name__ == '__main__':
     #                    dest='write_ddf_simlib', action='store_true')
     parser.add_argument('--no_write_ddf_simlib', help='Whether to write out DDF simlib',
                         dest='write_ddf_simlib', action='store_false')
+    parser.add_argument('--no_get_ddf_pixels', help='Whether to obtain ddf pixels from opsim or use null set',
+                        dest='No_get_ddf_pixels', action='store_false')
     # parser.add_argument('--write_wfd_simlib', help='Whether to write out WFD simlib',
     #                    dest='write_wfd_simlib', action='store_true')
     parser.add_argument('--no_write_wfd_simlib', help='Whether to write out WFD simlib, defaults to writing it out',
@@ -135,7 +137,6 @@ if __name__ == '__main__':
                         default=50000, type=int)
     parser.add_argument('--filterNull', help='if added, then the summary table of the OpSim file will be filtered of rows that appear to have null values',
                         dest='filt_Null', action='store_true')
-    
     print("read in command line options and figuring out what to do\n")
     print("we are using opsimsummary version {0} and the library is located at {1}".format(oss.__version__, oss.__file__))
     print("we are using the path {}".format(sys.path))
@@ -153,6 +154,11 @@ if __name__ == '__main__':
         print("We do not recommend using this option unless you are sure you want this\n")
         filternulls = True
 
+    get_ddf_pixels = True
+    if not args.No_get_ddf_pixels:
+        get_ddf_pixels = False
+
+    print("get_ddf_pixels", get_ddf_pixels)
     print("\n\n Task: Obtaining pointing location \n")
     dithercolumns = None
     if args.No_construct_ditherfiles:
@@ -202,12 +208,21 @@ if __name__ == '__main__':
     
     sys.stdout.flush()
     # find ddf healpixels
-    opsout_ddf = OpSimOutput.fromOpSimDB(dbname, opsimversion=opsimversion,
-                                         subset='ddf', dithercolumns=dithercolumns,
-                                         filterNull=filternulls)
-    simlib_ddf = Simlibs(opsout_ddf.summary, opsimversion=opsimversion,
-                         usePointingTree=True)
-    ddf_hid = set(simlib_ddf.observedVisitsinRegion().index.values) 
+    if get_ddf_pixels:
+        print('Finding the DDF healpixels \n')
+        opsout_ddf = OpSimOutput.fromOpSimDB(dbname, opsimversion=opsimversion,
+                                             subset='ddf', dithercolumns=dithercolumns,
+                                             filterNull=filternulls)
+        if len(opsout_ddf.summary) > 0:
+            print("writing out ddf pixels\n")
+            simlib_ddf = Simlibs(opsout_ddf.summary, opsimversion=opsimversion,
+                                 usePointingTree=True)
+            ddf_hid = set(simlib_ddf.observedVisitsinRegion().index.values) 
+    else:
+
+        print("writing out null set of ddf pixels\n")
+        ddf_hid = set([])
+        print("written out null set of ddf pixels\n")
     print('There are {} pixels in the ddf fields'.format(len(ddf_hid)))
     # read the database into a `pd.DataFrame`
     tstart = time.time()

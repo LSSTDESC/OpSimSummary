@@ -343,6 +343,13 @@ class OpSimOutput(object):
                                                         user_propIDs=user_propIDs)
         summary = cls._read_summary_table_raw(engine, opsimVars, propIDs, subset)
 
+        if len(summary) == 0:
+            return cls(propIDDict=propDict,
+                       summary=summary,
+                       zeroDDFDithers=zeroDDFDithers,
+                       proposalTable=proposals, subset=subset,
+                       opsimversion=opsimversion)
+
         # filter read in summary table
         print('We have filterNull set to', filterNull)
         if filterNull:
@@ -421,6 +428,7 @@ class OpSimOutput(object):
                                   wfd_ditherscale=0.2,
                                   rng=np.random.RandomState(1))
                 method = 'default'
+
                 ddfID = propDict['ddf']
                 ddf_ditherscale = 1.75
                 wfd_ditherscale = 0.2

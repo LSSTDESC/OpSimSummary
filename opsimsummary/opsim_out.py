@@ -508,7 +508,7 @@ class OpSimOutput(object):
        
         Parameters
         ----------
-        tableNames :
+        tableNames : 
 
         engine : 
         
@@ -529,7 +529,7 @@ class OpSimOutput(object):
         propDict = OpSimOutput.get_propIDDict(proposals, opsimversion=opsimversion)
 
         # Seq of propIDs consistent with subset
-        _propIDs = OpSimOutput.propIDVals(subset, propDict, proposals)
+        _propIDs = OpSimOutput.get_propIDVals(subset, proposals, opsimversion)
 
         # If propIDs and subset were both provided, override subset propIDs
         propIDs = OpSimOutput._overrideSubsetPropID(user_propIDs, _propIDs)
@@ -604,7 +604,7 @@ class OpSimOutput(object):
     @classmethod
     def _fromOpSimHDF(cls, hdfName, subset='combined',
                      tableNames=('Summary', 'Proposal'),
-                     propIDs=None):
+                     propIDs=None, opsimversion='lsstv4'):
         """
         Construct an instance of a subset of the OpSim
         Output from a serialization in the format of hdf
@@ -637,7 +637,8 @@ class OpSimOutput(object):
             propDict = cls.get_propIDDict(proposal)
             print('read in proposal')
             print(subset, propDict)
-            _propIDs = cls.propIDVals(subset, propDict, proposals)
+            _propIDs = cls.get_propIDVals(subset, proposals, opsimversion)
+            # _propIDs = cls.propIDVals(subset, propDict, proposals)
         except:
             print('Proposal not read')
             pass
@@ -676,7 +677,7 @@ class OpSimOutput(object):
         if self._propID is not None:
             return self._propID
         elif self.subset is not None and self.propIDDict is not None:
-            return self.propIDVals(self.subset, self.propIDDict, self.proposalTable)
+            return self.get_propIDVals(self.subset, self.proposalTable, self.opsimVars)
 
     def _writeOpSimHDF(self, hdfName):
         """
@@ -810,6 +811,51 @@ class OpSimOutput(object):
         return x
 
     @staticmethod
+    def get_propIDVals(subset, proposalTable, opsimversion):
+        """
+        Parameters
+        ----------
+        subset : string
+            {'wfd'|'ddf'|'combined'|'_all'|'unique_all'}
+        proposalTable : `pd.DataFrame`
+            representation of the proposal table
+        opsimversion : string
+            The version of a supported OpSim version. Must be one
+            of  {'lsstv3'|'lsstv4'|'sstf'}
+
+        Returns
+        -------
+        List of propId Values corresponding to the chosen subset
+        """
+        if subset is None:
+            raise ValueError('subset arg in propIDVals cannot be None')
+
+        _opsimvars = OpSimOutput.get_opsimVariablesForVersion(opsimversion) 
+        _propIDName = _opsimvars['propIDName']
+
+        if subset.lower() in ('ddf', 'wfd'):
+            x = [propIDDict[subset.lower()]]
+        elif subset.lower() == 'combined':
+            x = [propIDDict['ddf'], propIDDict['wfd']] 
+        elif subset.lower() in ('_all', 'unique_all'):
+            if proposalTable is not None:
+                x = proposalTable[_propIDName].values
+            else:
+                return None
+        else:
+            raise NotImplementedError('value of subset Not recognized')
+
+        # unroll lists
+        l = list()
+        for elem in x:
+            if isinstance(elem, collections.Iterable):
+                for e in elem:
+                    l.append(e)
+            else:
+                l.append(elem)
+        return l
+
+    @staticmethod
     def propIDVals(subset, propIDDict, proposalTable):
         """
         Parameters: 
@@ -827,6 +873,7 @@ class OpSimOutput(object):
         -------
         list of propID values (integers) associated with the subset
         """
+        print("This static method propIDVals is DEPRECATED")
         if subset is None:
             raise ValueError('subset arg in propIDVals cannot be None')
 

@@ -370,6 +370,10 @@ class SimlibMixin(object):
                 dec = field.dec
                 mwebv = field.mwebv
                 opsimtable = field.opsimtable
+                
+                # For checking the low zpt values
+                mask = opsimtable['simLibZPTAVG'] < 6.0 
+                opsimtable.loc[mask, 'simLibZPTAVG'] = 6.0
 
                 fh.write(self.simlibFieldasString(self, num_fields, ra, dec,
                                                   opsimtable, mwebv=mwebv,

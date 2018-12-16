@@ -276,6 +276,12 @@ class SimlibMixin(object):
 
         opsimtable = self.preprocess_lib(opsimtable)
         y = ''
+        
+        # For checking the low zpt values
+        print(opsimtable.columns)
+        mask = opsimtable['simLibZPTAVG'] < 6.0 
+        opsimtable.loc[mask, 'simLibZPTAVG'] = 6.0
+
         for row in opsimtable.iterrows():
             data = row[1] # skip the index
             lst = ['S:',
@@ -371,10 +377,6 @@ class SimlibMixin(object):
                 mwebv = field.mwebv
                 opsimtable = field.opsimtable
                 
-                # For checking the low zpt values
-                mask = opsimtable['simLibZPTAVG'] < 6.0 
-                opsimtable.loc[mask, 'simLibZPTAVG'] = 6.0
-
                 fh.write(self.simlibFieldasString(self, num_fields, ra, dec,
                                                   opsimtable, mwebv=mwebv,
                                                   fieldtype=fieldtype))

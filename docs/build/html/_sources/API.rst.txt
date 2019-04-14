@@ -3,3 +3,10 @@ API Reference
 
 .. automodule:: opsimsummary
    :members:
+
+The “shape” module
+------------------
+
+.. automodule:: opsimsummary.opsim_out.py
+   :members:
+

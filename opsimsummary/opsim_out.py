@@ -14,7 +14,6 @@ import sys
 import traceback
 import numpy as np
 import pandas as pd
-import pdb
 from sqlalchemy import create_engine
 import collections
 

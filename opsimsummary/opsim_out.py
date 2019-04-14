@@ -52,17 +52,17 @@ class OpSimOutput(object):
                  subset=None, propIDs=None, zeroDDFDithers=True,
                  opsimversion='lsstv3'):
         """
-        Constructor for the `OpSimOutput` class 
+        Constructor for the `OpSimOutput` class
 
         Parameters
         ----------
-        summary: `pd.DataFrame
+        summary: `pd.DataFrame`
             a table describing a summary of observations which should have the
             following minimal columns (`ditheredRA`, `ditheredDec`, `expMJD`)
             as columns holding information on the pointing RA and dec of the
-            telescope and the mjd of the observation and `obsHistID` a unique 
+            telescope and the mjd of the observation and `obsHistID` a unique
             index for each entry the name of the index. Other columns
-            which are essential in the context of use in simulations are 
+            which are essential in the context of use in simulations are
             (`FWHMeff`, `filtSkyBrightness`, `fiveSigmaDepth`, `propID`)
             describing the FWHM seeing, sky brightness in the filter of
             observation, and the five sigma depth of the observation and
@@ -75,18 +75,22 @@ class OpSimOutput(object):
         subset: {'wfd'|'ddf'|'combined'| '_all' | 'unique_all'}, defaults to
             `combined` a string that defines a subset of observations to be
             chosen based on the choice of proposals. `wfd` is the LSST `WFD`,
-            `ddf` is the LSST `ddf`, `combined` is the combination of 
+            `ddf` is the LSST `ddf`, `combined` is the combination of
             `WFD` and `DDF` while, `unique_all` keeps all of the unique
             observations. `_all` is the entire table of of observations from
             OpSim outputs.
-        propIDs: 
-        zeroDDFDithers:
+        propIDs: sequence of integers
+        zeroDDFDithers: bool, defaults to `True`
+            If `True` changes the dithers in DDF fields to zero by setting the
+            columns `ditheredRA`, `ditheredDec` the same as `fieldRA` and
+            `fieldDec`
         opsimversion: {'lsstv3'|'sstf'|'lsstv4'} , defaults to 'lsstv3'
             a string to denote the version of OpSim outputs. `lsstv3`
             refers to outputs from OpSim version 3 (eg. enigma_1189, minion_1016).
             `sstf` refers to outputs from created at the start of the Observing
-            Strategy Task Force available at the following [website](http://altsched.rothchild.me:8080),
-            and `lsstv4` refers to outputs available from 
+            Strategy Task Force available at the following
+             [website](http://altsched.rothchild.me:8080),
+            and `lsstv4` refers to outputs available from  OpSim version 4.
         """
         self.opsimversion = opsimversion
         self.allowed_subsets = self.get_allowed_subsets()
@@ -98,8 +102,7 @@ class OpSimOutput(object):
             zeroDDFDithers = False
             ss = 'Warning: Input is zeroDDFDithers = True. But opsimversion is'
             ss += '{} for which this must be False. Setting to False and proceeding\n'.format(opsimversion)
-            print(ss) 
-
+            print(ss)
 
         # Check `summary` does not have `nan`s
         if not self.validate_pointings(summary, opsimVars=None):
@@ -114,24 +117,122 @@ class OpSimOutput(object):
         self._opsimvars = None
 
         # Have a clear unambiguous ra, dec in radians following LSST convention
+        # These are the columns `_ra`, `_dec` which should have the dithered
+        # values in radians
+
+        # If degrees do transformation to radians
         if self.opsimVars['angleUnit'] == 'degrees':
             summary.loc[:, '_ra'] = np.radians(summary['ditheredRA'])
             summary.loc[:, '_dec'] = np.radians(summary['ditheredDec'])
             print('Changing units for {0} from {1}'.format(opsimversion, 'degrees'))
+
+        # If already in radians, make a copy
         elif self.opsimVars['angleUnit'] == 'radians':
             print('Keeping units for {0} from {1}'.format(opsimversion, 'radians'))
             summary.loc[:, '_ra'] = summary['ditheredRA']
             summary.loc[:, '_dec'] = summary['ditheredDec']
+
         else:
             raise ValueError('angle unit of ra and dec Columns not recognized\n')
 
 
-        print('check that the format matches the expectation')
+        # Validate the format of the pointings to expectations given the version
+        # of the OpSim output
         if self.validate_pointings(summary, self.opsimVars):
             self.summary = summary
         else:
             raise AssertionError('Pointings are not in required format')
+
+        # Set the attribute `_propID`
         self._propID = propIDs
+
+    @staticmethod
+    def get_opsimVariablesForVersion(opsimversion='lsstv3'):
+        """Static method to returns a dictionary for the opsim version where the keys
+        are names of quantities used in this codebase, and the values are the names of
+        quantities in the OpSim output database
+
+        Parameters
+        ----------
+        opsimversion: string, defaults to `lsstv3`
+            can be {`lsstv3`|`lsstv4`|`sstf`}
+
+        Returns
+        -------
+        dictionary: key, value pairs where keys are variable names used in `OpSimSummary`
+            and values are variable names used in the OpSim database with the given
+            version.
+
+        Examples
+        --------
+        >>> from opsimsummary import OpSimOutput
+        >>> OpSimOutput.get_opsimVariablesForVersion('lsstv4')
+        {'summaryTableName': 'SummaryAllProps', 'obsHistID': 'observationId',
+         'propName': 'propName', 'propIDName': 'propId',
+         'propIDNameInSummary': 'proposalId', 'ops_wfdname': 'WideFastDeep',
+         'ops_ddfname': 'DeepDrillingCosmology1',
+         'expMJD': 'observationStartMJD', 'FWHMeff': 'seeingFwhmEff',
+         'pointingRA': 'ditheredRA', 'pointingDec': 'ditheredDec',
+         'filtSkyBrightness': 'skyBrightness', 'angleUnit': 'degrees'}
+        """
+        if opsimversion == 'lsstv3':
+            x = dict(summaryTableName='Summary',
+                     obsHistID='obsHistID',
+                     propName='propConf',
+                     propIDName='propID',
+                     propIDNameInSummary='propID',
+                     ops_wfdname='conf/survey/Universal-18-0824B.conf',
+                     ops_ddfname='conf/survey/DDcosmology1.conf',
+                     expMJD='expMJD',
+                     FWHMeff='FWHMeff',
+                     pointingRA='ditheredRA',
+                     pointingDec='ditheredDec',
+                     filtSkyBrightness='filtSkyBrightness',
+                     angleUnit='radians')
+        elif opsimversion == 'sstf':
+            x = dict(summaryTableName='SummaryAllProps',
+                     obsHistID='observationId',
+                     propName='propName',
+                     propIDName='propId',
+                     propIDNameInSummary='proposalId',
+                     ops_wfdname='WideFastDeep',
+                     ops_ddfname='Deep Drilling',
+                     expMJD='observationStartMJD',
+                     FWHMeff='seeingFwhmEff',
+                     pointingRA='fieldRA',
+                     pointingDec='fieldDec',
+                     filtSkyBrightness='skyBrightness',
+                     angleUnit='degrees')
+        elif opsimversion == 'lsstv4':
+            x = dict(summaryTableName='SummaryAllProps',
+                     obsHistID='observationId',
+                     propName='propName',
+                     propIDName='propId',
+                     propIDNameInSummary='proposalId',
+                     ops_wfdname='WideFastDeep',
+                     ops_ddfname='DeepDrillingCosmology1',
+                     expMJD='observationStartMJD',
+                     FWHMeff='seeingFwhmEff',
+                     pointingRA='ditheredRA',
+                     pointingDec='ditheredDec',
+                     filtSkyBrightness='skyBrightness',
+                     angleUnit='degrees')
+        else:
+            raise NotImplementedError('`get_propIDDict` is not implemented for this `opsimversion`')
+
+        return x
+
+
+    @property
+    def opsimVars(self):
+        """Dictionary where the keys are names of quantities used in
+        `OpSimSummary`, and the values are the names of quantities in
+        the OpSim output database used.
+
+        """
+        if self._opsimvars is None:
+            self._opsimvars = self.get_opsimVariablesForVersion(self.opsimversion)
+        return self._opsimvars
 
     @staticmethod
     def validate_pointings(summary, opsimVars=None, check_anycols=False):
@@ -145,7 +246,7 @@ class OpSimOutput(object):
         Parameters
         ----------
         summary: `pd.DataFrame` of pointings
-        opsimVars: dictionary, defaults to None 
+        opsimVars: dictionary, defaults to `None` 
             should be dictionary for each supported OpSim version availble
             from `OpSimOutput.get_opsimVariablesForVersion(opsimversion)`
         check_anycols: Bool, defaults to False
@@ -182,14 +283,6 @@ class OpSimOutput(object):
             sys.exit(1)
         return True
 
-    @property
-    def opsimVars(self):
-        """
-        a set of opsim version dependent variables
-        """
-        if self._opsimvars is None:
-            self._opsimvars = self.get_opsimVariablesForVersion(self.opsimversion)
-        return self._opsimvars
 
     @staticmethod
     def get_dithercolumns(summary,
@@ -278,8 +371,10 @@ class OpSimOutput(object):
                     filterNull=False,
                     **kwargs):
         """
-        Class Method to instantiate this from an OpSim sqlite
-        database output
+        Convenience method to instantitate the `OpSimOutput` class directly
+        from an `OpSim` output rather than providing the elementary inputs in
+        the class constructor. 
+
 
         Parameters
         ----------
@@ -769,53 +864,6 @@ class OpSimOutput(object):
 
         return pdict
 
-    @staticmethod
-    def get_opsimVariablesForVersion(opsimversion='lsstv3'):
-        if opsimversion == 'lsstv3':
-            x = dict(summaryTableName='Summary',
-                     obsHistID='obsHistID',
-                     propName='propConf',
-                     propIDName='propID',
-                     propIDNameInSummary='propID',
-                     ops_wfdname='conf/survey/Universal-18-0824B.conf',
-                     ops_ddfname='conf/survey/DDcosmology1.conf',
-                     expMJD='expMJD',
-                     FWHMeff='FWHMeff',
-                     pointingRA='ditheredRA',
-                     pointingDec='ditheredDec',
-                     filtSkyBrightness='filtSkyBrightness',
-                     angleUnit='radians')
-        elif opsimversion == 'sstf':
-            x = dict(summaryTableName='SummaryAllProps',
-                     obsHistID='observationId',
-                     propName='propName',
-                     propIDName='propId',
-                     propIDNameInSummary='proposalId',
-                     ops_wfdname='WideFastDeep',
-                     ops_ddfname='Deep Drilling',
-                     expMJD='observationStartMJD',
-                     FWHMeff='seeingFwhmEff',
-                     pointingRA='fieldRA',
-                     pointingDec='fieldDec',
-                     filtSkyBrightness='skyBrightness',
-                     angleUnit='degrees')
-        elif opsimversion == 'lsstv4':
-            x = dict(summaryTableName='SummaryAllProps',
-                     obsHistID='observationId',
-                     propName='propName',
-                     propIDName='propId',
-                     propIDNameInSummary='proposalId',
-                     ops_wfdname='WideFastDeep',
-                     ops_ddfname='DeepDrillingCosmology1',
-                     expMJD='observationStartMJD',
-                     FWHMeff='seeingFwhmEff',
-                     pointingRA='ditheredRA',
-                     pointingDec='ditheredDec',
-                     filtSkyBrightness='skyBrightness',
-                     angleUnit='degrees')
-        else:
-            raise NotImplementedError('`get_propIDDict` is not implemented for this `opsimversion`')
-        return x
 
     @staticmethod
     def propIDVals(subset, propIDDict, proposalTable):

@@ -19,7 +19,6 @@ Welcome to OpSimSummary's documentation!
     installation
 
     modules
-    API
      
 
 .. #Indices and tables

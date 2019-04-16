@@ -1,0 +1,439 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>opsimsummary.trig &mdash; OpSimSummary 0.8.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> OpSimSummary
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../opsimsummary.html">opsimsummary package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../opsimsummary.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.simlib.html">opsimsummary.simlib module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.trig.html">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html#installing-dependencies">Installing Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">opsimsummary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#package-structure">Package Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../opsimsummary.html">opsimsummary package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../opsimsummary.simlib.html">opsimsummary.simlib module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../opsimsummary.trig.html">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">OpSimSummary</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>opsimsummary.trig</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for opsimsummary.trig</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module for trigonometric utilities such as conversion between different</span>
+<span class="sd">conventions and units, as well as calculating angular separations between</span>
+<span class="sd">points on a sphere.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;fieldID&#39;</span><span class="p">,</span> <span class="s1">&#39;angSep&#39;</span><span class="p">,</span> <span class="s1">&#39;overlapSummary&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;convertToSphericalCoordinates&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;convertToCelestialCoordinates&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;angToVec&#39;</span><span class="p">,</span> <span class="s1">&#39;pixelsForAng&#39;</span><span class="p">,</span> <span class="s1">&#39;pixelsToAng&#39;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">healpy</span> <span class="k">as</span> <span class="nn">hp</span>
+
+
+<div class="viewcode-block" id="pixelsForAng"><a class="viewcode-back" href="../../opsimsummary.trig.html#opsimsummary.trig.pixelsForAng">[docs]</a><span class="k">def</span> <span class="nf">pixelsForAng</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">nside</span><span class="p">,</span> <span class="n">nest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="s1">&#39;celestial&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;degrees&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the array of healpixels in which the set of points represented by</span>
+<span class="sd">    the arrays lon, and lat fall</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vecs</span> <span class="o">=</span> <span class="n">angToVec</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">convention</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">hp</span><span class="o">.</span><span class="n">vec2pix</span><span class="p">(</span><span class="n">nside</span><span class="p">,</span> <span class="n">vecs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">vecs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">vecs</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">nest</span><span class="o">=</span><span class="n">nest</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="pixelsToAng"><a class="viewcode-back" href="../../opsimsummary.trig.html#opsimsummary.trig.pixelsToAng">[docs]</a><span class="k">def</span> <span class="nf">pixelsToAng</span><span class="p">(</span><span class="n">tileID</span><span class="p">,</span> <span class="n">nside</span><span class="p">,</span> <span class="n">nest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="s1">&#39;celestial&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;degrees&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the array of ra, dec for the healpix tile center for the tile with</span>
+<span class="sd">    pixel ID tileID, </span>
+<span class="sd">    the arrays lon, and lat fall</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">pix2ang</span><span class="p">(</span><span class="n">nside</span><span class="o">=</span><span class="n">nside</span><span class="p">,</span> <span class="n">ipix</span><span class="o">=</span><span class="n">tileID</span><span class="p">,</span> <span class="n">nest</span><span class="o">=</span><span class="n">nest</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">convention</span> <span class="o">==</span> <span class="s1">&#39;celestial&#39;</span><span class="p">:</span>
+        <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="n">convertToCelestialCoordinates</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">input_unit</span><span class="o">=</span><span class="s1">&#39;radians&#39;</span><span class="p">,</span>
+                                                <span class="n">output_unit</span><span class="o">=</span><span class="n">unit</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;convention other than celestial not implemented&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span></div>
+
+
+<div class="viewcode-block" id="angToVec"><a class="viewcode-back" href="../../opsimsummary.trig.html#opsimsummary.trig.angToVec">[docs]</a><span class="k">def</span> <span class="nf">angToVec</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">convention</span><span class="p">,</span> <span class="n">unit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute an array of unit vectors corresponding to the array of longitude</span>
+<span class="sd">    and latitude in either celestial conventions (ra, dec) or usual spherical</span>
+<span class="sd">    coordinate system conventions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lon : scalar or `numpy.ndarray` of floats</span>
+<span class="sd">        co-longitude which may be ra, or phi depending on the convention</span>
+<span class="sd">    lat : scalar or `numpy.ndarray` of floats</span>
+<span class="sd">        co-latitude which may be dec, or theta depending on the convention</span>
+<span class="sd">    convention : {&#39;celestial&#39;|&#39;spherical&#39;}</span>
+<span class="sd">        whether the input angular positions are in spherical or celestial</span>
+<span class="sd">        coordinates.</span>
+<span class="sd">    unit : string</span>
+<span class="sd">        {&#39;degrees&#39;| &#39;radians&#39;}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">unit</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;degrees&#39;</span><span class="p">,</span> <span class="s1">&#39;radians&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;illegal value for units, &#39;</span>
+                         <span class="s1">&#39;must be either degrees or radians&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">convention</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;celestial&#39;</span><span class="p">,</span> <span class="s1">&#39;spherical&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;illegal value for convention, &#39;</span>
+                         <span class="s1">&#39;must be either spherical or celestial&#39;</span><span class="p">)</span>
+    <span class="n">lon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">convention</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;celestial&#39;</span><span class="p">:</span>
+        <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">convertToSphericalCoordinates</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">convention</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;spherical&#39;</span> <span class="ow">and</span> <span class="n">unit</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;degrees&#39;</span><span class="p">:</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">hp</span><span class="o">.</span><span class="n">ang2vec</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="convertToCelestialCoordinates"><a class="viewcode-back" href="../../opsimsummary.trig.html#opsimsummary.trig.convertToCelestialCoordinates">[docs]</a><span class="k">def</span> <span class="nf">convertToCelestialCoordinates</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">input_unit</span><span class="o">=</span><span class="s1">&#39;radians&#39;</span><span class="p">,</span>
+                                  <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;degrees&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert theta, phi in usual spherical coordinates to ra, dec</span>
+<span class="sd">    values. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    theta : `np.ndarray` or float</span>
+<span class="sd">        co-latitude</span>
+<span class="sd">    phi :`np.ndarray` or float</span>
+<span class="sd">        co longitude </span>
+<span class="sd">    input_unit : {&#39;degrees&#39;, &#39;radians&#39;}, defautls to radians</span>
+<span class="sd">    output_unit : {&#39;degrees&#39;, &#39;radians&#39;}, defaults to degrees</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    tuple of (ra, dec) where ra, dec are `numpy.ndarray` of type float</span>
+<span class="sd">    of length equal to theta or phi</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">input_unit</span> <span class="o">!=</span> <span class="s1">&#39;degrees&#39;</span><span class="p">:</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">phi</span><span class="p">))</span>
+    <span class="n">dec</span> <span class="o">=</span> <span class="o">-</span> <span class="n">theta</span> <span class="o">+</span> <span class="mf">90.0</span>
+    <span class="n">ra</span> <span class="o">=</span> <span class="n">phi</span>
+    <span class="k">if</span> <span class="n">output_unit</span> <span class="o">!=</span> <span class="s1">&#39;degrees&#39;</span><span class="p">:</span>
+        <span class="n">ra</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+        <span class="n">dec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">dec</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span></div>
+
+<div class="viewcode-block" id="convertToSphericalCoordinates"><a class="viewcode-back" href="../../opsimsummary.trig.html#opsimsummary.trig.convertToSphericalCoordinates">[docs]</a><span class="k">def</span> <span class="nf">convertToSphericalCoordinates</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;degrees&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert ra, dec coordinates to usual spherical coordinates theta, phi.</span>
+<span class="sd">    The ra, dec coordinates have the ranges (0., 2\pi), (-\pi/2.0, \pi/2.0)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ra : sequence of floats or scalar float, mandatory</span>
+<span class="sd">        ra coordinates in units of degrees or radians</span>
+<span class="sd">    dec : sequence of floats or scalar float, mandatory</span>
+<span class="sd">        dec coordinates in units of degrees or radians</span>
+<span class="sd">    unit : string, optional, defaults to &#39;degrees&#39;</span>
+<span class="sd">        &#39;degrees&#39; or &#39;radians&#39;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple of `numpy.ndarray` (theta, phi) of spherical coordinates in</span>
+<span class="sd">    radians. If scalars were supplied the return is a tuple of two scalars.</span>
+
+<span class="sd">    .. note:: The units of ra, dec must be the same. They should have</span>
+<span class="sd">    consistent lengths</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check that unit type has been implemented</span>
+    <span class="k">if</span> <span class="n">unit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;degrees&#39;</span><span class="p">,</span> <span class="s1">&#39;radians&#39;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Parameter unit to convertToSphericalCoordinates must&#39;</span>
+                         <span class="s1">&#39; be degrees or radians</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">ra</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">ra</span><span class="p">)</span>
+    <span class="n">dec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">dec</span><span class="p">)</span>
+
+    <span class="c1"># Check consistency of inputs</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ra</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dec</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The sequences for ra and dec must have equal lengths&#39;</span>
+                         <span class="s1">&#39;but have lengths </span><span class="si">{0}</span><span class="s1"> and </span><span class="si">{1}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ra</span><span class="p">),</span>
+                                                                 <span class="nb">len</span><span class="p">(</span><span class="n">dec</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">unit</span> <span class="o">==</span> <span class="s1">&#39;degrees&#39;</span><span class="p">:</span>
+        <span class="n">ra</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">ra</span><span class="p">)</span>
+        <span class="n">dec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">dec</span><span class="p">)</span>
+
+    <span class="n">theta</span> <span class="o">=</span> <span class="o">-</span> <span class="n">dec</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">ra</span>
+
+    <span class="k">return</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span></div>
+
+
+<div class="viewcode-block" id="angSep"><a class="viewcode-back" href="../../opsimsummary.trig.html#opsimsummary.trig.angSep">[docs]</a><span class="k">def</span> <span class="nf">angSep</span><span class="p">(</span><span class="n">ra1</span><span class="p">,</span> <span class="n">dec1</span><span class="p">,</span> <span class="n">ra2</span><span class="p">,</span> <span class="n">dec2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Angular separation in radians between to points on a sphere with</span>
+<span class="sd">    coordinates ra, dec in radians.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ra1 : np.ndarray /float, radians</span>
+<span class="sd">        ra of the first point</span>
+<span class="sd">    dec1 : np.ndarray /float, radians</span>
+<span class="sd">        dec of the first point</span>
+<span class="sd">    ra2 : np.ndarray /float, radians</span>
+<span class="sd">        ra of the second point</span>
+<span class="sd">    dec2 : np.ndarray /float, radians</span>
+<span class="sd">        dec of the first point</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Angular separation in units of radians</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">th1</span> <span class="o">=</span> <span class="o">-</span> <span class="n">dec1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">2.</span>
+    <span class="n">th2</span> <span class="o">=</span> <span class="o">-</span> <span class="n">dec2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">2.</span>
+    <span class="n">ph1</span> <span class="o">=</span> <span class="n">ra1</span>
+    <span class="n">ph2</span> <span class="o">=</span> <span class="n">ra2</span>
+    <span class="c1"># Take the dot product</span>
+    <span class="n">cos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">th1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">th2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">ph1</span> <span class="o">-</span> <span class="n">ph2</span><span class="p">)</span>\
+        <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">th1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">th2</span><span class="p">)</span>
+    <span class="c1"># Calculate arccos differently to avoid loss of precision</span>
+    <span class="c1"># sinhalftheta = np.sqrt(0.5*(1.0 - cos))</span>
+    <span class="c1"># return 2.*(np.arcsin(sinhalftheta))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">cos</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="overlapSummary"><a class="viewcode-back" href="../../opsimsummary.trig.html#opsimsummary.trig.overlapSummary">[docs]</a><span class="k">def</span> <span class="nf">overlapSummary</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="mf">1.75</span><span class="p">,</span> 
+                    <span class="n">raCol</span><span class="o">=</span><span class="s1">&#39;fieldRA&#39;</span><span class="p">,</span> <span class="n">decCol</span><span class="o">=</span><span class="s1">&#39;fieldDec&#39;</span><span class="p">):</span>
+
+    <span class="n">sep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;overlap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">angSep</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">raCol</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">decCol</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">sep</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;overlap&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">summary</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">summary</span></div>
+<span class="k">def</span> <span class="nf">angDistance</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">raCol</span><span class="o">=</span><span class="s1">&#39;fieldRA&#39;</span><span class="p">,</span> <span class="n">decCol</span><span class="o">=</span><span class="s1">&#39;fieldDec&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">angSep</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">raCol</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">decCol</span><span class="p">])</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dist</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()</span>
+    <span class="n">rval</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rval</span>
+
+<span class="k">def</span> <span class="nf">obsIndex</span><span class="p">(</span><span class="n">opsimDF</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">raCol</span><span class="o">=</span><span class="s1">&#39;fieldRA&#39;</span><span class="p">,</span> <span class="n">decCol</span><span class="o">=</span><span class="s1">&#39;fieldDec&#39;</span><span class="p">,</span>
+              <span class="n">pointinRadius</span><span class="o">=</span><span class="mf">1.75</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">opsimDF</span><span class="p">[[</span><span class="s1">&#39;fieldID&#39;</span><span class="p">,</span> <span class="n">raCol</span><span class="p">,</span> <span class="n">decCol</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">angSep</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">raCol</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">decCol</span><span class="p">])</span>
+    <span class="n">pointingRad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">pointinRadius</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;dist &lt; </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pointingRad</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span>
+
+
+
+<div class="viewcode-block" id="fieldID"><a class="viewcode-back" href="../../opsimsummary.trig.html#opsimsummary.trig.fieldID">[docs]</a><span class="k">def</span> <span class="nf">fieldID</span><span class="p">(</span><span class="n">opsimDF</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">raCol</span><span class="o">=</span><span class="s1">&#39;fieldRA&#39;</span><span class="p">,</span> <span class="n">decCol</span><span class="o">=</span><span class="s1">&#39;fieldDec&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">opsimDF</span><span class="p">[[</span><span class="s1">&#39;fieldID&#39;</span><span class="p">,</span> <span class="n">raCol</span><span class="p">,</span> <span class="n">decCol</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+
+    <span class="n">rval</span> <span class="o">=</span> <span class="n">angDistance</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rval</span><span class="p">[</span><span class="s1">&#39;fieldID&#39;</span><span class="p">]</span></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, R. Biswas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -6,10 +6,12 @@ __pycache__/
 # C extensions
 *.so
 
+*.swp
+
 # Distribution / packaging
 .Python
 env/
-build/
+# build/
 develop-eggs/
 dist/
 downloads/
@@ -52,7 +54,7 @@ coverage.xml
 *.log
 
 # Sphinx documentation
-docs/_build/
+#docs/_build/
 
 # PyBuilder
 target/

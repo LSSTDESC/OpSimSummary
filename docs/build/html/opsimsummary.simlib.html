@@ -1,0 +1,741 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>opsimsummary.simlib module &mdash; OpSimSummary 0.8.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> OpSimSummary
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="opsimsummary.html">opsimsummary package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="opsimsummary.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">opsimsummary.simlib module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.trig.html">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html#installing-dependencies">Installing Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">opsimsummary</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html#package-structure">Package Structure</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="opsimsummary.html">opsimsummary package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="opsimsummary.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">opsimsummary.simlib module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.trig.html">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OpSimSummary</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="opsimsummary.html">opsimsummary package</a> &raquo;</li>
+        
+      <li>opsimsummary.simlib module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/opsimsummary.simlib.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-opsimsummary.simlib">
+<span id="opsimsummary-simlib-module"></span><h1>opsimsummary.simlib module<a class="headerlink" href="#module-opsimsummary.simlib" title="Permalink to this headline">¶</a></h1>
+<p>Module with functionality to represent SNANA simlib data.</p>
+<dl class="class">
+<dt id="opsimsummary.simlib.SimlibMixin">
+<em class="property">class </em><code class="descclassname">opsimsummary.simlib.</code><code class="descname">SimlibMixin</code><a class="reference internal" href="_modules/opsimsummary/simlib.html#SimlibMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.simlib.SimlibMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Mixin for <cite>SummaryOpsim</cite> to provide the following additional functionality
+geared towards creating simlibs for SNANA.
+- Calculate additional columns for simlib either on a complete</p>
+<blockquote>
+<div><cite>OpSimOutput.summary</cite> dataframe, or for a dataframe for a particular
+<cite>patch</cite> of sky (LIBID in the SNANA language).</div></blockquote>
+<ul class="simple">
+<li>Calculate variables required for SNANA simlib outside the Opsim data</li>
+</ul>
+<dl class="docutils">
+<dt>The parent class must have the following attributes:</dt>
+<dd><ul class="first simple">
+<li>subset (must be a valid string)</li>
+</ul>
+<p class="last">The following attributes cannot be set by the user and are
+set by <cite>simlibVars</cite>
+- user (default can be None)
+- host (default can be None)
+- telescope
+- survey 
+- pixelSize</p>
+</dd>
+</dl>
+<p>In order to be able to write out the simlibs to disk, it should also have
+a method to provide a sequence (may be a generator) of fields, and
+<cite>opsimtables</cite>. The fields are instances of a class which has the following
+information</p>
+<p><cite>fieldID</cite>
+<cite>ra</cite>
+<cite>dec</cite>
+<cite>mwebv</cite> (which may be set to a default value). The responsibility of
+selection of such fields and sorting out the correct requirements is
+of the parent class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><a class="reference internal" href="#opsimsummary.simlib.SimlibMixin.simlibVars" title="opsimsummary.simlib.SimlibMixin.simlibVars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simlibVars</span></code></a></dt>
+<dd><p class="first last">Collection of Attributes provided by the static method <cite>self.get_simlibVars</cite> as an ordered dict with the following keys (<cite>user</cite>, <cite>host</cite>, <cite>pixelSize</cite>, <cite>survey</cite>, <cite>telescope</cite>).</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#opsimsummary.simlib.SimlibMixin.add_simlibCols" title="opsimsummary.simlib.SimlibMixin.add_simlibCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_simlibCols</span></code></a>(opsimtable[,&nbsp;pixelSize])</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#opsimsummary.simlib.SimlibMixin.fieldheader" title="opsimsummary.simlib.SimlibMixin.fieldheader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fieldheader</span></code></a>(fieldID,&nbsp;ra,&nbsp;dec,&nbsp;opsimtable[,&nbsp;…])</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#opsimsummary.simlib.SimlibMixin.get_simlibVars" title="opsimsummary.simlib.SimlibMixin.get_simlibVars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_simlibVars</span></code></a>([user,&nbsp;host,&nbsp;pixelSize,&nbsp;…])</td>
+<td>Computes quantities only necessary for SNANA Simlib Calculation Parameters ———- user: string, optional, defaults to None     user running the program, used in writing out SNANA simlibs only     if None, the login name of the user is used.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#opsimsummary.simlib.SimlibMixin.preprocess_lib" title="opsimsummary.simlib.SimlibMixin.preprocess_lib"><code class="xref py py-obj docutils literal notranslate"><span class="pre">preprocess_lib</span></code></a>(opsimtable)</td>
+<td>preprocess the dataframe with data for a single SNANA simlib field (ie.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#opsimsummary.simlib.SimlibMixin.simLibheader" title="opsimsummary.simlib.SimlibMixin.simLibheader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simLibheader</span></code></a>([numLibId,&nbsp;saturation_flag,&nbsp;…])</td>
+<td>return a string that is the header of the simlib file</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="70%" />
+<col width="30%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>fieldfooter</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>formatSimLibField</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>simLibFooter</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>simlibFieldasString</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>writeSimlib</strong></td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<dl class="staticmethod">
+<dt id="opsimsummary.simlib.SimlibMixin.add_simlibCols">
+<em class="property">static </em><code class="descname">add_simlibCols</code><span class="sig-paren">(</span><em>opsimtable</em>, <em>pixelSize=0.2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/simlib.html#SimlibMixin.add_simlibCols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.simlib.SimlibMixin.add_simlibCols" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>opsimtable: `~pandas.DataFrame` object, mandatory</strong></dt>
+<dd><p class="first last">containing an opsim Output of version X. The main requirements here
+are that the columns ‘finSeeing’, ‘fiveSigmaDepth’, and
+‘filtSkyBrightness’ are defined. If the opsim output has differently
+named variables or transformed variables, these should be changed to
+meet the criteria.</p>
+</dd>
+<dt><strong>pixelSize: float, units of arc sec, defaults to LSST value of 0.2</strong></dt>
+<dd><p class="first last">pixel Size</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>DataFrame with additional columns of ‘simLibPsf’, ‘simLibZPTAVG’, and</strong></dt>
+<dd></dd>
+<dt><strong>‘simLibSkySig’</strong></dt>
+<dd></dd>
+<dt><strong>.. note :: This was written from a piece of f77 code by David</strong></dt>
+<dd><p class="first last">Cinabro sent by email on May 26, 2015.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="opsimsummary.simlib.SimlibMixin.fieldfooter">
+<em class="property">static </em><code class="descname">fieldfooter</code><span class="sig-paren">(</span><em>fieldID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/simlib.html#SimlibMixin.fieldfooter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.simlib.SimlibMixin.fieldfooter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="opsimsummary.simlib.SimlibMixin.fieldheader">
+<code class="descname">fieldheader</code><span class="sig-paren">(</span><em>fieldID</em>, <em>ra</em>, <em>dec</em>, <em>opsimtable</em>, <em>mwebv=0.0</em>, <em>fieldtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/simlib.html#SimlibMixin.fieldheader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.simlib.SimlibMixin.fieldheader" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>fieldID</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">integer for the unique field ID</p>
+</dd>
+<dt><strong>ra</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, degrees</span></dt>
+<dd><p class="first last">ra of the field location</p>
+</dd>
+<dt><strong>dec</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, degrees</span></dt>
+<dd><p class="first last">dec of the field location</p>
+</dd>
+<dt><strong>opsimtable</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>np.array</cite> of <cite>pd.DataFrame</cite></span></dt>
+<dd><p class="first last">sequence of OpSim observations in above format to find number of
+observations.</p>
+</dd>
+<dt><strong>mwebv</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, defaults to 0.0</span></dt>
+<dd><p class="first last">milky way E(B-v) value. This is usually recomputed in SNANA
+depending on flags, and hence can be left as 0.0</p>
+</dd>
+<dt><strong>fieldtype</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, defaults to None</span></dt>
+<dd><p class="first last">string used to construct <cite>Field: fieldtype</cite> line, if None this
+line is left out.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="opsimsummary.simlib.SimlibMixin.formatSimLibField">
+<code class="descname">formatSimLibField</code><span class="sig-paren">(</span><em>fieldID</em>, <em>opsimtable</em>, <em>sep=' '</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/simlib.html#SimlibMixin.formatSimLibField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.simlib.SimlibMixin.formatSimLibField" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="opsimsummary.simlib.SimlibMixin.get_simlibVars">
+<em class="property">static </em><code class="descname">get_simlibVars</code><span class="sig-paren">(</span><em>user=None</em>, <em>host=None</em>, <em>pixelSize=0.2</em>, <em>telescope='LSST'</em>, <em>survey='LSST'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/simlib.html#SimlibMixin.get_simlibVars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.simlib.SimlibMixin.get_simlibVars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes quantities only necessary for SNANA Simlib Calculation
+Parameters
+———-
+user: string, optional, defaults to None</p>
+<blockquote>
+<div>user running the program, used in writing out SNANA simlibs only
+if None, the login name of the user is used.</div></blockquote>
+<dl class="docutils">
+<dt>host: string, optional, defaults to None</dt>
+<dd>name of host machine, used only in writing out SNANA simlibs
+default of None assigns the output of <cite>hostname</cite> to this variable.</dd>
+<dt>pixelSize: float, optional, defaults to 0.2</dt>
+<dd>size of the pixel in arcseconds, defaults to 0.2 as appropriate
+for LSST</dd>
+<dt>survey: string, optional, defaults to ‘LSST’</dt>
+<dd>name of survey, required only for writing out SNANA simlibs</dd>
+<dt>telescope: string, optional, defaults to ‘LSST’</dt>
+<dd>name of survey, required only for writing out SNANA simlibs</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="opsimsummary.simlib.SimlibMixin.pixelSize">
+<code class="descname">pixelSize</code><em class="property"> = 0.2</em><a class="headerlink" href="#opsimsummary.simlib.SimlibMixin.pixelSize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="opsimsummary.simlib.SimlibMixin.preprocess_lib">
+<code class="descname">preprocess_lib</code><span class="sig-paren">(</span><em>opsimtable</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/simlib.html#SimlibMixin.preprocess_lib"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.simlib.SimlibMixin.preprocess_lib" title="Permalink to this definition">¶</a></dt>
+<dd><p>preprocess the dataframe with data for a single SNANA simlib
+field (ie. data corresponding to a single libid) if necessary.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>opsimtable</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>pd.DataFrame</cite> with required data from OpSim corresponding</span></dt>
+<dd><p class="first last">to a single field.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="opsimsummary.simlib.SimlibMixin.simLibFooter">
+<code class="descname">simLibFooter</code><span class="sig-paren">(</span><em>numFields</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/simlib.html#SimlibMixin.simLibFooter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.simlib.SimlibMixin.simLibFooter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="opsimsummary.simlib.SimlibMixin.simLibheader">
+<code class="descname">simLibheader</code><span class="sig-paren">(</span><em>numLibId=None</em>, <em>saturation_flag=1024</em>, <em>comments='\n'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/simlib.html#SimlibMixin.simLibheader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.simlib.SimlibMixin.simLibheader" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>return a string that is the header of the simlib file</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>numLibId</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, defaults to None</span></dt>
+<dd><blockquote class="first">
+<div><p>number of libids in simlib</p>
+</div></blockquote>
+<dl class="docutils">
+<dt>saturation_flag <span class="classifier-delimiter">:</span> <span class="classifier">int, defaults to 1024</span></dt>
+<dd><p class="first last">value desired as saturation flag</p>
+</dd>
+</dl>
+<p class="last">comments: string, defaults to `</p>
+</dd>
+<dt><strong>`</strong></dt>
+<dd><p class="first last">comments passed on to <cite>simlib</cite> output</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="opsimsummary.simlib.SimlibMixin.simlibFieldasString">
+<code class="descname">simlibFieldasString</code><span class="sig-paren">(</span><em>fh</em>, <em>fieldID</em>, <em>ra</em>, <em>dec</em>, <em>opsimtable</em>, <em>mwebv=0.0</em>, <em>fieldtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/simlib.html#SimlibMixin.simlibFieldasString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.simlib.SimlibMixin.simlibFieldasString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="opsimsummary.simlib.SimlibMixin.simlibVars">
+<code class="descname">simlibVars</code><a class="headerlink" href="#opsimsummary.simlib.SimlibMixin.simlibVars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collection of Attributes provided by the static method
+<cite>self.get_simlibVars</cite> as an ordered dict with the following keys
+(<cite>user</cite>, <cite>host</cite>, <cite>pixelSize</cite>, <cite>survey</cite>, <cite>telescope</cite>). Calling this.
+also sets class variables for each of these keys.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="opsimsummary.simlib.SimlibMixin.writeSimlib">
+<code class="descname">writeSimlib</code><span class="sig-paren">(</span><em>filename</em>, <em>fields</em>, <em>comments='\n'</em>, <em>fieldtype=None</em>, <em>mwebv=0.0</em>, <em>numLibId=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/simlib.html#SimlibMixin.writeSimlib"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.simlib.SimlibMixin.writeSimlib" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="opsimsummary.simlib.Simlibs">
+<em class="property">class </em><code class="descclassname">opsimsummary.simlib.</code><code class="descname">Simlibs</code><span class="sig-paren">(</span><em>pointings</em>, <em>opsimversion='lsstv3'</em>, <em>raCol='ditheredRA'</em>, <em>decCol='ditheredDec'</em>, <em>angleUnit='degrees'</em>, <em>indexCol='obsHistID'</em>, <em>usePointingTree=False</em>, <em>subset='None'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/simlib.html#Simlibs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.simlib.Simlibs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="opsimsummary.summarize_opsim.html#opsimsummary.summarize_opsim.SynOpSim" title="opsimsummary.summarize_opsim.SynOpSim"><code class="xref py py-class docutils literal notranslate"><span class="pre">opsimsummary.summarize_opsim.SynOpSim</span></code></a>, <a class="reference internal" href="#opsimsummary.simlib.SimlibMixin" title="opsimsummary.simlib.SimlibMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">opsimsummary.simlib.SimlibMixin</span></code></a></p>
+<p>A class to write out simlibs to disk</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>host</strong></dt>
+<dd></dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">pointingTree</span></code></dt>
+<dd><p class="first last">if self.usePointingTree is False, this is set to None. Otherewise</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">simlibVars</span></code></dt>
+<dd><p class="first last">Collection of Attributes provided by the static method <cite>self.get_simlibVars</cite> as an ordered dict with the following keys (<cite>user</cite>, <cite>host</cite>, <cite>pixelSize</cite>, <cite>survey</cite>, <cite>telescope</cite>).</p>
+</dd>
+<dt><strong>user</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_simlibCols</span></code>(opsimtable[,&nbsp;pixelSize])</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">df_subset_columns</span></code>(df,&nbsp;subset)</td>
+<td>Return the dataframe <cite>df</cite> with only a subset of the columns as specified in the list <cite>subset</cite></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">fieldheader</span></code>(fieldID,&nbsp;ra,&nbsp;dec,&nbsp;opsimtable[,&nbsp;…])</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromOpSimDB</span></code>(dbname[,&nbsp;subset,&nbsp;opsimversion,&nbsp;…])</td>
+<td>Class Method to instantiate this from an OpSim sqlite database output which largely uses <cite>OpSimOutput.fromOpSimDB</cite></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_simlibVars</span></code>([user,&nbsp;host,&nbsp;pixelSize,&nbsp;…])</td>
+<td>Computes quantities only necessary for SNANA Simlib Calculation Parameters ———- user: string, optional, defaults to None     user running the program, used in writing out SNANA simlibs only     if None, the login name of the user is used.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#opsimsummary.simlib.Simlibs.get_surveyPix" title="opsimsummary.simlib.Simlibs.get_surveyPix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_surveyPix</span></code></a>(surveydf[,&nbsp;numFields,&nbsp;rng])</td>
+<td>Get a random selection of survey pixels observed that have numbers of visits in between the min and max visits.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">observedVisitsinRegion</span></code>([nside,&nbsp;nest,&nbsp;…])</td>
+<td>return a <cite>pd.DataFrame</cite> with the healpixelID=’hid’, ra and dec of the healpixels ‘hpix_ra’, ‘hpix_dec’ in radians, and count the number of visits for all healpixels that have visits satisfying minVisits &lt;= count &lt;= maxVisits .</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">pointingsEnclosing</span></code>(ra,&nbsp;dec[,&nbsp;circRadius,&nbsp;…])</td>
+<td>Helper method returning a generator of pointings overlapping with circles of radius <cite>circRadius around a sequence of positions given in terms of `ra</cite> and <cite>dec</cite>.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">preprocess_lib</span></code>(opsimtable)</td>
+<td>preprocess the dataframe with data for a single SNANA simlib field (ie.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">sampleRegion</span></code>([numFields,&nbsp;minVisits,&nbsp;nest,&nbsp;…])</td>
+<td>This method samples a number <cite>numFields</cite> fields provided they have a minimal number of visits <cite>minVisits</cite></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">simLibheader</span></code>([numLibId,&nbsp;saturation_flag,&nbsp;…])</td>
+<td>return a string that is the header of the simlib file</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#opsimsummary.simlib.Simlibs.simlibs_for_fields" title="opsimsummary.simlib.Simlibs.simlibs_for_fields"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simlibs_for_fields</span></code></a>(surveyPix[,&nbsp;mwebv])</td>
+<td>Generator for simlib fields for a sequence of fields defined in a dataFrame called <cite>surveyPix</cite>.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="70%" />
+<col width="30%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>fieldfooter</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>formatSimLibField</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>randomSimlibs</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>simLibFooter</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>simlibFieldasString</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>writeSimlib</strong></td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="opsimsummary.simlib.Simlibs.get_surveyPix">
+<code class="descname">get_surveyPix</code><span class="sig-paren">(</span><em>surveydf</em>, <em>numFields=15</em>, <em>rng=&lt;mtrand.RandomState object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/simlib.html#Simlibs.get_surveyPix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.simlib.Simlibs.get_surveyPix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a random selection of survey pixels observed that have numbers
+of visits in between the min and max visits.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>surveydf</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>pd.DataFrame</cite></span></dt>
+<dd><p class="first last">a pandas dataframe with a collection of selected fields with at
+least the  the following columns a unique index <cite>hid</cite> for each
+field, an <cite>ra</cite>, and a <cite>dec</cite></p>
+</dd>
+<dt><strong>numFields</strong> <span class="classifier-delimiter">:</span> <span class="classifier">integer, defaults to 15</span></dt>
+<dd><p class="first last">number of samples of fields desired.</p>
+</dd>
+<dt><strong>rng</strong> <span class="classifier-delimiter">:</span> <span class="classifier">instance of <cite>np.random.RandomState</cite>, defualts to using 0 as seed</span></dt>
+<dd><p class="first last">a random state.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>a dataframe with at least `hid` the original index for each field, `ra`,</strong></dt>
+<dd></dd>
+<dt><strong>`dec`, and `simlibID` sorted by `simlibId`. This dataframe contains a</strong></dt>
+<dd></dd>
+<dt><strong>mapping from the new index `simlibId` to the old index `hid`</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="opsimsummary.simlib.Simlibs.host">
+<code class="descname">host</code><em class="property"> = None</em><a class="headerlink" href="#opsimsummary.simlib.Simlibs.host" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="opsimsummary.simlib.Simlibs.pixelSize">
+<code class="descname">pixelSize</code><em class="property"> = 0.2</em><a class="headerlink" href="#opsimsummary.simlib.Simlibs.pixelSize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="opsimsummary.simlib.Simlibs.randomSimlibs">
+<code class="descname">randomSimlibs</code><span class="sig-paren">(</span><em>numFields=50</em>, <em>fname='test.simlib'</em>, <em>rng=&lt;mtrand.RandomState object&gt;</em>, <em>outfile=None</em>, <em>mapping_outfile='mapping.csv'</em>, <em>mwebv=0.0</em>, <em>fieldtype=None</em>, <em>minVisits=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/simlib.html#Simlibs.randomSimlibs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.simlib.Simlibs.randomSimlibs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="opsimsummary.simlib.Simlibs.simlibs_for_fields">
+<code class="descname">simlibs_for_fields</code><span class="sig-paren">(</span><em>surveyPix</em>, <em>mwebv=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/simlib.html#Simlibs.simlibs_for_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.simlib.Simlibs.simlibs_for_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generator for simlib fields for a sequence of fields
+defined in a dataFrame called <cite>surveyPix</cite>. The dataFrame
+<cite>surveyPix</cite> must have the following columns <cite>simlibId</cite>,
+<cite>ra</cite>, <cite>dec</cite> and must be sorted in increasing order of 
+<cite>simlibId</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>surveyPix</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>pd.dataFrame</cite></span></dt>
+<dd><p class="first last">with the following columns <cite>simlibId</cite>, <cite>ra</cite>, <cite>dec</cite></p>
+</dd>
+<dt><strong>mwebv</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>np.float</cite> defaults to 0.</span></dt>
+<dd><p class="first last">A default value for the MW extinction</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>a generator of fields for the simlib file</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="opsimsummary.simlib.Simlibs.survey">
+<code class="descname">survey</code><em class="property"> = 'LSST'</em><a class="headerlink" href="#opsimsummary.simlib.Simlibs.survey" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="opsimsummary.simlib.Simlibs.telescope">
+<code class="descname">telescope</code><em class="property"> = 'LSST'</em><a class="headerlink" href="#opsimsummary.simlib.Simlibs.telescope" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="opsimsummary.simlib.Simlibs.user">
+<code class="descname">user</code><em class="property"> = None</em><a class="headerlink" href="#opsimsummary.simlib.Simlibs.user" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, R. Biswas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

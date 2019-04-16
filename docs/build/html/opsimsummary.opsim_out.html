@@ -1,0 +1,588 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>opsimsummary.opsim_out module &mdash; OpSimSummary 0.8.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="opsimsummary package" href="opsimsummary.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> OpSimSummary
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="opsimsummary.html">opsimsummary package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="opsimsummary.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">opsimsummary.opsim_out module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.simlib.html">opsimsummary.simlib module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.trig.html">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html#installing-dependencies">Installing Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">opsimsummary</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html#package-structure">Package Structure</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="opsimsummary.html">opsimsummary package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="opsimsummary.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">opsimsummary.opsim_out module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.simlib.html">opsimsummary.simlib module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.trig.html">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OpSimSummary</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="opsimsummary.html">opsimsummary package</a> &raquo;</li>
+        
+      <li>opsimsummary.opsim_out module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/opsimsummary.opsim_out.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-opsimsummary.opsim_out">
+<span id="opsimsummary-opsim-out-module"></span><h1>opsimsummary.opsim_out module<a class="headerlink" href="#module-opsimsummary.opsim_out" title="Permalink to this headline">¶</a></h1>
+<p>This module deals with representing the data in an OpSim output (to the extent
+we will care about it). A description of the OpSim output can be found at
+(opsim description)[<a class="reference external" href="https://www.lsst.org/scientists/simulations/opsim/summary-table-column-descriptions-v335">https://www.lsst.org/scientists/simulations/opsim/summary-table-column-descriptions-v335</a>]</p>
+<dl class="docutils">
+<dt>In brief, we will use two tables from the OpSim output:</dt>
+<dd><ul class="first last simple">
+<li>A Summary Table which has the desired information</li>
+<li><dl class="first docutils">
+<dt>A Proposal Table which contains a dictionary to interpreting the <cite>propID</cite> column</dt>
+<dd>of Summary.</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<dl class="class">
+<dt id="opsimsummary.opsim_out.OpSimOutput">
+<em class="property">class </em><code class="descclassname">opsimsummary.opsim_out.</code><code class="descname">OpSimOutput</code><span class="sig-paren">(</span><em>summary</em>, <em>propIDDict=None</em>, <em>proposalTable=None</em>, <em>subset=None</em>, <em>propIDs=None</em>, <em>zeroDDFDithers=True</em>, <em>opsimversion='lsstv3'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/opsim_out.html#OpSimOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.opsim_out.OpSimOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class representing a subset of the output of the OpSim including
+information from the Summary and Proposal Tables with the subset taken over
+the proposals</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>opsimversion: {‘lsstv3’|’sstf’|’lsstv4’}</strong></dt>
+<dd><p class="first last">version of OpSim corresponding to the output format.</p>
+</dd>
+<dt><strong>summary: `pd.DataFrame`</strong></dt>
+<dd><p class="first last">selected records from the Summary Table of pointings</p>
+</dd>
+<dt><strong>propIDDict: dict</strong></dt>
+<dd><p class="first last">dictionary with strings as keys and integers used in the Summary
+Table to denote these proposals</p>
+</dd>
+<dt><strong>proposalTable: `pd.DataFrame`</strong></dt>
+<dd><p class="first last">the propsal table in the output</p>
+</dd>
+<dt><strong>subset: string</strong></dt>
+<dd><p class="first last">subset of proposals included in this class</p>
+</dd>
+<dt><strong>propIDs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of integers</span></dt>
+<dd><p class="first last">integers corresponding to the subset selected through proposals</p>
+</dd>
+<dt><strong>zeroDDFDithers</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, defaults to True</span></dt>
+<dd><p class="first last">if True, set dithers in DDF to 0, by setting ditheredRA,
+ditheredDec to fieldRA, fieldDec. This should only be used for
+opsimversion=’lsstv3’. For opsimversion=’sstf’ or ‘lsstv4’, this
+will be set to False despite inputs, since this is already done, and
+cannot be done with the inputs.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#opsimsummary.opsim_out.OpSimOutput.dropDuplicates" title="opsimsummary.opsim_out.OpSimOutput.dropDuplicates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dropDuplicates</span></code></a>(df,&nbsp;propIDDict,&nbsp;opsimversion)</td>
+<td>drop duplicates ensuring keeping identity of ddf visits</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#opsimsummary.opsim_out.OpSimOutput.fromOpSimDB" title="opsimsummary.opsim_out.OpSimOutput.fromOpSimDB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromOpSimDB</span></code></a>(dbname[,&nbsp;subset,&nbsp;opsimversion,&nbsp;…])</td>
+<td>Convenience method to instantitate the <cite>OpSimOutput</cite> class directly from an <cite>OpSim</cite> output rather than providing the elementary inputs in the class constructor.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#opsimsummary.opsim_out.OpSimOutput.get_allowed_subsets" title="opsimsummary.opsim_out.OpSimOutput.get_allowed_subsets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_allowed_subsets</span></code></a>()</td>
+<td>Provide a sequence of implemented subset values</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#opsimsummary.opsim_out.OpSimOutput.get_dithercolumns" title="opsimsummary.opsim_out.OpSimOutput.get_dithercolumns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dithercolumns</span></code></a>(summary,&nbsp;opsimversion[,&nbsp;…])</td>
+<td>Use a <cite>method</cite> prescription to obtain dithered values of pointings starting from a fixed pointing.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#opsimsummary.opsim_out.OpSimOutput.get_opsimVariablesForVersion" title="opsimsummary.opsim_out.OpSimOutput.get_opsimVariablesForVersion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_opsimVariablesForVersion</span></code></a>([opsimversion])</td>
+<td>Static method to returns a dictionary for the opsim version where the keys are names of quantities used in this codebase, and the values are the names of quantities in the OpSim output database</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#opsimsummary.opsim_out.OpSimOutput.get_propIDDict" title="opsimsummary.opsim_out.OpSimOutput.get_propIDDict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_propIDDict</span></code></a>(proposalDF[,&nbsp;opsimversion])</td>
+<td>Return a dictionary with keys ‘ddf’, ad ‘wfd’ with the proposal IDs corresponding to deep drilling fields (ddf) and universal cadence (wfd)</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#opsimsummary.opsim_out.OpSimOutput.propIDVals" title="opsimsummary.opsim_out.OpSimOutput.propIDVals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">propIDVals</span></code></a>(subset,&nbsp;propIDDict,&nbsp;proposalTable)</td>
+<td>Parameters:</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#opsimsummary.opsim_out.OpSimOutput.validate_pointings" title="opsimsummary.opsim_out.OpSimOutput.validate_pointings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_pointings</span></code></a>(summary[,&nbsp;opsimVars,&nbsp;…])</td>
+<td>Validate a dataframe of pointings for further use.</td>
+</tr>
+</tbody>
+</table>
+<dl class="staticmethod">
+<dt id="opsimsummary.opsim_out.OpSimOutput.dropDuplicates">
+<em class="property">static </em><code class="descname">dropDuplicates</code><span class="sig-paren">(</span><em>df</em>, <em>propIDDict</em>, <em>opsimversion</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/opsim_out.html#OpSimOutput.dropDuplicates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.opsim_out.OpSimOutput.dropDuplicates" title="Permalink to this definition">¶</a></dt>
+<dd><p>drop duplicates ensuring keeping identity of ddf visits</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>df</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>pd.DataFrame</cite></span></dt>
+<dd></dd>
+<dt><strong>propIDDict</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>`pd.DataFrame` with the correct propID and duplicates dropped</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="opsimsummary.opsim_out.OpSimOutput.fromOpSimDB">
+<em class="property">classmethod </em><code class="descname">fromOpSimDB</code><span class="sig-paren">(</span><em>dbname</em>, <em>subset='combined'</em>, <em>opsimversion='lsstv3'</em>, <em>zeroDDFDithers=True</em>, <em>user_propIDs=None</em>, <em>dithercolumns=None</em>, <em>add_dithers=False</em>, <em>tableNames=('Summary'</em>, <em>'Proposal')</em>, <em>filterNull=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/opsim_out.html#OpSimOutput.fromOpSimDB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.opsim_out.OpSimOutput.fromOpSimDB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method to instantitate the <cite>OpSimOutput</cite> class directly
+from an <cite>OpSim</cite> output rather than providing the elementary inputs in
+the class constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>dbname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">absolute path to database</p>
+</dd>
+<dt><strong>subset</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, optional, defaults to ‘combined’</span></dt>
+<dd><p class="first last">one of {‘_all’, ‘unique_all’, ‘wfd’, ‘ddf’, ‘combined’}
+determines a sequence of propIDs for selecting observations
+appropriate for the OpSim database in use</p>
+</dd>
+<dt><strong>opsimversion</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘lsstv3’|’sstf’|’lsstv4’}</span></dt>
+<dd><p class="first last">version of OpSim corresponding to the output format.</p>
+</dd>
+<dt><strong>zeroDDFDithers</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, defaults to True</span></dt>
+<dd><p class="first last">if True, set dithers in DDF to 0, by setting ditheredRA,
+ditheredDec to fieldRA, fieldDec</p>
+</dd>
+<dt><strong>dithercolumns: `pd.DataFrame`, defaults to `None`</strong></dt>
+<dd><p class="first last">a pandas dataframe with the columns <cite>ditheredRA</cite>, <cite>ditheredDec</cite> and
+index <cite>obsHistID</cite>, when not <cite>None</cite> this is used to create
+<cite>opsimVars[pointingRA]</cite> and <cite>opsimVars[pointingDec]</cite> deleting the
+these columns if they existed.</p>
+</dd>
+<dt><strong>add_dithers</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Bool, defaults to <cite>False</cite></span></dt>
+<dd><p class="first last">if <cite>True</cite> add dithers by generate ourselves by invoking
+<cite>cls.get_dithers</cite> and options through <cite>**kwargs</cite>.
+Even if <cite>False</cite>, becomes <cite>True</cite> if <cite>opsimVars[‘pointingRA’]
+is not in the list of `summary[columns]</cite> so that it needs to be
+created, and dithercolumns is <cite>None</cite>.</p>
+</dd>
+<dt><strong>user_propIDs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">sequence of integers, defaults to <cite>None</cite></span></dt>
+<dd><p class="first last">proposal ID values. If not <cite>None</cite>, overrides the use of subset</p>
+</dd>
+<dt><strong>tableNames</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple of strings, defaults to (‘Summary’, ‘Proposal’)</span></dt>
+<dd><p class="first last">names of tables read from the OpSim database</p>
+</dd>
+<dt><strong>filterNull</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Bool, defaults to False</span></dt>
+<dd><p class="first last">if True, the summary table should be filtered to rows that do not
+contain <cite>NULL</cite> values in the <cite>fiveSigmaDepth</cite> column.</p>
+</dd>
+<dt><strong>kwargs: dict</strong></dt>
+<dd><p class="first last">of options relating to changing the methods of adding dithers.
+keywords are rng of type <cite>np.random.RandomState</cite>, <cite>ddf_ditherscale</cite>,
+<cite>wfd_ditherscale</cite>, <cite>method</cite>. If not provided, the parameters take
+default values.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="opsimsummary.opsim_out.OpSimOutput.get_allowed_subsets">
+<em class="property">static </em><code class="descname">get_allowed_subsets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/opsim_out.html#OpSimOutput.get_allowed_subsets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.opsim_out.OpSimOutput.get_allowed_subsets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provide a sequence of implemented subset values</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="opsimsummary.opsim_out.OpSimOutput.get_dithercolumns">
+<em class="property">static </em><code class="descname">get_dithercolumns</code><span class="sig-paren">(</span><em>summary</em>, <em>opsimversion</em>, <em>method='default'</em>, <em>ddfId=5</em>, <em>rng=&lt;mtrand.RandomState object&gt;</em>, <em>wfd_ditherscale=1.75</em>, <em>ddf_ditherscale=0.2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/opsim_out.html#OpSimOutput.get_dithercolumns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.opsim_out.OpSimOutput.get_dithercolumns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use a <cite>method</cite> prescription to obtain dithered values of pointings
+starting from a fixed pointing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>summary</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>pd.DataFrame</cite></span></dt>
+<dd><p class="first last">indexed by <cite>obsHistID</cite> and having the columns <cite>fieldRA</cite>, <cite>fieldDec</cite></p>
+</dd>
+<dt><strong>opsimversion</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, defaults to <cite>lsstv3</cite></span></dt>
+<dd><p class="first last">version of the OpSim producing the database.</p>
+</dd>
+<dt><strong>method</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">{‘default|FlatSky’} only implemented</p>
+</dd>
+<dt><strong>rng</strong> <span class="classifier-delimiter">:</span> <span class="classifier">randomState</span></dt>
+<dd></dd>
+<dt><strong>kwargs :</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="opsimsummary.opsim_out.OpSimOutput.get_opsimVariablesForVersion">
+<em class="property">static </em><code class="descname">get_opsimVariablesForVersion</code><span class="sig-paren">(</span><em>opsimversion='lsstv3'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/opsim_out.html#OpSimOutput.get_opsimVariablesForVersion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.opsim_out.OpSimOutput.get_opsimVariablesForVersion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Static method to returns a dictionary for the opsim version where the keys
+are names of quantities used in this codebase, and the values are the names of
+quantities in the OpSim output database</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>opsimversion: string, defaults to `lsstv3`</strong></dt>
+<dd><p class="first last">can be {<cite>lsstv3`|`lsstv4`|`sstf</cite>}</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>dictionary: key, value pairs where keys are variable names used in `OpSimSummary`</strong></dt>
+<dd><p class="first last">and values are variable names used in the OpSim database with the given
+version.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">opsimsummary</span> <span class="k">import</span> <span class="n">OpSimOutput</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">OpSimOutput</span><span class="o">.</span><span class="n">get_opsimVariablesForVersion</span><span class="p">(</span><span class="s1">&#39;lsstv4&#39;</span><span class="p">)</span>
+<span class="go">{&#39;summaryTableName&#39;: &#39;SummaryAllProps&#39;, &#39;obsHistID&#39;: &#39;observationId&#39;,</span>
+<span class="go"> &#39;propName&#39;: &#39;propName&#39;, &#39;propIDName&#39;: &#39;propId&#39;,</span>
+<span class="go"> &#39;propIDNameInSummary&#39;: &#39;proposalId&#39;, &#39;ops_wfdname&#39;: &#39;WideFastDeep&#39;,</span>
+<span class="go"> &#39;ops_ddfname&#39;: &#39;DeepDrillingCosmology1&#39;,</span>
+<span class="go"> &#39;expMJD&#39;: &#39;observationStartMJD&#39;, &#39;FWHMeff&#39;: &#39;seeingFwhmEff&#39;,</span>
+<span class="go"> &#39;pointingRA&#39;: &#39;ditheredRA&#39;, &#39;pointingDec&#39;: &#39;ditheredDec&#39;,</span>
+<span class="go"> &#39;filtSkyBrightness&#39;: &#39;skyBrightness&#39;, &#39;angleUnit&#39;: &#39;degrees&#39;}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="opsimsummary.opsim_out.OpSimOutput.get_propIDDict">
+<em class="property">static </em><code class="descname">get_propIDDict</code><span class="sig-paren">(</span><em>proposalDF</em>, <em>opsimversion='lsstv3'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/opsim_out.html#OpSimOutput.get_propIDDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.opsim_out.OpSimOutput.get_propIDDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a dictionary with keys ‘ddf’, ad ‘wfd’ with the proposal IDs
+corresponding to deep drilling fields (ddf) and universal cadence (wfd)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>proposalDF</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>pd.DataFrame</cite>, mandatory</span></dt>
+<dd><p class="first last">a dataframe with the Proposal Table of the OpSim Run.</p>
+</dd>
+<dt><strong>opsimversion: {‘lsstv3’|’sstf’|’lsstv4’}, defaults to ‘lsstv3’</strong></dt>
+<dd><p class="first last">version of opsim from which output is drawn</p>
+</dd>
+<dt><strong>Returns</strong></dt>
+<dd></dd>
+<dt><strong>——-</strong></dt>
+<dd></dd>
+<dt><strong>dictionary with keys ‘wfd’ and ‘ddf’ with values given by integers</strong></dt>
+<dd><p class="first last">corresponding to propIDs for these proposals</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="opsimsummary.opsim_out.OpSimOutput.opsimVars">
+<code class="descname">opsimVars</code><a class="headerlink" href="#opsimsummary.opsim_out.OpSimOutput.opsimVars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary where the keys are names of quantities used in
+<cite>OpSimSummary</cite>, and the values are the names of quantities in
+the OpSim output database used.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="opsimsummary.opsim_out.OpSimOutput.propIDVals">
+<em class="property">static </em><code class="descname">propIDVals</code><span class="sig-paren">(</span><em>subset</em>, <em>propIDDict</em>, <em>proposalTable</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/opsim_out.html#OpSimOutput.propIDVals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.opsim_out.OpSimOutput.propIDVals" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>subset <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd>must be member of OpSimOutput.allowed_subsets()</dd>
+<dt>propIDDict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary, mandatory</span></dt>
+<dd>must have subset as a key, and an integer or seq of ints
+as values</dd>
+<dt>proposalTable <span class="classifier-delimiter">:</span> <span class="classifier"><cite>pd.DataFrame</cite></span></dt>
+<dd>Dataframe representing the proposal table in the OpSim datbase
+output</dd>
+</dl>
+<p>list of propID values (integers) associated with the subset</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="opsimsummary.opsim_out.OpSimOutput.propIds">
+<code class="descname">propIds</code><a class="headerlink" href="#opsimsummary.opsim_out.OpSimOutput.propIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of values in propID Column of the Summary Table of OpSim
+to be considered for this class, either because they were directly
+provided or through the subset argument.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="opsimsummary.opsim_out.OpSimOutput.validate_pointings">
+<em class="property">static </em><code class="descname">validate_pointings</code><span class="sig-paren">(</span><em>summary</em>, <em>opsimVars=None</em>, <em>check_anycols=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/opsim_out.html#OpSimOutput.validate_pointings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.opsim_out.OpSimOutput.validate_pointings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate a dataframe of pointings for further use. If
+<cite>opsimVars</cite> is <cite>None</cite> then only check that there are no <cite>no.nan`s,
+else check that the table of pointings has the necessary format and
+units by checking that required columns indicated by `opsimVars</cite> exist
+and have sensible values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>summary: `pd.DataFrame` of pointings</strong></dt>
+<dd></dd>
+<dt><strong>opsimVars: dictionary, defaults to `None`</strong></dt>
+<dd><p class="first last">should be dictionary for each supported OpSim version availble
+from <cite>OpSimOutput.get_opsimVariablesForVersion(opsimversion)</cite></p>
+</dd>
+<dt><strong>check_anycols: Bool, defaults to False</strong></dt>
+<dd><p class="first last">if True, this will check all columns rather than fiveSigmaDepth for nans</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Bool (True|False) But exits on False.</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="opsimsummary.html" class="btn btn-neutral float-left" title="opsimsummary package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, R. Biswas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

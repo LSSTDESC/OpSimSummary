@@ -1,0 +1,1167 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>opsimsummary.opsim_out &mdash; OpSimSummary 0.8.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> OpSimSummary
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../opsimsummary.html">opsimsummary package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../opsimsummary.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.simlib.html">opsimsummary.simlib module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.trig.html">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html#installing-dependencies">Installing Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">opsimsummary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#package-structure">Package Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../opsimsummary.html">opsimsummary package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../opsimsummary.simlib.html">opsimsummary.simlib module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../opsimsummary.trig.html">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">OpSimSummary</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>opsimsummary.opsim_out</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for opsimsummary.opsim_out</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module deals with representing the data in an OpSim output (to the extent</span>
+<span class="sd">we will care about it). A description of the OpSim output can be found at</span>
+<span class="sd">(opsim description)[https://www.lsst.org/scientists/simulations/opsim/summary-table-column-descriptions-v335]</span>
+
+<span class="sd">In brief, we will use two tables from the OpSim output:</span>
+<span class="sd">    - A Summary Table which has the desired information</span>
+<span class="sd">    - A Proposal Table which contains a dictionary to interpreting the `propID` column</span>
+<span class="sd">        of Summary.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;OpSimOutput&#39;</span><span class="p">]</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">create_engine</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+
+
+<div class="viewcode-block" id="OpSimOutput"><a class="viewcode-back" href="../../opsimsummary.opsim_out.html#opsimsummary.opsim_out.OpSimOutput">[docs]</a><span class="k">class</span> <span class="nc">OpSimOutput</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class representing a subset of the output of the OpSim including</span>
+<span class="sd">    information from the Summary and Proposal Tables with the subset taken over</span>
+<span class="sd">    the proposals</span>
+
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    opsimversion: {&#39;lsstv3&#39;|&#39;sstf&#39;|&#39;lsstv4&#39;}</span>
+<span class="sd">        version of OpSim corresponding to the output format.</span>
+<span class="sd">    summary: `pd.DataFrame`</span>
+<span class="sd">        selected records from the Summary Table of pointings</span>
+<span class="sd">    propIDDict: dict</span>
+<span class="sd">        dictionary with strings as keys and integers used in the Summary</span>
+<span class="sd">        Table to denote these proposals</span>
+<span class="sd">    proposalTable: `pd.DataFrame`</span>
+<span class="sd">        the propsal table in the output</span>
+<span class="sd">    subset: string</span>
+<span class="sd">        subset of proposals included in this class</span>
+<span class="sd">    propIDs : list of integers</span>
+<span class="sd">        integers corresponding to the subset selected through proposals</span>
+<span class="sd">    zeroDDFDithers : bool, defaults to True</span>
+<span class="sd">        if True, set dithers in DDF to 0, by setting ditheredRA,</span>
+<span class="sd">        ditheredDec to fieldRA, fieldDec. This should only be used for</span>
+<span class="sd">        opsimversion=&#39;lsstv3&#39;. For opsimversion=&#39;sstf&#39; or &#39;lsstv4&#39;, this</span>
+<span class="sd">        will be set to False despite inputs, since this is already done, and</span>
+<span class="sd">        cannot be done with the inputs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">summary</span><span class="p">,</span> <span class="n">propIDDict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">proposalTable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">subset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">propIDs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zeroDDFDithers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">opsimversion</span><span class="o">=</span><span class="s1">&#39;lsstv3&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor for the `OpSimOutput` class</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        summary: `pd.DataFrame`</span>
+<span class="sd">            a table describing a summary of observations which should have the</span>
+<span class="sd">            following minimal columns (`ditheredRA`, `ditheredDec`, `expMJD`)</span>
+<span class="sd">            as columns holding information on the pointing RA and dec of the</span>
+<span class="sd">            telescope and the mjd of the observation and `obsHistID` a unique</span>
+<span class="sd">            index for each entry the name of the index. Other columns</span>
+<span class="sd">            which are essential in the context of use in simulations are</span>
+<span class="sd">            (`FWHMeff`, `filtSkyBrightness`, `fiveSigmaDepth`, `propID`)</span>
+<span class="sd">            describing the FWHM seeing, sky brightness in the filter of</span>
+<span class="sd">            observation, and the five sigma depth of the observation and</span>
+<span class="sd">            an integer index for different programs that an observation.</span>
+<span class="sd">        proposalTable: `pd.DataFrame`, defaults to `None`</span>
+<span class="sd">            modified table of proposals from the OpSim output</span>
+<span class="sd">        propIDDict: dict, defaults to None</span>
+<span class="sd">            dictionary with keys giving integers that identify proposals and</span>
+<span class="sd">            values in the form of strings describing the program</span>
+<span class="sd">        subset: {&#39;wfd&#39;|&#39;ddf&#39;|&#39;combined&#39;| &#39;_all&#39; | &#39;unique_all&#39;}, defaults to</span>
+<span class="sd">            `combined` a string that defines a subset of observations to be</span>
+<span class="sd">            chosen based on the choice of proposals. `wfd` is the LSST `WFD`,</span>
+<span class="sd">            `ddf` is the LSST `ddf`, `combined` is the combination of</span>
+<span class="sd">            `WFD` and `DDF` while, `unique_all` keeps all of the unique</span>
+<span class="sd">            observations. `_all` is the entire table of of observations from</span>
+<span class="sd">            OpSim outputs.</span>
+<span class="sd">        propIDs: sequence of integers</span>
+<span class="sd">        zeroDDFDithers: bool, defaults to `True`</span>
+<span class="sd">            If `True` changes the dithers in DDF fields to zero by setting the</span>
+<span class="sd">            columns `ditheredRA`, `ditheredDec` the same as `fieldRA` and</span>
+<span class="sd">            `fieldDec`</span>
+<span class="sd">        opsimversion: {&#39;lsstv3&#39;|&#39;sstf&#39;|&#39;lsstv4&#39;} , defaults to &#39;lsstv3&#39;</span>
+<span class="sd">            a string to denote the version of OpSim outputs. `lsstv3`</span>
+<span class="sd">            refers to outputs from OpSim version 3 (eg. enigma_1189, minion_1016).</span>
+<span class="sd">            `sstf` refers to outputs from created at the start of the Observing</span>
+<span class="sd">            Strategy Task Force available at the following</span>
+<span class="sd">             [website](http://altsched.rothchild.me:8080),</span>
+<span class="sd">            and `lsstv4` refers to outputs available from  OpSim version 4.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opsimversion</span> <span class="o">=</span> <span class="n">opsimversion</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">allowed_subsets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_allowed_subsets</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subset</span> <span class="o">=</span> <span class="n">subset</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">propIDDict</span> <span class="o">=</span> <span class="n">propIDDict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proposalTable</span> <span class="o">=</span> <span class="n">proposalTable</span>
+
+        <span class="k">if</span> <span class="n">opsimversion</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;sstf&#39;</span><span class="p">,</span> <span class="s1">&#39;lsstv4&#39;</span><span class="p">):</span>
+            <span class="n">zeroDDFDithers</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">ss</span> <span class="o">=</span> <span class="s1">&#39;Warning: Input is zeroDDFDithers = True. But opsimversion is&#39;</span>
+            <span class="n">ss</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> for which this must be False. Setting to False and proceeding</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">opsimversion</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">ss</span><span class="p">)</span>
+
+        <span class="c1"># Check `summary` does not have `nan`s</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_pointings</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="n">opsimVars</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;summary table has nans, exiting</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">zeroDDFDithers</span><span class="p">:</span>
+            <span class="n">ddfPropID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">propIDDict</span><span class="p">[</span><span class="s1">&#39;ddf&#39;</span><span class="p">]</span>
+            <span class="n">ddfidx</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;propID == @ddfPropID&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">index</span>
+            <span class="n">summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ddfidx</span><span class="p">,</span> <span class="s1">&#39;ditheredRA&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ddfidx</span><span class="p">,</span> <span class="s1">&#39;fieldRA&#39;</span><span class="p">]</span>
+            <span class="n">summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ddfidx</span><span class="p">,</span> <span class="s1">&#39;ditheredDec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ddfidx</span><span class="p">,</span> <span class="s1">&#39;fieldDec&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_opsimvars</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Have a clear unambiguous ra, dec in radians following LSST convention</span>
+        <span class="c1"># These are the columns `_ra`, `_dec` which should have the dithered</span>
+        <span class="c1"># values in radians</span>
+
+        <span class="c1"># If degrees do transformation to radians</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">opsimVars</span><span class="p">[</span><span class="s1">&#39;angleUnit&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;degrees&#39;</span><span class="p">:</span>
+            <span class="n">summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;_ra&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;ditheredRA&#39;</span><span class="p">])</span>
+            <span class="n">summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;_dec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;ditheredDec&#39;</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Changing units for </span><span class="si">{0}</span><span class="s1"> from </span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">opsimversion</span><span class="p">,</span> <span class="s1">&#39;degrees&#39;</span><span class="p">))</span>
+
+        <span class="c1"># If already in radians, make a copy</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">opsimVars</span><span class="p">[</span><span class="s1">&#39;angleUnit&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;radians&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Keeping units for </span><span class="si">{0}</span><span class="s1"> from </span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">opsimversion</span><span class="p">,</span> <span class="s1">&#39;radians&#39;</span><span class="p">))</span>
+            <span class="n">summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;_ra&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;ditheredRA&#39;</span><span class="p">]</span>
+            <span class="n">summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;_dec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;ditheredDec&#39;</span><span class="p">]</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;angle unit of ra and dec Columns not recognized</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+        <span class="c1"># Validate the format of the pointings to expectations given the version</span>
+        <span class="c1"># of the OpSim output</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_pointings</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">opsimVars</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;Pointings are not in required format&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Set the attribute `_propID`</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_propID</span> <span class="o">=</span> <span class="n">propIDs</span>
+
+<div class="viewcode-block" id="OpSimOutput.get_opsimVariablesForVersion"><a class="viewcode-back" href="../../opsimsummary.opsim_out.html#opsimsummary.opsim_out.OpSimOutput.get_opsimVariablesForVersion">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_opsimVariablesForVersion</span><span class="p">(</span><span class="n">opsimversion</span><span class="o">=</span><span class="s1">&#39;lsstv3&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Static method to returns a dictionary for the opsim version where the keys</span>
+<span class="sd">        are names of quantities used in this codebase, and the values are the names of</span>
+<span class="sd">        quantities in the OpSim output database</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        opsimversion: string, defaults to `lsstv3`</span>
+<span class="sd">            can be {`lsstv3`|`lsstv4`|`sstf`}</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dictionary: key, value pairs where keys are variable names used in `OpSimSummary`</span>
+<span class="sd">            and values are variable names used in the OpSim database with the given</span>
+<span class="sd">            version.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from opsimsummary import OpSimOutput</span>
+<span class="sd">        &gt;&gt;&gt; OpSimOutput.get_opsimVariablesForVersion(&#39;lsstv4&#39;)</span>
+<span class="sd">        {&#39;summaryTableName&#39;: &#39;SummaryAllProps&#39;, &#39;obsHistID&#39;: &#39;observationId&#39;,</span>
+<span class="sd">         &#39;propName&#39;: &#39;propName&#39;, &#39;propIDName&#39;: &#39;propId&#39;,</span>
+<span class="sd">         &#39;propIDNameInSummary&#39;: &#39;proposalId&#39;, &#39;ops_wfdname&#39;: &#39;WideFastDeep&#39;,</span>
+<span class="sd">         &#39;ops_ddfname&#39;: &#39;DeepDrillingCosmology1&#39;,</span>
+<span class="sd">         &#39;expMJD&#39;: &#39;observationStartMJD&#39;, &#39;FWHMeff&#39;: &#39;seeingFwhmEff&#39;,</span>
+<span class="sd">         &#39;pointingRA&#39;: &#39;ditheredRA&#39;, &#39;pointingDec&#39;: &#39;ditheredDec&#39;,</span>
+<span class="sd">         &#39;filtSkyBrightness&#39;: &#39;skyBrightness&#39;, &#39;angleUnit&#39;: &#39;degrees&#39;}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">opsimversion</span> <span class="o">==</span> <span class="s1">&#39;lsstv3&#39;</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">summaryTableName</span><span class="o">=</span><span class="s1">&#39;Summary&#39;</span><span class="p">,</span>
+                     <span class="n">obsHistID</span><span class="o">=</span><span class="s1">&#39;obsHistID&#39;</span><span class="p">,</span>
+                     <span class="n">propName</span><span class="o">=</span><span class="s1">&#39;propConf&#39;</span><span class="p">,</span>
+                     <span class="n">propIDName</span><span class="o">=</span><span class="s1">&#39;propID&#39;</span><span class="p">,</span>
+                     <span class="n">propIDNameInSummary</span><span class="o">=</span><span class="s1">&#39;propID&#39;</span><span class="p">,</span>
+                     <span class="n">ops_wfdname</span><span class="o">=</span><span class="s1">&#39;conf/survey/Universal-18-0824B.conf&#39;</span><span class="p">,</span>
+                     <span class="n">ops_ddfname</span><span class="o">=</span><span class="s1">&#39;conf/survey/DDcosmology1.conf&#39;</span><span class="p">,</span>
+                     <span class="n">expMJD</span><span class="o">=</span><span class="s1">&#39;expMJD&#39;</span><span class="p">,</span>
+                     <span class="n">FWHMeff</span><span class="o">=</span><span class="s1">&#39;FWHMeff&#39;</span><span class="p">,</span>
+                     <span class="n">pointingRA</span><span class="o">=</span><span class="s1">&#39;ditheredRA&#39;</span><span class="p">,</span>
+                     <span class="n">pointingDec</span><span class="o">=</span><span class="s1">&#39;ditheredDec&#39;</span><span class="p">,</span>
+                     <span class="n">filtSkyBrightness</span><span class="o">=</span><span class="s1">&#39;filtSkyBrightness&#39;</span><span class="p">,</span>
+                     <span class="n">angleUnit</span><span class="o">=</span><span class="s1">&#39;radians&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">opsimversion</span> <span class="o">==</span> <span class="s1">&#39;sstf&#39;</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">summaryTableName</span><span class="o">=</span><span class="s1">&#39;SummaryAllProps&#39;</span><span class="p">,</span>
+                     <span class="n">obsHistID</span><span class="o">=</span><span class="s1">&#39;observationId&#39;</span><span class="p">,</span>
+                     <span class="n">propName</span><span class="o">=</span><span class="s1">&#39;propName&#39;</span><span class="p">,</span>
+                     <span class="n">propIDName</span><span class="o">=</span><span class="s1">&#39;propId&#39;</span><span class="p">,</span>
+                     <span class="n">propIDNameInSummary</span><span class="o">=</span><span class="s1">&#39;proposalId&#39;</span><span class="p">,</span>
+                     <span class="n">ops_wfdname</span><span class="o">=</span><span class="s1">&#39;WideFastDeep&#39;</span><span class="p">,</span>
+                     <span class="n">ops_ddfname</span><span class="o">=</span><span class="s1">&#39;Deep Drilling&#39;</span><span class="p">,</span>
+                     <span class="n">expMJD</span><span class="o">=</span><span class="s1">&#39;observationStartMJD&#39;</span><span class="p">,</span>
+                     <span class="n">FWHMeff</span><span class="o">=</span><span class="s1">&#39;seeingFwhmEff&#39;</span><span class="p">,</span>
+                     <span class="n">pointingRA</span><span class="o">=</span><span class="s1">&#39;fieldRA&#39;</span><span class="p">,</span>
+                     <span class="n">pointingDec</span><span class="o">=</span><span class="s1">&#39;fieldDec&#39;</span><span class="p">,</span>
+                     <span class="n">filtSkyBrightness</span><span class="o">=</span><span class="s1">&#39;skyBrightness&#39;</span><span class="p">,</span>
+                     <span class="n">angleUnit</span><span class="o">=</span><span class="s1">&#39;degrees&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">opsimversion</span> <span class="o">==</span> <span class="s1">&#39;lsstv4&#39;</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">summaryTableName</span><span class="o">=</span><span class="s1">&#39;SummaryAllProps&#39;</span><span class="p">,</span>
+                     <span class="n">obsHistID</span><span class="o">=</span><span class="s1">&#39;observationId&#39;</span><span class="p">,</span>
+                     <span class="n">propName</span><span class="o">=</span><span class="s1">&#39;propName&#39;</span><span class="p">,</span>
+                     <span class="n">propIDName</span><span class="o">=</span><span class="s1">&#39;propId&#39;</span><span class="p">,</span>
+                     <span class="n">propIDNameInSummary</span><span class="o">=</span><span class="s1">&#39;proposalId&#39;</span><span class="p">,</span>
+                     <span class="n">ops_wfdname</span><span class="o">=</span><span class="s1">&#39;WideFastDeep&#39;</span><span class="p">,</span>
+                     <span class="n">ops_ddfname</span><span class="o">=</span><span class="s1">&#39;DeepDrillingCosmology1&#39;</span><span class="p">,</span>
+                     <span class="n">expMJD</span><span class="o">=</span><span class="s1">&#39;observationStartMJD&#39;</span><span class="p">,</span>
+                     <span class="n">FWHMeff</span><span class="o">=</span><span class="s1">&#39;seeingFwhmEff&#39;</span><span class="p">,</span>
+                     <span class="n">pointingRA</span><span class="o">=</span><span class="s1">&#39;ditheredRA&#39;</span><span class="p">,</span>
+                     <span class="n">pointingDec</span><span class="o">=</span><span class="s1">&#39;ditheredDec&#39;</span><span class="p">,</span>
+                     <span class="n">filtSkyBrightness</span><span class="o">=</span><span class="s1">&#39;skyBrightness&#39;</span><span class="p">,</span>
+                     <span class="n">angleUnit</span><span class="o">=</span><span class="s1">&#39;degrees&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;`get_propIDDict` is not implemented for this `opsimversion`&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">x</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">opsimVars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Dictionary where the keys are names of quantities used in</span>
+<span class="sd">        `OpSimSummary`, and the values are the names of quantities in</span>
+<span class="sd">        the OpSim output database used.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_opsimvars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_opsimvars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_opsimVariablesForVersion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">opsimversion</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_opsimvars</span>
+
+<div class="viewcode-block" id="OpSimOutput.validate_pointings"><a class="viewcode-back" href="../../opsimsummary.opsim_out.html#opsimsummary.opsim_out.OpSimOutput.validate_pointings">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">validate_pointings</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="n">opsimVars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check_anycols</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate a dataframe of pointings for further use. If</span>
+<span class="sd">        `opsimVars` is `None` then only check that there are no `no.nan`s,</span>
+<span class="sd">        else check that the table of pointings has the necessary format and</span>
+<span class="sd">        units by checking that required columns indicated by `opsimVars` exist</span>
+<span class="sd">        and have sensible values.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        summary: `pd.DataFrame` of pointings</span>
+<span class="sd">        opsimVars: dictionary, defaults to `None` </span>
+<span class="sd">            should be dictionary for each supported OpSim version availble</span>
+<span class="sd">            from `OpSimOutput.get_opsimVariablesForVersion(opsimversion)`</span>
+<span class="sd">        check_anycols: Bool, defaults to False</span>
+<span class="sd">            if True, this will check all columns rather than fiveSigmaDepth for nans</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Bool (True|False) But exits on False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">opsimVars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="s1">&#39;_ra&#39;</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">columns</span>
+                <span class="k">assert</span> <span class="s1">&#39;_dec&#39;</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">columns</span>
+
+                <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;_ra&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">&lt;=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+                <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;_dec&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+            <span class="k">if</span> <span class="n">check_anycols</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">summary</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># We only check the fiveSigmaDepth column</span>
+                <span class="k">assert</span> <span class="s1">&#39;fiveSigmaDepth&#39;</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span>
+
+                <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;fiveSigmaDepth&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">values</span> <span class="o">==</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">tb</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+            <span class="n">traceback</span><span class="o">.</span><span class="n">print_tb</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span> <span class="c1"># Fixed format</span>
+            <span class="n">tb_info</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">extract_tb</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
+            <span class="n">filename</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="n">tb_info</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;pointings are not in required format&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">summary</span><span class="o">.</span><span class="n">head</span><span class="p">())</span> 
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;An error occurred on line </span><span class="si">{}</span><span class="s1"> in statement </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="OpSimOutput.get_dithercolumns"><a class="viewcode-back" href="../../opsimsummary.opsim_out.html#opsimsummary.opsim_out.OpSimOutput.get_dithercolumns">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_dithercolumns</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span>
+                          <span class="n">opsimversion</span><span class="p">,</span>
+                          <span class="n">method</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">,</span>
+                          <span class="n">ddfId</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                          <span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+                          <span class="n">wfd_ditherscale</span><span class="o">=</span><span class="mf">1.75</span><span class="p">,</span>
+                          <span class="n">ddf_ditherscale</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use a `method` prescription to obtain dithered values of pointings</span>
+<span class="sd">        starting from a fixed pointing.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        summary : `pd.DataFrame`</span>
+<span class="sd">           indexed by `obsHistID` and having the columns `fieldRA`, `fieldDec`</span>
+<span class="sd">        opsimversion : string, defaults to `lsstv3`</span>
+<span class="sd">           version of the OpSim producing the database.</span>
+<span class="sd">        method : string</span>
+<span class="sd">           {&#39;default|FlatSky&#39;} only implemented</span>
+<span class="sd">        rng : randomState</span>
+<span class="sd">        kwargs : </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># start off with a fieldRA, fieldDec, propID</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">summary</span><span class="p">[[</span><span class="s1">&#39;fieldRA&#39;</span><span class="p">,</span> <span class="s1">&#39;fieldDec&#39;</span><span class="p">,</span> <span class="s1">&#39;propID&#39;</span><span class="p">]]</span>
+
+
+        <span class="n">OpSimVars</span> <span class="o">=</span> <span class="n">OpSimOutput</span><span class="o">.</span><span class="n">get_opsimVariablesForVersion</span><span class="p">(</span><span class="n">opsimversion</span><span class="p">)</span>
+        <span class="n">angleUnit</span> <span class="o">=</span> <span class="n">OpSimVars</span><span class="p">[</span><span class="s1">&#39;angleUnit&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span>
+           <span class="c1"># Simply write the fieldRA to ditheredRA</span>
+           <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">fieldRA</span><span class="o">=</span><span class="s1">&#39;ditheredRA&#39;</span><span class="p">,</span>
+                                  <span class="n">fieldDec</span><span class="o">=</span><span class="s1">&#39;ditheredDec&#39;</span><span class="p">),</span>
+                     <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;FlatSky&#39;</span><span class="p">:</span>
+            <span class="c1"># Choose chip size, random directional DDF dithers </span>
+            <span class="c1"># Choose focal plane radius size, random directional dithers elsewhere</span>
+            <span class="c1"># Very roughly these scales are 1.75 deg, and 0.2 deg</span>
+
+            <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;factor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wfd_ditherscale</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;propID == @ddfId&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;factor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ddf_ditherscale</span>
+
+            <span class="k">if</span> <span class="n">angleUnit</span> <span class="o">==</span> <span class="s1">&#39;degrees&#39;</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">angleUnit</span> <span class="o">==</span> <span class="s1">&#39;radians&#39;</span><span class="p">:</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;factor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">factor</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Don&#39;t recognize angleUnit&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Random directions</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;random_angs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">high</span><span class="o">=</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+                                                   <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+
+            <span class="c1"># Use the flat sky approximation</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;ditheredRA&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;fieldRA&#39;</span><span class="p">]</span> <span class="o">+</span> \
+                <span class="n">df</span><span class="p">[</span><span class="s1">&#39;factor&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;random_angs&#39;</span><span class="p">])</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;ditheredDec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;fieldDec&#39;</span><span class="p">]</span> <span class="o">+</span> \
+                <span class="n">df</span><span class="p">[</span><span class="s1">&#39;factor&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;random_angs&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;method </span><span class="si">{}</span><span class="s1"> has not been implemented yet</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">angleUnit</span> <span class="o">==</span> <span class="s1">&#39;degrees&#39;</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">ditheredRA</span><span class="o">.</span><span class="n">values</span> <span class="o">&lt;</span> <span class="mf">370.0</span><span class="p">)</span>
+            <span class="n">maxval</span> <span class="o">=</span> <span class="mf">360.</span>
+        <span class="k">elif</span> <span class="n">angleUnit</span> <span class="o">==</span> <span class="s1">&#39;radians&#39;</span><span class="p">:</span>
+            <span class="n">maxval</span>  <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+            <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">ditheredRA</span><span class="o">.</span><span class="n">values</span> <span class="o">&lt;</span> <span class="n">maxval</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">)</span>
+
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">ditheredRA</span><span class="o">.</span><span class="n">values</span> <span class="o">&gt;</span> <span class="n">maxval</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">ditheredRA</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">ditheredRA</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">-</span> <span class="n">maxval</span>
+
+        <span class="k">return</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;ditheredRA&#39;</span><span class="p">,</span> <span class="s1">&#39;ditheredDec&#39;</span><span class="p">]]</span></div>
+
+<div class="viewcode-block" id="OpSimOutput.fromOpSimDB"><a class="viewcode-back" href="../../opsimsummary.opsim_out.html#opsimsummary.opsim_out.OpSimOutput.fromOpSimDB">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">fromOpSimDB</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dbname</span><span class="p">,</span>
+                    <span class="n">subset</span><span class="o">=</span><span class="s1">&#39;combined&#39;</span><span class="p">,</span>
+                    <span class="n">opsimversion</span><span class="o">=</span><span class="s1">&#39;lsstv3&#39;</span><span class="p">,</span>
+                    <span class="n">zeroDDFDithers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">user_propIDs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">dithercolumns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">add_dithers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">tableNames</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Summary&#39;</span><span class="p">,</span> <span class="s1">&#39;Proposal&#39;</span><span class="p">),</span>
+                    <span class="n">filterNull</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convenience method to instantitate the `OpSimOutput` class directly</span>
+<span class="sd">        from an `OpSim` output rather than providing the elementary inputs in</span>
+<span class="sd">        the class constructor. </span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dbname : string</span>
+<span class="sd">            absolute path to database</span>
+<span class="sd">        subset : string, optional, defaults to &#39;combined&#39;</span>
+<span class="sd">            one of {&#39;_all&#39;, &#39;unique_all&#39;, &#39;wfd&#39;, &#39;ddf&#39;, &#39;combined&#39;}</span>
+<span class="sd">            determines a sequence of propIDs for selecting observations</span>
+<span class="sd">            appropriate for the OpSim database in use</span>
+<span class="sd">        opsimversion : {&#39;lsstv3&#39;|&#39;sstf&#39;|&#39;lsstv4&#39;}</span>
+<span class="sd">            version of OpSim corresponding to the output format.</span>
+<span class="sd">        zeroDDFDithers : bool, defaults to True</span>
+<span class="sd">            if True, set dithers in DDF to 0, by setting ditheredRA,</span>
+<span class="sd">            ditheredDec to fieldRA, fieldDec</span>
+<span class="sd">        dithercolumns: `pd.DataFrame`, defaults to `None`</span>
+<span class="sd">            a pandas dataframe with the columns `ditheredRA`, `ditheredDec` and</span>
+<span class="sd">            index `obsHistID`, when not `None` this is used to create</span>
+<span class="sd">            `opsimVars[pointingRA]` and `opsimVars[pointingDec]` deleting the</span>
+<span class="sd">            these columns if they existed.</span>
+<span class="sd">        add_dithers : Bool, defaults to `False`</span>
+<span class="sd">            if `True` add dithers by generate ourselves by invoking</span>
+<span class="sd">            `cls.get_dithers` and options through `**kwargs`.</span>
+<span class="sd">            Even if `False`, becomes `True` if `opsimVars[&#39;pointingRA&#39;]</span>
+<span class="sd">            is not in the list of `summary[columns]` so that it needs to be</span>
+<span class="sd">            created, and dithercolumns is `None`.</span>
+<span class="sd">        user_propIDs : sequence of integers, defaults to `None`</span>
+<span class="sd">            proposal ID values. If not `None`, overrides the use of subset</span>
+<span class="sd">        tableNames : tuple of strings, defaults to (&#39;Summary&#39;, &#39;Proposal&#39;)</span>
+<span class="sd">            names of tables read from the OpSim database</span>
+<span class="sd">        filterNull : Bool, defaults to False</span>
+<span class="sd">            if True, the summary table should be filtered to rows that do not</span>
+<span class="sd">            contain `NULL` values in the `fiveSigmaDepth` column.</span>
+<span class="sd">        kwargs: dict</span>
+<span class="sd">            of options relating to changing the methods of adding dithers.</span>
+<span class="sd">            keywords are rng of type `np.random.RandomState`, `ddf_ditherscale`,</span>
+<span class="sd">            `wfd_ditherscale`, `method`. If not provided, the parameters take</span>
+<span class="sd">            default values.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Because this is in the class method, I am using the staticmethod</span>
+        <span class="c1"># rather than the property, but note that the property is calculated</span>
+        <span class="c1"># through this method. So this gives the same thing</span>
+        <span class="n">opsimVars</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_opsimVariablesForVersion</span><span class="p">(</span><span class="n">opsimversion</span><span class="p">)</span>
+
+        <span class="c1"># Set tablenames</span>
+        <span class="n">tableNames</span><span class="o">=</span><span class="p">(</span><span class="n">opsimVars</span><span class="p">[</span><span class="s1">&#39;summaryTableName&#39;</span><span class="p">],</span> <span class="s1">&#39;Proposal&#39;</span><span class="p">)</span>
+
+
+        <span class="c1"># Check that subset parameter is legal</span>
+        <span class="n">allowed_subsets</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_allowed_subsets</span><span class="p">()</span>
+        <span class="n">subset</span> <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">subset</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_subsets</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;subset </span><span class="si">{}</span><span class="s1"> not implemented&#39;</span><span class="o">.</span>\
+                                      <span class="nb">format</span><span class="p">(</span><span class="n">subset</span><span class="p">))</span>
+
+        <span class="n">engine</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get_sql_engine</span><span class="p">(</span><span class="n">dbname</span><span class="p">)</span>
+
+        <span class="n">propDict</span><span class="p">,</span> <span class="n">propIDs</span><span class="p">,</span> <span class="n">proposals</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get_propIDs</span><span class="p">(</span><span class="n">tableNames</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span>
+                                                        <span class="n">opsimversion</span><span class="p">,</span>
+                                                        <span class="n">subset</span><span class="p">,</span>
+                                                        <span class="n">user_propIDs</span><span class="o">=</span><span class="n">user_propIDs</span><span class="p">)</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_read_summary_table_raw</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">opsimVars</span><span class="p">,</span> <span class="n">propIDs</span><span class="p">,</span> <span class="n">subset</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">propIDDict</span><span class="o">=</span><span class="n">propDict</span><span class="p">,</span>
+                       <span class="n">summary</span><span class="o">=</span><span class="n">summary</span><span class="p">,</span>
+                       <span class="n">zeroDDFDithers</span><span class="o">=</span><span class="n">zeroDDFDithers</span><span class="p">,</span>
+                       <span class="n">proposalTable</span><span class="o">=</span><span class="n">proposals</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="n">subset</span><span class="p">,</span>
+                       <span class="n">opsimversion</span><span class="o">=</span><span class="n">opsimversion</span><span class="p">)</span>
+
+        <span class="c1"># filter read in summary table</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;We have filterNull set to&#39;</span><span class="p">,</span> <span class="n">filterNull</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">filterNull</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;With given option, filtering the raw summary table of NaNs&#39;</span><span class="p">)</span>
+            <span class="n">num_orig</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span>
+            <span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;fiveSigmaDepth&#39;</span><span class="p">])]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;This option reduced the number of rows from </span><span class="si">{0}</span><span class="s1"> to </span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_orig</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">summary</span><span class="p">)))</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;checking that summary table read in</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate_pointings</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="n">opsimVars</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Reading in raw tables successful&#39;</span><span class="p">)</span>
+
+
+        <span class="c1"># Standardize names of summary table columns</span>
+        <span class="n">replacedict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">replacedict</span><span class="p">[</span><span class="n">opsimVars</span><span class="p">[</span><span class="s1">&#39;obsHistID&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;obsHistID&#39;</span>
+        <span class="n">replacedict</span><span class="p">[</span><span class="n">opsimVars</span><span class="p">[</span><span class="s1">&#39;propIDNameInSummary&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;propID&#39;</span>
+        <span class="n">replacedict</span><span class="p">[</span><span class="n">opsimVars</span><span class="p">[</span><span class="s1">&#39;expMJD&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;expMJD&#39;</span>
+        <span class="n">replacedict</span><span class="p">[</span><span class="n">opsimVars</span><span class="p">[</span><span class="s1">&#39;FWHMeff&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;FWHMeff&#39;</span>
+        <span class="n">replacedict</span><span class="p">[</span><span class="n">opsimVars</span><span class="p">[</span><span class="s1">&#39;filtSkyBrightness&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;filtSkyBrightness&#39;</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">replacedict</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate_pointings</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="n">opsimVars</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;replacing names works&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Drop Duplicates</span>
+        <span class="k">if</span> <span class="n">subset</span> <span class="o">!=</span> <span class="s1">&#39;_all&#39;</span><span class="p">:</span>
+            <span class="c1"># Drop duplicates unless this is to write out the entire OpSim</span>
+            <span class="n">summary</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">dropDuplicates</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="n">propDict</span><span class="p">,</span> <span class="n">opsimversion</span><span class="p">)</span>
+
+        <span class="c1"># Set Standard Index</span>
+        <span class="n">summary</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;obsHistID&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate_pointings</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="n">opsimVars</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dropping duplicates works&#39;</span><span class="p">)</span>
+
+        <span class="c1"># At this stage the summary table is read in,</span>
+        <span class="c1"># and the standard index is set</span>
+
+        <span class="c1"># In `lsstv3` minion like baselines, the pointingRA are `ditheredRA` etc.</span>
+        <span class="c1"># In `sstf` versions, the pointing coordinates are `fieldRA` etc.</span>
+        <span class="c1"># in `lsstv4`, the pointing coordinates are unsupplied but `ditheredRA` etc.</span>
+
+        <span class="k">if</span> <span class="s1">&#39;ditheredra&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="c1"># eg. has to be done in `lsstv4` and `sstf` unless supplied</span>
+            <span class="n">add_dithers</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">add_dithers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dithercolumns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Trying to join input dithercolumns</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="c1"># If provided with dithers in a dataFrame, use them</span>
+                <span class="c1"># Check that dithercolumns are available in input</span>
+                <span class="k">assert</span> <span class="s1">&#39;ditheredRA&#39;</span> <span class="ow">in</span> <span class="n">dithercolumns</span><span class="o">.</span><span class="n">columns</span>
+                <span class="k">assert</span> <span class="s1">&#39;ditheredDec&#39;</span> <span class="ow">in</span> <span class="n">dithercolumns</span><span class="o">.</span><span class="n">columns</span>
+                <span class="k">assert</span> <span class="s1">&#39;obsHistID&#39;</span> <span class="o">==</span> <span class="n">dithercolumns</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span>
+
+                <span class="c1"># if the column names already exist in the table remove them</span>
+                <span class="k">if</span> <span class="s1">&#39;ditheredra&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+                    <span class="k">del</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;ditheredRA&#39;</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;ditheredDec&#39;</span><span class="p">]</span>
+
+                <span class="c1"># Assumption : I have the dither columns in a `pd.DataFrame`</span>
+                <span class="c1"># with minimal columns `ditheredRA` and `ditheredDec` and</span>
+                <span class="c1"># index name `obsHistID` which indexes the visits in the</span>
+                <span class="c1"># Summary Table</span>
+
+                <span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dithercolumns</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">add_dithers</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;creating dither columns </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+                <span class="c1"># No dither column provided</span>
+                <span class="n">ditherdict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">,</span>
+                                  <span class="n">ddfID</span><span class="o">=</span><span class="n">propDict</span><span class="p">[</span><span class="s1">&#39;ddf&#39;</span><span class="p">],</span>
+                                  <span class="n">ddf_ditherscale</span><span class="o">=</span><span class="mf">1.75</span><span class="p">,</span>
+                                  <span class="n">wfd_ditherscale</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                                  <span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+                <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;default&#39;</span>
+
+                <span class="n">ddfID</span> <span class="o">=</span> <span class="n">propDict</span><span class="p">[</span><span class="s1">&#39;ddf&#39;</span><span class="p">]</span>
+                <span class="n">ddf_ditherscale</span> <span class="o">=</span> <span class="mf">1.75</span>
+                <span class="n">wfd_ditherscale</span> <span class="o">=</span> <span class="mf">0.2</span>
+                <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                        <span class="n">ditherdict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+                <span class="n">dithercolumns</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_dithercolumns</span><span class="p">(</span><span class="n">summary</span><span class="p">[[</span><span class="s1">&#39;fieldRA&#39;</span><span class="p">,</span>
+                                                               <span class="s1">&#39;fieldDec&#39;</span><span class="p">,</span>
+                                                               <span class="s1">&#39;propID&#39;</span><span class="p">]],</span>
+                                                      <span class="n">opsimversion</span><span class="o">=</span><span class="n">opsimversion</span><span class="p">,</span>
+                                                      <span class="n">method</span><span class="o">=</span><span class="n">ditherdict</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">],</span>
+                                                      <span class="n">ddfId</span><span class="o">=</span><span class="n">ditherdict</span><span class="p">[</span><span class="s1">&#39;ddfID&#39;</span><span class="p">],</span>
+                                                      <span class="n">ddf_ditherscale</span><span class="o">=</span><span class="n">ditherdict</span><span class="p">[</span><span class="s1">&#39;ddf_ditherscale&#39;</span><span class="p">],</span>
+                                                      <span class="n">wfd_ditherscale</span><span class="o">=</span><span class="n">ditherdict</span><span class="p">[</span><span class="s1">&#39;wfd_ditherscale&#39;</span><span class="p">],</span>
+                                                      <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="n">dithercolumns</span><span class="o">.</span><span class="n">ditheredRA</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+                <span class="c1">#print(&#39;max ra values are {}.&#39;format(dithercolumns.ditheredRA.max()))</span>
+                <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate_pointings</span><span class="p">(</span><span class="n">dithercolumns</span><span class="p">,</span> <span class="n">opsimVars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check_anycols</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dithercolumns good!&#39;</span><span class="p">)</span>
+                    <span class="c1"># print(&#39;max ra values are {}.&#39;format(dithercolumns.ditheredRA.max()))</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dithercolumns</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">summary</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">dithercolumns</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate_pointings</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="n">opsimVars</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;join good!&#39;</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;What did you do ?????&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># let pass without further action</span>
+            <span class="k">pass</span>
+
+ 
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate_pointings</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="n">opsimVars</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;joining dithers works&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">propIDDict</span><span class="o">=</span><span class="n">propDict</span><span class="p">,</span>
+                   <span class="n">summary</span><span class="o">=</span><span class="n">summary</span><span class="p">,</span>
+                   <span class="n">zeroDDFDithers</span><span class="o">=</span><span class="n">zeroDDFDithers</span><span class="p">,</span>
+                   <span class="n">proposalTable</span><span class="o">=</span><span class="n">proposals</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="n">subset</span><span class="p">,</span>
+                   <span class="n">opsimversion</span><span class="o">=</span><span class="n">opsimversion</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_read_summary_table_raw</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">opsimVars</span><span class="p">,</span> <span class="n">propIDs</span><span class="p">,</span> <span class="n">subset</span><span class="p">):</span>
+
+        <span class="c1"># Do the actual sql queries or table reads for observations</span>
+        <span class="n">summaryTableName</span> <span class="o">=</span> <span class="n">opsimVars</span><span class="p">[</span><span class="s1">&#39;summaryTableName&#39;</span><span class="p">]</span>
+
+
+        <span class="c1"># Note OpSim version 4 has different names for the same variable</span>
+        <span class="c1"># in the Proposal Table and Summary Table.</span>
+        <span class="n">propIDNameInSummary</span> <span class="o">=</span> <span class="n">opsimVars</span><span class="p">[</span><span class="s1">&#39;propIDNameInSummary&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">subset</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;_all&#39;</span><span class="p">,</span> <span class="s1">&#39;unique_all&#39;</span><span class="p">):</span>
+            <span class="c1"># In this case read everything (ie. table read)</span>
+            <span class="n">summary</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_table</span><span class="p">(</span><span class="n">summaryTableName</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">subset</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;ddf&#39;</span><span class="p">,</span> <span class="s1">&#39;wfd&#39;</span><span class="p">,</span> <span class="s1">&#39;combined&#39;</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Not doing all observations here &#39;</span><span class="p">)</span>
+            <span class="c1"># In this case use sql queries rather than reading the whole table</span>
+            <span class="c1"># obtain propIDs in strings for sql queries</span>
+            <span class="n">pidString</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span> <span class="k">for</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">propIDs</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">pidString</span><span class="p">,</span> <span class="n">subset</span><span class="p">)</span>
+            <span class="n">sql_query</span> <span class="o">=</span> <span class="s1">&#39;SELECT * FROM </span><span class="si">{0}</span><span class="s1"> WHERE </span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">summaryTableName</span><span class="p">,</span>
+                                                             <span class="n">propIDNameInSummary</span>
+                                                            <span class="p">)</span>
+            <span class="n">sql_query</span> <span class="o">+=</span> <span class="s1">&#39; in (</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pidString</span><span class="p">)</span>
+
+            <span class="c1"># If propIDs were passed to the method, this would be used</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">sql_query</span><span class="p">)</span>
+            <span class="n">summary</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_query</span><span class="p">(</span><span class="n">sql_query</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">summary</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_propIDs</span><span class="p">(</span><span class="n">tableNames</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">opsimversion</span><span class="p">,</span> <span class="n">subset</span><span class="p">,</span>
+                     <span class="n">user_propIDs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;return a sequence of `proposalId` which determine the subset of </span>
+<span class="sd">        observations from tha `summary` table. </span>
+<span class="sd">       </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tableNames :</span>
+
+<span class="sd">        engine : </span>
+<span class="sd">        </span>
+<span class="sd">        opsimversion :</span>
+
+<span class="sd">        subset :</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        propIDs : a sequence of integers</span>
+
+<span class="sd">        Notes: The `proposalId` in the `proposal` table indexes science</span>
+<span class="sd">        programs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Read the proposal table to find out which propID corresponds to</span>
+        <span class="c1"># the subsets requested</span>
+        <span class="n">proposals</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_table</span><span class="p">(</span><span class="n">tableNames</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">con</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+        <span class="n">propDict</span> <span class="o">=</span> <span class="n">OpSimOutput</span><span class="o">.</span><span class="n">get_propIDDict</span><span class="p">(</span><span class="n">proposals</span><span class="p">,</span> <span class="n">opsimversion</span><span class="o">=</span><span class="n">opsimversion</span><span class="p">)</span>
+
+        <span class="c1"># Seq of propIDs consistent with subset</span>
+        <span class="n">_propIDs</span> <span class="o">=</span> <span class="n">OpSimOutput</span><span class="o">.</span><span class="n">propIDVals</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">propDict</span><span class="p">,</span> <span class="n">proposals</span><span class="p">)</span>
+
+        <span class="c1"># If propIDs and subset were both provided, override subset propIDs</span>
+        <span class="n">propIDs</span> <span class="o">=</span> <span class="n">OpSimOutput</span><span class="o">.</span><span class="n">_overrideSubsetPropID</span><span class="p">(</span><span class="n">user_propIDs</span><span class="p">,</span> <span class="n">_propIDs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">propDict</span><span class="p">,</span> <span class="n">propIDs</span><span class="p">,</span> <span class="n">proposals</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_sql_engine</span><span class="p">(</span><span class="n">dbname</span><span class="p">):</span>
+
+        <span class="c1"># Prepend the abs path with sqlite for use with sqlalchemy</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">dbname</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;sqlite&#39;</span><span class="p">):</span>
+            <span class="n">dbname</span> <span class="o">=</span> <span class="s1">&#39;sqlite:///&#39;</span> <span class="o">+</span> <span class="n">dbname</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; reading from database </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dbname</span><span class="p">))</span>
+        <span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">dbname</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">engine</span>
+
+<div class="viewcode-block" id="OpSimOutput.dropDuplicates"><a class="viewcode-back" href="../../opsimsummary.opsim_out.html#opsimsummary.opsim_out.OpSimOutput.dropDuplicates">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">dropDuplicates</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">propIDDict</span><span class="p">,</span> <span class="n">opsimversion</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        drop duplicates ensuring keeping identity of ddf visits</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df : `pd.DataFrame`</span>
+<span class="sd">        propIDDict : dict</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        `pd.DataFrame` with the correct propID and duplicates dropped</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">opsimversion</span> <span class="o">==</span> <span class="s1">&#39;sstf&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">df</span>
+
+        <span class="c1"># As duplicates are dropped in order, reorder IDs so that</span>
+        <span class="c1"># DDF is lowest, WFD next lowest, everything else as is</span>
+        <span class="n">minPropID</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">propID</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+        <span class="n">ddfID</span> <span class="o">=</span> <span class="n">propIDDict</span><span class="p">[</span><span class="s1">&#39;ddf&#39;</span><span class="p">]</span>
+        <span class="n">wfdID</span> <span class="o">=</span> <span class="n">propIDDict</span><span class="p">[</span><span class="s1">&#39;wfd&#39;</span><span class="p">]</span>
+        <span class="n">ddfPropID</span> <span class="o">=</span> <span class="n">minPropID</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">wfdPropID</span> <span class="o">=</span> <span class="n">minPropID</span> <span class="o">-</span> <span class="mi">2</span>
+
+        <span class="n">orig_propID</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">propID</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;orig_propID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">orig_propID</span>
+        <span class="c1"># if np.__version__ &gt;= 1.13:</span>
+        <span class="c1">#    ddfmask = np.isin(df.propID, ddfID)</span>
+        <span class="c1">#    wfdmask = np.isin(df.propID, wfdID)</span>
+        <span class="c1"># else:</span>
+        <span class="n">ddfmask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">propID</span><span class="p">,</span> <span class="n">ddfID</span><span class="p">)</span>
+        <span class="n">wfdmask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">propID</span><span class="p">,</span> <span class="n">wfdID</span><span class="p">)</span>
+
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ddfmask</span><span class="p">,</span> <span class="s1">&#39;propID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ddfPropID</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">wfdmask</span><span class="p">,</span> <span class="s1">&#39;propID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wfdPropID</span>
+
+        <span class="c1"># drop duplicates keeping the lowest transformed propIDs so that all</span>
+        <span class="c1"># WFD visits remain, DDF visits which were duplicates of WFD visits are</span>
+        <span class="c1"># dropped, etc.</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s1">&#39;obsHistID&#39;</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1">#df = df.drop_duplicates(subset=&#39;obsHistID&#39;,</span>
+        <span class="c1">#                                      keep=&#39;first&#39;)#.set_index(&#39;obsHistID&#39;)</span>
+
+        <span class="c1"># reset the propIDs to values in the OpSim output</span>
+        <span class="c1"># ddfmask = df.propID == ddfPropID</span>
+        <span class="c1"># wfdmask = df.propID == wfdPropID</span>
+        <span class="c1"># df.loc[ddfmask, &#39;propID&#39;] = ddfID</span>
+        <span class="c1"># df.loc[wfdmask, &#39;propID&#39;] = wfdID</span>
+        <span class="k">del</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;propID&#39;</span><span class="p">]</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">orig_propID</span><span class="o">=</span><span class="s1">&#39;propID&#39;</span><span class="p">),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;expMJD&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_fromOpSimHDF</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">hdfName</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="s1">&#39;combined&#39;</span><span class="p">,</span>
+                     <span class="n">tableNames</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Summary&#39;</span><span class="p">,</span> <span class="s1">&#39;Proposal&#39;</span><span class="p">),</span>
+                     <span class="n">propIDs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct an instance of a subset of the OpSim</span>
+<span class="sd">        Output from a serialization in the format of hdf</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        hdfName :</span>
+<span class="sd">        subset :</span>
+<span class="sd">        tableNames :</span>
+<span class="sd">        propIDs :</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Not quite working at this moment&#39;</span><span class="p">)</span>
+        <span class="n">allowed_subsets</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_allowed_subsets</span><span class="p">()</span>
+        <span class="n">subset</span> <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">subset</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_subsets</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;subset </span><span class="si">{}</span><span class="s1"> not implemented&#39;</span><span class="o">.</span>\
+                      <span class="nb">format</span><span class="p">(</span><span class="n">subset</span><span class="p">))</span>
+        <span class="c1"># The hdf representation is assumed to be a faithful representation of</span>
+        <span class="c1"># the OpSim output</span>
+        <span class="n">summarydf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">hdfName</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;Summary&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;obsHistID&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">summarydf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">summarydf</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">&#39;obsHistID&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">summarydf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;obsHistID is not in columns&#39;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">proposals</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">hdfName</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;Proposal&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;read in proposal&#39;</span><span class="p">)</span>
+            <span class="n">propDict</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_propIDDict</span><span class="p">(</span><span class="n">proposal</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;read in proposal&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">propDict</span><span class="p">)</span>
+            <span class="n">_propIDs</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">propIDVals</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">propDict</span><span class="p">,</span> <span class="n">proposals</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Proposal not read&#39;</span><span class="p">)</span>
+            <span class="k">pass</span>
+
+        <span class="n">propIDs</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_overrideSubsetPropID</span><span class="p">(</span><span class="n">propIDs</span><span class="p">,</span> <span class="n">_propIDs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">propIDs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">propIDs</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">propIDs</span> <span class="o">=</span> <span class="n">propIDs</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;propIDs&#39;</span><span class="p">,</span> <span class="n">propIDs</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">propIDs</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">propIDs</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;summarydf cols&#39;</span><span class="p">,</span> <span class="n">summarydf</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+            <span class="n">query_str</span> <span class="o">=</span> <span class="s1">&#39;propID == @propIDs&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;query_str&#39;</span><span class="p">,</span> <span class="n">query_str</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; Num entries &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">summarydf</span><span class="p">))</span>
+            <span class="n">summary</span> <span class="o">=</span> <span class="n">summarydf</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query_str</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">summary</span> <span class="o">=</span> <span class="n">summarydf</span>
+        <span class="k">if</span> <span class="n">propIDs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">subset</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;_all&#39;</span><span class="p">,</span> <span class="s1">&#39;unique_all&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;No sensible propID and subset combination found&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">subset</span> <span class="o">!=</span> <span class="s1">&#39;_all&#39;</span><span class="p">:</span>
+            <span class="c1"># Usually drop the OpSim duplicates</span>
+            <span class="n">summary</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s1">&#39;obsHistID&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">summary</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;obsHistID&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">propIDDict</span><span class="o">=</span><span class="n">propDict</span><span class="p">,</span> <span class="n">summary</span><span class="o">=</span><span class="n">summary</span><span class="p">,</span>
+                   <span class="n">proposalTable</span><span class="o">=</span><span class="n">proposals</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="n">subset</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">propIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        list of values in propID Column of the Summary Table of OpSim</span>
+<span class="sd">        to be considered for this class, either because they were directly</span>
+<span class="sd">        provided or through the subset argument.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_propID</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_propID</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">subset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">propIDDict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">propIDVals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">propIDDict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">proposalTable</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_writeOpSimHDF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hdfName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Serialize the OpSim output to hdf format in a welldefined way</span>
+<span class="sd">        The output hdf file has two keys: &#39;Summary&#39; and &#39;Proposal&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subset</span> <span class="o">!=</span> <span class="s1">&#39;_all&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Should be Done only for self.subset == _all&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="n">hdfName</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;Summary&#39;</span><span class="p">,</span> <span class="n">append</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proposalTable</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="n">hdfName</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;Proposal&#39;</span><span class="p">,</span> <span class="n">append</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_overrideSubsetPropID</span><span class="p">(</span><span class="n">propIDs</span><span class="p">,</span> <span class="n">_propIDs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">propIDs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">propIDs</span> <span class="o">=</span> <span class="n">_propIDs</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">propIDs</span><span class="p">)</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">_propIDs</span><span class="p">)</span><span class="o">.</span><span class="n">sort</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">Warning</span><span class="p">(</span><span class="s1">&#39;argument propIDs and _propIDs do not match&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">propIDs</span>
+
+<div class="viewcode-block" id="OpSimOutput.get_allowed_subsets"><a class="viewcode-back" href="../../opsimsummary.opsim_out.html#opsimsummary.opsim_out.OpSimOutput.get_allowed_subsets">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_allowed_subsets</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Provide a sequence of implemented subset values&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;_all&#39;</span><span class="p">,</span> <span class="s1">&#39;ddf&#39;</span><span class="p">,</span> <span class="s1">&#39;wfd&#39;</span><span class="p">,</span> <span class="s1">&#39;combined&#39;</span><span class="p">,</span> <span class="s1">&#39;unique_all&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OpSimOutput.get_propIDDict"><a class="viewcode-back" href="../../opsimsummary.opsim_out.html#opsimsummary.opsim_out.OpSimOutput.get_propIDDict">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_propIDDict</span><span class="p">(</span><span class="n">proposalDF</span><span class="p">,</span> <span class="n">opsimversion</span><span class="o">=</span><span class="s1">&#39;lsstv3&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a dictionary with keys &#39;ddf&#39;, ad &#39;wfd&#39; with the proposal IDs</span>
+<span class="sd">        corresponding to deep drilling fields (ddf) and universal cadence (wfd) </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        proposalDF : `pd.DataFrame`, mandatory</span>
+<span class="sd">            a dataframe with the Proposal Table of the OpSim Run.</span>
+<span class="sd">        opsimversion: {&#39;lsstv3&#39;|&#39;sstf&#39;|&#39;lsstv4&#39;}, defaults to &#39;lsstv3&#39;</span>
+<span class="sd">            version of opsim from which output is drawn</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dictionary with keys &#39;wfd&#39; and &#39;ddf&#39; with values given by integers</span>
+<span class="sd">            corresponding to propIDs for these proposals</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">oss_wfdName</span> <span class="o">=</span> <span class="s1">&#39;wfd&#39;</span>
+        <span class="n">oss_ddfName</span> <span class="o">=</span> <span class="s1">&#39;ddf&#39;</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">proposalDF</span>
+        <span class="n">mydict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">opsimversion</span> <span class="o">==</span> <span class="s1">&#39;lsstv3&#39;</span><span class="p">:</span>
+            <span class="n">propName</span> <span class="o">=</span> <span class="s1">&#39;propConf&#39;</span>
+            <span class="n">propIDName</span> <span class="o">=</span> <span class="s1">&#39;propID&#39;</span>
+            <span class="n">ops_wfdname</span> <span class="o">=</span> <span class="s1">&#39;conf/survey/Universal-18-0824B.conf&#39;</span>
+            <span class="n">ops_ddfname</span> <span class="o">=</span> <span class="s1">&#39;conf/survey/DDcosmology1.conf&#39;</span>
+        <span class="k">elif</span> <span class="n">opsimversion</span> <span class="o">==</span> <span class="s1">&#39;sstf&#39;</span><span class="p">:</span>
+            <span class="n">propName</span> <span class="o">=</span> <span class="s1">&#39;propName&#39;</span>
+            <span class="n">propIDName</span> <span class="o">=</span> <span class="s1">&#39;propId&#39;</span>
+            <span class="n">ops_wfdname</span> <span class="o">=</span> <span class="s1">&#39;WideFastDeep&#39;</span>
+            <span class="n">ops_ddfname</span> <span class="o">=</span> <span class="s1">&#39;Deep Drilling&#39;</span>
+        <span class="k">elif</span> <span class="n">opsimversion</span> <span class="o">==</span> <span class="s1">&#39;lsstv4&#39;</span><span class="p">:</span>
+            <span class="n">propName</span> <span class="o">=</span> <span class="s1">&#39;propName&#39;</span>
+            <span class="n">propIDName</span> <span class="o">=</span> <span class="s1">&#39;propId&#39;</span>
+            <span class="n">ops_wfdname</span> <span class="o">=</span> <span class="s1">&#39;WideFastDeep&#39;</span>
+            <span class="n">ops_ddfname</span> <span class="o">=</span> <span class="s1">&#39;DeepDrillingCosmology1&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;`get_propIDDict` is not implemented for this `opsimversion`&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Rename version based proposal names to internal values</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="c1"># remember in enigma outputs, these came with `..` in the beginning</span>
+            <span class="k">if</span> <span class="n">ops_wfdname</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="n">propName</span><span class="p">]:</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">propName</span><span class="p">]</span> <span class="o">=</span> <span class="n">oss_wfdName</span>
+            <span class="k">elif</span> <span class="n">ops_ddfname</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="n">propName</span><span class="p">]:</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">propName</span><span class="p">]</span> <span class="o">=</span> <span class="n">oss_ddfName</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>
+        <span class="n">pdict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">propName</span><span class="p">)[</span><span class="n">propIDName</span><span class="p">])</span>
+
+        <span class="c1"># To support multiple proposals</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">pdict</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pdict</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+                <span class="n">pdict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">pdict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="k">return</span> <span class="n">pdict</span></div>
+
+
+<div class="viewcode-block" id="OpSimOutput.propIDVals"><a class="viewcode-back" href="../../opsimsummary.opsim_out.html#opsimsummary.opsim_out.OpSimOutput.propIDVals">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">propIDVals</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">propIDDict</span><span class="p">,</span> <span class="n">proposalTable</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters: </span>
+<span class="sd">        ----------</span>
+<span class="sd">        subset : string</span>
+<span class="sd">            must be member of OpSimOutput.allowed_subsets()</span>
+<span class="sd">        propIDDict : dictionary, mandatory</span>
+<span class="sd">            must have subset as a key, and an integer or seq of ints</span>
+<span class="sd">            as values</span>
+<span class="sd">        proposalTable : `pd.DataFrame`</span>
+<span class="sd">            Dataframe representing the proposal table in the OpSim datbase</span>
+<span class="sd">            output</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of propID values (integers) associated with the subset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">subset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;subset arg in propIDVals cannot be None&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">subset</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;ddf&#39;</span><span class="p">,</span> <span class="s1">&#39;wfd&#39;</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">propIDDict</span><span class="p">[</span><span class="n">subset</span><span class="o">.</span><span class="n">lower</span><span class="p">()]]</span>
+        <span class="k">elif</span> <span class="n">subset</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;combined&#39;</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">propIDDict</span><span class="p">[</span><span class="s1">&#39;ddf&#39;</span><span class="p">],</span> <span class="n">propIDDict</span><span class="p">[</span><span class="s1">&#39;wfd&#39;</span><span class="p">]]</span> 
+        <span class="k">elif</span> <span class="n">subset</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;_all&#39;</span><span class="p">,</span> <span class="s1">&#39;unique_all&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">proposalTable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">proposalTable</span><span class="o">.</span><span class="n">propID</span><span class="o">.</span><span class="n">values</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;value of subset Not recognized&#39;</span><span class="p">)</span>
+
+        <span class="c1"># unroll lists</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">:</span>
+                    <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">l</span></div></div>
+
+<span class="k">def</span> <span class="nf">OpSimDfFromFile</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">ftype</span><span class="o">=</span><span class="s1">&#39;hdf&#39;</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="s1">&#39;Combined&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    read a serialized form of the OpSim output into `pd.DataFrame`</span>
+<span class="sd">    and return a subset of interest</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname : string, mandatory</span>
+<span class="sd">        absolute path to serialized form of the OpSim database</span>
+<span class="sd">    ftype : {&#39;sqliteDB&#39;, &#39;ASCII&#39;, &#39;hdf&#39;}</span>
+<span class="sd">        The kind of serialized version being read from.</span>
+<span class="sd">            &#39;sqliteDB&#39; : `LSST` project supplied OpSim output format for</span>
+<span class="sd">                baseline cadences (eg. enigma_1189, minion_1016, etc.) </span>
+<span class="sd">            &#39;ASCII&#39; : `LSST` project supplied OpSim output format used in</span>
+<span class="sd">                older OpSim outputs eg. OpSim v 2.168 output</span>
+<span class="sd">            &#39;hdf&#39; : `hdf` files written out by `OpSimSummary`</span>
+<span class="sd">    subset : {&#39;Combined&#39;, &#39;DDF&#39;, &#39;WFD&#39; , &#39;All&#39;}, defaults to &#39;Combined&#39; </span>
+<span class="sd">        Type of OpSim output desired in the dataframe</span>
+<span class="sd">        &#39;Combined&#39; : unique pointings in WFD + DDF </span>
+<span class="sd">        &#39;WFD&#39; : Unique pointings in WFD</span>
+<span class="sd">        &#39;DDF&#39; : Unique pointings in DDF Cosmology</span>
+<span class="sd">        &#39;All&#39; : Entire Summary Table From OpSim</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;This seems to have changed since first written, fixing not a priority&#39;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;This seems to have changed since first written&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ftype</span> <span class="o">==</span> <span class="s1">&#39;sqlite&#39;</span><span class="p">:</span>
+        <span class="n">dbname</span> <span class="o">=</span> <span class="s1">&#39;sqlite:///&#39;</span> <span class="o">+</span> <span class="n">fname</span>
+        <span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">dbname</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">proposalTable</span> <span class="o">=</span>  <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_table</span><span class="p">(</span><span class="s1">&#39;Proposal&#39;</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+
+        <span class="c1"># if subset == &#39;DDF&#39;:</span>
+        <span class="c1">#    sql</span>
+
+    <span class="k">elif</span> <span class="n">ftype</span> <span class="o">==</span> <span class="s1">&#39;hdf&#39;</span> <span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span> <span class="n">ftype</span> <span class="o">==</span> <span class="s1">&#39;ASCII&#39;</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;ftype </span><span class="si">{}</span><span class="s1"> not implemented&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ftype</span><span class="p">))</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, R. Biswas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,1261 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>opsimsummary.summarize_opsim &mdash; OpSimSummary 0.8.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> OpSimSummary
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../opsimsummary.html">opsimsummary package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../opsimsummary.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.simlib.html">opsimsummary.simlib module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.trig.html">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html#installing-dependencies">Installing Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">opsimsummary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#package-structure">Package Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../opsimsummary.html">opsimsummary package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../opsimsummary.simlib.html">opsimsummary.simlib module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../opsimsummary.trig.html">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">OpSimSummary</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>opsimsummary.summarize_opsim</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for opsimsummary.summarize_opsim</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Class to summarize the OpSim output</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SynOpSim&#39;</span><span class="p">,</span> <span class="s1">&#39;PointingTree&#39;</span><span class="p">,</span> <span class="s1">&#39;add_simlibCols&#39;</span><span class="p">]</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">create_engine</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="k">import</span> <span class="n">BallTree</span>
+<span class="kn">import</span> <span class="nn">healpy</span> <span class="k">as</span> <span class="nn">hp</span>
+<span class="kn">from</span> <span class="nn">.opsim_out</span> <span class="k">import</span> <span class="n">OpSimOutput</span>
+<span class="kn">from</span> <span class="nn">.trig</span> <span class="k">import</span> <span class="p">(</span><span class="n">convertToSphericalCoordinates</span><span class="p">,</span>
+                   <span class="n">convertToCelestialCoordinates</span><span class="p">,</span>
+                   <span class="n">angSep</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SynOpSim"><a class="viewcode-back" href="../../opsimsummary.summarize_opsim.html#opsimsummary.summarize_opsim.SynOpSim">[docs]</a><span class="k">class</span> <span class="nc">SynOpSim</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class with a summary of OpSim data base output.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">pointings</span><span class="p">,</span>
+                 <span class="n">opsimversion</span><span class="o">=</span><span class="s1">&#39;lsstv3&#39;</span><span class="p">,</span>
+                 <span class="n">raCol</span><span class="o">=</span><span class="s1">&#39;ditheredRA&#39;</span><span class="p">,</span>
+                 <span class="n">decCol</span><span class="o">=</span><span class="s1">&#39;ditheredDec&#39;</span><span class="p">,</span>
+                 <span class="n">angleUnit</span><span class="o">=</span><span class="s1">&#39;degrees&#39;</span><span class="p">,</span>
+                 <span class="n">indexCol</span><span class="o">=</span><span class="s1">&#39;obsHistID&#39;</span><span class="p">,</span>
+                 <span class="n">usePointingTree</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">subset</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pointings</span> <span class="o">=</span> <span class="n">pointings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">raCol</span> <span class="o">=</span> <span class="n">raCol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decCol</span> <span class="o">=</span> <span class="n">decCol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angleUnit</span> <span class="o">=</span> <span class="n">angleUnit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">indexCol</span> <span class="o">=</span> <span class="n">indexCol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subset</span> <span class="o">=</span> <span class="n">subset</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">usePointingTree</span> <span class="o">=</span> <span class="n">usePointingTree</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pointingTree</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="SynOpSim.df_subset_columns"><a class="viewcode-back" href="../../opsimsummary.summarize_opsim.html#opsimsummary.summarize_opsim.SynOpSim.df_subset_columns">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">df_subset_columns</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">subset</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the dataframe `df` with only a subset of the columns as</span>
+<span class="sd">        specified in the list `subset`</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df : `pd.DataFrame`</span>
+<span class="sd">            the input dataframe to be returned with subset of the columns</span>
+<span class="sd">        subset: (list of strings| &#39;all&#39;)</span>
+<span class="sd">            if &#39;all&#39;, df is returned. Otherwise, return</span>
+<span class="sd">            df[subset], with the same index.</span>
+
+<span class="sd">        ..note: subset=[] returns only the index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">subset</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+            <span class="c1"># While we could be uniform and do according to the line below</span>
+            <span class="c1"># there seems to be no reason to just return this</span>
+            <span class="c1"># subset = df.columns</span>
+            <span class="k">return</span> <span class="n">df</span>
+
+        <span class="c1"># This protects us if `subset` is formed by taking `df.columns` and</span>
+        <span class="c1"># performing some operations, even though the docstrings are specific</span>
+        <span class="c1"># about `list`</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">indexes</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">Index</span><span class="p">):</span>
+            <span class="n">subset</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">subset</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+        <span class="c1"># slightly roundabout method to work even if `subset` includes</span>
+        <span class="c1"># name of index variable</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">subset</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[</span><span class="n">subset</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">subset</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="SynOpSim.fromOpSimDB"><a class="viewcode-back" href="../../opsimsummary.summarize_opsim.html#opsimsummary.summarize_opsim.SynOpSim.fromOpSimDB">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">fromOpSimDB</span><span class="p">(</span><span class="n">bls</span><span class="p">,</span>
+                    <span class="n">dbname</span><span class="p">,</span>
+                    <span class="n">subset</span><span class="o">=</span><span class="s1">&#39;combined&#39;</span><span class="p">,</span>
+                    <span class="n">opsimversion</span><span class="o">=</span><span class="s1">&#39;lsstv3&#39;</span><span class="p">,</span>
+                    <span class="n">zeroDDFDithers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">user_propIDs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">dithercolumns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">add_dithers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">tableNames</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Summary&#39;</span><span class="p">,</span> <span class="s1">&#39;Proposal&#39;</span><span class="p">),</span>
+                    <span class="n">usePointingTree</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class Method to instantiate this from an OpSim sqlite</span>
+<span class="sd">        database output which largely uses `OpSimOutput.fromOpSimDB`</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dbname : string</span>
+<span class="sd">            absolute path to database file</span>
+<span class="sd">        subset : string, optional, defaults to &#39;combined&#39;</span>
+<span class="sd">            one of {&#39;_all&#39;, &#39;unique_all&#39;, &#39;wfd&#39;, &#39;ddf&#39;, &#39;combined&#39;}</span>
+<span class="sd">            determines a sequence of propIDs for selecting observations</span>
+<span class="sd">            appropriate for the OpSim database in use</span>
+<span class="sd">        propIDs : sequence of integers, defaults to None</span>
+<span class="sd">            proposal ID values. If present, overrides the use of subset</span>
+<span class="sd">        tableNames : tuple of strings, defaults to (&#39;Summary&#39;, &#39;Proposal&#39;)</span>
+<span class="sd">            names of tables read from the OpSim database</span>
+<span class="sd">        zeroDDFDithers : bool, defaults to True</span>
+<span class="sd">            if True, set dithers in DDF to 0, by setting ditheredRA,</span>
+<span class="sd">            ditheredDec to fieldRA, fieldDec</span>
+<span class="sd">        opsimversion: {&#39;lsstv3&#39;|&#39;sstf&#39;|&#39;lsstv4&#39;}</span>
+<span class="sd">            version of OpSim corresponding to the output format.</span>
+<span class="sd">        dithercolumns: `pd.DataFrame`, defaults to None</span>
+<span class="sd">            a pandas dataframe with the columns `ditheredRA`, `ditheredDec` and</span>
+<span class="sd">            index `obsHistID`</span>
+<span class="sd">        add_dithers : Bool, defaults to False</span>
+<span class="sd">            if add_dithers is True, the `ditheredRA`, `ditheredDec`</span>
+<span class="sd">            columns will be removed and additional dithered columns</span>
+<span class="sd">            either by `dithercolumns` or `get_dithercolumns` will</span>
+<span class="sd">            be used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">opsout</span> <span class="o">=</span> <span class="n">OpSimOutput</span><span class="o">.</span><span class="n">fromOpSimDB</span><span class="p">(</span><span class="n">dbname</span><span class="p">,</span>
+                                             <span class="n">subset</span><span class="o">=</span><span class="n">subset</span><span class="p">,</span>
+                                             <span class="n">opsimversion</span><span class="o">=</span><span class="n">opsimversion</span><span class="p">,</span>
+                                             <span class="n">zeroDDFDithers</span><span class="o">=</span><span class="n">zeroDDFDithers</span><span class="p">,</span>
+                                             <span class="n">user_propIDs</span><span class="o">=</span><span class="n">user_propIDs</span><span class="p">,</span>
+                                             <span class="n">dithercolumns</span><span class="o">=</span><span class="n">dithercolumns</span><span class="p">,</span>
+                                             <span class="n">add_dithers</span><span class="o">=</span><span class="n">add_dithers</span><span class="p">,</span>
+                                             <span class="n">tableNames</span><span class="o">=</span><span class="n">tableNames</span><span class="p">,</span>
+                                             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">opsout</span> <span class="o">=</span> <span class="n">OpSimOutput</span><span class="o">.</span><span class="n">fromOpSimDB</span><span class="p">(</span><span class="n">dbname</span><span class="p">,</span>
+                                             <span class="n">subset</span><span class="o">=</span><span class="n">subset</span><span class="p">,</span>
+                                             <span class="n">opsimversion</span><span class="o">=</span><span class="n">opsimversion</span><span class="p">,</span>
+                                             <span class="n">zeroDDFDithers</span><span class="o">=</span><span class="n">zeroDDFDithers</span><span class="p">,</span>
+                                             <span class="n">user_propIDs</span><span class="o">=</span><span class="n">user_propIDs</span><span class="p">,</span>
+                                             <span class="n">dithercolumns</span><span class="o">=</span><span class="n">dithercolumns</span><span class="p">,</span>
+                                             <span class="n">add_dithers</span><span class="o">=</span><span class="n">add_dithers</span><span class="p">,</span>
+                                             <span class="n">tableNames</span><span class="o">=</span><span class="n">tableNames</span><span class="p">)</span>
+
+        <span class="n">opsimvars</span> <span class="o">=</span> <span class="n">OpSimOutput</span><span class="o">.</span><span class="n">get_opsimVariablesForVersion</span><span class="p">(</span><span class="n">opsimversion</span><span class="p">)</span>
+
+        <span class="n">raCol</span> <span class="o">=</span> <span class="n">opsimvars</span><span class="p">[</span><span class="s1">&#39;pointingRA&#39;</span><span class="p">]</span>
+        <span class="n">decCol</span> <span class="o">=</span> <span class="n">opsimvars</span><span class="p">[</span><span class="s1">&#39;pointingDec&#39;</span><span class="p">]</span>
+        <span class="n">angleUnit</span> <span class="o">=</span> <span class="n">opsimvars</span><span class="p">[</span><span class="s1">&#39;angleUnit&#39;</span><span class="p">]</span>
+        <span class="n">indexCol</span> <span class="o">=</span> <span class="n">opsimvars</span><span class="p">[</span><span class="s1">&#39;obsHistID&#39;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">bls</span><span class="p">(</span><span class="n">opsout</span><span class="o">.</span><span class="n">summary</span><span class="p">,</span> <span class="n">opsimversion</span><span class="o">=</span><span class="n">opsimversion</span><span class="p">,</span> <span class="n">raCol</span><span class="o">=</span><span class="n">raCol</span><span class="p">,</span>
+                   <span class="n">decCol</span><span class="o">=</span><span class="n">decCol</span><span class="p">,</span> <span class="n">angleUnit</span><span class="o">=</span><span class="n">angleUnit</span><span class="p">,</span> <span class="n">indexCol</span><span class="o">=</span><span class="n">indexCol</span><span class="p">,</span>
+                   <span class="n">usePointingTree</span><span class="o">=</span><span class="n">usePointingTree</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="n">subset</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pointingTree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        if self.usePointingTree is False, this is set to None. Otherewise</span>
+<span class="sd">        contains a `PointingTree` Object. This contains a `BallTree` of the</span>
+<span class="sd">        pointings, and a method to find all pointings enclosed in a given radii. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">usePointingTree</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pointingTree</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_pointingTree</span> <span class="o">=</span> <span class="n">PointingTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pointings</span><span class="p">,</span>
+                                                  <span class="n">raCol</span><span class="o">=</span><span class="s1">&#39;_ra&#39;</span><span class="p">,</span>
+                                                  <span class="n">decCol</span><span class="o">=</span><span class="s1">&#39;_dec&#39;</span><span class="p">,</span>
+                                                  <span class="n">indexCol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">indexCol</span><span class="p">,</span>
+                                                  <span class="n">leafSize</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pointingTree</span>
+
+<div class="viewcode-block" id="SynOpSim.pointingsEnclosing"><a class="viewcode-back" href="../../opsimsummary.summarize_opsim.html#opsimsummary.summarize_opsim.SynOpSim.pointingsEnclosing">[docs]</a>    <span class="k">def</span> <span class="nf">pointingsEnclosing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">circRadius</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">pointingRadius</span><span class="o">=</span><span class="mf">1.75</span><span class="p">,</span>
+                           <span class="n">usePointingTree</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper method returning a generator of pointings overlapping with</span>
+<span class="sd">        circles of radius `circRadius around a sequence of positions given in</span>
+<span class="sd">        terms of `ra` and `dec`. The calculation uses a `Tree` to make the</span>
+<span class="sd">        calculations more efficient if `usePointingTree` is True, or uses direct</span>
+<span class="sd">        calculations if this variable is set to `False`. A user may choose to</span>
+<span class="sd">        obtain a subset of the `pointing` by supplying a subset in the form a</span>
+<span class="sd">        list via the parameter `subset`.</span>
+<span class="sd"> </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ra : `np.ndarray` or a float, unit of degrees</span>
+<span class="sd">            a float or an array of floats representing the ra values</span>
+<span class="sd">        dec : `np.ndarray` or a float, unit of degrees</span>
+<span class="sd">            a float or an array of floats representing the dec values</span>
+<span class="sd">        circRadius: float, unit of degrees, defaults to 0.</span>
+<span class="sd">            a circle around each of the </span>
+<span class="sd">        pointingRadius : degrees, defaults to 1.75</span>
+<span class="sd">            radius of the field of view</span>
+<span class="sd">        usePointingTree: {None|True|False}, defaults to `None`</span>
+<span class="sd">            if None, usePointingTree = self.usePointingTree</span>
+<span class="sd">            else the variable takes the {True|False} values assigned</span>
+<span class="sd">        transform: function, Not implemented</span>
+<span class="sd">        subset: (list of strings| &#39;all&#39;)</span>
+<span class="sd">            if &#39;all&#39;, df is returned. Otherwise, return</span>
+<span class="sd">            df[subset], with the same index.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        A generator with the pointings that overlap with ra, dec </span>
+
+<span class="sd">        .. note: 1. the values in the generator may be accessed by next(generator)</span>
+<span class="sd">            2. subset=[] returns only the index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;check using ptree&#39;</span><span class="p">,</span> <span class="n">usePointingTree</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;transforms are not implemented yet&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">usePointingTree</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">usePointingTree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">usePointingTree</span>
+
+        <span class="k">if</span> <span class="n">usePointingTree</span><span class="p">:</span>
+            <span class="n">hidxs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointingTree</span><span class="o">.</span><span class="n">pointingsEnclosing</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">circRadius</span><span class="p">,</span>
+                                                         <span class="n">pointingRadius</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">hidx</span> <span class="ow">in</span> <span class="n">hidxs</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">df_subset_columns</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pointings</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">hidx</span><span class="p">],</span> <span class="n">subset</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pointings</span><span class="p">[</span><span class="s1">&#39;_ra&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointings</span><span class="p">[[</span><span class="s1">&#39;_ra&#39;</span><span class="p">,</span> <span class="s1">&#39;_dec&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">)</span>
+            <span class="n">pvecs</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">ang2vec</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">_ra</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">_dec</span><span class="p">,</span> <span class="n">lonlat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">vecs</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">ang2vec</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">lonlat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">prad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">pointingRadius</span> <span class="o">+</span> <span class="n">circRadius</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">vec</span> <span class="ow">in</span> <span class="n">vecs</span><span class="p">:</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;dist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pvecs</span><span class="p">,</span> <span class="n">vec</span><span class="p">))</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;dist &lt; @prad&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">index</span>
+                <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">df_subset_columns</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pointings</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">subset</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SynOpSim.observedVisitsinRegion"><a class="viewcode-back" href="../../opsimsummary.summarize_opsim.html#opsimsummary.summarize_opsim.SynOpSim.observedVisitsinRegion">[docs]</a>    <span class="k">def</span> <span class="nf">observedVisitsinRegion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nside</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">nest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">minVisits</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                               <span class="n">maxVisits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outFile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">writeFile</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return a `pd.DataFrame` with the healpixelID=&#39;hid&#39;, ra and dec of the</span>
+<span class="sd">        healpixels &#39;hpix_ra&#39;, &#39;hpix_dec&#39; in radians, and count the number of</span>
+<span class="sd">        visits for all healpixels that have visits satisfying</span>
+<span class="sd">        minVisits &lt;= count &lt;= maxVisits . This will also write out a csv</span>
+<span class="sd">        outFile clobbering past version with this dataframe. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">usePointingTree</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;This method works only with `PointingTree`&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">writeFile</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">outFile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+        <span class="n">ipix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">nside2npix</span><span class="p">(</span><span class="n">nside</span><span class="p">))</span>
+        <span class="n">hpix_ra</span><span class="p">,</span> <span class="n">hpix_dec</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">pix2ang</span><span class="p">(</span><span class="n">nside</span><span class="p">,</span> <span class="n">ipix</span><span class="p">,</span> <span class="n">nest</span><span class="o">=</span><span class="n">nest</span><span class="p">,</span> <span class="n">lonlat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Input array for Tree query</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hpix_ra</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">hpix_dec</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">hpix_ra</span><span class="p">)</span>
+
+        <span class="c1"># count visits for each healpixel in the sky</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointingTree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">query_radius</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mf">1.75</span><span class="p">),</span>
+                                                     <span class="n">count_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">survey</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">hid</span><span class="o">=</span><span class="n">ipix</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="n">hpix_ra</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="n">hpix_dec</span><span class="p">,</span>
+                                   <span class="n">numVisits</span><span class="o">=</span><span class="n">counts</span><span class="p">))</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;hid&#39;</span><span class="p">)</span>
+
+        <span class="c1"># maxVisits is None, imply don&#39;t apply maxVisits </span>
+        <span class="k">if</span> <span class="n">maxVisits</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">maxVisits</span> <span class="o">=</span>  <span class="n">counts</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="n">survey</span> <span class="o">=</span> <span class="n">survey</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;numVisits &gt;= @minVisits and numVisits &lt;=@maxVisits&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">writeFile</span><span class="p">:</span>
+            <span class="n">survey</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">outFile</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">survey</span></div>
+
+
+
+<div class="viewcode-block" id="SynOpSim.sampleRegion"><a class="viewcode-back" href="../../opsimsummary.summarize_opsim.html#opsimsummary.summarize_opsim.SynOpSim.sampleRegion">[docs]</a>    <span class="k">def</span> <span class="nf">sampleRegion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numFields</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span> <span class="n">minVisits</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">nest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nside</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+                     <span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">outfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">usePointingTree</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="s1">&#39;wfd&#39;</span><span class="p">,</span> <span class="n">mwebv</span><span class="o">=</span><span class="mf">0.</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method samples a number `numFields` fields provided they have</span>
+<span class="sd">        a minimal number of visits `minVisits`</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        numFields : int, mandatory</span>
+<span class="sd">            Number of fields to sample</span>
+<span class="sd">        minVisits : int, number, defaults to 1</span>
+<span class="sd">            minimal number of visits required to consider the tile.</span>
+<span class="sd">        nest : Bool, defaults to True</span>
+<span class="sd">            use the `nest` method rather than `ring`</span>
+<span class="sd">        nside : int, defaults to 256</span>
+<span class="sd">            `Healpix.NSIDE`</span>
+<span class="sd">        rng :</span>
+<span class="sd">        outfile :</span>
+<span class="sd">        usePointingTree : Bool, defaults to True</span>
+<span class="sd">            whether to use PointingTree or not</span>
+<span class="sd">        subset : {&#39;wfd&#39;|&#39;ddf&#39;|&#39;combined&#39;}</span>
+<span class="sd">            which subset to use.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">subset</span> <span class="o">==</span> <span class="s1">&#39;ddf&#39;</span><span class="p">:</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointings</span><span class="p">[[</span><span class="s1">&#39;_ra&#39;</span><span class="p">,</span> <span class="s1">&#39;_dec&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">)</span>
+            <span class="n">ra</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">_ra</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">dec</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">_dec</span><span class="o">.</span><span class="n">values</span>
+
+            <span class="c1"># WARNING: hp.ang2pix calls theta ra, and phi dec if lonlat is True</span>
+            <span class="n">hids</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">ang2pix</span><span class="p">(</span><span class="n">nside</span><span class="o">=</span><span class="n">nside</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="n">ra</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="n">dec</span><span class="p">,</span> <span class="n">lonlat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">fieldIDs</span> <span class="o">=</span> <span class="n">hids</span>
+            <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">hids</span><span class="p">)</span>
+            <span class="n">field</span> <span class="o">=</span> <span class="n">Field</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">usePointingTree</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;This method works only with `PointingTree`&#39;</span><span class="p">)</span>
+            <span class="n">ipix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">nside2npix</span><span class="p">(</span><span class="n">nside</span><span class="p">))</span>
+            <span class="n">hpix_ra</span><span class="p">,</span> <span class="n">hpix_dec</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">pix2ang</span><span class="p">(</span><span class="n">nside</span><span class="p">,</span> <span class="n">ipix</span><span class="p">,</span> <span class="n">nest</span><span class="o">=</span><span class="n">nest</span><span class="p">,</span> <span class="n">lonlat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hpix_ra</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">hpix_dec</span><span class="p">)</span>
+            <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">hpix_ra</span><span class="p">)</span>
+            <span class="n">counts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointingTree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">query_radius</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mf">1.75</span><span class="p">),</span>
+                                                         <span class="n">count_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">counts</span> <span class="o">&gt;</span> <span class="n">minVisits</span>
+            <span class="n">hids</span> <span class="o">=</span> <span class="n">ipix</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+            <span class="n">fieldarea</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">nside2pixarea</span><span class="p">(</span><span class="n">nside</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;number of fields with visits above </span><span class="si">{0}</span><span class="s1"> is </span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">minVisits</span><span class="p">,</span>
+                                                                         <span class="nb">len</span><span class="p">(</span><span class="n">hids</span><span class="p">)))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The total area of such fields is </span><span class="si">{}</span><span class="s1"> sq deg&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hids</span><span class="p">)</span> <span class="o">*</span> <span class="n">fieldarea</span><span class="p">))</span>
+            <span class="c1"># theta, phi = convertToSphericalCoordinates(ra=self.pointings._ra,</span>
+            <span class="c1">#                                           dec=self.pointings._dec,</span>
+            <span class="c1">#                                           unit=&#39;radians&#39;)</span>
+            <span class="n">field</span> <span class="o">=</span> <span class="n">Field</span><span class="p">()</span>
+            <span class="c1"># ipix = hp.ang2pix(nside=nside, theta=theta, phi=phi, nest=nest)</span>
+            <span class="c1"># hid, count = np.unique(ipix, return_counts=True)</span>
+            <span class="c1"># mask = count &gt; minVisits - 1</span>
+            <span class="c1"># hids = hid[mask]</span>
+    
+            <span class="n">fieldIDs</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">hids</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">numFields</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">pix2ang</span><span class="p">(</span><span class="n">nside</span><span class="p">,</span> <span class="n">fieldIDs</span><span class="p">,</span> <span class="n">nest</span><span class="o">=</span><span class="n">nest</span><span class="p">,</span> <span class="n">lonlat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">pts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointingsEnclosing</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">circRadius</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
+                                      <span class="n">pointingRadius</span><span class="o">=</span><span class="mf">1.75</span><span class="p">,</span>
+                                      <span class="n">usePointingTree</span><span class="o">=</span><span class="n">usePointingTree</span><span class="p">)</span>
+
+
+        <span class="c1"># write out the survey files to an output file</span>
+        <span class="c1"># if an outfile is provided</span>
+
+        <span class="c1"># Skipping this for now</span>
+        <span class="c1"># if outfile is not None:</span>
+        <span class="c1">#    hdf_fname = outfile + &#39;.hdf&#39;</span>
+        <span class="c1">#    survey = pd.DataFrame(dict(hid=hids, count=counts[hids]))</span>
+        <span class="c1">#    survey.to_hdf(hdf_fname, key=&#39;survey&#39;)</span>
+        <span class="c1">#    surveySample = pd.DataFrame(dict(fieldIDs=fieldIDs, ra=ra, dec=dec))</span>
+        <span class="c1">#    surveySample.to_hdf(hdf_fname, key=&#39;surveySample&#39;)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">fieldID</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fieldIDs</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">fieldID</span><span class="p">)</span>
+            <span class="n">field</span><span class="o">.</span><span class="n">setfields</span><span class="p">(</span><span class="n">fieldID</span><span class="p">,</span> <span class="n">ra</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">dec</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                            <span class="nb">next</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;expMJD&#39;</span><span class="p">),</span> <span class="n">mwebv</span><span class="o">=</span><span class="n">mwebv</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">field</span> </div></div>
+
+
+
+<span class="k">class</span> <span class="nc">Field</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldID</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">opsimtable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">mwebv</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fieldID</span> <span class="o">=</span> <span class="n">fieldID</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ra</span> <span class="o">=</span> <span class="n">ra</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dec</span> <span class="o">=</span> <span class="n">dec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mwebv</span> <span class="o">=</span> <span class="n">mwebv</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opsimtable</span> <span class="o">=</span> <span class="n">opsimtable</span>
+
+    <span class="k">def</span> <span class="nf">setfields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldID</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">opsimtable</span><span class="p">,</span> <span class="n">mwebv</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mwebv</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mwebv</span> <span class="o">=</span> <span class="n">mwebv</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fieldID</span> <span class="o">=</span> <span class="n">fieldID</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ra</span> <span class="o">=</span> <span class="n">ra</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dec</span> <span class="o">=</span> <span class="n">dec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opsimtable</span> <span class="o">=</span> <span class="n">opsimtable</span>
+
+
+<div class="viewcode-block" id="PointingTree"><a class="viewcode-back" href="../../opsimsummary.summarize_opsim.html#opsimsummary.summarize_opsim.PointingTree">[docs]</a><span class="k">class</span> <span class="nc">PointingTree</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">pointings</span><span class="p">,</span>
+                 <span class="n">raCol</span><span class="o">=</span><span class="s1">&#39;_ra&#39;</span><span class="p">,</span>
+                 <span class="n">decCol</span><span class="o">=</span><span class="s1">&#39;_dec&#39;</span><span class="p">,</span>
+                 <span class="n">indexCol</span><span class="o">=</span><span class="s1">&#39;obsHistID&#39;</span><span class="p">,</span>
+                 <span class="n">leafSize</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a tree of pointings</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pointings : `pd.dataFrame` </span>
+<span class="sd">            of pointings with unique index values as the index column</span>
+<span class="sd">        raCol :  string</span>
+<span class="sd">            column name for a column holding ra values in radians</span>
+<span class="sd">        decCol :  string</span>
+<span class="sd">            column name for a column holding dec values in radians</span>
+
+<span class="sd">        .. note : raCol and decCol are assumed to hold ra and dec in units of</span>
+<span class="sd">        radians</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pointings</span> <span class="o">=</span> <span class="n">pointings</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">validatePointings</span><span class="p">(</span><span class="n">pointings</span><span class="p">,</span> <span class="n">raCol</span><span class="p">,</span> <span class="n">decCol</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">raCol</span> <span class="o">=</span> <span class="n">raCol</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">decCol</span> <span class="o">=</span> <span class="n">decCol</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;pointings, and the provided values of raCol, decCol </span><span class="si">{0}</span><span class="s1">, </span><span class="si">{1}</span><span class="s1"> are incompatible&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">raCol</span><span class="p">,</span> <span class="n">decCol</span><span class="p">))</span>
+
+        <span class="c1"># tree queries</span>
+        <span class="c1"># Keep mapping from integer indices to obsHistID</span>
+        <span class="n">pointings</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;intindex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pointings</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">indMapping</span> <span class="o">=</span> <span class="n">pointings</span><span class="p">[</span><span class="s1">&#39;intindex&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;intindex&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Build Tree</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">BallTree</span><span class="p">(</span><span class="n">pointings</span><span class="p">[[</span><span class="n">decCol</span><span class="p">,</span> <span class="n">raCol</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                             <span class="n">leaf_size</span><span class="o">=</span><span class="n">leafSize</span><span class="p">,</span>
+                             <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;haversine&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PointingTree.validatePointings"><a class="viewcode-back" href="../../opsimsummary.summarize_opsim.html#opsimsummary.summarize_opsim.PointingTree.validatePointings">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">validatePointings</span><span class="p">(</span><span class="n">pointings</span><span class="p">,</span> <span class="n">raCol</span><span class="p">,</span> <span class="n">decCol</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validates `pointings` as having required properties according to list</span>
+<span class="sd">        of tests below</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        raCol : column name that should be in `pointings`</span>
+<span class="sd">        decCol : column name that should be in `pointings`</span>
+
+<span class="sd">        List of Tests:</span>
+<span class="sd">        1. raCol and decCol should be in the columns of `pointings` </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">pointings</span><span class="o">.</span><span class="n">columns</span>
+        <span class="k">if</span> <span class="n">raCol</span> <span class="ow">in</span> <span class="n">cols</span> <span class="ow">and</span> <span class="n">decCol</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">pointings</span><span class="p">[</span><span class="n">raCol</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+            <span class="k">assert</span> <span class="n">pointings</span><span class="p">[</span><span class="n">decCol</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">2.0</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;the column name provided to PointingTree for ra and decs&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; do not exist&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="PointingTree.pointingsEnclosing"><a class="viewcode-back" href="../../opsimsummary.summarize_opsim.html#opsimsummary.summarize_opsim.PointingTree.pointingsEnclosing">[docs]</a>    <span class="k">def</span> <span class="nf">pointingsEnclosing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">circRadius</span><span class="p">,</span> <span class="n">pointingRadius</span><span class="o">=</span><span class="mf">1.75</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ra : float or sequence, degrees</span>
+<span class="sd">            ra of the coordinates</span>
+<span class="sd">        dec : float or sequence, degrees</span>
+<span class="sd">            dec of the coordinates</span>
+<span class="sd">        circRadius : degrees, mandatory</span>
+<span class="sd">            radius of circle around point</span>
+<span class="sd">        pointingRadius : degrees, defaults to 1.75</span>
+<span class="sd">            radius of the field of view</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Treat only arrays</span>
+        <span class="n">ra</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">ra</span><span class="p">)</span>
+        <span class="n">dec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">dec</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">ra</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">dec</span><span class="p">)</span>
+
+        <span class="c1"># flip conventions to dec, ra</span>
+        <span class="n">obj_posns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ra</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">obj_posns</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">dec</span><span class="p">)</span>
+        <span class="n">obj_posns</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">ra</span><span class="p">)</span>
+
+        <span class="n">total_radius</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">circRadius</span> <span class="o">+</span> <span class="n">pointingRadius</span><span class="p">)</span>
+        <span class="n">inds</span><span class="p">,</span> <span class="n">dist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">query_radius</span><span class="p">(</span><span class="n">obj_posns</span><span class="p">,</span>
+                                            <span class="n">r</span><span class="o">=</span><span class="n">total_radius</span><span class="p">,</span>
+                                            <span class="n">count_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                            <span class="n">return_distance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">xx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indMapping</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">indMapping</span><span class="o">.</span><span class="n">obsHistID</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ptval</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">ptval</span> <span class="ow">in</span> <span class="n">inds</span><span class="p">)</span></div></div>
+
+
+
+
+<div class="viewcode-block" id="add_simlibCols"><a class="viewcode-back" href="../../opsimsummary.summarize_opsim.html#opsimsummary.summarize_opsim.add_simlibCols">[docs]</a><span class="k">def</span> <span class="nf">add_simlibCols</span><span class="p">(</span><span class="n">opsimtable</span><span class="p">,</span> <span class="n">pixSize</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    opsimtable: `~pandas.DataFrame` object, mandatory</span>
+<span class="sd">        containing an opsim Output of version X. The main requirements here</span>
+<span class="sd">        are that the columns &#39;finSeeing&#39;, &#39;fiveSigmaDepth&#39;, and</span>
+<span class="sd">        &#39;filtSkyBrightness&#39; are defined. If the opsim output has differently</span>
+<span class="sd">        named variables or transformed variables, these should be changed to</span>
+<span class="sd">        meet the criteria.</span>
+<span class="sd">    pixSize: float, optional, defaults to LSST value of 0.2</span>
+<span class="sd">        pixel Size in units of arc seconds.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    DataFrame with additional columns of &#39;simLibPsf&#39;, &#39;simLibZPTAVG&#39;, and</span>
+<span class="sd">    &#39;simLibSkySig&#39; </span>
+
+<span class="sd">    .. note :: This was written from a piece of f77 code by David</span>
+<span class="sd">        Cinabro sent by email on May 26, 2015. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;finSeeing&#39;</span> <span class="ow">in</span> <span class="n">opsimtable</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">psfwidth</span> <span class="o">=</span> <span class="s1">&#39;finSeeing&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">psfwidth</span> <span class="o">=</span> <span class="s1">&#39;FWHMeff&#39;</span>
+
+    <span class="n">opsim_seeing</span> <span class="o">=</span> <span class="n">opsimtable</span><span class="p">[</span><span class="n">psfwidth</span><span class="p">]</span> <span class="c1"># unit of arc sec sq</span>
+    <span class="c1"># magsky is in units of mag/arcsec^2</span>
+    <span class="c1"># opsim_maglim is in units of mag</span>
+    <span class="n">opsim_maglim</span> <span class="o">=</span> <span class="n">opsimtable</span><span class="p">[</span><span class="s1">&#39;fiveSigmaDepth&#39;</span><span class="p">]</span>
+    <span class="n">opsim_magsky</span> <span class="o">=</span> <span class="n">opsimtable</span><span class="p">[</span><span class="s1">&#39;filtSkyBrightness&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Calculate two variables that come up in consistent units:</span>
+    <span class="c1"># term1  = 2.0 * opsim_maglim - opsim_magsky</span>
+
+    <span class="c1"># Area of pixel in arcsec squared</span>
+    <span class="n">pixArea</span> <span class="o">=</span> <span class="n">pixSize</span> <span class="o">*</span> <span class="n">pixSize</span>
+
+    <span class="n">term1</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">opsim_maglim</span> <span class="o">-</span> <span class="n">opsim_magsky</span> <span class="c1"># * pixArea</span>
+    <span class="c1"># term2 = opsim_maglim - opsim_magsky</span>
+    <span class="n">term2</span> <span class="o">=</span> <span class="o">-</span> <span class="p">(</span><span class="n">opsim_maglim</span> <span class="o">-</span> <span class="n">opsim_magsky</span><span class="p">)</span> <span class="c1"># * pixArea</span>
+
+
+    <span class="c1"># Calculate SIMLIB PSF VALUE</span>
+    <span class="n">opsimtable</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;simLibPsf&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opsim_seeing</span> <span class="o">/</span><span class="mf">2.35</span> <span class="o">/</span><span class="n">pixSize</span>
+   
+    <span class="c1"># 4 \pi (\sigma_PSF / 2.35 )^2</span>
+    <span class="n">area</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.51</span> <span class="o">*</span> <span class="n">opsim_seeing</span><span class="p">)</span><span class="o">**</span><span class="mf">2.</span>
+    
+    <span class="n">opsim_snr</span> <span class="o">=</span> <span class="mf">5.</span>
+    <span class="n">arg</span> <span class="o">=</span> <span class="n">area</span> <span class="o">*</span> <span class="n">opsim_snr</span> <span class="o">*</span> <span class="n">opsim_snr</span>
+
+    <span class="c1"># Background dominated limit assuming counts with system transmission only</span>
+    <span class="c1"># is approximately equal to counts with total transmission</span>
+    <span class="n">zpt_approx</span> <span class="o">=</span> <span class="n">term1</span> <span class="o">+</span> <span class="mf">2.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+    <span class="c1"># zpt_approx = 2.0 * opsim_maglim - opsim_magsky + 2.5 * np.log10(arg)</span>
+    <span class="c1"># ARG again in David Cinabro&#39;s code</span>
+
+    <span class="n">val</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.4</span> <span class="o">*</span> <span class="n">term2</span>
+    <span class="c1"># val = -0.4 * (opsim_magsky - opsim_maglim)</span>
+
+    <span class="n">tmp</span> <span class="o">=</span> <span class="mf">10.0</span> <span class="o">**</span> <span class="n">val</span>
+    <span class="c1"># Additional term to account for photons from the source, again assuming</span>
+    <span class="c1"># that counts with system transmission approximately equal counts with total</span>
+    <span class="c1"># transmission.</span>
+
+    <span class="n">zpt_cor</span> <span class="o">=</span> <span class="mf">2.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">area</span> <span class="o">*</span> <span class="n">tmp</span><span class="p">))</span>
+    <span class="n">simlib_zptavg</span> <span class="o">=</span> <span class="n">zpt_approx</span> <span class="o">+</span> <span class="n">zpt_cor</span>
+    <span class="c1"># ZERO PT CALCULATION </span>
+    <span class="n">opsimtable</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;simLibZPTAVG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">simlib_zptavg</span>
+    
+    <span class="c1"># SKYSIG Calculation</span>
+    <span class="n">npix_asec</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">pixSize</span><span class="o">**</span><span class="mf">2.</span>
+    <span class="n">opsimtable</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;simLibSkySig&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">npix_asec</span><span class="p">)</span> \
+    <span class="o">*</span><span class="mf">10.0</span> <span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">0.4</span> <span class="o">*</span> <span class="p">(</span><span class="n">opsim_magsky</span> <span class="o">-</span> <span class="n">simlib_zptavg</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">opsimtable</span></div>
+
+<span class="k">class</span> <span class="nc">SummaryOpsim</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">summarydf</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">survey</span><span class="o">=</span><span class="s1">&#39;LSST&#39;</span><span class="p">,</span>
+                 <span class="n">telescope</span><span class="o">=</span><span class="s1">&#39;LSST&#39;</span><span class="p">,</span> <span class="n">pixSize</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">calculateSNANASimlibs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Create a summary of the OpSim output. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        summarydf: mandatory, `~pandas.DataFrame` (alternative constructors too)</span>
+<span class="sd">            DataFrame corresponding to the opsim output (with appropriate</span>
+<span class="sd">            selections) to be summarized.</span>
+<span class="sd">        user: string, optional, defaults to None</span>
+<span class="sd">            user running the program, used in writing out SNANA simlibs only </span>
+<span class="sd">            if None, the login name of the user is used.</span>
+<span class="sd">        host: string, optional, defaults to None</span>
+<span class="sd">            name of host machine, used only in writing out SNANA simlibs</span>
+<span class="sd">            default of None assigns the output of `hostname` to this variable.</span>
+<span class="sd">        survey: string, optional, defaults to &#39;LSST&#39;</span>
+<span class="sd">            name of survey, required only for writing out SNANA simlibs</span>
+<span class="sd">        telescope: string, optional, defaults to &#39;LSST&#39;</span>
+<span class="sd">            name of survey, required only for writing out SNANA simlibs</span>
+<span class="sd">        pixSize: float, optional, defaults to 0.2</span>
+<span class="sd">            size of the pixel in arcseconds, defaults to 0.2 as appropriate</span>
+<span class="sd">            for LSST</span>
+<span class="sd">        calculateSNANASimlibs: Optional, Boolean, defaults to False</span>
+<span class="sd">            Computes quantities only necessary for SNANA Simlib Calculation</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="kn">import</span> <span class="nn">os</span> 
+        <span class="kn">import</span> <span class="nn">subprocess</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">summarydf</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calcMJDay</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;simLibSkySig&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">calculateSNANASimlibs</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">df</span>  <span class="o">=</span> <span class="n">add_simlibCols</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">)</span>
+
+        <span class="c1"># SNANA has y filter deonoted as Y. Can change in input files to SNANA</span>
+        <span class="c1"># but more bothersome.</span>
+        <span class="k">def</span> <span class="nf">capitalizeY</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">&#39;y&#39;</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+                <span class="k">return</span> <span class="sa">u</span><span class="s1">&#39;Y&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">x</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;filter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">capitalizeY</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minMJD</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">expMJD</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minNight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">night</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fieldsimlibs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;fieldID&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fieldIds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fieldsimlibs</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+        
+        <span class="c1"># report a user name, either from a constructor parameter, or login name</span>
+        <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getlogin</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
+
+        <span class="c1"># report a host on which the calculations are done. either from</span>
+        <span class="c1"># constructor parameters or from the system hostname utility </span>
+        <span class="k">if</span> <span class="n">host</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="s1">&#39;hostname&#39;</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+            <span class="n">host</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="n">host</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">telescope</span> <span class="o">=</span> <span class="n">telescope</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pixelSize</span> <span class="o">=</span> <span class="n">pixSize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">survey</span> <span class="o">=</span> <span class="n">survey</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">fromOpSimASCII</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">opSimFlatFile</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        instantiates the sumamry table from opSim ASCII outputs like</span>
+<span class="sd">        the outputs for version 2.168</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ---------</span>
+<span class="sd">        opSimFlatFile : string, mandatory</span>
+<span class="sd">            absolute path to ASCII file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+        <span class="n">summary</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">opSimFlatFile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">fromOpSimDB</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">opSimDBfilename</span><span class="p">,</span> <span class="n">tablename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sql_query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">dialect</span><span class="o">=</span><span class="s1">&#39;sqlite&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        used to instantiate the summary from the opsim database</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        opSimDBfilename : str, mandatory</span>
+<span class="sd">            absolute path to opsim sqlite database</span>
+<span class="sd">        tablename : string, optional, defaults to None</span>
+<span class="sd">            name of table in case it is not in sql_query</span>
+<span class="sd">        sql_query : strng, mandatory</span>
+<span class="sd">            sql_query to get the required OpSim visits</span>
+<span class="sd">        dialect : string, defaults to &#39;sqlite&#39;</span>
+<span class="sd">            Only dialect supported at present</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">create_engine</span>
+        <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+        <span class="k">if</span> <span class="n">dialect</span> <span class="o">==</span> <span class="s1">&#39;sqlite&#39;</span><span class="p">:</span>
+            <span class="n">opSimDB</span> <span class="o">=</span> <span class="s1">&#39;sqlite:///&#39;</span> <span class="o">+</span> <span class="n">opSimDBfilename</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;other dialects not supported yet</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">opSimDB</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sql_query</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">summary</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_table</span><span class="p">(</span><span class="n">tablename</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">summary</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_query</span><span class="p">(</span><span class="n">sql_query</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">coords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">ra</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ra</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">fieldIds</span><span class="p">))</span>
+        <span class="n">dec</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dec</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">fieldIds</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">calcMJDay</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds an &#39;MJDay&#39; column calculted from the expMJD variable</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;MJDay&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">expMJD</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;MJDay&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;MJDay&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+
+
+    <span class="k">def</span> <span class="nf">cadence_Matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">summarydf</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fieldID</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">sql_query</span><span class="o">=</span><span class="s1">&#39;night &lt; 366&#39;</span><span class="p">,</span> <span class="n">mjd_center</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">mjd_range</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">50.</span><span class="p">,</span> <span class="mf">50.</span><span class="p">],</span> <span class="n">observedOnly</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                       <span class="n">Filters</span><span class="o">=</span><span class="p">[</span><span class="sa">u</span><span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;Y&#39;</span><span class="p">],</span>
+                       <span class="n">nightMax</span><span class="o">=</span><span class="mi">365</span><span class="p">,</span> <span class="n">nightMin</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    
+        <span class="n">timeMin</span> <span class="o">=</span> <span class="n">nightMin</span>
+        <span class="n">timeMax</span> <span class="o">=</span> <span class="n">nightMax</span>
+        <span class="n">timeIndex</span> <span class="o">=</span> <span class="s1">&#39;night&#39;</span>
+        <span class="k">if</span> <span class="n">mjd_center</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">timeIndex</span> <span class="o">=</span> <span class="s1">&#39;MJDay&#39;</span>
+            <span class="k">if</span> <span class="s1">&#39;mjd&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sql_query</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="n">timeMin</span> <span class="o">=</span> <span class="n">mjd_center</span> <span class="o">+</span> <span class="n">mjd_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">timeMax</span> <span class="o">=</span> <span class="n">mjd_center</span> <span class="o">+</span> <span class="n">mjd_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">sql_query</span> <span class="o">=</span> <span class="s1">&#39;MJDay &gt; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">timeMin</span><span class="p">)</span> 
+                <span class="n">sql_query</span> <span class="o">+=</span> <span class="s1">&#39; and MJDay &lt; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">timeMax</span><span class="p">)</span>
+
+        <span class="n">ss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">timeMin</span><span class="p">,</span> <span class="n">timeMax</span><span class="p">))</span>
+
+        <span class="c1"># group on filter and timeIndex (night)</span>
+        <span class="n">grouping_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span> <span class="n">timeIndex</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">summarydf</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">summarydf</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simlib</span><span class="p">(</span><span class="n">fieldID</span><span class="p">)</span>
+            <span class="c1"># queriedOpSim = self.simlib(fieldID).query(sql_query)</span>
+
+        <span class="k">if</span> <span class="n">timeIndex</span> <span class="o">==</span> <span class="s1">&#39;MJDay&#39;</span><span class="p">:</span>
+            <span class="c1"># Check that input data has key MJDay</span>
+            <span class="k">if</span> <span class="s1">&#39;MJDay&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">calcMJDay</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="n">queriedOpSim</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql_query</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">queriedOpSim</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="n">Matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">ss</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">Filters</span><span class="p">)</span>
+            <span class="n">Matrix</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Matrix</span>
+
+        
+        <span class="n">grouped</span> <span class="o">=</span> <span class="n">queriedOpSim</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">grouping_keys</span><span class="p">)</span>
+ 
+        <span class="c1"># tuples of keys</span>
+        <span class="n">filts</span><span class="p">,</span> <span class="n">times</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span> <span class="o">*</span><span class="n">grouped</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="c1"># number of Observations in each group</span>
+
+        <span class="c1"># Apparently the following does not work</span>
+        <span class="c1"># numObs = grouped.apply(len).values</span>
+
+        <span class="c1"># To do this correctly</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="n">grouped</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="n">numObs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">grouped</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="n">x</span><span class="p">]),</span> <span class="n">ks</span><span class="p">))</span>
+
+        <span class="c1"># Create a new dataFrame with nights, Filters, numObs as cols</span>
+        <span class="n">cadence_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">cadence_dict</span><span class="p">[</span><span class="s1">&#39;Filters&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">filts</span><span class="p">)</span>
+        <span class="n">cadence_dict</span><span class="p">[</span><span class="n">timeIndex</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+
+        <span class="c1"># If observedOnly: set values above 1 to 1 </span>
+        <span class="k">if</span> <span class="n">observedOnly</span><span class="p">:</span>
+            <span class="n">numObs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">numObs</span><span class="p">)),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        
+        <span class="n">cadence_dict</span><span class="p">[</span><span class="s1">&#39;numObs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">numObs</span><span class="p">)</span>
+
+        <span class="c1"># pivot dataFrame to occupation numbers</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cadence_dict</span><span class="p">)</span>
+        <span class="n">Matrix</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">timeIndex</span><span class="p">,</span> <span class="s1">&#39;Filters&#39;</span><span class="p">,</span> <span class="s1">&#39;numObs&#39;</span><span class="p">)</span>
+
+        <span class="c1"># First make sure all filters are represented</span>
+        <span class="k">for</span> <span class="n">filt</span> <span class="ow">in</span> <span class="n">Filters</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">filt</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="n">Matrix</span><span class="p">[</span><span class="n">filt</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+        <span class="c1"># reorder filters to u,g,r,i,z,y</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">[</span><span class="n">Filters</span><span class="p">]</span>
+        
+        <span class="c1"># Extend to all values in plot</span>
+        <span class="n">Matrix</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Matrix</span>
+
+
+    <span class="k">def</span> <span class="nf">mjdvalfornight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">night</span><span class="p">):</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">night</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">minMJD</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">minNight</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">nightformjd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mjd</span><span class="p">)</span> <span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">mjd</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">minMJD</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">minNight</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">cadence_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">summarydf</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fieldID</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">racol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">deccol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">sql_query</span><span class="o">=</span><span class="s1">&#39;night &lt; 366&#39;</span><span class="p">,</span> <span class="n">mjd_center</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">mjd_range</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span>
+                     <span class="n">Filters</span><span class="o">=</span><span class="p">[</span><span class="sa">u</span><span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;Y&#39;</span><span class="p">],</span>
+                     <span class="n">nightMin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">nightMax</span><span class="o">=</span><span class="mi">365</span><span class="p">,</span> <span class="n">deltaT</span><span class="o">=</span><span class="mf">5.</span><span class="p">,</span> <span class="n">observedOnly</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                     <span class="n">title</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colorbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                     <span class="n">colorbarMin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">showmjd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        produce a cadence plot that shows the filters and nights observed in</span>
+<span class="sd">        some subset of the opsim output time span for a field.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fieldID: integer, mandatory</span>
+<span class="sd">            ID corresponding to the LSST Field as recorded as fieldID in OpSIM</span>
+<span class="sd">            output</span>
+<span class="sd">        sql_query: string, optional, defaults to obtaining the first season</span>
+<span class="sd">            a sql query to select observations within the opsim summary object </span>
+<span class="sd">            associated with the field </span>
+<span class="sd">        Filters: list of strings, optional, defaults to LSST ugrizY</span>
+<span class="sd">            a list of strings corresponding to filter names.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+
+        <span class="n">Matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cadence_Matrix</span><span class="p">(</span><span class="n">fieldID</span><span class="o">=</span><span class="n">fieldID</span><span class="p">,</span> <span class="n">summarydf</span><span class="o">=</span><span class="n">summarydf</span><span class="p">,</span>
+                                     <span class="n">sql_query</span><span class="o">=</span><span class="n">sql_query</span><span class="p">,</span>
+                                     <span class="n">mjd_center</span><span class="o">=</span><span class="n">mjd_center</span><span class="p">,</span> <span class="n">mjd_range</span><span class="o">=</span><span class="n">mjd_range</span><span class="p">,</span>
+                                     <span class="n">Filters</span><span class="o">=</span><span class="n">Filters</span><span class="p">,</span> <span class="n">nightMin</span><span class="o">=</span><span class="n">nightMin</span><span class="p">,</span>
+                                      <span class="n">nightMax</span><span class="o">=</span><span class="n">nightMax</span><span class="p">,</span> <span class="n">observedOnly</span><span class="o">=</span><span class="n">observedOnly</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">mjd_center</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">timeMin</span> <span class="o">=</span> <span class="n">mjd_center</span> <span class="o">+</span> <span class="n">mjd_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">timeMax</span> <span class="o">=</span> <span class="n">mjd_center</span> <span class="o">+</span> <span class="n">mjd_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">timeMin</span> <span class="o">=</span> <span class="n">nightMin</span>
+            <span class="n">timeMax</span> <span class="o">=</span> <span class="n">nightMax</span>
+
+        <span class="n">nightMatrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">nightMatrix</span><span class="p">[</span><span class="n">nightMatrix</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">nightArray</span> <span class="o">=</span> <span class="n">nightMatrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="n">numNights</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nightArray</span><span class="p">)</span> 
+        <span class="n">numFiltNights</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">nightArray</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+        <span class="n">numVisits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">Matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="n">observedOnly</span><span class="p">:</span>
+            <span class="n">axesImage</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">Matrix</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+                                    <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray_r</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">colorbarMin</span><span class="p">,</span>
+                                    <span class="n">vmax</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="n">timeMin</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span>
+                                                     <span class="n">timeMax</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
+                                                     <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">axesImage</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">Matrix</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+                                    <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray_r</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">colorbarMin</span><span class="p">,</span>
+                                    <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="n">timeMin</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">timeMax</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
+                                            <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
+
+
+        <span class="c1"># setup matplotlib figure and axis objects to manipulate</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">axesImage</span><span class="o">.</span><span class="n">axes</span> 
+
+        <span class="c1"># yticks: annotate with filter names</span>
+        <span class="c1"># Note that it is also possible to get this from the DataFrame</span>
+        <span class="c1"># by Matrix.columns, but the columns are sorted according to the order</span>
+        <span class="c1"># in Filters</span>
+        
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="s1">&#39;0&#39;</span><span class="p">]</span> <span class="o">+</span><span class="n">Filters</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">minor</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Positiion x ticks at the bottom rather than top</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">tick_bottom</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_major_formatter</span><span class="p">()</span><span class="o">.</span><span class="n">set_useOffset</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mjd_center</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">mjd_center</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+
+        <span class="c1"># Add a grid </span>
+        <span class="c1"># if mjd_center is not None:</span>
+        <span class="c1">#    nightMin = mjd_center + mjd_range[0]</span>
+        <span class="c1">#    nightMax = mjd_center + mjd_range[1]</span>
+        <span class="k">if</span> <span class="n">grid</span><span class="p">:</span>
+            <span class="n">minorxticks</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">timeMin</span><span class="p">,</span> <span class="n">timeMax</span><span class="p">,</span>
+                                                  <span class="n">deltaT</span><span class="p">),</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Hard coding this</span>
+        <span class="n">minoryticks</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">5.6</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_adjustable</span><span class="p">(</span><span class="s1">&#39;box-forced&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s1">&#39;minor&#39;</span><span class="p">)</span>
+
+
+        <span class="c1"># If nightMin is different from 0, translate xticks</span>
+        <span class="c1"># xticks = ax.get_xticks()</span>
+        <span class="c1"># xticklabels = ax.get_xticklabels()</span>
+        <span class="c1"># tmp = [item.get_text() for item in xticklabels]</span>
+        <span class="c1"># xticklabel = np.array(map(eval, tmp[1:-1])) + nightMin</span>
+        <span class="c1"># ax.set_xticks(xticks[1:-1])</span>
+        <span class="c1"># ax.set_xticklabels(xticklabel)</span>
+
+        <span class="c1"># Set a title with information about the field</span>
+        
+        <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+            <span class="c1"># Make case for the time when fieldID is not supplied</span>
+            <span class="k">if</span> <span class="n">fieldID</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">fieldIDval</span> <span class="o">=</span> <span class="mi">0</span> 
+                <span class="n">raval</span> <span class="o">=</span> <span class="n">summarydf</span><span class="p">[</span><span class="n">racol</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">decval</span> <span class="o">=</span> <span class="n">summarydf</span><span class="p">[</span><span class="n">deccol</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fieldIDval</span> <span class="o">=</span> <span class="n">fieldID</span>
+                <span class="n">raval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ra</span><span class="p">(</span><span class="n">fieldID</span><span class="p">)</span>
+                <span class="n">decval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dec</span><span class="p">(</span><span class="n">fieldID</span><span class="p">)</span>
+
+            <span class="c1"># Format field Info from attributes</span>
+            <span class="n">t_txt</span> <span class="o">=</span> <span class="s1">&#39;fieldID: </span><span class="si">{:0&gt;2d}</span><span class="s1"> (ra: </span><span class="si">{:+3.2f}</span><span class="s1"> dec: </span><span class="si">{:+3.2f}</span><span class="s1">), visits: </span><span class="si">{:4d}</span><span class="s1">, nights: </span><span class="si">{:3d}</span><span class="s1">, nights in bands: </span><span class="si">{:3d}</span><span class="s1">&#39;</span>
+            <span class="n">t_txt</span> <span class="o">=</span> <span class="n">t_txt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fieldIDval</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">raval</span><span class="p">),</span>
+                                 <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">decval</span><span class="p">),</span> <span class="n">numVisits</span><span class="p">,</span> <span class="n">numNights</span><span class="p">,</span>
+                                 <span class="n">numFiltNights</span><span class="p">)</span>
+
+            <span class="c1"># if title_text is supplied use that instead</span>
+            <span class="k">if</span> <span class="n">title_text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">t_txt</span> <span class="o">=</span> <span class="n">title_text</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">t_txt</span><span class="p">)</span>
+
+        <span class="c1"># Set a colorbar</span>
+        <span class="k">if</span> <span class="n">colorbar</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Get the figure object</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span>
+
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">numVisits</span><span class="p">,</span> <span class="n">numNights</span><span class="p">,</span> <span class="n">numFiltNights</span>
+
+
+    <span class="k">def</span> <span class="nf">showFields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="c1"># ra needs to be in radians but after resetting offset</span>
+        <span class="n">ra</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">dec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">remainder</span><span class="p">(</span><span class="n">ra</span> <span class="o">+</span> <span class="mf">360.</span><span class="p">,</span> <span class="mf">360.</span><span class="p">)</span>
+        <span class="n">ind</span>  <span class="o">=</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mf">180.</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">-=</span><span class="mf">360.</span>
+
+        <span class="n">ra</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="c1"># print ra</span>
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;mollweide&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">marker</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="s1">&#39;o&#39;</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">fig</span>  <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span>
+        <span class="k">return</span> <span class="n">fig</span>
+
+
+    <span class="k">def</span> <span class="nf">simlib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldID</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fieldsimlibs</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="n">fieldID</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">ra</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldID</span><span class="p">):</span>
+        <span class="n">ravals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">simlib</span><span class="p">(</span><span class="n">fieldID</span><span class="p">)</span><span class="o">.</span><span class="n">fieldRA</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ravals</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ravals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The fieldDec of this group seems to not be unique</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">dec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldID</span><span class="p">):</span>
+        <span class="n">decvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">simlib</span><span class="p">(</span><span class="n">fieldID</span><span class="p">)</span><span class="o">.</span><span class="n">fieldDec</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">decvals</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">decvals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The fieldDec of this group seems to not be unique</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">meta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldID</span><span class="p">):</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;LIBID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fieldID</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;dec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dec</span><span class="p">(</span><span class="n">fieldID</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">meta</span>
+    
+    <span class="k">def</span> <span class="nf">fieldheader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldID</span><span class="p">):</span>
+        
+        <span class="n">ra</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ra</span><span class="p">(</span><span class="n">fieldID</span><span class="p">))</span>
+        <span class="n">dec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dec</span><span class="p">(</span><span class="n">fieldID</span><span class="p">))</span>
+        <span class="n">mwebv</span> <span class="o">=</span> <span class="mf">0.01</span>
+        <span class="n">pixSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixelSize</span> 
+        <span class="n">nobs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">simlib</span><span class="p">(</span><span class="n">fieldID</span><span class="p">))</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;# --------------------------------------------&#39;</span> <span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> 
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;LIBID: </span><span class="si">{0:10d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fieldID</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="s1">&#39;RA: </span><span class="si">{0:+10.6f}</span><span class="s1"> DECL: </span><span class="si">{1:+10.6f}</span><span class="s1">   NOBS: </span><span class="si">{2:10d}</span><span class="s1"> MWEBV: </span><span class="si">{3:5.2f}</span><span class="s1">&#39;</span>
+        <span class="n">tmp</span> <span class="o">+=</span> <span class="s1">&#39; PIXSIZE: </span><span class="si">{4:5.3f}</span><span class="s1">&#39;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">nobs</span><span class="p">,</span> <span class="n">mwebv</span><span class="p">,</span> <span class="n">pixSize</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="c1"># s += &#39;LIBID: {0:10d}&#39;.format(fieldID) + &#39;\n&#39;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;#                           CCD  CCD         PSF1 PSF2 PSF2/1&#39;</span> <span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;#     MJD      IDEXPT  FLT GAIN NOISE SKYSIG (pixels)  RATIO  ZPTAVG ZPTERR  MAG&#39;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="n">s</span>
+    
+    <span class="k">def</span> <span class="nf">fieldfooter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldID</span><span class="p">):</span>
+        
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;END_LIBID: </span><span class="si">{0:10d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fieldID</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="n">s</span>
+        
+    <span class="k">def</span> <span class="nf">formatSimLibField</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldID</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">):</span>
+    
+        <span class="n">opSimSummary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simlib</span><span class="p">(</span><span class="n">fieldID</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span><span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">opSimSummary</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># skip the index</span>
+            <span class="c1"># print(data[&#39;filter&#39;], type(data[&#39;filter&#39;]), list(data[&#39;filter&#39;]))</span>
+            <span class="c1">#       MJD EXPID FILTER </span>
+            <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;S:&#39;</span><span class="p">,</span>
+                   <span class="s2">&quot;</span><span class="si">{0:5.4f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">expMJD</span><span class="p">),</span>
+                   <span class="s2">&quot;</span><span class="si">{0:10d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">obsHistID</span><span class="p">),</span>
+                   <span class="n">data</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">],</span> 
+                   <span class="s2">&quot;</span><span class="si">{0:5.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">1.</span><span class="p">),</span>                  <span class="c1"># CCD Gain</span>
+                   <span class="s2">&quot;</span><span class="si">{0:5.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">0.25</span><span class="p">),</span>                <span class="c1"># CCD Noise </span>
+                   <span class="s2">&quot;</span><span class="si">{0:6.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">simLibSkySig</span><span class="p">),</span>   <span class="c1"># SKYSIG</span>
+                   <span class="s2">&quot;</span><span class="si">{0:4.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">simLibPsf</span><span class="p">),</span>      <span class="c1"># PSF1 </span>
+                   <span class="s2">&quot;</span><span class="si">{0:4.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">0.</span><span class="p">),</span>                  <span class="c1"># PSF2 </span>
+                   <span class="s2">&quot;</span><span class="si">{0:4.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">0.</span><span class="p">),</span>                  <span class="c1"># PSFRatio </span>
+                   <span class="s2">&quot;</span><span class="si">{0:6.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">simLibZPTAVG</span><span class="p">),</span>   <span class="c1"># ZPTAVG</span>
+                   <span class="s2">&quot;</span><span class="si">{0:6.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">0.005</span><span class="p">),</span>               <span class="c1"># ZPTNoise </span>
+                   <span class="s2">&quot;</span><span class="si">{0:+7.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">-</span><span class="mf">99.</span><span class="p">)]</span>               <span class="c1"># MAG</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">+=</span> <span class="n">s</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="n">y</span>
+    
+    <span class="k">def</span> <span class="nf">writeSimLibField</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldID</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fieldheader</span><span class="p">(</span><span class="n">fieldID</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatSimLibField</span><span class="p">(</span><span class="n">fieldID</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">footer</span><span class="p">(</span><span class="n">fieldID</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span> <span class="nf">simLibheader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1">#, user=None, host=None, survey=&#39;LSST&#39;, telescope=&#39;LSST&#39;):</span>
+        <span class="c1"># comment: I would like to generalize ugrizY to a sort but am not sure</span>
+        <span class="c1"># of the logic for other filter names. so ducking for now</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;SURVEY: </span><span class="si">{0:}</span><span class="s1">    FILTERS: ugrizY  TELESCOPE: </span><span class="si">{1:}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">survey</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">telescope</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;USER: </span><span class="si">{0:}</span><span class="s1">     HOST: </span><span class="si">{1:}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">)</span> 
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;BEGIN LIBGEN</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="n">s</span>
+    
+    <span class="k">def</span> <span class="nf">simLibFooter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;END_OF_SIMLIB:    </span><span class="si">{0:10d}</span><span class="s1"> ENTRIES&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fieldIds</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+
+    <span class="k">def</span> <span class="nf">writeSimlib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+            <span class="n">simlib_header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simLibheader</span><span class="p">()</span>
+            <span class="n">simlib_footer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simLibFooter</span><span class="p">()</span>
+            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">simlib_header</span><span class="p">)</span>
+            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">comments</span><span class="p">)</span>
+            <span class="c1"># fh.write(&#39;BEGIN LIBGEN\n&#39;)</span>
+            <span class="c1"># fh.write(&#39;\n&#39;)</span>
+            <span class="k">for</span> <span class="n">fieldID</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fieldIds</span><span class="p">:</span>
+                <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fieldheader</span><span class="p">(</span><span class="n">fieldID</span><span class="p">))</span>
+                <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">formatSimLibField</span><span class="p">(</span><span class="n">fieldID</span><span class="p">))</span>
+                <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fieldfooter</span><span class="p">(</span><span class="n">fieldID</span><span class="p">))</span>
+            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">simlib_footer</span><span class="p">)</span>
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, R. Biswas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

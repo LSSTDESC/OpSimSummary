@@ -1,0 +1,1017 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>opsimsummary.simlib &mdash; OpSimSummary 0.8.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> OpSimSummary
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../opsimsummary.html">opsimsummary package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../opsimsummary.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.simlib.html">opsimsummary.simlib module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.trig.html">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html#installing-dependencies">Installing Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">opsimsummary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#package-structure">Package Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../opsimsummary.html">opsimsummary package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../opsimsummary.simlib.html">opsimsummary.simlib module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../opsimsummary.trig.html">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">OpSimSummary</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>opsimsummary.simlib</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for opsimsummary.simlib</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module with functionality to represent SNANA simlib data.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SimlibMixin&#39;</span><span class="p">,</span> <span class="s1">&#39;Simlibs&#39;</span><span class="p">]</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="k">import</span> <span class="n">StringIO</span><span class="p">,</span> <span class="n">BytesIO</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">.summarize_opsim</span> <span class="k">import</span> <span class="n">SynOpSim</span>
+
+
+<span class="k">class</span> <span class="nc">SimlibField</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldID</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">opsimtable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">mwebv</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fieldID</span> <span class="o">=</span> <span class="n">fieldID</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ra</span> <span class="o">=</span> <span class="n">ra</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dec</span> <span class="o">=</span> <span class="n">dec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mwebv</span> <span class="o">=</span> <span class="n">mwebv</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opsimtable</span> <span class="o">=</span> <span class="n">opsimtable</span>
+
+    <span class="k">def</span> <span class="nf">setfields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldID</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">opsimtable</span><span class="p">,</span> <span class="n">mwebv</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mwebv</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mwebv</span> <span class="o">=</span> <span class="n">mwebv</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fieldID</span> <span class="o">=</span> <span class="n">fieldID</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ra</span> <span class="o">=</span> <span class="n">ra</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dec</span> <span class="o">=</span> <span class="n">dec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opsimtable</span> <span class="o">=</span> <span class="n">opsimtable</span>
+
+<div class="viewcode-block" id="SimlibMixin"><a class="viewcode-back" href="../../opsimsummary.simlib.html#opsimsummary.simlib.SimlibMixin">[docs]</a><span class="k">class</span> <span class="nc">SimlibMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin for `SummaryOpsim` to provide the following additional functionality</span>
+<span class="sd">    geared towards creating simlibs for SNANA.</span>
+<span class="sd">    - Calculate additional columns for simlib either on a complete</span>
+<span class="sd">        `OpSimOutput.summary` dataframe, or for a dataframe for a particular</span>
+<span class="sd">        `patch` of sky (LIBID in the SNANA language).</span>
+<span class="sd">    - Calculate variables required for SNANA simlib outside the Opsim data</span>
+
+<span class="sd">    The parent class must have the following attributes:</span>
+<span class="sd">        - subset (must be a valid string)</span>
+<span class="sd">        The following attributes cannot be set by the user and are</span>
+<span class="sd">        set by `simlibVars`</span>
+<span class="sd">        - user (default can be None)</span>
+<span class="sd">        - host (default can be None)</span>
+<span class="sd">        - telescope</span>
+<span class="sd">        - survey </span>
+<span class="sd">        - pixelSize</span>
+<span class="sd">    In order to be able to write out the simlibs to disk, it should also have</span>
+<span class="sd">    a method to provide a sequence (may be a generator) of fields, and</span>
+<span class="sd">    `opsimtables`. The fields are instances of a class which has the following</span>
+<span class="sd">    information</span>
+
+<span class="sd">    `fieldID`</span>
+<span class="sd">    `ra`</span>
+<span class="sd">    `dec`</span>
+<span class="sd">    `mwebv` (which may be set to a default value). The responsibility of</span>
+<span class="sd">    selection of such fields and sorting out the correct requirements is</span>
+<span class="sd">    of the parent class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Bad patch</span>
+    <span class="n">pixelSize</span> <span class="o">=</span> <span class="mf">0.2</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">simlibVars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Collection of Attributes provided by the static method</span>
+<span class="sd">        `self.get_simlibVars` as an ordered dict with the following keys</span>
+<span class="sd">        (`user`, `host`, `pixelSize`, `survey`, `telescope`). Calling this.</span>
+<span class="sd">        also sets class variables for each of these keys.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">simlibVars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_simlibVars</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+                                         <span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span>
+                                         <span class="n">pixelSize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pixelSize</span><span class="p">,</span>
+                                         <span class="n">telescope</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">telescope</span><span class="p">,</span>
+                                         <span class="n">survey</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">survey</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">simlibVars</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="n">simlibVars</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pixelSize</span> <span class="o">=</span> <span class="n">simlibVars</span><span class="p">[</span><span class="s1">&#39;pixelSize&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">telescope</span> <span class="o">=</span> <span class="n">simlibVars</span><span class="p">[</span><span class="s1">&#39;telescope&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">survey</span> <span class="o">=</span> <span class="n">simlibVars</span><span class="p">[</span><span class="s1">&#39;survey&#39;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">simlibVars</span>
+
+
+<div class="viewcode-block" id="SimlibMixin.get_simlibVars"><a class="viewcode-back" href="../../opsimsummary.simlib.html#opsimsummary.simlib.SimlibMixin.get_simlibVars">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_simlibVars</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pixelSize</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">telescope</span><span class="o">=</span><span class="s1">&#39;LSST&#39;</span><span class="p">,</span>
+                       <span class="n">survey</span><span class="o">=</span><span class="s1">&#39;LSST&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Computes quantities only necessary for SNANA Simlib Calculation</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        user: string, optional, defaults to None</span>
+<span class="sd">            user running the program, used in writing out SNANA simlibs only</span>
+<span class="sd">            if None, the login name of the user is used.</span>
+<span class="sd">        host: string, optional, defaults to None</span>
+<span class="sd">            name of host machine, used only in writing out SNANA simlibs</span>
+<span class="sd">            default of None assigns the output of `hostname` to this variable.</span>
+<span class="sd">        pixelSize: float, optional, defaults to 0.2</span>
+<span class="sd">            size of the pixel in arcseconds, defaults to 0.2 as appropriate</span>
+<span class="sd">            for LSST</span>
+<span class="sd">        survey: string, optional, defaults to &#39;LSST&#39;</span>
+<span class="sd">            name of survey, required only for writing out SNANA simlibs</span>
+<span class="sd">        telescope: string, optional, defaults to &#39;LSST&#39;</span>
+<span class="sd">            name of survey, required only for writing out SNANA simlibs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># report a user name, either from a constructor parameter, or login name</span>
+        <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getlogin</span><span class="p">()</span>
+
+        <span class="c1"># report a host on which the calculations are done. either from</span>
+        <span class="c1"># constructor parameters or from the system hostname utility </span>
+        <span class="k">if</span> <span class="n">host</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="s1">&#39;hostname&#39;</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+            <span class="n">host</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;host&#39;</span><span class="p">,</span> <span class="n">host</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;pixelSize&#39;</span><span class="p">,</span> <span class="n">pixelSize</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;survey&#39;</span><span class="p">,</span> <span class="n">survey</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;telescope&#39;</span><span class="p">,</span> <span class="n">telescope</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_capitalizeY</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;private helper method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># SNANA has y filter deonoted as Y. Can change in input files to SNANA</span>
+        <span class="c1"># but more bothersome.</span>
+        <span class="k">if</span> <span class="s1">&#39;y&#39;</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">u</span><span class="s1">&#39;Y&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">x</span>
+
+<div class="viewcode-block" id="SimlibMixin.preprocess_lib"><a class="viewcode-back" href="../../opsimsummary.simlib.html#opsimsummary.simlib.SimlibMixin.preprocess_lib">[docs]</a>    <span class="k">def</span> <span class="nf">preprocess_lib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">opsimtable</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        preprocess the dataframe with data for a single SNANA simlib</span>
+<span class="sd">        field (ie. data corresponding to a single libid) if necessary.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        opsimtable : `pd.DataFrame` with required data from OpSim corresponding</span>
+<span class="sd">            to a single field.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># reasonable guess that columns have not been added</span>
+        <span class="k">if</span> <span class="s1">&#39;simLibSkySig&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">opsimtable</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">df</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_simlibCols</span><span class="p">(</span><span class="n">opsimtable</span><span class="p">,</span> <span class="n">pixelSize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pixelSize</span><span class="p">)</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_capitalizeY</span><span class="p">,</span> <span class="n">opsimtable</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">opsimtable</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="SimlibMixin.add_simlibCols"><a class="viewcode-back" href="../../opsimsummary.simlib.html#opsimsummary.simlib.SimlibMixin.add_simlibCols">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">add_simlibCols</span><span class="p">(</span><span class="n">opsimtable</span><span class="p">,</span> <span class="n">pixelSize</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        opsimtable: `~pandas.DataFrame` object, mandatory</span>
+<span class="sd">            containing an opsim Output of version X. The main requirements here</span>
+<span class="sd">            are that the columns &#39;finSeeing&#39;, &#39;fiveSigmaDepth&#39;, and</span>
+<span class="sd">            &#39;filtSkyBrightness&#39; are defined. If the opsim output has differently</span>
+<span class="sd">            named variables or transformed variables, these should be changed to</span>
+<span class="sd">            meet the criteria.</span>
+<span class="sd">        pixelSize: float, units of arc sec, defaults to LSST value of 0.2</span>
+<span class="sd">            pixel Size</span>
+
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame with additional columns of &#39;simLibPsf&#39;, &#39;simLibZPTAVG&#39;, and</span>
+<span class="sd">        &#39;simLibSkySig&#39; </span>
+
+<span class="sd">        .. note :: This was written from a piece of f77 code by David</span>
+<span class="sd">            Cinabro sent by email on May 26, 2015.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;finSeeing&#39;</span> <span class="ow">in</span> <span class="n">opsimtable</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">psfwidth</span> <span class="o">=</span> <span class="s1">&#39;finSeeing&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">psfwidth</span> <span class="o">=</span> <span class="s1">&#39;FWHMeff&#39;</span>
+
+        <span class="n">opsim_seeing</span> <span class="o">=</span> <span class="n">opsimtable</span><span class="p">[</span><span class="n">psfwidth</span><span class="p">]</span> <span class="c1"># unit of arc sec sq</span>
+        <span class="c1"># magsky is in units of mag/arcsec^2</span>
+        <span class="c1"># opsim_maglim is in units of mag</span>
+        <span class="n">opsim_maglim</span> <span class="o">=</span> <span class="n">opsimtable</span><span class="p">[</span><span class="s1">&#39;fiveSigmaDepth&#39;</span><span class="p">]</span>
+        <span class="n">opsim_magsky</span> <span class="o">=</span> <span class="n">opsimtable</span><span class="p">[</span><span class="s1">&#39;filtSkyBrightness&#39;</span><span class="p">]</span>
+
+        <span class="c1"># Calculate two variables that come up in consistent units:</span>
+        <span class="c1"># term1  = 2.0 * opsim_maglim - opsim_magsky</span>
+
+        <span class="c1"># Area of pixel in arcsec squared</span>
+        <span class="n">pixArea</span> <span class="o">=</span> <span class="n">pixelSize</span> <span class="o">*</span> <span class="n">pixelSize</span>
+
+        <span class="n">term1</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">opsim_maglim</span> <span class="o">-</span> <span class="n">opsim_magsky</span> <span class="c1"># * pixArea</span>
+        <span class="c1"># term2 = opsim_maglim - opsim_magsky</span>
+        <span class="n">term2</span> <span class="o">=</span> <span class="o">-</span> <span class="p">(</span><span class="n">opsim_maglim</span> <span class="o">-</span> <span class="n">opsim_magsky</span><span class="p">)</span> <span class="c1"># * pixArea</span>
+
+
+        <span class="c1"># Calculate SIMLIB PSF VALUE</span>
+        <span class="n">opsimtable</span><span class="p">[</span><span class="s1">&#39;simLibPsf&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opsim_seeing</span> <span class="o">/</span><span class="mf">2.35</span> <span class="o">/</span><span class="n">pixelSize</span>
+
+        <span class="c1"># 4 \pi (\sigma_PSF / 2.35 )^2</span>
+        <span class="n">area</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.51</span> <span class="o">*</span> <span class="n">opsim_seeing</span><span class="p">)</span><span class="o">**</span><span class="mf">2.</span>
+
+        <span class="n">opsim_snr</span> <span class="o">=</span> <span class="mf">5.</span>
+        <span class="n">arg</span> <span class="o">=</span> <span class="n">area</span> <span class="o">*</span> <span class="n">opsim_snr</span> <span class="o">*</span> <span class="n">opsim_snr</span>
+
+        <span class="c1"># Background dominated limit assuming counts with system transmission only</span>
+        <span class="c1"># is approximately equal to counts with total transmission</span>
+        <span class="n">zpt_approx</span> <span class="o">=</span> <span class="n">term1</span> <span class="o">+</span> <span class="mf">2.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+        <span class="c1"># zpt_approx = 2.0 * opsim_maglim - opsim_magsky + 2.5 * np.log10(arg)</span>
+        <span class="c1"># ARG again in David Cinabro&#39;s code</span>
+
+        <span class="n">val</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.4</span> <span class="o">*</span> <span class="n">term2</span>
+        <span class="c1"># val = -0.4 * (opsim_magsky - opsim_maglim)</span>
+
+        <span class="n">tmp</span> <span class="o">=</span> <span class="mf">10.0</span> <span class="o">**</span> <span class="n">val</span>
+        <span class="c1"># Additional term to account for photons from the source, again assuming</span>
+        <span class="c1"># that counts with system transmission approximately equal counts with total</span>
+        <span class="c1"># transmission.</span>
+
+        <span class="n">zpt_cor</span> <span class="o">=</span> <span class="mf">2.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">area</span> <span class="o">*</span> <span class="n">tmp</span><span class="p">))</span>
+        <span class="n">simlib_zptavg</span> <span class="o">=</span> <span class="n">zpt_approx</span> <span class="o">+</span> <span class="n">zpt_cor</span>
+        <span class="c1"># ZERO PT CALCULATION </span>
+        <span class="n">opsimtable</span><span class="p">[</span><span class="s1">&#39;simLibZPTAVG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">simlib_zptavg</span>
+
+
+        <span class="c1"># SKYSIG Calculation</span>
+        <span class="n">npix_asec</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">pixelSize</span><span class="o">**</span><span class="mf">2.</span>
+        <span class="n">opsimtable</span><span class="p">[</span><span class="s1">&#39;simLibSkySig&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">npix_asec</span><span class="p">)</span> \
+        <span class="o">*</span> <span class="mf">10.0</span> <span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">0.4</span> <span class="o">*</span> <span class="p">(</span><span class="n">opsim_magsky</span> <span class="o">-</span> <span class="n">simlib_zptavg</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">opsimtable</span></div>
+
+<div class="viewcode-block" id="SimlibMixin.fieldheader"><a class="viewcode-back" href="../../opsimsummary.simlib.html#opsimsummary.simlib.SimlibMixin.fieldheader">[docs]</a>    <span class="k">def</span> <span class="nf">fieldheader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldID</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">opsimtable</span><span class="p">,</span> <span class="n">mwebv</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                    <span class="n">fieldtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fieldID : int</span>
+<span class="sd">            integer for the unique field ID</span>
+<span class="sd">        ra : float, degrees</span>
+<span class="sd">            ra of the field location</span>
+<span class="sd">        dec : float, degrees</span>
+<span class="sd">            dec of the field location</span>
+<span class="sd">        opsimtable : `np.array` of `pd.DataFrame`</span>
+<span class="sd">            sequence of OpSim observations in above format to find number of</span>
+<span class="sd">            observations.</span>
+<span class="sd">        mwebv : float, defaults to 0.0</span>
+<span class="sd">            milky way E(B-v) value. This is usually recomputed in SNANA</span>
+<span class="sd">            depending on flags, and hence can be left as 0.0</span>
+<span class="sd">        fieldtype : string, defaults to None</span>
+<span class="sd">            string used to construct `Field: fieldtype` line, if None this</span>
+<span class="sd">            line is left out.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nobs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">opsimtable</span><span class="p">)</span>
+        <span class="c1"># String formatting</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;# --------------------------------------------&#39;</span> <span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> 
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;LIBID: </span><span class="si">{0:10d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fieldID</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">if</span> <span class="n">fieldtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;Field: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fieldtype</span><span class="p">)</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="s1">&#39;RA: </span><span class="si">{0:+10.6f}</span><span class="s1"> DECL: </span><span class="si">{1:+10.6f}</span><span class="s1">   NOBS: </span><span class="si">{2:10d}</span><span class="s1"> MWEBV: </span><span class="si">{3:5.2f}</span><span class="s1">&#39;</span>
+        <span class="n">tmp</span> <span class="o">+=</span> <span class="s1">&#39; PIXSIZE: </span><span class="si">{4:5.3f}</span><span class="s1">&#39;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">nobs</span><span class="p">,</span> <span class="n">mwebv</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixelSize</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="c1"># s += &#39;LIBID: {0:10d}&#39;.format(fieldID) + &#39;\n&#39;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;#                           CCD  CCD         PSF1 PSF2 PSF2/1&#39;</span> <span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;#     MJD      ID*NEXPOSE  FLT GAIN NOISE SKYSIG (pixels)  RATIO  ZPTAVG ZPTERR  MAG&#39;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+<div class="viewcode-block" id="SimlibMixin.fieldfooter"><a class="viewcode-back" href="../../opsimsummary.simlib.html#opsimsummary.simlib.SimlibMixin.fieldfooter">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">fieldfooter</span><span class="p">(</span><span class="n">fieldID</span><span class="p">):</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;END_LIBID: </span><span class="si">{0:10d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fieldID</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+<div class="viewcode-block" id="SimlibMixin.formatSimLibField"><a class="viewcode-back" href="../../opsimsummary.simlib.html#opsimsummary.simlib.SimlibMixin.formatSimLibField">[docs]</a>    <span class="k">def</span> <span class="nf">formatSimLibField</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldID</span><span class="p">,</span> <span class="n">opsimtable</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">):</span>
+
+        <span class="n">opsimtable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preprocess_lib</span><span class="p">(</span><span class="n">opsimtable</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">opsimtable</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># skip the index</span>
+            <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;S:&#39;</span><span class="p">,</span>
+                   <span class="s2">&quot;</span><span class="si">{0:5.4f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">expMJD</span><span class="p">),</span>
+                   <span class="s2">&quot;</span><span class="si">{0:10d}</span><span class="s2">*2&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">obsHistID</span><span class="p">),</span>
+                   <span class="n">data</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">],</span>
+                   <span class="s2">&quot;</span><span class="si">{0:5.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">1.</span><span class="p">),</span>                  <span class="c1"># CCD Gain</span>
+                   <span class="s2">&quot;</span><span class="si">{0:5.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">0.25</span><span class="p">),</span>                <span class="c1"># CCD Noise</span>
+                   <span class="s2">&quot;</span><span class="si">{0:6.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">simLibSkySig</span><span class="p">),</span>   <span class="c1"># SKYSIG</span>
+                   <span class="s2">&quot;</span><span class="si">{0:4.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">simLibPsf</span><span class="p">),</span>      <span class="c1"># PSF1</span>
+                   <span class="s2">&quot;</span><span class="si">{0:4.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">0.</span><span class="p">),</span>                  <span class="c1"># PSF2</span>
+                   <span class="s2">&quot;</span><span class="si">{0:4.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">0.</span><span class="p">),</span>                  <span class="c1"># PSFRatio</span>
+                   <span class="s2">&quot;</span><span class="si">{0:6.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">simLibZPTAVG</span><span class="p">),</span>   <span class="c1"># ZPTAVG</span>
+                   <span class="s2">&quot;</span><span class="si">{0:6.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">0.005</span><span class="p">),</span>               <span class="c1"># ZPTNoise </span>
+                   <span class="s2">&quot;</span><span class="si">{0:+7.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">-</span><span class="mf">99.</span><span class="p">)]</span>               <span class="c1"># MAG</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">+=</span> <span class="n">s</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="n">y</span></div>
+    
+<div class="viewcode-block" id="SimlibMixin.simlibFieldasString"><a class="viewcode-back" href="../../opsimsummary.simlib.html#opsimsummary.simlib.SimlibMixin.simlibFieldasString">[docs]</a>    <span class="k">def</span> <span class="nf">simlibFieldasString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fh</span><span class="p">,</span> <span class="n">fieldID</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">opsimtable</span><span class="p">,</span>
+                            <span class="n">mwebv</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">fieldtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="n">opsimtable</span> <span class="o">=</span> <span class="n">opsimtable</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+        <span class="c1">#raise NotImplementedError(&quot;Has not been checked&quot;)</span>
+        <span class="c1"># Write out the header for each field</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fieldheader</span><span class="p">(</span><span class="n">fieldID</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">opsimtable</span><span class="p">,</span>
+                             <span class="n">mwebv</span><span class="o">=</span><span class="n">mwebv</span><span class="p">,</span> <span class="n">fieldtype</span><span class="o">=</span><span class="n">fieldtype</span><span class="p">)</span>
+        <span class="c1"># Write out the actual field</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatSimLibField</span><span class="p">(</span><span class="n">fieldID</span><span class="p">,</span> <span class="n">opsimtable</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="c1"># Write out the footer for each field</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fieldfooter</span><span class="p">(</span><span class="n">fieldID</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+<div class="viewcode-block" id="SimlibMixin.simLibheader"><a class="viewcode-back" href="../../opsimsummary.simlib.html#opsimsummary.simlib.SimlibMixin.simLibheader">[docs]</a>    <span class="k">def</span> <span class="nf">simLibheader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numLibId</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">saturation_flag</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
+                     <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return a string that is the header of the simlib file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        numLibId : int, defaults to None</span>
+<span class="sd">            number of libids in simlib</span>
+<span class="sd">        saturation_flag : int, defaults to 1024</span>
+<span class="sd">            value desired as saturation flag</span>
+<span class="sd">        comments: string, defaults to `\n`</span>
+<span class="sd">            comments passed on to `simlib` output</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simlibVars</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">sv</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="n">sv</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># The decode lines below do the correct thing in py3</span>
+        <span class="c1"># However the isinstance line does not, needs fixing</span>
+        <span class="c1"># if isinstance(host, unicode):</span>
+        <span class="c1">#    host = host.decode(&#39;utf-8&#39;)</span>
+        <span class="n">telescope</span> <span class="o">=</span> <span class="n">sv</span><span class="p">[</span><span class="s1">&#39;telescope&#39;</span><span class="p">]</span>
+        <span class="n">survey</span> <span class="o">=</span> <span class="n">sv</span><span class="p">[</span><span class="s1">&#39;survey&#39;</span><span class="p">]</span>
+        <span class="c1"># comment: I would like to generalize ugrizY to a sort but am not sure</span>
+        <span class="c1"># of the logic for other filter names. so ducking for now</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;SURVEY: </span><span class="si">{0:}</span><span class="s1">    FILTERS: ugrizY  TELESCOPE: </span><span class="si">{1:}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">survey</span><span class="p">,</span>
+                                                                        <span class="n">telescope</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;USER: </span><span class="si">{0:}</span><span class="s1">     HOST: </span><span class="si">{1}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">host</span><span class="p">)</span> 
+        <span class="k">if</span> <span class="n">numLibId</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;NLIBID: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">numLibId</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;NPE_PIXEL_SATURATE:   100000</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;PHOTFLAG_SATURATE:    </span><span class="si">{0}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">saturation_flag</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="n">comments</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;BEGIN LIBGEN</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+    
+<div class="viewcode-block" id="SimlibMixin.simLibFooter"><a class="viewcode-back" href="../../opsimsummary.simlib.html#opsimsummary.simlib.SimlibMixin.simLibFooter">[docs]</a>    <span class="k">def</span> <span class="nf">simLibFooter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numFields</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;END_OF_SIMLIB:    </span><span class="si">{0:10d}</span><span class="s1"> ENTRIES&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">numFields</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+
+<div class="viewcode-block" id="SimlibMixin.writeSimlib"><a class="viewcode-back" href="../../opsimsummary.simlib.html#opsimsummary.simlib.SimlibMixin.writeSimlib">[docs]</a>    <span class="k">def</span> <span class="nf">writeSimlib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+                    <span class="n">fieldtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mwebv</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">numLibId</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            
+        <span class="n">num_fields</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+            <span class="c1"># Write out the header to the simlib file</span>
+            <span class="n">simlib_header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simLibheader</span><span class="p">(</span><span class="n">numLibId</span><span class="o">=</span><span class="n">numLibId</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="n">comments</span><span class="p">)</span>
+            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">simlib_header</span><span class="p">)</span>
+
+            <span class="c1"># Now write the actual simlib data to file</span>
+            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+
+                <span class="c1"># obtain the set of field dependent parameters from `SynOpSim`</span>
+                <span class="n">fieldID</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">fieldID</span>
+                <span class="n">ra</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">ra</span>
+                <span class="n">dec</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">dec</span>
+                <span class="n">mwebv</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">mwebv</span>
+                <span class="n">opsimtable</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">opsimtable</span>
+
+                <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">simlibFieldasString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_fields</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span>
+                                                  <span class="n">opsimtable</span><span class="p">,</span> <span class="n">mwebv</span><span class="o">=</span><span class="n">mwebv</span><span class="p">,</span>
+                                                  <span class="n">fieldtype</span><span class="o">=</span><span class="n">fieldtype</span><span class="p">))</span>
+
+                <span class="c1"># Write out the header for each field</span>
+                <span class="c1"># fh.write(self.fieldheader(num_fields, ra, dec, opsimtable,</span>
+                <span class="c1">#                           mwebv=mwebv))</span>
+                <span class="c1"># fh.write(self.formatSimLibField(fieldID, opsimtable))</span>
+
+                <span class="c1"># Write out the footer for each field</span>
+                <span class="c1"># fh.write(self.fieldfooter(fieldID))</span>
+                <span class="n">num_fields</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># Now write out the footer to the entire simlib file </span>
+            <span class="n">simlib_footer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simLibFooter</span><span class="p">(</span><span class="n">num_fields</span><span class="p">)</span>
+            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">simlib_footer</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">num_fields</span></div></div>
+
+<div class="viewcode-block" id="Simlibs"><a class="viewcode-back" href="../../opsimsummary.simlib.html#opsimsummary.simlib.Simlibs">[docs]</a><span class="k">class</span> <span class="nc">Simlibs</span><span class="p">(</span><span class="n">SynOpSim</span><span class="p">,</span> <span class="n">SimlibMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class to write out simlibs to disk</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pixelSize</span> <span class="o">=</span> <span class="mf">0.2</span>
+    <span class="n">host</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">telescope</span> <span class="o">=</span> <span class="s1">&#39;LSST&#39;</span>
+    <span class="n">survey</span> <span class="o">=</span> <span class="s1">&#39;LSST&#39;</span>
+
+<div class="viewcode-block" id="Simlibs.simlibs_for_fields"><a class="viewcode-back" href="../../opsimsummary.simlib.html#opsimsummary.simlib.Simlibs.simlibs_for_fields">[docs]</a>    <span class="k">def</span> <span class="nf">simlibs_for_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">surveyPix</span><span class="p">,</span> <span class="n">mwebv</span><span class="o">=</span><span class="mf">0.</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generator for simlib fields for a sequence of fields</span>
+<span class="sd">        defined in a dataFrame called `surveyPix`. The dataFrame</span>
+<span class="sd">        `surveyPix` must have the following columns `simlibId`,</span>
+<span class="sd">	`ra`, `dec` and must be sorted in increasing order of </span>
+<span class="sd">	`simlibId`.</span>
+
+<span class="sd">	Parameters</span>
+<span class="sd">	----------</span>
+<span class="sd">	surveyPix : `pd.dataFrame`</span>
+<span class="sd">            with the following columns `simlibId`, `ra`, `dec`</span>
+<span class="sd">	mwebv : `np.float` defaults to 0.</span>
+<span class="sd">	   A default value for the MW extinction</span>
+
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        a generator of fields for the simlib file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">surveyPix</span> <span class="o">=</span> <span class="n">surveyPix</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;simlibId &gt; -1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;simlibId&#39;</span><span class="p">)</span>
+        <span class="n">ra</span> <span class="o">=</span> <span class="n">surveyPix</span><span class="o">.</span><span class="n">ra</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">dec</span> <span class="o">=</span> <span class="n">surveyPix</span><span class="o">.</span><span class="n">dec</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">pts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointingsEnclosing</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">circRadius</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
+                                      <span class="n">pointingRadius</span><span class="o">=</span><span class="mf">1.75</span><span class="p">,</span>
+                                      <span class="n">usePointingTree</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">field</span> <span class="o">=</span> <span class="n">SimlibField</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">fieldID</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">surveyPix</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">simlibId</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+            <span class="n">field</span><span class="o">.</span><span class="n">setfields</span><span class="p">(</span><span class="n">fieldID</span><span class="p">,</span> <span class="n">ra</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">dec</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                            <span class="nb">next</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;expMJD&#39;</span><span class="p">),</span> <span class="n">mwebv</span><span class="o">=</span><span class="n">mwebv</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">field</span></div>
+
+<div class="viewcode-block" id="Simlibs.get_surveyPix"><a class="viewcode-back" href="../../opsimsummary.simlib.html#opsimsummary.simlib.Simlibs.get_surveyPix">[docs]</a>    <span class="k">def</span> <span class="nf">get_surveyPix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">surveydf</span><span class="p">,</span> <span class="n">numFields</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>
+        <span class="sd">&quot;&quot;&quot; Get a random selection of survey pixels observed that have numbers</span>
+<span class="sd">	of visits in between the min and max visits.</span>
+
+<span class="sd">	Parameters</span>
+<span class="sd">	----------</span>
+<span class="sd">	surveydf : `pd.DataFrame`</span>
+<span class="sd">	    a pandas dataframe with a collection of selected fields with at</span>
+<span class="sd">            least the  the following columns a unique index `hid` for each</span>
+<span class="sd">            field, an `ra`, and a `dec`</span>
+<span class="sd">	numFields : integer, defaults to 15</span>
+<span class="sd">	    number of samples of fields desired.</span>
+<span class="sd">	rng : instance of `np.random.RandomState`, defualts to using 0 as seed</span>
+<span class="sd">	   a random state.</span>
+
+
+<span class="sd">	Returns</span>
+<span class="sd">	-------</span>
+<span class="sd">	a dataframe with at least `hid` the original index for each field, `ra`,</span>
+<span class="sd">	`dec`, and `simlibID` sorted by `simlibId`. This dataframe contains a</span>
+<span class="sd">	mapping from the new index `simlibId` to the old index `hid`</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+        <span class="n">surveydf</span><span class="p">[</span><span class="s1">&#39;simlibId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">numFields</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">surveydf</span><span class="p">):</span>
+            <span class="n">surveydf</span> <span class="o">=</span> <span class="n">surveydf</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">numFields</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                       <span class="n">random_state</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+            <span class="c1"># hids = rng.choice(surveydf.reset_index()[&#39;hid&#39;].values, size=numFields,</span>
+            <span class="c1">#               replace=False)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">surveydf</span> <span class="o">=</span> <span class="n">surveydf</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">numFields</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                       <span class="n">random_state</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: You have asked for more samples than the original number of fields&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Printing original number of fields instead&#39;</span><span class="p">)</span>
+
+        <span class="n">hids</span> <span class="o">=</span> <span class="n">surveydf</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[</span><span class="s1">&#39;hid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="n">surveydf</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;hid&#39;</span><span class="p">)</span>
+        <span class="n">surveydf</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">hids</span><span class="p">,</span> <span class="s1">&#39;simlibId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hids</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">surveydf</span></div>
+
+<div class="viewcode-block" id="Simlibs.randomSimlibs"><a class="viewcode-back" href="../../opsimsummary.simlib.html#opsimsummary.simlib.Simlibs.randomSimlibs">[docs]</a>    <span class="k">def</span> <span class="nf">randomSimlibs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numFields</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="s1">&#39;test.simlib&#39;</span><span class="p">,</span>
+                      <span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">outfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">mapping_outfile</span><span class="o">=</span><span class="s1">&#39;mapping.csv&#39;</span><span class="p">,</span> <span class="n">mwebv</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
+                      <span class="n">fieldtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">minVisits</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">fieldtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fieldtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subset</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+
+        <span class="k">if</span> <span class="n">outfile</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">outfile</span> <span class="o">=</span> <span class="n">fname</span>  <span class="o">+</span> <span class="s1">&#39;.hdf&#39;</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampleRegion</span><span class="p">(</span><span class="n">numFields</span><span class="o">=</span><span class="n">numFields</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span>
+                                   <span class="n">outfile</span><span class="o">=</span><span class="n">outfile</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">subset</span><span class="p">,</span>
+                                   <span class="n">minVisits</span><span class="o">=</span><span class="n">minVisits</span><span class="p">,</span> <span class="n">nside</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+                                   <span class="n">mwebv</span><span class="o">=</span><span class="n">mwebv</span><span class="p">)</span>
+        <span class="n">num_fields</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">writeSimlib</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">fieldtype</span><span class="o">=</span><span class="n">fieldtype</span><span class="p">,</span> <span class="n">mwebv</span><span class="o">=</span><span class="n">mwebv</span><span class="p">)</span>
+
+        <span class="n">fields</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampleRegion</span><span class="p">(</span><span class="n">numFields</span><span class="o">=</span><span class="n">numFields</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span>
+                                   <span class="n">outfile</span><span class="o">=</span><span class="n">outfile</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">subset</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">SNANAID</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_fields</span><span class="p">),</span>
+                               <span class="n">healpixID</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">fieldID</span> <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">fields</span>
+                                             <span class="p">)))</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">mapping_outfile</span><span class="p">)</span></div></div>
+
+<span class="k">class</span> <span class="nc">Simlib</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simlibDict</span><span class="p">,</span> <span class="n">simlibMetaData</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">simlibDict</span> <span class="o">=</span> <span class="n">simlibDict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fieldIDs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simlibDict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">simlibMetaData</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">simlibMetaData</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">fromSimlibFile</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">simlibFileName</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructor for class using an ASCII </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        simlibFileName: string, mandatory</span>
+<span class="sd">            absolute path to SNANA simlib file</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dictionary with LIBIDs (fieldIDs) of type int as keys, and the</span>
+<span class="sd">        corresponding FieldSimlib objects as values</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; sl = Simlib.fromSimlibFile(simlibFileName)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">file_header</span><span class="p">,</span> <span class="n">file_data</span><span class="p">,</span> <span class="n">file_footer</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">read_simlibFile</span><span class="p">(</span><span class="n">simlibFileName</span><span class="p">)</span>
+        <span class="n">mydict</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">getSimlibs</span><span class="p">(</span><span class="n">file_data</span><span class="p">)</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">simlibMetaData</span><span class="p">(</span><span class="n">file_header</span><span class="p">)</span> 
+        <span class="bp">cls</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">simlibDict</span><span class="o">=</span><span class="n">mydict</span><span class="p">,</span> <span class="n">simlibMetaData</span><span class="o">=</span><span class="n">meta</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">file_footer</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span>
+
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_footer</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">numberlist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">isdigit</span><span class="p">(),</span> <span class="n">file_footer</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">numberlist</span><span class="p">)</span> <span class="o">!=</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;There should only be one integer in the footer&#39;</span><span class="p">)</span>
+        <span class="n">numLibId</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">numberlist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">numLibId</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fieldIDs</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The number of fieldIDs is in the simlib does not match the number stated in footer&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">simlibMetaData</span><span class="p">(</span><span class="n">simlibHeader</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        parse the string corresponding to the header of a SNANA simlib file to</span>
+<span class="sd">        get the simlib MetaData, stored in the form of a string valued</span>
+<span class="sd">        dictionary with the following keys:</span>
+<span class="sd">        &#39;SURVEY&#39;, &#39;FILTERS&#39;, &#39;HOST&#39;, &#39;USER&#39;, &#39;COMMENT&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        simlibHeader: string corresponding the header of an SNANA simlib file as</span>
+<span class="sd">            parsed by cls.read_simlibFile.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dictionary of keys above and values.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">comments</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">simlibHeader</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;COMMENT&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">):</span>
+                <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="n">ss</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]))</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vals</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;the numberof fields in dict should match vals&#39;</span><span class="p">)</span>
+
+        <span class="n">meta</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">))</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;COMMENTS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comments</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">meta</span>
+
+
+    <span class="k">def</span> <span class="nf">simlibData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldID</span><span class="p">):</span>
+       <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">simlibDict</span><span class="p">[</span><span class="n">fieldID</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">getSimlibs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file_data</span><span class="p">):</span>
+    <span class="c1"># def getSimlibs(cls, simlibFile):</span>
+        <span class="c1"># file_header, file_data, file_footer = cls.read_simlibFile(simlibFile)</span>
+        <span class="n">simlibStrings</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">split_simlibStrings</span><span class="p">(</span><span class="n">file_data</span><span class="p">)</span>
+        <span class="n">mydict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">strings</span> <span class="ow">in</span> <span class="n">simlibStrings</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">FieldSimlib</span><span class="o">.</span><span class="n">fromSimlibString</span><span class="p">(</span><span class="n">strings</span><span class="p">)</span>
+            <span class="n">mydict</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">fieldID</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span>
+
+        <span class="k">return</span> <span class="n">mydict</span> 
+            
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">read_simlibFile</span><span class="p">(</span><span class="n">simlibfile</span><span class="p">):</span>
+    
+        <span class="c1"># slurp into a string</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">simlibfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">ss</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        
+        <span class="c1"># split into header, footer and data</span>
+        <span class="n">fullfile</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;BEGIN LIBGEN&#39;</span><span class="p">)</span>
+        <span class="n">file_header</span> <span class="o">=</span> <span class="n">fullfile</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;END_OF_SIMLIB&#39;</span> <span class="ow">in</span> <span class="n">ss</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">footer</span> <span class="o">=</span> <span class="n">fullfile</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;END_OF_SIMLIB&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">fullfile</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">footer</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+        <span class="k">return</span> <span class="n">file_header</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">footer</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">split_simlibStrings</span><span class="p">(</span><span class="n">simlibStrings</span><span class="p">):</span>
+        <span class="n">simlibs</span> <span class="o">=</span> <span class="n">simlibStrings</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">LIBID&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">simlibs</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;LIBID&#39;</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;# -&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">simlibs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">simlibs</span>
+<span class="k">class</span> <span class="nc">FieldSimlib</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to hold data corresponding to a particular fieldID (LIBID) of a</span>
+<span class="sd">    SNANA SIMLIB file and methods. The fieldSimlib class for a particular field</span>
+<span class="sd">    has the following attributes, and may be instantiated by supplying these, </span>
+<span class="sd">    or can be conveniently constructed from the string corresponding to the</span>
+<span class="sd">    description of this data in an SNANA simlib file using the constructor</span>
+<span class="sd">    fromSimlibString:</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    simlibdata : a pandas dataFrame</span>
+<span class="sd">    simlib_meta : a dictionary</span>
+
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fieldID : int</span>
+<span class="sd">        a unique integer identifying the field of view. Different pointings</span>
+<span class="sd">        of the same field at different times (but possibly with dithers) are</span>
+<span class="sd">        associated with the same fieldID</span>
+<span class="sd">    meta : dict</span>
+<span class="sd">        metadata associated with the field, which has at least the following</span>
+<span class="sd">        keys:</span>
+<span class="sd">        LIBID, RA, DECL, MWEBV, NOBS, PIXSIZE</span>
+<span class="sd">    data : `~pd.DataFrame` object with the observations and having at least the</span>
+<span class="sd">        following columns: &#39;MJD&#39;, &#39;IDEXPT&#39;, &#39;FLT&#39;, &#39;GAIN&#39;, &#39;NOISE&#39;, &#39;SKYSIG&#39;,</span>
+<span class="sd">        &#39;PSF1&#39;, &#39;PSF2&#39;, &#39;PSFRatio&#39;, &#39;ZPTAVG&#39;, &#39;ZPTERR&#39;, &#39;MAG&#39;]. The meanings of</span>
+<span class="sd">        these columns are discussed in the SNANA manual in the sub-section</span>
+<span class="sd">        &#39;The &#39;SIMLIB&#39; Observing file (4.7)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simlibdata</span><span class="p">,</span> <span class="n">simlib_meta</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Instantiate the class from the basic data</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">simlibdata</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">simlib_meta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fieldID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;LIBID&#39;</span><span class="p">]</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">fromSimlibString</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">simlibstring</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Basic constructor method to take a string corresponding to a</span>
+<span class="sd">        field simlib data corresponding to a single LIBID and parse it to</span>
+<span class="sd">        metadata containing the properties of the field, a</span>
+<span class="sd">        `~pandas.DataFrame` containing the data, and the string after the</span>
+<span class="sd">        data</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        simlibstring : string, mandatory</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="c1"># split into three parts</span>
+        <span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">footer</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">split_simlibString</span><span class="p">(</span><span class="n">simlibstring</span><span class="p">)</span>
+
+        <span class="c1"># create the DataFrame</span>
+        <span class="n">clsdata</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">simlibdata</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="c1"># parse header to get header metadata and header fields</span>
+        <span class="n">header_metadata</span><span class="p">,</span> <span class="n">header_fields</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">split_header</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+        <span class="n">clsmeta</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">libid_metadata</span><span class="p">(</span><span class="n">header_metadata</span><span class="p">)</span>
+
+        <span class="c1"># Instantiate the class and make sure it works</span>
+        <span class="n">myclass</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">simlibdata</span><span class="o">=</span><span class="n">clsdata</span><span class="p">,</span> <span class="n">simlib_meta</span><span class="o">=</span><span class="n">clsmeta</span><span class="p">)</span> 
+        <span class="n">myclass</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">footer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">myclass</span> 
+
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validate_string</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate the interpretation of the field simlib data from a field simlib</span>
+<span class="sd">        string by checking 1. the LIBID at the end of the string matches the</span>
+<span class="sd">        one at the beginnin (ie. somehow multiple fields have not been read in)</span>
+<span class="sd">        2. the number of rows of the data for this field simlib matches the</span>
+<span class="sd">        number of observations recorded in the metadata as NOBS</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        validate_string : string, mandatory</span>
+<span class="sd">            footer obtained by splitting the simlib corresponding to the field</span>
+<span class="sd">            usually of the form </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">validate_string</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;LIBID&#39;</span><span class="p">])</span> <span class="o">!=</span> <span class="n">val</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;LIBID value at beginning: &#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;LIBID&#39;</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;LIBID value at the end&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;the LIBID values do not match&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;NOBS&#39;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;NOBS :&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;NOBS&#39;</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;len(data) :&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;the number of observations recorded does not&#39;</span>
+                             <span class="s1">&#39;match size of data&#39;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">split_simlibString</span><span class="p">(</span><span class="n">simlibString</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        split the string corresponding to a simlib file into header, footer,</span>
+<span class="sd">        and data pieces</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        simlibString : string</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="n">simlibString</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;MAG&#39;</span><span class="p">)</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="n">lst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">lst</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;END_LIBID&#39;</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">:],</span> <span class="n">val</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">simlibdata</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        manipulate string in the simlibstring to form pandas DataFrame object</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        data : data</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">fhandle</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fhandle</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span>
+                         <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;trash&#39;</span><span class="p">,</span> <span class="s1">&#39;MJD&#39;</span><span class="p">,</span> <span class="s1">&#39;IDEXPT&#39;</span><span class="p">,</span> <span class="s1">&#39;FLT&#39;</span><span class="p">,</span> <span class="s1">&#39;GAIN&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;NOISE&#39;</span><span class="p">,</span> <span class="s1">&#39;SKYSIG&#39;</span><span class="p">,</span> <span class="s1">&#39;PSF1&#39;</span><span class="p">,</span> <span class="s1">&#39;PSF2&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;PSFRatio&#39;</span><span class="p">,</span> <span class="s1">&#39;ZPTAVG&#39;</span><span class="p">,</span> <span class="s1">&#39;ZPTERR&#39;</span><span class="p">,</span> <span class="s1">&#39;MAG&#39;</span><span class="p">])</span>
+        <span class="k">del</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;trash&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">split_header</span><span class="p">(</span><span class="n">header</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        split header string into metadata and field names</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        header : header</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">header_metadata</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">header_fields</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">):</span>
+                <span class="n">header_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">header_metadata</span> <span class="o">+=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">header_metadata</span><span class="p">,</span> <span class="n">header_fields</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">libid_metadata</span><span class="p">(</span><span class="n">header_metadata</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        parse header metadata string into a dictionary</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        header_metadata : header</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="c1"># Even index values 0, 2, 4 are keys</span>
+        <span class="c1"># remove &#39;:&#39; char at end</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">header_metadata</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]))</span>
+
+        <span class="c1"># odd index values are floats or ints</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">eval</span><span class="p">,</span> <span class="n">header_metadata</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]))</span>
+
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">))</span>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, R. Biswas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,392 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>opsimsummary.trig module &mdash; OpSimSummary 0.8.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Overview" href="overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> OpSimSummary
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="opsimsummary.html">opsimsummary package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="opsimsummary.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.simlib.html">opsimsummary.simlib module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html#installing-dependencies">Installing Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">opsimsummary</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html#package-structure">Package Structure</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="opsimsummary.html">opsimsummary package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="opsimsummary.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.simlib.html">opsimsummary.simlib module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OpSimSummary</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="opsimsummary.html">opsimsummary package</a> &raquo;</li>
+        
+      <li>opsimsummary.trig module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/opsimsummary.trig.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-opsimsummary.trig">
+<span id="opsimsummary-trig-module"></span><h1>opsimsummary.trig module<a class="headerlink" href="#module-opsimsummary.trig" title="Permalink to this headline">¶</a></h1>
+<p>Module for trigonometric utilities such as conversion between different
+conventions and units, as well as calculating angular separations between
+points on a sphere.</p>
+<dl class="function">
+<dt id="opsimsummary.trig.fieldID">
+<code class="descclassname">opsimsummary.trig.</code><code class="descname">fieldID</code><span class="sig-paren">(</span><em>opsimDF</em>, <em>ra</em>, <em>dec</em>, <em>raCol='fieldRA'</em>, <em>decCol='fieldDec'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/trig.html#fieldID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.trig.fieldID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="opsimsummary.trig.angSep">
+<code class="descclassname">opsimsummary.trig.</code><code class="descname">angSep</code><span class="sig-paren">(</span><em>ra1</em>, <em>dec1</em>, <em>ra2</em>, <em>dec2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/trig.html#angSep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.trig.angSep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Angular separation in radians between to points on a sphere with
+coordinates ra, dec in radians.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>ra1</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray /float, radians</span></dt>
+<dd><p class="first last">ra of the first point</p>
+</dd>
+<dt><strong>dec1</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray /float, radians</span></dt>
+<dd><p class="first last">dec of the first point</p>
+</dd>
+<dt><strong>ra2</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray /float, radians</span></dt>
+<dd><p class="first last">ra of the second point</p>
+</dd>
+<dt><strong>dec2</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray /float, radians</span></dt>
+<dd><p class="first last">dec of the first point</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Angular separation in units of radians</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="opsimsummary.trig.overlapSummary">
+<code class="descclassname">opsimsummary.trig.</code><code class="descname">overlapSummary</code><span class="sig-paren">(</span><em>ra</em>, <em>dec</em>, <em>df</em>, <em>sep=1.75</em>, <em>raCol='fieldRA'</em>, <em>decCol='fieldDec'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/trig.html#overlapSummary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.trig.overlapSummary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="opsimsummary.trig.convertToSphericalCoordinates">
+<code class="descclassname">opsimsummary.trig.</code><code class="descname">convertToSphericalCoordinates</code><span class="sig-paren">(</span><em>ra</em>, <em>dec</em>, <em>unit='degrees'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/trig.html#convertToSphericalCoordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.trig.convertToSphericalCoordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert ra, dec coordinates to usual spherical coordinates theta, phi.
+The ra, dec coordinates have the ranges (0., 2pi), (-pi/2.0, pi/2.0)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>ra</strong> <span class="classifier-delimiter">:</span> <span class="classifier">sequence of floats or scalar float, mandatory</span></dt>
+<dd><p class="first last">ra coordinates in units of degrees or radians</p>
+</dd>
+<dt><strong>dec</strong> <span class="classifier-delimiter">:</span> <span class="classifier">sequence of floats or scalar float, mandatory</span></dt>
+<dd><p class="first last">dec coordinates in units of degrees or radians</p>
+</dd>
+<dt><strong>unit</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, optional, defaults to ‘degrees’</span></dt>
+<dd><p class="first last">‘degrees’ or ‘radians’</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tuple of `numpy.ndarray` (theta, phi) of spherical coordinates in</strong></dt>
+<dd></dd>
+<dt><strong>radians. If scalars were supplied the return is a tuple of two scalars.</strong></dt>
+<dd></dd>
+<dt><strong>.. note:: The units of ra, dec must be the same. They should have</strong></dt>
+<dd></dd>
+<dt><strong>consistent lengths</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="opsimsummary.trig.convertToCelestialCoordinates">
+<code class="descclassname">opsimsummary.trig.</code><code class="descname">convertToCelestialCoordinates</code><span class="sig-paren">(</span><em>theta</em>, <em>phi</em>, <em>input_unit='radians'</em>, <em>output_unit='degrees'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/trig.html#convertToCelestialCoordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.trig.convertToCelestialCoordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert theta, phi in usual spherical coordinates to ra, dec
+values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>theta</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>np.ndarray</cite> or float</span></dt>
+<dd><p class="first last">co-latitude</p>
+</dd>
+<dt><strong>phi :`np.ndarray` or float</strong></dt>
+<dd><p class="first last">co longitude</p>
+</dd>
+<dt><strong>input_unit</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘degrees’, ‘radians’}, defautls to radians</span></dt>
+<dd></dd>
+<dt><strong>output_unit</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘degrees’, ‘radians’}, defaults to degrees</span></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="opsimsummary.trig.angToVec">
+<code class="descclassname">opsimsummary.trig.</code><code class="descname">angToVec</code><span class="sig-paren">(</span><em>lon</em>, <em>lat</em>, <em>convention</em>, <em>unit</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/trig.html#angToVec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.trig.angToVec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute an array of unit vectors corresponding to the array of longitude
+and latitude in either celestial conventions (ra, dec) or usual spherical
+coordinate system conventions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>lon</strong> <span class="classifier-delimiter">:</span> <span class="classifier">scalar or <cite>numpy.ndarray</cite> of floats</span></dt>
+<dd><p class="first last">co-longitude which may be ra, or phi depending on the convention</p>
+</dd>
+<dt><strong>lat</strong> <span class="classifier-delimiter">:</span> <span class="classifier">scalar or <cite>numpy.ndarray</cite> of floats</span></dt>
+<dd><p class="first last">co-latitude which may be dec, or theta depending on the convention</p>
+</dd>
+<dt><strong>convention</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘celestial’|’spherical’}</span></dt>
+<dd><p class="first last">whether the input angular positions are in spherical or celestial
+coordinates.</p>
+</dd>
+<dt><strong>unit</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">{‘degrees’| ‘radians’}</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="opsimsummary.trig.pixelsForAng">
+<code class="descclassname">opsimsummary.trig.</code><code class="descname">pixelsForAng</code><span class="sig-paren">(</span><em>lon</em>, <em>lat</em>, <em>nside</em>, <em>nest=True</em>, <em>convention='celestial'</em>, <em>unit='degrees'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/trig.html#pixelsForAng"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.trig.pixelsForAng" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the array of healpixels in which the set of points represented by
+the arrays lon, and lat fall</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="opsimsummary.trig.pixelsToAng">
+<code class="descclassname">opsimsummary.trig.</code><code class="descname">pixelsToAng</code><span class="sig-paren">(</span><em>tileID</em>, <em>nside</em>, <em>nest=True</em>, <em>convention='celestial'</em>, <em>unit='degrees'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/trig.html#pixelsToAng"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.trig.pixelsToAng" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the array of ra, dec for the healpix tile center for the tile with
+pixel ID tileID, 
+the arrays lon, and lat fall</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="overview.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, R. Biswas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

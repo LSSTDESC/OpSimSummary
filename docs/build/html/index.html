@@ -17,33 +17,34 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Overview" href="overview.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+    <link rel="next" title="opsimsummary package" href="opsimsummary.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -74,13 +75,43 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="opsimsummary.html">opsimsummary package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="opsimsummary.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.simlib.html">opsimsummary.simlib module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.trig.html">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Installation.html#installing-dependencies">Installing Dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="OpSimOutputs.html">Operation Simulator Outputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="API.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html#installing-dependencies">Installing Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">opsimsummary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="opsimsummary.html">opsimsummary package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.simlib.html">opsimsummary.simlib module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.trig.html">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             
@@ -147,24 +178,124 @@
             
   <div class="section" id="welcome-to-opsimsummary-s-documentation">
 <h1>Welcome to OpSimSummary’s documentation!<a class="headerlink" href="#welcome-to-opsimsummary-s-documentation" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> was developed to interact with outputs of the <a class="reference external" href="https://www.lsst.org/scientists/simulations/opsim">LSST Operations Simulator</a>  for the purposes of transient and variable (mostly supernova cosmology) studies. Examples of such outputs are downloadable from <a class="reference external" href="https://www.lsst.org/scientists/simulations/opsim/opsim-v335-benchmark-surveys">the opsim webpage</a> formatted as sqlite databases with fixed <a class="reference external" href="https://www.lsst.org/scientists/simulations/opsim/summary-table-column-descriptions-v335">schema</a>.</p>
+<p>The key functionality of <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> is to find the set of LSST visits in an <code class="docutils literal notranslate"><span class="pre">OpSim</span></code> database that will observe a given location of the sky. This set of visits and the properties of these visits (also obtained from <code class="docutils literal notranslate"><span class="pre">OpSim</span></code> databases) is a useful piece of information for the simulations of observations of Time Domain Astronomy Sources (TDAS). The functionality is available in two ways:</p>
+<ol class="arabic simple">
+<li>As a library: <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> can used as a library by a simulation program. In this case, the simulator can use <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> to obtain the set of visits and their properties in the form of a <cite>pandas.DataFrame</cite> using a generator.  The basic code snippet to be used is demonstrated in the code block below, and a usable example is in the this demo <a class="reference external" href="https://github.com/rbiswas4/OpSimSummary/blob/master/example/Demo_SynOpSim.ipynb">notebook</a></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">from opsimsummary import SynOpSim</span>
+
+<span class="go">synopsim = SynOpSim.fromOpSimDB(myopsimv3,</span>
+<span class="go">                                opsimversion=&#39;lsstv3&#39;,</span>
+<span class="go">                                usePointingTree=True)</span>
+
+<span class="gp">#</span> If we want to obtain visits which observe two transients : ta at  <span class="o">(</span><span class="m">54</span>., -27.5<span class="o">)</span>
+<span class="gp">#</span> and tb at <span class="o">(</span><span class="m">52</span>., -23.0<span class="o">)</span>
+<span class="go">gen = synopsim.pointingsEnclosing(ra=(54.0, 52.),</span>
+<span class="go">                                  dec=(-27.5, -23.0),</span>
+<span class="go">                                  circRadius=0.,</span>
+<span class="go">                                  pointingRadius=1.75,</span>
+<span class="go">                                  usePointingTree=True)</span>
+
+<span class="go">df_ta = next(gen)</span>
+<span class="go">df_tb = next(gen)</span>
+<span class="gp">#</span> df_ta is a <span class="sb">`</span>pandas.dataFrame<span class="sb">`</span> with all of the opsim columns <span class="k">for</span> the visits
+<span class="gp">#</span> observing transient t_a <span class="o">(</span>assumed to be fixed at <span class="o">(</span><span class="m">54</span>., -27.5<span class="o">)</span> with the
+<span class="gp">#</span> observationId or obsHistId of the visit as the index of the data frame
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Pre-computed files: Alternatively, such sets and visit properties (or derived products) may be obtained written out to a text file for a set of discrete (but possibly large number of locations). Currently, we do this to provide an observation library (formerly called <code class="docutils literal notranslate"><span class="pre">simlib</span></code>) for  <a class="reference external" href="http://snana.uchicago.edu">SNANA</a>  to enable <a class="reference external" href="http://snana.uchicago.edu">SNANA</a> simulations of LSST. To use this, one could (after installing <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code>) use a <a class="reference external" href="https://github.com/rbiswas4/OpSimSummary/blob/master/scripts/make_simlibs.py">script to make the simlib files</a>. The options for the script can be found by using the following code block.</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span>python scripts/make_simlibs.py -h
+</pre></div>
+</div>
+<p>A further description of the main building blocks of this code are found in the <a class="reference external" href="./codestructure.rst">codestructure</a>.</p>
+</div>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>The engine of <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> depends on commonly used python packages. Currently, all of the
+requirements can be installed with <cite>anaconda</cite> and <cite>pip</cite>. To use <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> as a library or
+the scripts in <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code>, you will need the requirements listed <a href="#id2"><span class="problematic" id="id3">here_</span></a> .</p>
+</div>
+<div class="section" id="installing-dependencies">
+<h1>Installing Dependencies<a class="headerlink" href="#installing-dependencies" title="Permalink to this headline">¶</a></h1>
+<p>There are scripts in the <code class="docutils literal notranslate"><span class="pre">./install</span></code> directory which can be used to install the dependencies. To use these, you must have a conda python
+installation. If you don’t have a such a python installation, you can use a <a class="reference external" href="https://github.com/rbiswas4/install_utils/tree/master/scripts">script</a> to install a miniconda distribution.</p>
+<p>To install the dependenencies and <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code>, from the root level of the package:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span>bash ./install/install_all.sh
+</pre></div>
+</div>
+<p>installs the dependencies and <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code>.</p>
+<p>To just install <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> if you already have taken care of the requirements, use :</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span>bash install/install_opsimsummary
+</pre></div>
+</div>
+<p>To install other dependencies that are useful (for example for notebooks, and utlities for plotting) use:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span>conda install jupyter seaborn
+</pre></div>
+</div>
+</div>
+<div class="section" id="opsimsummary">
+<h1>opsimsummary<a class="headerlink" href="#opsimsummary" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="opsimsummary.html">opsimsummary package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="opsimsummary.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.simlib.html">opsimsummary.simlib module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.summarize_opsim.html">opsimsummary.summarize_opsim module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.trig.html">opsimsummary.trig module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="opsimsummary.html#module-opsimsummary">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="operation-simulator-outputs">
+<h1>Operation Simulator Outputs<a class="headerlink" href="#operation-simulator-outputs" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> can be used with Operation Simulator Outputs for OpSim version 3, and 4 as well as a set of OpSim outputs released for the work of the DESC Survey Strategy Task Force listed <a href="#id4"><span class="problematic" id="id5">here_</span></a> . The outputs of these versions are different, and as of now, <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> requires an input to know which of these versions are being used.</p>
+<p>The main class of <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> are required to read in <code class="docutils literal notranslate"><span class="pre">OpSim</span></code> outputs is <code class="docutils literal notranslate"><span class="pre">OpSimOutputs</span></code>. Note that the class <code class="docutils literal notranslate"><span class="pre">SynOpSim</span></code> also uses <code class="docutils literal notranslate"><span class="pre">OpSimOutputs</span></code> to  read in <code class="docutils literal notranslate"><span class="pre">OpSim</span></code> databases. <code class="docutils literal notranslate"><span class="pre">OpSimOutput</span></code> can be instantiated using a <code class="docutils literal notranslate"><span class="pre">summary</span></code> table and <code class="docutils literal notranslate"><span class="pre">proposalTable</span></code> table read in from any source. The <code class="docutils literal notranslate"><span class="pre">summary</span></code> table has a set of unique pointings of the telescope with observational characteristics of each of the pointings (such as found in the OpSim <code class="docutils literal notranslate"><span class="pre">summary</span></code> or <code class="docutils literal notranslate"><span class="pre">summaryAllProps</span></code> tables). The <code class="docutils literal notranslate"><span class="pre">ProposalTable</span></code> Table has a list of different <code class="docutils literal notranslate"><span class="pre">proposals</span></code> with an identifying integer index and descriptive names.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opsimout</span> <span class="o">=</span> <span class="n">OpSimOutput</span><span class="p">(</span><span class="n">summary</span><span class="o">=</span><span class="n">summary</span><span class="p">,</span> <span class="n">proposalTable</span><span class="o">=</span><span class="n">proposalTable</span><span class="p">,</span>
+                       <span class="n">zeroDDFDithers</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is, however, far easier and strongly recommended to use this directly using a class method and an absolute path to the <cite>OpSim</cite> database <cite>dbname</cite>. The following is the example code for <cite>lsstv3</cite> (for example <cite>minion_1016_sqlite.db</cite>. The choices for <cite>opsimversion</cite> and <cite>tableNames</cite> for the names of the <cite>summary</cite> and <cite>proposal</cite> table in OpSim v3 are important:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>$opsout = OpSimOutput.fromOpSimDB(dbname, subset=&#39;combined&#39;,
+                                  tableNames=(&#39;Summary&#39;, &#39;Proposal&#39;),
+                                  propIDs=None, zeroDDFDithers=True,
+                                  opsimversion=&#39;lsstv3&#39;)
+</pre></div>
+</div>
+<p>For the set of outputs for <cite>OpSim</cite> versions used by the DESC Survey Strategy Task Force: these variables are :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>$opsout = OpSimOutput.fromOpSimDB(dbname, subset=&#39;combined&#39;,
+                                  tableNames=(&#39;summaryAllProps&#39;, &#39;Proposal&#39;),
+                                  propIDs=None, zeroDDFDithers=True,
+                                  opsimversion=&#39;sstf&#39;)
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Installation.html#installing-dependencies">Installing Dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="OpSimOutputs.html">Operation Simulator Outputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="API.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html#installing-dependencies">Installing Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">opsimsummary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="opsimsummary.html">opsimsummary package</a></li>
+</ul>
+</li>
 </ul>
 </div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
-</ul>
 </div>
 
 
@@ -175,7 +306,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="overview.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="opsimsummary.html" class="btn btn-neutral float-right" title="opsimsummary package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
@@ -185,7 +316,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, R. Biswas.
+        &copy; Copyright 2017, R. Biswas
 
     </p>
   </div>
@@ -202,33 +333,16 @@
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.8.5',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -9,11 +9,17 @@ Welcome to OpSimSummary's documentation!
 .. include:: overview.rst
 .. include:: installation.rst
 .. include:: modules.rst
+.. include:: opsimoutputs.rst
 .. Contents
-.. #--------
-.. # .. toctree::
-.. #   :maxdepth: 2
-.. #   :modules
+.. --------
+.. toctree::
+    :maxdepth: 2
+
+    overview
+    installation
+
+    modules
+     
 
 .. #Indices and tables
 .. #==================

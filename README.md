@@ -10,5 +10,5 @@ the library and precomputes such pointings and store them in an observation libr
 
 ## Installation  and Software Requirements
 
-`opsimsummary` runs on either python 2.7 or 3.6+ . The list of required software to run `opsimsummary` is listed [here](./install/requirements.md). For installation methods, please see the [documentation](https://lsstdesc.github.io/OpSimSummary/build/html/Installation.html)
+`opsimsummary` runs on either python 2.7 or 3.6+ . The list of required software to run `opsimsummary` is listed [here](./install/requirements.md). For installation methods, please see the [documentation](https://lsstdesc.github.io/OpSimSummary/build/html/installation.html)
 

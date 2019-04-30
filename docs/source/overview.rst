@@ -13,7 +13,7 @@ The key functionality of ``OpSimSummary`` is to find the set of LSST visits in a
 
 1. As a library: ``OpSimSummary`` can used as a library by a simulation program. In this case, the simulator can use ``OpSimSummary`` to obtain the set of visits and their properties in the form of a `pandas.DataFrame` using a generator.  The basic code snippet to be used is demonstrated in the code block below, and a usable example is in the this demo notebook_
 
-.. _notebook: https://github.com/rbiswas4/OpSimSummary/blob/master/example/Demo_SynOpSim.ipynb
+.. _notebook: https://github.com/lsstdesc/OpSimSummary/blob/master/example/Demo_SynOpSim.ipynb
 
 .. code-block:: console
 
@@ -41,7 +41,7 @@ The key functionality of ``OpSimSummary`` is to find the set of LSST visits in a
 
 
 .. _SNANA: http://snana.uchicago.edu 
-.. _`script to make the simlib files`: https://github.com/rbiswas4/OpSimSummary/blob/master/scripts/make_simlibs.py
+.. _`script to make the simlib files`: https://github.com/lsstdesc/OpSimSummary/blob/master/scripts/make_simlibs.py
 
 .. code-block:: console
 

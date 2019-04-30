@@ -99,8 +99,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html#installing-dependencies">Installing Dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">opsimsummary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html#package-structure">Package Structure</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">opsimsummary</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="opsimsummary.html">opsimsummary package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="opsimsummary.html#submodules">Submodules</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a></li>
@@ -183,7 +182,7 @@
 <p><code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> was developed to interact with outputs of the <a class="reference external" href="https://www.lsst.org/scientists/simulations/opsim">LSST Operations Simulator</a>  for the purposes of transient and variable (mostly supernova cosmology) studies. Examples of such outputs are downloadable from <a class="reference external" href="https://www.lsst.org/scientists/simulations/opsim/opsim-v335-benchmark-surveys">the opsim webpage</a> formatted as sqlite databases with fixed <a class="reference external" href="https://www.lsst.org/scientists/simulations/opsim/summary-table-column-descriptions-v335">schema</a>.</p>
 <p>The key functionality of <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> is to find the set of LSST visits in an <code class="docutils literal notranslate"><span class="pre">OpSim</span></code> database that will observe a given location of the sky. This set of visits and the properties of these visits (also obtained from <code class="docutils literal notranslate"><span class="pre">OpSim</span></code> databases) is a useful piece of information for the simulations of observations of Time Domain Astronomy Sources (TDAS). The functionality is available in two ways:</p>
 <ol class="arabic simple">
-<li>As a library: <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> can used as a library by a simulation program. In this case, the simulator can use <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> to obtain the set of visits and their properties in the form of a <cite>pandas.DataFrame</cite> using a generator.  The basic code snippet to be used is demonstrated in the code block below, and a usable example is in the this demo <a class="reference external" href="https://github.com/rbiswas4/OpSimSummary/blob/master/example/Demo_SynOpSim.ipynb">notebook</a></li>
+<li>As a library: <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> can used as a library by a simulation program. In this case, the simulator can use <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> to obtain the set of visits and their properties in the form of a <cite>pandas.DataFrame</cite> using a generator.  The basic code snippet to be used is demonstrated in the code block below, and a usable example is in the this demo <a class="reference external" href="https://github.com/lsstdesc/OpSimSummary/blob/master/example/Demo_SynOpSim.ipynb">notebook</a></li>
 </ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">from opsimsummary import SynOpSim</span>
 
@@ -207,12 +206,12 @@
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li>Pre-computed files: Alternatively, such sets and visit properties (or derived products) may be obtained written out to a text file for a set of discrete (but possibly large number of locations). Currently, we do this to provide an observation library (formerly called <code class="docutils literal notranslate"><span class="pre">simlib</span></code>) for  <a class="reference external" href="http://snana.uchicago.edu">SNANA</a>  to enable <a class="reference external" href="http://snana.uchicago.edu">SNANA</a> simulations of LSST. To use this, one could (after installing <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code>) use a <a class="reference external" href="https://github.com/rbiswas4/OpSimSummary/blob/master/scripts/make_simlibs.py">script to make the simlib files</a>. The options for the script can be found by using the following code block.</li>
+<li>Pre-computed files: Alternatively, such sets and visit properties (or derived products) may be obtained written out to a text file for a set of discrete (but possibly large number of locations). Currently, we do this to provide an observation library (formerly called <code class="docutils literal notranslate"><span class="pre">simlib</span></code>) for  <a class="reference external" href="http://snana.uchicago.edu">SNANA</a>  to enable <a class="reference external" href="http://snana.uchicago.edu">SNANA</a> simulations of LSST. To use this, one could (after installing <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code>) use a <a class="reference external" href="https://github.com/lsstdesc/OpSimSummary/blob/master/scripts/make_simlibs.py">script to make the simlib files</a>. The options for the script can be found by using the following code block.</li>
 </ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span>python scripts/make_simlibs.py -h
 </pre></div>
 </div>
-<p>A further description of the main building blocks of this code are found in the <a class="reference external" href="./codestructure.rst">codestructure</a>.</p>
+<p>A further description of the main building blocks of this code are found in the <a class="reference external" href="./codestructure.html">codestructure</a>.</p>
 </div>
 
 

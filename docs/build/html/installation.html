@@ -99,8 +99,7 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#installing-dependencies">Installing Dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">opsimsummary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html#package-structure">Package Structure</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">opsimsummary</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="opsimsummary.html">opsimsummary package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="opsimsummary.html#submodules">Submodules</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a></li>
@@ -182,12 +181,17 @@
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>The engine of <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> depends on commonly used python packages. Currently, all of the
 requirements can be installed with <cite>anaconda</cite> and <cite>pip</cite>. To use <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code> as a library or
-the scripts in <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code>, you will need the requirements listed <a class="reference external" href="https://github.com/rbiswas4/OpSimSummary/blob/fix_release_help/install/requirements.md">here</a> .</p>
+the scripts in <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code>, you will need the requirements listed <a class="reference external" href="https://github.com/lsstdesc/OpSimSummary/blob/fix_release_help/install/requirements.md">here</a> .</p>
 </div>
 <div class="section" id="installing-dependencies">
 <h1>Installing Dependencies<a class="headerlink" href="#installing-dependencies" title="Permalink to this headline">¶</a></h1>
 <p>There are scripts in the <code class="docutils literal notranslate"><span class="pre">./install</span></code> directory which can be used to install the dependencies. To use these, you must have a conda python
-installation. If you don’t have a such a python installation, you can use a <a class="reference external" href="https://github.com/rbiswas4/install_utils/tree/master/scripts">script</a> to install a miniconda distribution.</p>
+installation. If you don’t have a such a python installation, you can use a <a class="reference external" href="https://github.com/rbiswas4/install_utils/blob/master/scripts/install_python.sh">script</a> to install a miniconda distribution.</p>
+<p>using the code
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">bash</span> <span class="pre">install_python.sh</span> <span class="pre">path_to_desired_python_location</span>
+<span class="pre">`</span></code>
+where <cite>path_to_desired_python_location</cite> must be a directory that exists.</p>
 <p>To install the dependenencies and <code class="docutils literal notranslate"><span class="pre">OpSimSummary</span></code>, from the root level of the package:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span>bash ./install/install_all.sh
 </pre></div>

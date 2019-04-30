@@ -12,7 +12,12 @@ Installing Dependencies
 There are scripts in the ``./install`` directory which can be used to install the dependencies. To use these, you must have a conda python
 installation. If you don't have a such a python installation, you can use a script_ to install a miniconda distribution. 
 
-.. _script: https://github.com/lsstdesc/install_utils/tree/master/scripts
+.. _script: https://github.com/rbiswas4/install_utils/blob/master/scripts/install_python.sh
+using the code
+```
+bash install_python.sh path_to_desired_python_location
+```
+where `path_to_desired_python_location` must be a directory that exists.
 
 To install the dependenencies and ``OpSimSummary``, from the root level of the package:
 

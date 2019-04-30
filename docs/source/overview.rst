@@ -49,7 +49,7 @@ The key functionality of ``OpSimSummary`` is to find the set of LSST visits in a
 
 
 
-.. _codestructure: ./codestructure.rst
+.. _codestructure: ./codestructure.html
 
 A further description of the main building blocks of this code are found in the `codestructure`_.
 

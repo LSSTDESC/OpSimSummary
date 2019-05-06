@@ -5,7 +5,7 @@ The engine of ``OpSimSummary`` depends on commonly used python packages. Current
 requirements can be installed with `anaconda` and `pip`. To use ``OpSimSummary`` as a library or
 the scripts in ``OpSimSummary``, you will need the requirements listed here_ .
 
-.. _here: https://github.com/lsstdesc/OpSimSummary/blob/fix_release_help/install/requirements.md
+.. _here: https://github.com/LSSTDESC/OpSimSummary/blob/master/install/requirements.md
 
 Installing Dependencies
 ========================

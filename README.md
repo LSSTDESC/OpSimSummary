@@ -1,6 +1,7 @@
 # OpSimSummary
 
 [![Build Status](https://travis-ci.org/LSSTDESC/OpSimSummary.svg?branch=master)](https://travis-ci.org/LSSTDESC/OpSimSummary)
+[![DOI](https://zenodo.org/badge/37937479.svg)](https://zenodo.org/badge/latestdoi/37937479)
 
 `OpSimSummary` is a codebase developed to interact with the LSST Operations Simulator outputs. Currently they are used for catalog Time Domain Simulations. 
 This includes a library that can be called by simulation codes to obtain the set of LSST pointings observing a particular point, as well as a script which uses

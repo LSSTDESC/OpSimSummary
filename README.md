@@ -7,6 +7,11 @@
 This includes a library that can be called by simulation codes to obtain the set of LSST pointings observing a particular point, as well as a script which uses
 the library and precomputes such pointings and store them in an observation library. This storage is in a format specific to [`SNANA`](http://snana.uchicago.edu/)
 
+# Using `OpSimSummary`
+`OpSimSumamry` is open source and licensed under [BSD 3-clause](./LICENSE). While a release is available at [zenodp](https://zenodo.org/record/2671955#.XNPhvi2ZM1g) the software will continue to be developed as needed in this github repository. If you plean to use a released version on zenodo, you can cite the specific release (for example the current release using the doi (for example see the `Export` section of the [zenodo](https://zenodo.org/record/2671955#.XNPhvi2ZM1g) page for the release.) Alternatively, you can cite the a specific non-release versin on the github repository through the git SHA.
+
+Additionally, in both cases, please cite the [code paper](https://arxiv.org/abs/1905.02887). If you are using bibtex, [NASA ADS](http://adsabs.harvard.edu) provides a [bibtex](https://ui.adsabs.harvard.edu/abs/2019arXiv190502887B/exportcitation)  for this reference (as also other formatted forms).
+
 - Documentation is hosted at [github_pages](https://lsstdesc.github.io/OpSimSummary/build/html/index.html)
 
 ## Installation  and Software Requirements

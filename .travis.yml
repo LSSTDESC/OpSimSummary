@@ -20,4 +20,4 @@ cache:
   - $HOME/miniconda.tarball
   timeout: 1600
 script:
-    - py.test tests/ 
+    - pytest tests/ 

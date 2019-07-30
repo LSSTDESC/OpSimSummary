@@ -3,3 +3,6 @@ pytest-cov
 python-coveralls
 coverage
 matplotlib
+future
+numpy
+pandas

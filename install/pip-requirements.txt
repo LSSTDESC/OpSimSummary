@@ -1,7 +1,7 @@
-pytest
+pytest=3.2.5
 pytest-cov
 python-coveralls
-coverage
+coverage=4.5.4
 matplotlib
 future
 numpy

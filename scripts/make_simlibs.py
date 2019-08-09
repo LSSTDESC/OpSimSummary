@@ -77,10 +77,10 @@ def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields
         totalfields = len(surveyPix)
 
     fields = simlibs.simlibs_for_fields(surveyPix, mwebv=mwebv)
-    
+
     area = hp.nside2pixarea(nside, degrees=True) * np.float(totalfields)
     solidangle = hp.nside2pixarea(nside, degrees=False) * np.float(totalfields)
-    
+ 
     print('Going to write simlib file {0} for opsim output\n')
     if script_name is None:
         script_name = 'OpSimSummary/scripts/make_simlibs.py'

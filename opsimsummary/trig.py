@@ -193,7 +193,7 @@ def angDistance(ra, dec, df, raCol='fieldRA', decCol='fieldDec'):
     """
     df['dist'] = angSep(ra, dec, df[raCol], df[decCol])
     idx = df.dist.idxmin()
-    rval = df.ix[idx]
+    rval = df.loc[idx]
     df.drop('dist', axis=1, inplace=True)
     return rval
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Script to make Simlib files from OpSim DataBases (supported versions include
 OpSim v3, OpSim v4, AltSched outputs.

@@ -27,7 +27,7 @@ class OpSimOutput(object):
 
     Attributes
     ----------
-    opsimversion: {'lsstv3'|'sstf'|'lsstv4'}
+    opsimversion: {'lsstv3'|'sstf'|'lsstv4'|'fbsv1p3'}
         version of OpSim corresponding to the output format.
     summary: `pd.DataFrame`
         selected records from the Summary Table of pointings
@@ -83,7 +83,7 @@ class OpSimOutput(object):
             If `True` changes the dithers in DDF fields to zero by setting the
             columns `ditheredRA`, `ditheredDec` the same as `fieldRA` and
             `fieldDec`
-        opsimversion: {'lsstv3'|'sstf'|'lsstv4'} , defaults to 'lsstv3'
+        opsimversion: {'lsstv3'|'sstf'|'lsstv4'|'fbsv1p3'} , defaults to 'lsstv3'
             a string to denote the version of OpSim outputs. `lsstv3`
             refers to outputs from OpSim version 3 (eg. enigma_1189, minion_1016).
             `sstf` refers to outputs from created at the start of the Observing
@@ -92,27 +92,34 @@ class OpSimOutput(object):
             and `lsstv4` refers to outputs available from  OpSim version 4.
         """
         self.opsimversion = opsimversion
-        self.allowed_subsets = self.get_allowed_subsets()
+        self.allowed_subsets = self.get_allowed_subsets(opsimversion)
         self.subset = subset
         self.propIDDict = propIDDict
         self.proposalTable = proposalTable
 
-        if opsimversion in ('sstf', 'lsstv4'):
+        if opsimversion in ('sstf', 'lsstv4', 'fbsv1p3'):
             zeroDDFDithers = False
             ss = 'Warning: Input is zeroDDFDithers = True. But opsimversion is'
             ss += '{} for which this must be False. Setting to False and proceeding\n'.format(opsimversion)
             print(ss)
 
-        # Check `summary` does not have `nan`s
+        # Only check `summary` does not have `nan`s, this is the only check implemented if the second argument is
+        # `None`
         if not self.validate_pointings(summary, opsimVars=None):
             print('summary table has nans, exiting\n')
             sys.exit(1)
 
         if zeroDDFDithers:
+            # Then set summary['ditheredRA'] and summary['ditheredDec'] to the 'fieldRA' values for DDF.
             ddfPropID = self.propIDDict['ddf']
             ddfidx = summary.query('propID == @ddfPropID').index
             summary.loc[ddfidx, 'ditheredRA'] = summary.loc[ddfidx, 'fieldRA']
             summary.loc[ddfidx, 'ditheredDec'] = summary.loc[ddfidx, 'fieldDec']
+
+        # Why do we set this to None ?
+        # RB: Does not seem to be necessary but does not hurt either.
+        # As long as self.opsimversion is set as above (correctly) `self.opsimVars`
+        # is a property that will set itself.
         self._opsimvars = None
 
         # Have a clear unambiguous ra, dec in radians following LSST convention
@@ -121,15 +128,15 @@ class OpSimOutput(object):
 
         # If degrees do transformation to radians
         if self.opsimVars['angleUnit'] == 'degrees':
-            summary.loc[:, '_ra'] = np.radians(summary['ditheredRA'])
-            summary.loc[:, '_dec'] = np.radians(summary['ditheredDec'])
+            summary.loc[:, '_ra'] = np.radians(summary[self.opsimVars['pointingRA']])
+            summary.loc[:, '_dec'] = np.radians(summary[self.opsimVars['pointingDec']])
             print('Changing units for {0} from {1}'.format(opsimversion, 'degrees'))
 
         # If already in radians, make a copy
         elif self.opsimVars['angleUnit'] == 'radians':
             print('Keeping units for {0} from {1}'.format(opsimversion, 'radians'))
-            summary.loc[:, '_ra'] = summary['ditheredRA']
-            summary.loc[:, '_dec'] = summary['ditheredDec']
+            summary.loc[:, '_ra'] = summary[self.opsimVars['pointingRA']]
+            summary.loc[:, '_dec'] = summary[self.opsimVars['pointingDec']]
 
         else:
             raise ValueError('angle unit of ra and dec Columns not recognized\n')
@@ -154,7 +161,7 @@ class OpSimOutput(object):
         Parameters
         ----------
         opsimversion: string, defaults to `lsstv3`
-            can be {`lsstv3`|`lsstv4`|`sstf`}
+            can be {`lsstv3`|`lsstv4`|`sstf`|`fbsv1p3`}
 
         Returns
         -------
@@ -216,8 +223,22 @@ class OpSimOutput(object):
                      pointingDec='ditheredDec',
                      filtSkyBrightness='skyBrightness',
                      angleUnit='degrees')
+        elif opsimversion == 'fbsv1p3':
+            x = dict(summaryTableName='SummaryAllProps',
+                     obsHistID='observationId',
+                     propName='proposalType',
+                     propIDName='proposalId',
+                     propIDNameInSummary='proposalId',
+                     ops_wfdname='WFD',
+                     ops_ddfname='DDF',
+                     expMJD='observationStartMJD',
+                     FWHMeff='seeingFwhmEff',
+                     pointingRA='fieldRA',
+                     pointingDec='fieldDec',
+                     filtSkyBrightness='skyBrightness',
+                     angleUnit='degrees')
         else:
-            raise NotImplementedError('`get_propIDDict` is not implemented for this `opsimversion`')
+            raise NotImplementedError('`get_opsimVariablesForVersion` is not implemented for this `opsimversion`')
 
         return x
 
@@ -383,7 +404,7 @@ class OpSimOutput(object):
             one of {'_all', 'unique_all', 'wfd', 'ddf', 'combined'}
             determines a sequence of propIDs for selecting observations
             appropriate for the OpSim database in use
-        opsimversion : {'lsstv3'|'sstf'|'lsstv4'}
+        opsimversion : {'lsstv3'|'sstf'|'lsstv4'|'fbsv1p3'}
             version of OpSim corresponding to the output format.
         zeroDDFDithers : bool, defaults to True
             if True, set dithers in DDF to 0, by setting ditheredRA,
@@ -419,11 +440,10 @@ class OpSimOutput(object):
         opsimVars = cls.get_opsimVariablesForVersion(opsimversion)
 
         # Set tablenames
-        tableNames=(opsimVars['summaryTableName'], 'Proposal')
-
+        tableNames = (opsimVars['summaryTableName'], 'Proposal')
 
         # Check that subset parameter is legal
-        allowed_subsets = cls.get_allowed_subsets()
+        allowed_subsets = cls.get_allowed_subsets(opsimversion)
         subset = subset.lower()
         if subset not in allowed_subsets:
             raise NotImplementedError('subset {} not implemented'.\
@@ -435,6 +455,7 @@ class OpSimOutput(object):
                                                         opsimversion,
                                                         subset,
                                                         user_propIDs=user_propIDs)
+
         summary = cls._read_summary_table_raw(engine, opsimVars, propIDs, subset)
 
         if len(summary) == 0:
@@ -447,6 +468,9 @@ class OpSimOutput(object):
         # filter read in summary table
         print('We have filterNull set to', filterNull)
         if filterNull:
+            print('This option was added as some opsim databases had nulls for five sigma depths, or insane \
+                   values that were reset to nan. The null filterNull option was to filter these out before \
+                   other manipulations \n')
             print('With given option, filtering the raw summary table of NaNs')
             num_orig = len(summary)
             summary = summary[np.isfinite(summary['fiveSigmaDepth'])]
@@ -459,11 +483,17 @@ class OpSimOutput(object):
 
         # Standardize names of summary table columns
         replacedict = dict()
-        replacedict[opsimVars['obsHistID']] = 'obsHistID'
-        replacedict[opsimVars['propIDNameInSummary']] = 'propID'
-        replacedict[opsimVars['expMJD']] = 'expMJD'
-        replacedict[opsimVars['FWHMeff']] = 'FWHMeff'
-        replacedict[opsimVars['filtSkyBrightness']] = 'filtSkyBrightness'
+
+        keystostd = ((opsimVars['obsHistID'], 'obsHistID'),
+                     (opsimVars['propIDNameInSummary'], 'propID'),
+                     (opsimVars['expMJD'], 'expMJD'),
+                     (opsimVars['FWHMeff'], 'FWHMeff'),
+                     (opsimVars['filtSkyBrightness'],'filtSkyBrightness')
+                    )
+
+        for aliases in keystostd:
+            if aliases[0] is not None:
+                replacedict[aliases[0]] = aliases[1]
         summary = summary.rename(columns=replacedict)
 
         if cls.validate_pointings(summary, opsimVars=None):
@@ -491,6 +521,9 @@ class OpSimOutput(object):
             # eg. has to be done in `lsstv4` and `sstf` unless supplied
             add_dithers = True
 
+        if opsimversion == 'fbsv1p3':
+            add_dithers = False
+
         if add_dithers:
             if dithercolumns is not None:
                 print('Trying to join input dithercolumns\n')
@@ -512,6 +545,9 @@ class OpSimOutput(object):
 
                 summary = summary.join(dithercolumns)
 
+            # RB : 02.10.2020 ... does not make sense to have this as an elif case
+            # when the if was this clause. We should fix the dither behavior and simplify
+            # it. Issue https://github.com/LSSTDESC/OpSimSummary/issues/303 
             elif add_dithers:
                 print('creating dither columns \n')
 
@@ -800,10 +836,14 @@ class OpSimOutput(object):
         return propIDs
 
     @staticmethod
-    def get_allowed_subsets():
+    def get_allowed_subsets(opsimversion):
         """Provide a sequence of implemented subset values"""
-
-        return ('_all', 'ddf', 'wfd', 'combined', 'unique_all')
+        # Note this is really a version which has annotations on top of fbs v1p3
+        # Making this if statement superfluous
+        if opsimversion.lower() == 'fbsv1p3':
+            return ('_all', 'ddf', 'wfd', 'combined', 'unique_all')
+        else:
+            return ('_all', 'ddf', 'wfd', 'combined', 'unique_all')
 
     @staticmethod
     def get_propIDDict(proposalDF, opsimversion='lsstv3'):
@@ -815,7 +855,7 @@ class OpSimOutput(object):
         ----------
         proposalDF : `pd.DataFrame`, mandatory
             a dataframe with the Proposal Table of the OpSim Run.
-        opsimversion: {'lsstv3'|'sstf'|'lsstv4'}, defaults to 'lsstv3'
+        opsimversion : {'lsstv3'|'sstf'|'lsstv4'}, defaults to 'lsstv3'
             version of opsim from which output is drawn
         Returns
         -------
@@ -825,7 +865,12 @@ class OpSimOutput(object):
         oss_wfdName = 'wfd'
         oss_ddfName = 'ddf'
 
+        # This is the proposal table read into a DataFrame
         df = proposalDF
+
+        # We need the columns of this table that have an integer used in the summary Table,
+        # and the type of proposal DDF, WFD, 
+
         mydict = dict()
         if opsimversion == 'lsstv3':
             propName = 'propConf'
@@ -842,12 +887,19 @@ class OpSimOutput(object):
             propIDName = 'propId'
             ops_wfdname = 'WideFastDeep'
             ops_ddfname = 'DeepDrillingCosmology1'
+        elif opsimversion == 'fbsv1p3':
+            propName = 'proposalType'
+            propIDName = 'proposalId'
+            ops_wfdname = 'WFD'
+            ops_ddfname = 'DD'
         else:
             raise NotImplementedError('`get_propIDDict` is not implemented for this `opsimversion`')
 
         # Rename version based proposal names to internal values
+        # set above to oss_wfdName and oss_ddfName
         for idx, row in df.iterrows():
-            # remember in enigma outputs, these came with `..` in the beginning
+            # remember in enigma outputs, these came with `..` in the beginning, hence use `in` rather than
+            # equality
             if ops_wfdname in row[propName]:
                 df.loc[idx, propName] = oss_wfdName
             elif ops_ddfname in row[propName]:

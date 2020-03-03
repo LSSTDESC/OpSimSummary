@@ -703,9 +703,19 @@ class OpSimOutput(object):
         # As duplicates are dropped in order, reorder IDs so that
         # DDF is lowest, WFD next lowest, everything else as is
         minPropID = df.propID.min()
-        ddfID = propIDDict['ddf']
-        wfdID = propIDDict['wfd']
-        ddfPropID = minPropID - 1
+
+        has_ddf = True
+
+        try:
+            ddfID = propIDDict["ddf"]
+        except KeyError:
+            has_ddf = False
+
+        wfdID = propIDDict["wfd"]
+
+        if has_ddf:
+            ddfPropID = minPropID - 1
+
         wfdPropID = minPropID - 2
 
         orig_propID = df.propID.values
@@ -714,11 +724,13 @@ class OpSimOutput(object):
         #    ddfmask = np.isin(df.propID, ddfID)
         #    wfdmask = np.isin(df.propID, wfdID)
         # else:
-        ddfmask = np.in1d(df.propID, ddfID)
+        if has_ddf:
+            ddfmask = np.in1d(df.propID, ddfID)
         wfdmask = np.in1d(df.propID, wfdID)
 
-        df.loc[ddfmask, 'propID'] = ddfPropID
-        df.loc[wfdmask, 'propID'] = wfdPropID
+        if has_ddf:
+            df.loc[ddfmask, "propID"] = ddfPropID
+        df.loc[wfdmask, "propID"] = wfdPropID
 
         # drop duplicates keeping the lowest transformed propIDs so that all
         # WFD visits remain, DDF visits which were duplicates of WFD visits are

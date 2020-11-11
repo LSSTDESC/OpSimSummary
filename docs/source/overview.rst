@@ -9,7 +9,7 @@ Overview
 .. _`LSST Operations Simulator`: https://www.lsst.org/scientists/simulations/opsim
 
 
-The key functionality of ``OpSimSummary`` is to find the set of LSST visits in an ``OpSim`` database that will observe a given location of the sky. This set of visits and the properties of these visits (also obtained from ``OpSim`` databases) is a useful piece of information for the simulations of observations of Time Domain Astronomy Sources (TDAS). The functionality is available in two ways:
+The key functionality of ``OpSimSummary`` is to find the set of LSST visits in an ``OpSim`` database that will observe a given location of the sky. This set of visits and the properties of these visits (also obtained from ``OpSim`` databases) is a useful piece of information for the simulations of observations of Time Domain Astronomy Sources (TDAS). The functionality is available in two ways (a) **through an API** so that the library can be used in new code acting on `OpSim` databases and (b) as data products created by ``OpSimSummary`` that can be used by other programs, for example, observation library files ('simlib') for ``SNANA`` :
 
 1. As a library: ``OpSimSummary`` can used as a library by a simulation program. In this case, the simulator can use ``OpSimSummary`` to obtain the set of visits and their properties in the form of a `pandas.DataFrame` using a generator.  The basic code snippet to be used is demonstrated in the code block below, and a usable example is in the this demo notebook_
 
@@ -37,11 +37,12 @@ The key functionality of ``OpSimSummary`` is to find the set of LSST visits in a
     # observing transient t_a (assumed to be fixed at (54., -27.5) with the
     # observationId or obsHistId of the visit as the index of the data frame
 
-2. Pre-computed files: Alternatively, such sets and visit properties (or derived products) may be obtained written out to a text file for a set of discrete (but possibly large number of locations). Currently, we do this to provide an observation library (formerly called ``simlib``) for  SNANA_  to enable SNANA_ simulations of LSST. To use this, one could (after installing ``OpSimSummary``) use a `script to make the simlib files`_. The options for the script can be found by using the following code block.
+2. Data Products (`SNANA` Simlib files): Alternatively, such sets and visit properties (or derived products) may be obtained written out to a text file for a set of discrete (but possibly large number of locations). Currently, we do this to provide an observation library (formerly called ``simlib``) for  SNANA_  to enable SNANA_ simulations of LSST. To use this, one could (after installing ``OpSimSummary``) use a `script to make the simlib files`_. The options for the script can be found by using the following code block. More detailed description of the optons is available in the `demo notebook`_. 
 
 
 .. _SNANA: http://snana.uchicago.edu 
 .. _`script to make the simlib files`: https://github.com/lsstdesc/OpSimSummary/blob/master/scripts/make_simlibs.py
+.. _`demo notebook`: https://github.com/LSSTDESC/OpSimSummary/blob/master/example/Demo_make_simlibs.ipynb
 
 .. code-block:: console
 

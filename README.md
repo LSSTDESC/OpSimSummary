@@ -12,7 +12,7 @@ the library and precomputes such pointings and store them in an observation libr
 
 Additionally, in both cases, please cite the [code paper](https://arxiv.org/abs/1905.02887). If you are using bibtex, [NASA ADS](http://adsabs.harvard.edu) provides a [bibtex](https://ui.adsabs.harvard.edu/abs/2019arXiv190502887B/exportcitation)  for this reference (as also other formatted forms).
 
-- Documentation is hosted at [github_pages](https://lsstdesc.github.io/OpSimSummary/build/html/index.html). The overview section has snippets for the use as an API as well as documentation of the script needed to create SNANA simlib files. (This is described in greater detail in the a [demo notebook](example/Demo_make_simlibs.py))
+- Documentation is hosted at [github_pages](https://lsstdesc.github.io/OpSimSummary/build/html/index.html). The overview section has snippets for the use as an API as well as documentation of the script needed to create SNANA simlib files. (This is described in greater detail in the a [demo notebook](./example/Demo_make_simlibs.ipynb))
 
 ## Installation  and Software Requirements
 

@@ -1,4 +1,4 @@
-# OpSimSummary
+
 
 [![Build Status](https://travis-ci.org/LSSTDESC/OpSimSummary.svg?branch=master)](https://travis-ci.org/LSSTDESC/OpSimSummary)
 [![DOI](https://zenodo.org/badge/37937479.svg)](https://zenodo.org/badge/latestdoi/37937479)
@@ -12,9 +12,9 @@ the library and precomputes such pointings and store them in an observation libr
 
 Additionally, in both cases, please cite the [code paper](https://arxiv.org/abs/1905.02887). If you are using bibtex, [NASA ADS](http://adsabs.harvard.edu) provides a [bibtex](https://ui.adsabs.harvard.edu/abs/2019arXiv190502887B/exportcitation)  for this reference (as also other formatted forms).
 
-- Documentation is hosted at [github_pages](https://lsstdesc.github.io/OpSimSummary/build/html/index.html)
+- Documentation is hosted at [github_pages](https://lsstdesc.github.io/OpSimSummary/build/html/index.html). The overview section has snippets for the use as an API as well as documentation of the script needed to create SNANA simlib files. (This is described in greater detail in the a [demo notebook](example/Demo_make_simlibs.py))
 
 ## Installation  and Software Requirements
 
-`opsimsummary` runs on either python 2.7 or 3.6+ . The list of required software to run `opsimsummary` is listed [here](./install/requirements.md). For installation methods, please see the [documentation](https://lsstdesc.github.io/OpSimSummary/build/html/installation.html)
+`opsimsummary` runs on python 3.6+ . The list of required software to run `opsimsummary` is listed [here](./install/requirements.md). For installation methods, please see the [documentation](https://lsstdesc.github.io/OpSimSummary/build/html/installation.html)
 

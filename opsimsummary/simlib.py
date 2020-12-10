@@ -460,7 +460,7 @@ class Simlibs(SynOpSim, SimlibMixin):
             # hids = rng.choice(surveydf.reset_index()['hid'].values, size=numFields,
             #               replace=False)
         else:
-            surveydf = surveydf.sample(size=numFields, replace=True,
+            surveydf = surveydf.sample(n=numFields, replace=True,
                                        random_state=rng)
             print("Warning: You have asked for more samples than the original number of fields")
             print('Printing original number of fields instead')

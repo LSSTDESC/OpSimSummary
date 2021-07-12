@@ -14,16 +14,18 @@ from opsimsummary import Simlibs, OpSimOutput
 import sys
 import time
 import datetime
+import subprocess
 
 
 def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields,
+                  author_name=None,
                   mapFile='ddf_minion_map.csv', rng=np.random.RandomState(0),
                   mwebv=0., raCol='ditheredRA', decCol='ditheredDec',
                   angleUnit='degrees', opsimversion='lsstv3',
                   indexCol='obsHistID', nside=256, fieldType='DDF',
                   opsimoutput='minion_1016_sqlite.db',
                   vetoed_hids=None,
-                  opsimsummary_version=oss.__version__,
+                  opsim_output='opsim_output',
                   script_name=None,
                   surveypix_file=None):
     """
@@ -45,15 +47,21 @@ def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields
         number of sample fields requested in the simlib file. If this number
         exceeds the number of fields satisfying the number of visits, all of the
         fields satisfying the constraints are included in the simlib
+    author_name : string, defaults to None
+        Author name. If not provided, assumed to be None. The author name will be replaced by 
+        user login.
     vetoed_hids : set of integers, defaults to `None`
        if not `None`, set of integers representing healpix Ids in the same
        (`nest`|`ring`) which should not be used. If `None`, ignore.
-    opsimsummary_version :
+    opsim_output: str
+        name of the opsim_output 'opsim_output'
     script_name : 
     surveypix_file : abspath to surveypix_file, defaults to None
         If not None, uses this file to find the libids to simulate. Should
         have an ordered dataframe of ra, dec, simlibIds
     """
+                  
+    opsimsummary_version=oss.__version__,
     minMJD = summary.expMJD.min()
     maxMJD = summary.expMJD.max()
     simlibs = Simlibs(summary, usePointingTree=True, raCol=raCol,
@@ -85,10 +93,52 @@ def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields
     print('Going to write simlib file {0} for opsim output\n')
     if script_name is None:
         script_name = 'OpSimSummary/scripts/make_simlibs.py'
-    ts = datetime.datetime.now().isoformat()
+    dt = datetime.datetime.now()
+    ts = dt.isoformat()
 
-    comment = 'COMMENT: Total area corresponding to this simlib is {0:.1f} sq degrees or a solid angle of {1:4f} \n'.format(area, solidangle) 
-    comment += 'COMMENT: This is a simlib corresponding to {0} in the OpSim Output {1} using the script {3} in version {2} at time {4}\n'.format(fieldType, opsimoutput, opsimsummary_version, script_name, ts) 
+
+    # Author name
+    if author_name is None:
+        author_name = os.getlogin()
+
+    ## git information
+    try :
+        label = subprocess.check_output(['git', 'describe', '--dirty']).strip().decode('utf-8')
+        # Assume that there will be git versions before and after 2.22
+        branch = subprocess.check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD']).strip().decode('utf-8')
+        if label.endswith('dirty'):
+            git_sha = label.split('-dirty')[0]
+            dirty = 'dirty'
+        else:
+            git_sha = label
+            dirty = ''
+
+        git_info = f'The script was part of a {dirty} git repository in the branch {branch} and commit SHA {git_sha} and was labelled with a version : {oss.__version__}'
+    except:
+        git_info = 'The script was not detected to be a part of a git repository'
+    
+        
+    # OpSim version information
+    version = oss.__version__
+
+    comment = 'DOCUMENTATION:\n'
+    comment += f'    PURPOSE: simulate LSST based on mock opsim version {opsim_output}\n'
+    comment += '    INTENT:   Nominal\n'
+    comment += '    USAGE_KEY: SIMLIB_FILE\n'
+    comment += '    USAGE_CODE: snlc_sim.exe\n'
+    comment += '    VALIDATION_SCIENCE: \n'
+    comment += '    NOTES: \n'
+    comment += '        PARAMS MINMJD: {}\n'.format(minMJD)
+    comment += '        PARAMS MAXMJD: {}\n'.format(maxMJD)
+    comment += '        PARAMS TOTAL_AREA: {}\n'.format(area)
+    comment += '        PARAMS SOLID_ANGLE: {}\n'.format(solidangle)
+    comment += '    VERSIONS:\n'
+    comment += f'    - DATE : {dt.strftime(format="%y-%m-%d")}\n'
+    comment += f'    AUTHORS : {author_name}, OpSimSummary version {oss.__version__}\n'
+    comment += 'DOCUMENTATION_END:\n'
+    comment += 'COMMENT: Total area corresponding to this simlib is {0:.1f} sq degrees or a solid angle of {1:4f} \n'.format(area, solidangle) 
+    comment += 'COMMENT: This is a simlib corresponding to {0} in the OpSim Output {1} using the script {3} in version {2} at time {4}. {5}\n'.format(fieldType, opsimoutput,
+            opsimsummary_version, script_name, ts, git_info) 
     comment += '\nCOMMENT: PARAMS MINMJD: {}\n'.format(minMJD)
     comment += 'COMMENT: PARAMS MAXMJD: {}\n'.format(maxMJD)
     comment += 'COMMENT: PARAMS TOTAL_AREA: {}\n'.format(area)
@@ -138,6 +188,8 @@ if __name__ == '__main__':
                         default=50000, type=int)
     parser.add_argument('--filterNull', help='if added, then the summary table of the OpSim file will be filtered of rows that appear to have null values',
                         dest='filt_Null', action='store_true')
+    parser.add_argument('--authorName', help='Name of the author to be recorded in documentation. If skipped, the login will be used instead', type=str, default=None)
+    parser.add_argument('--opsim_output', help='name of the opsim output being used, will be obtained from filename if skipped', default=None, type=str)
     print("read in command line options and figuring out what to do\n")
     print("we are using opsimsummary version {0} and the library is located at {1}".format(oss.__version__, oss.__file__))
     print("we are using the path {}".format(sys.path))
@@ -146,8 +198,13 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     data_root = args.data_root
+    author_name = args.authorName
     dbname = os.path.join(data_root, args.dbname)
     basename = dbname.split('/')[-1].split('.db')[0]
+
+    opsim_output = args.opsim_output
+    if opsim_output is None:
+        opsim_output = basename
 
     filternulls = False
     if args.filt_Null :
@@ -248,6 +305,8 @@ if __name__ == '__main__':
                                    numFields=numFields_DDF, mapFile='ddf_minion_1016_sqlite.csv',
                                    fieldType='DDF', opsimoutput=dbname,
                                    script_name=script_name,
+                                   author_name=author_name,
+                                   opsim_output=opsim_output,
                                    surveypix_file=args.ddf_surveypix_file)
         print('Finished writing out simlib for DDF')
         print('\n\n Task: write mapping to csv')

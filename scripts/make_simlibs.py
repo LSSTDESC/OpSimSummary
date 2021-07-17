@@ -136,7 +136,10 @@ def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields
     comment += f'    - DATE : {dt.strftime(format="%y-%m-%d")}\n'
     comment += f'    AUTHORS : {author_name}, OpSimSummary version {oss.__version__}\n'
     comment += 'DOCUMENTATION_END:\n'
-    comment += 'COMMENT: Total area corresponding to this simlib is {0:.1f} sq degrees or a solid angle of {1:4f} \n'.format(area, solidangle) 
+
+    doc = comment
+
+    comment = 'COMMENT: Total area corresponding to this simlib is {0:.1f} sq degrees or a solid angle of {1:4f} \n'.format(area, solidangle) 
     comment += 'COMMENT: This is a simlib corresponding to {0} in the OpSim Output {1} using the script {3} in version {2} at time {4}. {5}\n'.format(fieldType, opsimoutput,
             opsimsummary_version, script_name, ts, git_info) 
     comment += '\nCOMMENT: PARAMS MINMJD: {}\n'.format(minMJD)
@@ -144,7 +147,7 @@ def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields
     comment += 'COMMENT: PARAMS TOTAL_AREA: {}\n'.format(area)
     comment += 'COMMENT: PARAMS SOLID_ANGLE: {}\n'.format(solidangle)
 
-    simlibs.writeSimlib(simlibFilename, fields, mwebv=mwebv, comments=comment,
+    simlibs.writeSimlib(simlibFilename, fields, mwebv=mwebv, doc=doc, comments=comment,
                         numLibId=numFields)
     surveyPix = surveyPix.reset_index().query('simlibId > -1').set_index('simlibId')
     surveyPix = surveyPix.reset_index().sort_values(by='simlibId').set_index('simlibId')

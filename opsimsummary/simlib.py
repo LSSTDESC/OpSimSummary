@@ -310,7 +310,7 @@ class SimlibMixin(object):
         return s
 
     def simLibheader(self, numLibId=None, saturation_flag=1024,
-                     comments='\n'):
+                     doc='\n', comments='\n'):
         """
         return a string that is the header of the simlib file
 
@@ -320,6 +320,8 @@ class SimlibMixin(object):
             number of libids in simlib
         saturation_flag : int, defaults to 1024
             value desired as saturation flag
+        doc: string, defaults to `\n'
+            contents of the DOCUMENTATION Block
         comments: string, defaults to `\n`
             comments passed on to `simlib` output
         """
@@ -334,7 +336,9 @@ class SimlibMixin(object):
         survey = sv['survey']
         # comment: I would like to generalize ugrizY to a sort but am not sure
         # of the logic for other filter names. so ducking for now
-        s = 'SURVEY: {0:}    FILTERS: ugrizY  TELESCOPE: {1:}\n'.format(survey,
+        s = doc
+        s += '\n\n\n'
+        s += 'SURVEY: {0:}    FILTERS: ugrizY  TELESCOPE: {1:}\n'.format(survey,
                                                                         telescope)
         s += 'USER: {0:}     HOST: {1}\n'.format(user, host) 
         if numLibId is not None:
@@ -352,13 +356,13 @@ class SimlibMixin(object):
         return s
 
 
-    def writeSimlib(self, filename, fields, comments='\n',
+    def writeSimlib(self, filename, fields, doc='\n', comments='\n',
                     fieldtype=None, mwebv=0., numLibId=None):
             
         num_fields = 0
         with open(filename, 'w') as fh:
             # Write out the header to the simlib file
-            simlib_header = self.simLibheader(numLibId=numLibId, comments=comments)
+            simlib_header = self.simLibheader(numLibId=numLibId, doc=doc, comments=comments)
             fh.write(simlib_header)
 
             # Now write the actual simlib data to file

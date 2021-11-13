@@ -20,7 +20,7 @@ class SynOpSim(object):
     """
     def __init__(self,
                  pointings,
-                 opsimversion='lsstv3',
+                 opsimversion='fbsv2',
                  raCol='ditheredRA',
                  decCol='ditheredDec',
                  angleUnit='degrees',
@@ -105,7 +105,7 @@ class SynOpSim(object):
         zeroDDFDithers : bool, defaults to True
             if True, set dithers in DDF to 0, by setting ditheredRA,
             ditheredDec to fieldRA, fieldDec
-        opsimversion: {'lsstv3'|'sstf'|'lsstv4'}
+        opsimversion: {'lsstv3'|'sstf'|'lsstv4'|'fbsv1'| 'fbsv2'}
             version of OpSim corresponding to the output format.
         dithercolumns: `pd.DataFrame`, defaults to None
             a pandas dataframe with the columns `ditheredRA`, `ditheredDec` and

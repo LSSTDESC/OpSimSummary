@@ -19,10 +19,16 @@ import subprocess
 
 def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields,
                   author_name=None,
-                  mapFile='ddf_minion_map.csv', rng=np.random.RandomState(0),
-                  mwebv=0., raCol='ditheredRA', decCol='ditheredDec',
-                  angleUnit='degrees', opsimversion='lsstv3',
-                  indexCol='obsHistID', nside=256, fieldType='DDF',
+                  mapFile=None,
+                  rng=np.random.RandomState(0),
+                  mwebv=0., 
+                  raCol='ditheredRA', 
+                  decCol='ditheredDec',
+                  angleUnit='degrees', 
+                  opsimversion='fbsv2',
+                  indexCol='obsHistID', 
+                  nside=256, 
+                  fieldType='DDF',
                   opsimoutput='minion_1016_sqlite.db',
                   vetoed_hids=None,
                   opsim_output='opsim_output',
@@ -59,20 +65,52 @@ def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields
     surveypix_file : abspath to surveypix_file, defaults to None
         If not None, uses this file to find the libids to simulate. Should
         have an ordered dataframe of ra, dec, simlibIds
+
+    Returns
+    -------
+    surveypix : dataframe
+        healpixels in our selected footprint
+    surveydf : dataframe
+        selected visits with information needed for simlib files
+
+
+    Notes
+    -----
+        Aside from the returns, this function also writes out the simlib files, and the surveypix_file if it was 
+        constructed in the method. It also returns a set of logs to stdout. 
     """
                   
-    opsimsummary_version=oss.__version__,
+    opsimsummary_version = oss.__version__
+
     minMJD = summary.expMJD.min()
     maxMJD = summary.expMJD.max()
-    simlibs = Simlibs(summary, usePointingTree=True, raCol=raCol,
-                      decCol=decCol, angleUnit=angleUnit,
-                      indexCol=indexCol, opsimversion=opsimversion)
+
+    simlibs = Simlibs(summary,
+                      usePointingTree=True,
+                      raCol=raCol,
+                      decCol=decCol,
+                      angleUnit=angleUnit,
+                      indexCol=indexCol,
+                      opsimversion=opsimversion)
+
+    # This is a dataframe with healpix Ids that get between minVisits
+    # and maxVisits
+
     surveydf = simlibs.observedVisitsinRegion(minVisits=minVisits,
                                               maxVisits=maxVisits,
                                               writeFile=False,
                                               nside=nside)
 
+    # In SNANA, we do a simulation by sampling observed visits
+    # The sampling is done by choosing a spatial samples of the footprint
+    # which must be representative of the footprint, rather than things like edges.
+    # This selected footprint is described as a set of healpixels and is described by
+    # indices called hids in surveypix
+
+    # The surveypix may be constructed or read in from a file : `surveypix_file` 
     if surveypix_file is None:
+        # vetoed hids may describe parts of the footprint that are not part of the survey, e.g Deep Drilling
+        # Fields when you want to study Wide Fast Deep.
         if vetoed_hids is not None:
             hids = set(surveydf.index.values)
             selected = hids - vetoed_hids
@@ -87,17 +125,21 @@ def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields
 
     fields = simlibs.simlibs_for_fields(surveyPix, mwebv=mwebv)
 
+    # Area of our selected footprint in sq. deg 
     area = hp.nside2pixarea(nside, degrees=True) * np.float(totalfields)
+
+    # Area of our selected footprint in solid angle (Used by SNANA for simulation)
     solidangle = hp.nside2pixarea(nside, degrees=False) * np.float(totalfields)
  
     print('Going to write simlib file {0} for opsim output\n')
+    # This is not very reliable
     if script_name is None:
         script_name = 'OpSimSummary/scripts/make_simlibs.py'
     dt = datetime.datetime.now()
     ts = dt.isoformat()
 
 
-    # Author name
+    # Author name. Will be entered in SNANA Simlib documentation. 
     if author_name is None:
         author_name = os.getlogin()
 
@@ -118,8 +160,8 @@ def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields
         git_info = 'The script was not detected to be a part of a git repository'
     
         
-    # OpSim version information
-    version = oss.__version__
+    # OpSimSummary version information 
+    version = oss.__version__   # RB: I think this line is not needed
 
     comment = 'DOCUMENTATION:\n'
     comment += f'    PURPOSE: simulate LSST based on mock opsim version {opsim_output}\n'
@@ -127,11 +169,12 @@ def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields
     comment += '    USAGE_KEY: SIMLIB_FILE\n'
     comment += '    USAGE_CODE: snlc_sim.exe\n'
     comment += '    VALIDATION_SCIENCE: \n'
+    comment += f'    FIELD: {fieldType}\n'
     comment += '    NOTES: \n'
-    comment += '        PARAMS MINMJD: {}\n'.format(minMJD)
-    comment += '        PARAMS MAXMJD: {}\n'.format(maxMJD)
-    comment += '        PARAMS TOTAL_AREA: {}\n'.format(area)
-    comment += '        PARAMS SOLID_ANGLE: {}\n'.format(solidangle)
+    comment += '        PARAMS MINMJD: {:.4f}\n'.format(minMJD)
+    comment += '        PARAMS MAXMJD: {:.4f}\n'.format(maxMJD)
+    comment += '        PARAMS TOTAL_AREA: {:.3f}\n'.format(area)
+    comment += '        PARAMS SOLID_ANGLE: {:.3f}\n'.format(solidangle)
     comment += '    VERSIONS:\n'
     comment += f'    - DATE : {dt.strftime(format="%y-%m-%d")}\n'
     comment += f'    AUTHORS : {author_name}, OpSimSummary version {oss.__version__}\n'
@@ -139,18 +182,31 @@ def write_genericSimlib(simlibFilename, summary, minVisits, maxVisits, numFields
 
     doc = comment
 
+    # Additional commments which can be used as keys, or as additional documentation
     comment = 'COMMENT: Total area corresponding to this simlib is {0:.1f} sq degrees or a solid angle of {1:4f} \n'.format(area, solidangle) 
-    comment += 'COMMENT: This is a simlib corresponding to {0} in the OpSim Output {1} using the script {3} in version {2} at time {4}. {5}\n'.format(fieldType, opsimoutput,
-            opsimsummary_version, script_name, ts, git_info) 
-    comment += '\nCOMMENT: PARAMS MINMJD: {}\n'.format(minMJD)
-    comment += 'COMMENT: PARAMS MAXMJD: {}\n'.format(maxMJD)
-    comment += 'COMMENT: PARAMS TOTAL_AREA: {}\n'.format(area)
-    comment += 'COMMENT: PARAMS SOLID_ANGLE: {}\n'.format(solidangle)
+    comment += 'COMMENT: This is a simlib corresponding to {0} in the OpSim Output {1} using the script {3} in version {2} at time {4}. {5}\n'.format(
+            fieldType,
+            opsimoutput,
+            opsimsummary_version,
+            script_name,
+            ts,
+            git_info)
+    comment += '\nCOMMENT: PARAMS MINMJD: {:.4f}\n'.format(minMJD)
+    comment += 'COMMENT: PARAMS MAXMJD: {:.4f}\n'.format(maxMJD)
+    comment += 'COMMENT: PARAMS TOTAL_AREA: {:.3f}\n'.format(area)
+    comment += 'COMMENT: PARAMS SOLID_ANGLE: {:.3f}\n'.format(solidangle)
 
-    simlibs.writeSimlib(simlibFilename, fields, mwebv=mwebv, doc=doc, comments=comment,
+    simlibs.writeSimlib(simlibFilename,
+                        fields,
+                        mwebv=mwebv,
+                        doc=doc,
+                        comments=comment,
                         numLibId=numFields)
     surveyPix = surveyPix.reset_index().query('simlibId > -1').set_index('simlibId')
     surveyPix = surveyPix.reset_index().sort_values(by='simlibId').set_index('simlibId')
+
+    # Write out the surveyPix
+    mapFile = opsimoutput + fieldType
     surveyPix.to_csv(mapFile)
     return surveyPix, surveydf
 
@@ -193,10 +249,12 @@ if __name__ == '__main__':
                         dest='filt_Null', action='store_true')
     parser.add_argument('--authorName', help='Name of the author to be recorded in documentation. If skipped, the login will be used instead', type=str, default=None)
     parser.add_argument('--opsim_output', help='name of the opsim output being used, will be obtained from filename if skipped', default=None, type=str)
+    
     print("read in command line options and figuring out what to do\n")
-    print("we are using opsimsummary version {0} and the library is located at {1}".format(oss.__version__, oss.__file__))
-    print("we are using the path {}".format(sys.path))
-    print("Our python version is {}".format(sys.version))
+    print("---------------------------------------------------------\n")
+    print("We are using opsimsummary version {0}, the library is located at {1}".format(oss.__version__, oss.__file__))
+    print("The path is {}".format(sys.path))
+    print("The python version is {}".format(sys.version))
     sys.stdout.flush()
     args = parser.parse_args()
     

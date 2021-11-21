@@ -409,7 +409,7 @@ if __name__ == '__main__':
         print('\n\n Task: writing out simlib for DDF')
         # 133 random locations is similar density of locations in WFD.
         x, y = write_genericSimlib(simlibFilename=ddf_simlibfilename,
-                                   summary=opsout_ddf.summary, 
+                                   summary=summary, 
                                    minVisits=500, maxVisits=None,
                                    numFields=numFields_DDF, 
                                    mapFile=None,

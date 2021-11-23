@@ -143,7 +143,7 @@ def write_genericSimlib(simlibFilename,
     
     surveydf = surveydf.loc[avail].query('numVisits >= @minVisits ')
     surveyPix = simlibs.get_surveyPix(surveydf, numFields=numFields, rng=rng)
-    totalfields = len(surveyPix)
+    totalfields = len(surveydf)
 
 
     ####    # The surveypix may be constructed or read in from a file : `surveypix_file` 

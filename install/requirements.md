@@ -1,12 +1,14 @@
 # Required Packages beyond miniconda install
-- pytest
-- future
+- pytest=3.2.5
 - pytest-cov
 - python-coveralls
-- coverage
+- coverage=4.5.4
 - matplotlib
+- future
+- numpy
+- pandas
+- future
 - sqlalchemy
-- pyproj
 - basemap
 - scikit-learn
 - pandas

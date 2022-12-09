@@ -2,6 +2,6 @@ opsimsummary.summarize\_opsim module
 ====================================
 
 .. automodule:: opsimsummary.summarize_opsim
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

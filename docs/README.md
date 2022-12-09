@@ -7,3 +7,4 @@
 - run the Makefile
 
 All the steps can be run using the `makdocs.sh`. If you are on a mac, please check that your `sed` is linked to the `gsed`
+

@@ -5,6 +5,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 4
 
    opsimsummary.opsim_out
    opsimsummary.simlib
@@ -16,6 +17,6 @@ Module contents
 ---------------
 
 .. automodule:: opsimsummary
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

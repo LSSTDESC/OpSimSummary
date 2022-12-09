@@ -1,61 +1,36 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>opsimsummary.summarize_opsim module &mdash; OpSimSummary 0.8.5 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-
-  
-  
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="opsimsummary.trig module" href="opsimsummary.trig.html" />
+    <link rel="prev" title="opsimsummary.simlib module" href="opsimsummary.simlib.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="index.html" class="icon icon-home"> OpSimSummary
-          
-
-          
           </a>
-
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -63,30 +38,36 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="opsimsummary.html">opsimsummary package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="opsimsummary.html#submodules">Submodules</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.opsim_out.html">opsimsummary.opsim_out module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.opsim_out.html#opsimsummary.opsim_out.OpSimOutput"><code class="docutils literal notranslate"><span class="pre">OpSimOutput</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="opsimsummary.simlib.html">opsimsummary.simlib module</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.simlib.html">opsimsummary.simlib module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.simlib.html#opsimsummary.simlib.SimlibMixin"><code class="docutils literal notranslate"><span class="pre">SimlibMixin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.simlib.html#opsimsummary.simlib.Simlibs"><code class="docutils literal notranslate"><span class="pre">Simlibs</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">opsimsummary.summarize_opsim module</a><ul class="simple">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">opsimsummary.summarize_opsim module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#opsimsummary.summarize_opsim.PointingTree"><code class="docutils literal notranslate"><span class="pre">PointingTree</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#opsimsummary.summarize_opsim.SynOpSim"><code class="docutils literal notranslate"><span class="pre">SynOpSim</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#opsimsummary.summarize_opsim.add_simlibCols"><code class="docutils literal notranslate"><span class="pre">add_simlibCols()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="opsimsummary.trig.html">opsimsummary.trig module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="opsimsummary.trig.html">opsimsummary.trig module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.trig.html#opsimsummary.trig.angSep"><code class="docutils literal notranslate"><span class="pre">angSep()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.trig.html#opsimsummary.trig.angToVec"><code class="docutils literal notranslate"><span class="pre">angToVec()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.trig.html#opsimsummary.trig.convertToCelestialCoordinates"><code class="docutils literal notranslate"><span class="pre">convertToCelestialCoordinates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.trig.html#opsimsummary.trig.convertToSphericalCoordinates"><code class="docutils literal notranslate"><span class="pre">convertToSphericalCoordinates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.trig.html#opsimsummary.trig.fieldID"><code class="docutils literal notranslate"><span class="pre">fieldID()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.trig.html#opsimsummary.trig.overlapSummary"><code class="docutils literal notranslate"><span class="pre">overlapSummary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.trig.html#opsimsummary.trig.pixelsForAng"><code class="docutils literal notranslate"><span class="pre">pixelsForAng()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="opsimsummary.trig.html#opsimsummary.trig.pixelsToAng"><code class="docutils literal notranslate"><span class="pre">pixelsToAng()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="opsimsummary.html#module-opsimsummary">Module contents</a></li>
@@ -113,192 +94,190 @@
 </li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">OpSimSummary</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="opsimsummary.html">opsimsummary package</a> &raquo;</li>
-        
       <li>opsimsummary.summarize_opsim module</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="_sources/opsimsummary.summarize_opsim.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="module-opsimsummary.summarize_opsim">
-<span id="opsimsummary-summarize-opsim-module"></span><h1>opsimsummary.summarize_opsim module<a class="headerlink" href="#module-opsimsummary.summarize_opsim" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="module-opsimsummary.summarize_opsim">
+<span id="opsimsummary-summarize-opsim-module"></span><h1>opsimsummary.summarize_opsim module<a class="headerlink" href="#module-opsimsummary.summarize_opsim" title="Permalink to this heading"></a></h1>
 <p>Class to summarize the OpSim output</p>
-<dl class="class">
-<dt id="opsimsummary.summarize_opsim.SynOpSim">
-<em class="property">class </em><code class="descclassname">opsimsummary.summarize_opsim.</code><code class="descname">SynOpSim</code><span class="sig-paren">(</span><em>pointings</em>, <em>opsimversion='lsstv3'</em>, <em>raCol='ditheredRA'</em>, <em>decCol='ditheredDec'</em>, <em>angleUnit='degrees'</em>, <em>indexCol='obsHistID'</em>, <em>usePointingTree=False</em>, <em>subset='None'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#SynOpSim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.SynOpSim" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Class with a summary of OpSim data base output.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><a class="reference internal" href="#opsimsummary.summarize_opsim.SynOpSim.pointingTree" title="opsimsummary.summarize_opsim.SynOpSim.pointingTree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pointingTree</span></code></a></dt>
-<dd><p class="first last">if self.usePointingTree is False, this is set to None. Otherewise</p>
-</dd>
-</dl>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="opsimsummary.summarize_opsim.PointingTree">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">opsimsummary.summarize_opsim.</span></span><span class="sig-name descname"><span class="pre">PointingTree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pointings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_ra'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_dec'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'obsHistID'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leafSize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#PointingTree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.PointingTree" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
+<table class="autosummary longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#opsimsummary.summarize_opsim.SynOpSim.df_subset_columns" title="opsimsummary.summarize_opsim.SynOpSim.df_subset_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">df_subset_columns</span></code></a>(df,&nbsp;subset)</td>
-<td>Return the dataframe <cite>df</cite> with only a subset of the columns as specified in the list <cite>subset</cite></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#opsimsummary.summarize_opsim.SynOpSim.fromOpSimDB" title="opsimsummary.summarize_opsim.SynOpSim.fromOpSimDB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromOpSimDB</span></code></a>(dbname[,&nbsp;subset,&nbsp;opsimversion,&nbsp;…])</td>
-<td>Class Method to instantiate this from an OpSim sqlite database output which largely uses <cite>OpSimOutput.fromOpSimDB</cite></td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#opsimsummary.summarize_opsim.SynOpSim.observedVisitsinRegion" title="opsimsummary.summarize_opsim.SynOpSim.observedVisitsinRegion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">observedVisitsinRegion</span></code></a>([nside,&nbsp;nest,&nbsp;…])</td>
-<td>return a <cite>pd.DataFrame</cite> with the healpixelID=’hid’, ra and dec of the healpixels ‘hpix_ra’, ‘hpix_dec’ in radians, and count the number of visits for all healpixels that have visits satisfying minVisits &lt;= count &lt;= maxVisits .</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#opsimsummary.summarize_opsim.SynOpSim.pointingsEnclosing" title="opsimsummary.summarize_opsim.SynOpSim.pointingsEnclosing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pointingsEnclosing</span></code></a>(ra,&nbsp;dec[,&nbsp;circRadius,&nbsp;…])</td>
-<td>Helper method returning a generator of pointings overlapping with circles of radius <cite>circRadius around a sequence of positions given in terms of `ra</cite> and <cite>dec</cite>.</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#opsimsummary.summarize_opsim.SynOpSim.sampleRegion" title="opsimsummary.summarize_opsim.SynOpSim.sampleRegion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sampleRegion</span></code></a>([numFields,&nbsp;minVisits,&nbsp;nest,&nbsp;…])</td>
-<td>This method samples a number <cite>numFields</cite> fields provided they have a minimal number of visits <cite>minVisits</cite></td>
-</tr>
-</tbody>
-</table>
-<dl class="staticmethod">
-<dt id="opsimsummary.summarize_opsim.SynOpSim.df_subset_columns">
-<em class="property">static </em><code class="descname">df_subset_columns</code><span class="sig-paren">(</span><em>df</em>, <em>subset</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#SynOpSim.df_subset_columns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.SynOpSim.df_subset_columns" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the dataframe <cite>df</cite> with only a subset of the columns as
-specified in the list <cite>subset</cite></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>df</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>pd.DataFrame</cite></span></dt>
-<dd><p class="first last">the input dataframe to be returned with subset of the columns</p>
-</dd>
-<dt><strong>subset: (list of strings| ‘all’)</strong></dt>
-<dd><p class="first last">if ‘all’, df is returned. Otherwise, return
-df[subset], with the same index.</p>
-</dd>
-<dt><strong>..note: subset=[] returns only the index</strong></dt>
-<dd></dd>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#opsimsummary.summarize_opsim.PointingTree.pointingsEnclosing" title="opsimsummary.summarize_opsim.PointingTree.pointingsEnclosing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pointingsEnclosing</span></code></a>(ra, dec, circRadius[, ...])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
 </dl>
-</td>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#opsimsummary.summarize_opsim.PointingTree.validatePointings" title="opsimsummary.summarize_opsim.PointingTree.validatePointings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validatePointings</span></code></a>(pointings, raCol, decCol)</p></td>
+<td><p>Validates <cite>pointings</cite> as having required properties according to list of tests below</p></td>
 </tr>
 </tbody>
 </table>
+<dl class="py method">
+<dt class="sig sig-object py" id="opsimsummary.summarize_opsim.PointingTree.pointingsEnclosing">
+<span class="sig-name descname"><span class="pre">pointingsEnclosing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ra</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">circRadius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pointingRadius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.75</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#PointingTree.pointingsEnclosing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.PointingTree.pointingsEnclosing" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>ra</strong><span class="classifier">float or sequence, degrees</span></dt><dd><p>ra of the coordinates</p>
+</dd>
+<dt><strong>dec</strong><span class="classifier">float or sequence, degrees</span></dt><dd><p>dec of the coordinates</p>
+</dd>
+<dt><strong>circRadius</strong><span class="classifier">degrees, mandatory</span></dt><dd><p>radius of circle around point</p>
+</dd>
+<dt><strong>pointingRadius</strong><span class="classifier">degrees, defaults to 1.75</span></dt><dd><p>radius of the field of view</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="classmethod">
-<dt id="opsimsummary.summarize_opsim.SynOpSim.fromOpSimDB">
-<em class="property">classmethod </em><code class="descname">fromOpSimDB</code><span class="sig-paren">(</span><em>dbname</em>, <em>subset='combined'</em>, <em>opsimversion='lsstv3'</em>, <em>zeroDDFDithers=True</em>, <em>user_propIDs=None</em>, <em>dithercolumns=None</em>, <em>add_dithers=False</em>, <em>tableNames=('Summary'</em>, <em>'Proposal')</em>, <em>usePointingTree=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#SynOpSim.fromOpSimDB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.SynOpSim.fromOpSimDB" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="opsimsummary.summarize_opsim.PointingTree.validatePointings">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">validatePointings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pointings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raCol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decCol</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#PointingTree.validatePointings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.PointingTree.validatePointings" title="Permalink to this definition"></a></dt>
+<dd><p>Validates <cite>pointings</cite> as having required properties according to list
+of tests below</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>raCol</strong><span class="classifier">column name that should be in <cite>pointings</cite></span></dt><dd></dd>
+<dt><strong>decCol</strong><span class="classifier">column name that should be in <cite>pointings</cite></span></dt><dd></dd>
+<dt><strong>List of Tests:</strong></dt><dd></dd>
+<dt><strong>1. raCol and decCol should be in the columns of `pointings`</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="opsimsummary.summarize_opsim.SynOpSim">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">opsimsummary.summarize_opsim.</span></span><span class="sig-name descname"><span class="pre">SynOpSim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pointings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opsimversion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fbsv2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ditheredRA'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ditheredDec'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angleUnit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'degrees'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'obsHistID'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usePointingTree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'None'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#SynOpSim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.SynOpSim" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class with a summary of OpSim data base output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference internal" href="#opsimsummary.summarize_opsim.SynOpSim.pointingTree" title="opsimsummary.summarize_opsim.SynOpSim.pointingTree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pointingTree</span></code></a></dt><dd><p>if self.usePointingTree is False, this is set to None. Otherewise</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#opsimsummary.summarize_opsim.SynOpSim.df_subset_columns" title="opsimsummary.summarize_opsim.SynOpSim.df_subset_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">df_subset_columns</span></code></a>(df, subset)</p></td>
+<td><p>Return the dataframe <cite>df</cite> with only a subset of the columns as specified in the list <cite>subset</cite></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#opsimsummary.summarize_opsim.SynOpSim.fromOpSimDB" title="opsimsummary.summarize_opsim.SynOpSim.fromOpSimDB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromOpSimDB</span></code></a>(dbname[, subset, opsimversion, ...])</p></td>
+<td><p>Class Method to instantiate this from an OpSim sqlite database output which largely uses <cite>OpSimOutput.fromOpSimDB</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#opsimsummary.summarize_opsim.SynOpSim.observedVisitsinRegion" title="opsimsummary.summarize_opsim.SynOpSim.observedVisitsinRegion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">observedVisitsinRegion</span></code></a>([nside, nest, ...])</p></td>
+<td><p>return a <cite>pd.DataFrame</cite> with the healpixelID='hid', ra and dec of the healpixels 'hpix_ra', 'hpix_dec' in radians, and count the number of visits for all healpixels that have visits satisfying minVisits &lt;= count &lt;= maxVisits .</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#opsimsummary.summarize_opsim.SynOpSim.pointingsEnclosing" title="opsimsummary.summarize_opsim.SynOpSim.pointingsEnclosing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pointingsEnclosing</span></code></a>(ra, dec[, circRadius, ...])</p></td>
+<td><p>Helper method returning a generator of pointings overlapping with circles of radius <cite>circRadius around a sequence of positions given in terms of `ra</cite> and <cite>dec</cite>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#opsimsummary.summarize_opsim.SynOpSim.sampleRegion" title="opsimsummary.summarize_opsim.SynOpSim.sampleRegion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sampleRegion</span></code></a>([numFields, minVisits, nest, ...])</p></td>
+<td><p>This method samples a number <cite>numFields</cite> fields provided they have a minimal number of visits <cite>minVisits</cite></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="opsimsummary.summarize_opsim.SynOpSim.df_subset_columns">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">df_subset_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#SynOpSim.df_subset_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.SynOpSim.df_subset_columns" title="Permalink to this definition"></a></dt>
+<dd><p>Return the dataframe <cite>df</cite> with only a subset of the columns as
+specified in the list <cite>subset</cite></p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>df</strong><span class="classifier"><cite>pd.DataFrame</cite></span></dt><dd><p>the input dataframe to be returned with subset of the columns</p>
+</dd>
+<dt><strong>subset: (list of strings| ‘all’)</strong></dt><dd><p>if ‘all’, df is returned. Otherwise, return
+df[subset], with the same index.</p>
+</dd>
+<dt><strong>..note: subset=[] returns only the index</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="opsimsummary.summarize_opsim.SynOpSim.fromOpSimDB">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fromOpSimDB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'combined'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opsimversion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lsstv3'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeroDDFDithers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_propIDs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dithercolumns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_dithers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tableNames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('Summary',</span> <span class="pre">'Proposal')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usePointingTree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#SynOpSim.fromOpSimDB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.SynOpSim.fromOpSimDB" title="Permalink to this definition"></a></dt>
 <dd><p>Class Method to instantiate this from an OpSim sqlite
 database output which largely uses <cite>OpSimOutput.fromOpSimDB</cite></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>dbname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd><p class="first last">absolute path to database file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>dbname</strong><span class="classifier">string</span></dt><dd><p>absolute path to database file</p>
 </dd>
-<dt><strong>subset</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, optional, defaults to ‘combined’</span></dt>
-<dd><p class="first last">one of {‘_all’, ‘unique_all’, ‘wfd’, ‘ddf’, ‘combined’}
+<dt><strong>subset</strong><span class="classifier">string, optional, defaults to ‘combined’</span></dt><dd><p>one of {‘_all’, ‘unique_all’, ‘wfd’, ‘ddf’, ‘combined’}
 determines a sequence of propIDs for selecting observations
 appropriate for the OpSim database in use</p>
 </dd>
-<dt><strong>propIDs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">sequence of integers, defaults to None</span></dt>
-<dd><p class="first last">proposal ID values. If present, overrides the use of subset</p>
+<dt><strong>propIDs</strong><span class="classifier">sequence of integers, defaults to None</span></dt><dd><p>proposal ID values. If present, overrides the use of subset</p>
 </dd>
-<dt><strong>tableNames</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple of strings, defaults to (‘Summary’, ‘Proposal’)</span></dt>
-<dd><p class="first last">names of tables read from the OpSim database</p>
+<dt><strong>tableNames</strong><span class="classifier">tuple of strings, defaults to (‘Summary’, ‘Proposal’)</span></dt><dd><p>names of tables read from the OpSim database</p>
 </dd>
-<dt><strong>zeroDDFDithers</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, defaults to True</span></dt>
-<dd><p class="first last">if True, set dithers in DDF to 0, by setting ditheredRA,
+<dt><strong>zeroDDFDithers</strong><span class="classifier">bool, defaults to True</span></dt><dd><p>if True, set dithers in DDF to 0, by setting ditheredRA,
 ditheredDec to fieldRA, fieldDec</p>
 </dd>
-<dt><strong>opsimversion: {‘lsstv3’|’sstf’|’lsstv4’}</strong></dt>
-<dd><p class="first last">version of OpSim corresponding to the output format.</p>
+<dt><strong>opsimversion: {‘lsstv3’|’sstf’|’lsstv4’|’fbsv1’| ‘fbsv2’}</strong></dt><dd><p>version of OpSim corresponding to the output format.</p>
 </dd>
-<dt><strong>dithercolumns: `pd.DataFrame`, defaults to None</strong></dt>
-<dd><p class="first last">a pandas dataframe with the columns <cite>ditheredRA</cite>, <cite>ditheredDec</cite> and
+<dt><strong>dithercolumns: `pd.DataFrame`, defaults to None</strong></dt><dd><p>a pandas dataframe with the columns <cite>ditheredRA</cite>, <cite>ditheredDec</cite> and
 index <cite>obsHistID</cite></p>
 </dd>
-<dt><strong>add_dithers</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Bool, defaults to False</span></dt>
-<dd><p class="first last">if add_dithers is True, the <cite>ditheredRA</cite>, <cite>ditheredDec</cite>
+<dt><strong>add_dithers</strong><span class="classifier">Bool, defaults to False</span></dt><dd><p>if add_dithers is True, the <cite>ditheredRA</cite>, <cite>ditheredDec</cite>
 columns will be removed and additional dithered columns
 either by <cite>dithercolumns</cite> or <cite>get_dithercolumns</cite> will
 be used.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="opsimsummary.summarize_opsim.SynOpSim.observedVisitsinRegion">
-<code class="descname">observedVisitsinRegion</code><span class="sig-paren">(</span><em>nside=256</em>, <em>nest=True</em>, <em>minVisits=1</em>, <em>maxVisits=None</em>, <em>outFile=None</em>, <em>writeFile=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#SynOpSim.observedVisitsinRegion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.SynOpSim.observedVisitsinRegion" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="opsimsummary.summarize_opsim.SynOpSim.observedVisitsinRegion">
+<span class="sig-name descname"><span class="pre">observedVisitsinRegion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nside</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minVisits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxVisits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writeFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#SynOpSim.observedVisitsinRegion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.SynOpSim.observedVisitsinRegion" title="Permalink to this definition"></a></dt>
 <dd><p>return a <cite>pd.DataFrame</cite> with the healpixelID=’hid’, ra and dec of the
 healpixels ‘hpix_ra’, ‘hpix_dec’ in radians, and count the number of
 visits for all healpixels that have visits satisfying
@@ -306,17 +285,17 @@ minVisits &lt;= count &lt;= maxVisits . This will also write out a csv
 outFile clobbering past version with this dataframe.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="opsimsummary.summarize_opsim.SynOpSim.pointingTree">
-<code class="descname">pointingTree</code><a class="headerlink" href="#opsimsummary.summarize_opsim.SynOpSim.pointingTree" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="opsimsummary.summarize_opsim.SynOpSim.pointingTree">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pointingTree</span></span><a class="headerlink" href="#opsimsummary.summarize_opsim.SynOpSim.pointingTree" title="Permalink to this definition"></a></dt>
 <dd><p>if self.usePointingTree is False, this is set to None. Otherewise
 contains a <cite>PointingTree</cite> Object. This contains a <cite>BallTree</cite> of the
 pointings, and a method to find all pointings enclosed in a given radii.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="opsimsummary.summarize_opsim.SynOpSim.pointingsEnclosing">
-<code class="descname">pointingsEnclosing</code><span class="sig-paren">(</span><em>ra</em>, <em>dec</em>, <em>circRadius=0.0</em>, <em>pointingRadius=1.75</em>, <em>usePointingTree=None</em>, <em>transform=None</em>, <em>subset='all'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#SynOpSim.pointingsEnclosing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.SynOpSim.pointingsEnclosing" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="opsimsummary.summarize_opsim.SynOpSim.pointingsEnclosing">
+<span class="sig-name descname"><span class="pre">pointingsEnclosing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ra</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">circRadius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pointingRadius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usePointingTree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#SynOpSim.pointingsEnclosing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.SynOpSim.pointingsEnclosing" title="Permalink to this definition"></a></dt>
 <dd><p>Helper method returning a generator of pointings overlapping with
 circles of radius <cite>circRadius around a sequence of positions given in
 terms of `ra</cite> and <cite>dec</cite>. The calculation uses a <cite>Tree</cite> to make the
@@ -324,249 +303,124 @@ calculations more efficient if <cite>usePointingTree</cite> is True, or uses dir
 calculations if this variable is set to <cite>False</cite>. A user may choose to
 obtain a subset of the <cite>pointing</cite> by supplying a subset in the form a
 list via the parameter <cite>subset</cite>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>ra</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>np.ndarray</cite> or a float, unit of degrees</span></dt>
-<dd><p class="first last">a float or an array of floats representing the ra values</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>ra</strong><span class="classifier"><cite>np.ndarray</cite> or a float, unit of degrees</span></dt><dd><p>a float or an array of floats representing the ra values</p>
 </dd>
-<dt><strong>dec</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>np.ndarray</cite> or a float, unit of degrees</span></dt>
-<dd><p class="first last">a float or an array of floats representing the dec values</p>
+<dt><strong>dec</strong><span class="classifier"><cite>np.ndarray</cite> or a float, unit of degrees</span></dt><dd><p>a float or an array of floats representing the dec values</p>
 </dd>
-<dt><strong>circRadius: float, unit of degrees, defaults to 0.</strong></dt>
-<dd><p class="first last">a circle around each of the</p>
+<dt><strong>circRadius: float, unit of degrees, defaults to 0.</strong></dt><dd><p>a circle around each of the</p>
 </dd>
-<dt><strong>pointingRadius</strong> <span class="classifier-delimiter">:</span> <span class="classifier">degrees, defaults to 1.75</span></dt>
-<dd><p class="first last">radius of the field of view</p>
+<dt><strong>pointingRadius</strong><span class="classifier">degrees, defaults to 1.75</span></dt><dd><p>radius of the field of view</p>
 </dd>
-<dt><strong>usePointingTree: {None|True|False}, defaults to `None`</strong></dt>
-<dd><p class="first last">if None, usePointingTree = self.usePointingTree
+<dt><strong>usePointingTree: {None|True|False}, defaults to `None`</strong></dt><dd><p>if None, usePointingTree = self.usePointingTree
 else the variable takes the {True|False} values assigned</p>
 </dd>
-<dt><strong>transform: function, Not implemented</strong></dt>
-<dd></dd>
-<dt><strong>subset: (list of strings| ‘all’)</strong></dt>
-<dd><p class="first last">if ‘all’, df is returned. Otherwise, return
+<dt><strong>transform: function, Not implemented</strong></dt><dd></dd>
+<dt><strong>subset: (list of strings| ‘all’)</strong></dt><dd><p>if ‘all’, df is returned. Otherwise, return
 df[subset], with the same index.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>A generator with the pointings that overlap with ra, dec</strong></dt>
-<dd></dd>
-<dt><strong>.. note: 1. the values in the generator may be accessed by next(generator)</strong></dt>
-<dd><ol class="first last arabic simple" start="2">
-<li>subset=[] returns only the index</li>
-</ol>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>A generator with the pointings that overlap with ra, dec</dt><dd></dd>
+</dl>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
-<dl class="method">
-<dt id="opsimsummary.summarize_opsim.SynOpSim.sampleRegion">
-<code class="descname">sampleRegion</code><span class="sig-paren">(</span><em>numFields=50000</em>, <em>minVisits=1</em>, <em>nest=True</em>, <em>nside=256</em>, <em>rng=&lt;mtrand.RandomState object&gt;</em>, <em>outfile=None</em>, <em>usePointingTree=True</em>, <em>subset='wfd'</em>, <em>mwebv=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#SynOpSim.sampleRegion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.SynOpSim.sampleRegion" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="opsimsummary.summarize_opsim.SynOpSim.sampleRegion">
+<span class="sig-name descname"><span class="pre">sampleRegion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numFields=50000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minVisits=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nest=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nside=256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng=RandomState(MT19937)</span> <span class="pre">at</span> <span class="pre">0x7FB7195F6940</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usePointingTree=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset='wfd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mwebv=0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#SynOpSim.sampleRegion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.SynOpSim.sampleRegion" title="Permalink to this definition"></a></dt>
 <dd><p>This method samples a number <cite>numFields</cite> fields provided they have
 a minimal number of visits <cite>minVisits</cite></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>numFields</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, mandatory</span></dt>
-<dd><p class="first last">Number of fields to sample</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>numFields</strong><span class="classifier">int, mandatory</span></dt><dd><p>Number of fields to sample</p>
 </dd>
-<dt><strong>minVisits</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, number, defaults to 1</span></dt>
-<dd><p class="first last">minimal number of visits required to consider the tile.</p>
+<dt><strong>minVisits</strong><span class="classifier">int, number, defaults to 1</span></dt><dd><p>minimal number of visits required to consider the tile.</p>
 </dd>
-<dt><strong>nest</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Bool, defaults to True</span></dt>
-<dd><p class="first last">use the <cite>nest</cite> method rather than <cite>ring</cite></p>
+<dt><strong>nest</strong><span class="classifier">Bool, defaults to True</span></dt><dd><p>use the <cite>nest</cite> method rather than <cite>ring</cite></p>
 </dd>
-<dt><strong>nside</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, defaults to 256</span></dt>
-<dd><p class="first last"><cite>Healpix.NSIDE</cite></p>
+<dt><strong>nside</strong><span class="classifier">int, defaults to 256</span></dt><dd><p><cite>Healpix.NSIDE</cite></p>
 </dd>
-<dt><strong>rng :</strong></dt>
-<dd></dd>
-<dt><strong>outfile :</strong></dt>
-<dd></dd>
-<dt><strong>usePointingTree</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Bool, defaults to True</span></dt>
-<dd><p class="first last">whether to use PointingTree or not</p>
+<dt><strong>rng</strong></dt><dd></dd>
+<dt><strong>outfile</strong></dt><dd></dd>
+<dt><strong>usePointingTree</strong><span class="classifier">Bool, defaults to True</span></dt><dd><p>whether to use PointingTree or not</p>
 </dd>
-<dt><strong>subset</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘wfd’|’ddf’|’combined’}</span></dt>
-<dd><p class="first last">which subset to use.</p>
+<dt><strong>subset</strong><span class="classifier">{‘wfd’|’ddf’|’combined’}</span></dt><dd><p>which subset to use.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="opsimsummary.summarize_opsim.PointingTree">
-<em class="property">class </em><code class="descclassname">opsimsummary.summarize_opsim.</code><code class="descname">PointingTree</code><span class="sig-paren">(</span><em>pointings</em>, <em>raCol='_ra'</em>, <em>decCol='_dec'</em>, <em>indexCol='obsHistID'</em>, <em>leafSize=50</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#PointingTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.PointingTree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#opsimsummary.summarize_opsim.PointingTree.pointingsEnclosing" title="opsimsummary.summarize_opsim.PointingTree.pointingsEnclosing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pointingsEnclosing</span></code></a>(ra,&nbsp;dec,&nbsp;circRadius[,&nbsp;…])</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#opsimsummary.summarize_opsim.PointingTree.validatePointings" title="opsimsummary.summarize_opsim.PointingTree.validatePointings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validatePointings</span></code></a>(pointings,&nbsp;raCol,&nbsp;decCol)</td>
-<td>Validates <cite>pointings</cite> as having required properties according to list of tests below</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="opsimsummary.summarize_opsim.PointingTree.pointingsEnclosing">
-<code class="descname">pointingsEnclosing</code><span class="sig-paren">(</span><em>ra</em>, <em>dec</em>, <em>circRadius</em>, <em>pointingRadius=1.75</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#PointingTree.pointingsEnclosing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.PointingTree.pointingsEnclosing" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>ra</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or sequence, degrees</span></dt>
-<dd><p class="first last">ra of the coordinates</p>
-</dd>
-<dt><strong>dec</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or sequence, degrees</span></dt>
-<dd><p class="first last">dec of the coordinates</p>
-</dd>
-<dt><strong>circRadius</strong> <span class="classifier-delimiter">:</span> <span class="classifier">degrees, mandatory</span></dt>
-<dd><p class="first last">radius of circle around point</p>
-</dd>
-<dt><strong>pointingRadius</strong> <span class="classifier-delimiter">:</span> <span class="classifier">degrees, defaults to 1.75</span></dt>
-<dd><p class="first last">radius of the field of view</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="opsimsummary.summarize_opsim.PointingTree.validatePointings">
-<em class="property">static </em><code class="descname">validatePointings</code><span class="sig-paren">(</span><em>pointings</em>, <em>raCol</em>, <em>decCol</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#PointingTree.validatePointings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.PointingTree.validatePointings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Validates <cite>pointings</cite> as having required properties according to list
-of tests below</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>raCol</strong> <span class="classifier-delimiter">:</span> <span class="classifier">column name that should be in <cite>pointings</cite></span></dt>
-<dd></dd>
-<dt><strong>decCol</strong> <span class="classifier-delimiter">:</span> <span class="classifier">column name that should be in <cite>pointings</cite></span></dt>
-<dd></dd>
-<dt><strong>List of Tests:</strong></dt>
-<dd></dd>
-<dt><strong>1. raCol and decCol should be in the columns of `pointings`</strong></dt>
-<dd></dd>
-</dl>
-</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="function">
-<dt id="opsimsummary.summarize_opsim.add_simlibCols">
-<code class="descclassname">opsimsummary.summarize_opsim.</code><code class="descname">add_simlibCols</code><span class="sig-paren">(</span><em>opsimtable</em>, <em>pixSize=0.2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#add_simlibCols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.add_simlibCols" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>opsimtable: `~pandas.DataFrame` object, mandatory</strong></dt>
-<dd><p class="first last">containing an opsim Output of version X. The main requirements here
+<dl class="py function">
+<dt class="sig sig-object py" id="opsimsummary.summarize_opsim.add_simlibCols">
+<span class="sig-prename descclassname"><span class="pre">opsimsummary.summarize_opsim.</span></span><span class="sig-name descname"><span class="pre">add_simlibCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opsimtable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixSize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/opsimsummary/summarize_opsim.html#add_simlibCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#opsimsummary.summarize_opsim.add_simlibCols" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>opsimtable: `~pandas.DataFrame` object, mandatory</strong></dt><dd><p>containing an opsim Output of version X. The main requirements here
 are that the columns ‘finSeeing’, ‘fiveSigmaDepth’, and
 ‘filtSkyBrightness’ are defined. If the opsim output has differently
 named variables or transformed variables, these should be changed to
 meet the criteria.</p>
 </dd>
-<dt><strong>pixSize: float, optional, defaults to LSST value of 0.2</strong></dt>
-<dd><p class="first last">pixel Size in units of arc seconds.</p>
+<dt><strong>pixSize: float, optional, defaults to LSST value of 0.2</strong></dt><dd><p>pixel Size in units of arc seconds.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>DataFrame with additional columns of ‘simLibPsf’, ‘simLibZPTAVG’, and</strong></dt>
-<dd></dd>
-<dt><strong>‘simLibSkySig’</strong></dt>
-<dd></dd>
-<dt><strong>.. note :: This was written from a piece of f77 code by David</strong></dt>
-<dd><p class="first last">Cinabro sent by email on May 26, 2015.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>DataFrame with additional columns of ‘simLibPsf’, ‘simLibZPTAVG’, and</dt><dd></dd>
+<dt>‘simLibSkySig’</dt><dd></dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This was written from a piece of f77 code by David
+Cinabro sent by email on May 26, 2015.</p>
+</div>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="opsimsummary.simlib.html" class="btn btn-neutral float-left" title="opsimsummary.simlib module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="opsimsummary.trig.html" class="btn btn-neutral float-right" title="opsimsummary.trig module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2017, R. Biswas
-
-    </p>
+    <p>&#169; Copyright 2017, R. Biswas.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

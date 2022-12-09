@@ -797,7 +797,7 @@ class OpSimOutput(object):
 
         # To support multiple proposals
         for key in pdict:
-            if isinstance(pdict[key], collections.Iterable):
+            if isinstance(pdict[key], collections.abc.Iterable):
                 pdict[key] = pdict[key].values
 
         return pdict
@@ -839,7 +839,7 @@ class OpSimOutput(object):
         # unroll lists
         l = list()
         for elem in x:
-            if isinstance(elem, collections.Iterable):
+            if isinstance(elem, collections.abc.Iterable):
                 for e in elem:
                     l.append(e)
             else:

@@ -31,13 +31,18 @@ class OpSimOutput(object):
         version of OpSim corresponding to the output format.
     summary: `pd.DataFrame`
         selected records from the Summary Table of pointings
+    #### Enable propIDDict None 
     propIDDict: dict
         dictionary with strings as keys and integers used in the Summary
         Table to denote these proposals
-    proposalTable: `pd.DataFrame`
+    
+    #### Enable proposalTable None 
+    proposalTable: `pd.DataFrame`, 
         the propsal table in the output
     subset: string
         subset of proposals included in this class
+
+    #### Enable propIDDict None 
     propIDs : list of integers
         integers corresponding to the subset selected through proposals
     """

@@ -104,15 +104,12 @@ class OpSimOutput(object):
             print('summary table has nans, exiting\n')
             sys.exit(1)
 
-        ddfPropID = list(self.propIDDict['ddf'])
-        ddfidx = summary.query('propID == @ddfPropID').index
+        if propIDDict is not None:
+            ddfPropID = list(self.propIDDict['ddf'])
+            ddfidx = summary.query('propID == @ddfPropID').index
 
-        # opsimVars['pointingRA'] / 'pointingDec' are native variables in the OpSim tables 
-        # denoting RA and Dec. These are usually in degrees (opsimVars['angleUnit'])
-        # However, we only work with ditheredRA and ditheredDec, hence these variables have to
-        # be assigned.
-        summary.loc[ddfidx, 'ditheredRA'] = summary.loc[ddfidx, self.opsimVars['pointingRA']]
-        summary.loc[ddfidx, 'ditheredDec'] = summary.loc[ddfidx, self.opsimVars['pointingDec']]
+            summary.loc[ddfidx, 'ditheredRA'] = summary.loc[ddfidx, self.opsimVars['pointingRA']]
+            summary.loc[ddfidx, 'ditheredDec'] = summary.loc[ddfidx, self.opsimVars['pointingDec']]
 
         # Have a clear unambiguous ra, dec in radians following LSST convention
         # These are the columns `_ra`, `_dec` which should have the dithered
@@ -237,19 +234,34 @@ class OpSimOutput(object):
 
         # Feature Based Scheduler : version 2.x
         elif opsimversion == 'fbsv2':
-            x = dict(summaryTableName='observations',
-                     obsHistID='observationId', 
-                     propName='proposalType',
-                     propIDName='proposalId',
-                     propIDNameInSummary='proposalId',
-                     ops_wfdname='WFD',
-                     ops_ddfname='DDF',
-                     expMJD='observationStartMJD',
-                     FWHMeff='seeingFwhmEff',
-                     pointingRA='fieldRA',
-                     pointingDec='fieldDec',
-                     filtSkyBrightness='skyBrightness',
-                     angleUnit='degrees')
+            if propIDDict is not None:
+                x = dict(summaryTableName='observations',
+                         obsHistID='observationId', 
+                         propName='proposalType',
+                         propIDName='proposalId',
+                         propIDNameInSummary='proposalId',
+                         ops_wfdname='WFD',
+                         ops_ddfname='DDF',
+                         expMJD='observationStartMJD',
+                         FWHMeff='seeingFwhmEff',
+                         pointingRA='fieldRA',
+                         pointingDec='fieldDec',
+                         filtSkyBrightness='skyBrightness',
+                         angleUnit='degrees')
+            else:      
+                x = dict(summaryTableName='observations',
+                         obsHistID='observationId', 
+                         propName=None,
+                         propIDName=None,
+                         propIDNameInSummary=None,
+                         ops_wfdname='WFD',
+                         ops_ddfname=None,
+                         expMJD='observationStartMJD',
+                         FWHMeff='seeingFwhmEff',
+                         pointingRA='fieldRA',
+                         pointingDec='fieldDec',
+                         filtSkyBrightness='skyBrightness',
+                         angleUnit='degrees')
 
         else:
             raise NotImplementedError('`get_opsimVariablesForVersion` is not implemented for this `opsimversion`')

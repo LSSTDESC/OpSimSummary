@@ -432,7 +432,7 @@ class OpSimOutput(object):
                     user_propIDs=None,
                     # dithercolumns=None,
                     # add_dithers=False,
-                    use_proposal_table=False,
+                    use_proposal_table=True,
                     tableNames=('Summary', 'Proposal'),
                     filterNull=False,
                     **kwargs):
@@ -550,7 +550,7 @@ class OpSimOutput(object):
         # Drop Duplicates
         if subset != '_all':
             # Drop duplicates unless this is to write out the entire OpSim
-            summary = cls.dropDuplicates(summary, propDict, opsimversion)
+            summary = cls.dropDuplicates(summary, propDict, opsimversion, use_proposal_table=use_proposal_table)
 
         # Set Standard Index
         summary.set_index('obsHistID', inplace=True)
@@ -612,7 +612,7 @@ class OpSimOutput(object):
 
     @staticmethod
     def _get_propIDs(tableNames, engine, opsimversion, subset,
-                     user_propIDs=None, use_proposal_table=False):
+                     user_propIDs=None, use_proposal_table=True):
         """return a sequence of `proposalId` which determine the subset of 
         observations from tha `summary` table. 
        
@@ -662,7 +662,7 @@ class OpSimOutput(object):
         return engine
 
     @staticmethod
-    def dropDuplicates(df, propIDDict, opsimversion):
+    def dropDuplicates(df, propIDDict, opsimversion, use_proposal_table=True):
         """
         drop duplicates ensuring keeping identity of ddf visits
 
@@ -675,6 +675,8 @@ class OpSimOutput(object):
         -------
         `pd.DataFrame` with the correct propID and duplicates dropped
         """
+        if not use_proposal_table:
+            return df
         if opsimversion == 'sstf':
             return df
 
@@ -767,7 +769,7 @@ class OpSimOutput(object):
         return propIDs
 
     @staticmethod
-    def get_allowed_subsets(opsimversion, use_proposal_table):
+    def get_allowed_subsets(opsimversion, use_proposal_table=True):
         """Provide a sequence of implemented subset values"""
         # Note this is really a version which has annotations on top of fbs v1p3
         # Making this if statement superfluous

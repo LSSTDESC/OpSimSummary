@@ -1,7 +1,7 @@
 """Add a Proposal table to an OpSim strategy
 
 Based on script by rhiannonlynne
-Updated for rubin-sim by: Chris Frohmaier 9c.frohmaier@soton.ac.uk)
+Updated for rubin-sim by: Chris Frohmaier (c.frohmaier@soton.ac.uk)
 
 !!! You must have the rubin-sim package in your python environment to run this script !!!
 

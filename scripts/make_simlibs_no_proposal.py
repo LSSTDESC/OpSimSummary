@@ -140,8 +140,8 @@ def write_genericSimlib(simlibFilename,
         avail = hids - vetoed_hids
     else:
         avail = hids
-    
-    surveydf = surveydf.loc[avail].query('numVisits >= @minVisits ')
+
+    surveydf = surveydf.loc[list(avail)].query('numVisits >= @minVisits ')
     surveyPix = simlibs.get_surveyPix(surveydf, numFields=numFields, rng=rng)
     totalfields = len(surveydf)
 
@@ -165,10 +165,10 @@ def write_genericSimlib(simlibFilename,
     fields = simlibs.simlibs_for_fields(surveyPix, mwebv=mwebv)
 
     # Area of our selected footprint in sq. deg 
-    area = hp.nside2pixarea(nside, degrees=True) * np.float(totalfields)
+    area = hp.nside2pixarea(nside, degrees=True) * np.float64(totalfields)
 
     # Area of our selected footprint in solid angle (Used by SNANA for simulation)
-    solidangle = hp.nside2pixarea(nside, degrees=False) * np.float(totalfields)
+    solidangle = hp.nside2pixarea(nside, degrees=False) * np.float64(totalfields)
  
     print('Going to write simlib file {0} for opsim output\n')
     # This is not very reliable
@@ -262,8 +262,8 @@ if __name__ == '__main__':
                         dest='No_get_ddf_pixels', action='store_false')
     parser.add_argument('--no_write_wfd_simlib', help='Whether to write out WFD simlib, defaults to writing it out',
                         dest='write_wfd_simlib', action='store_false')
-    parser.add_argument('--opsimversion', help='version of opsim used lsstv3|lsstv4, defaults to lsstv3',
-                        default='lsstv3')
+    parser.add_argument('--opsimversion', help='version of opsim used lsstv3|lsstv4|, defaults to fbsv2',
+                        default='fbsv2')
     parser.add_argument('--summaryTableName', help='name of Summary Table Summary|SummaryAllProps, defaults to "Summary"',
                         default='Summary')
     parser.add_argument('--ddf_surveypix_file', help='absolute path to DDF surveypix_file, defaults to `None`',

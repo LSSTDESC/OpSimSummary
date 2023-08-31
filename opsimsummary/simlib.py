@@ -113,8 +113,7 @@ class SimlibMixin(object):
         # report a host on which the calculations are done. either from
         # constructor parameters or from the system hostname utility 
         if host is None:
-            proc = subprocess.Popen('hostname', stdout=subprocess.PIPE)
-            host, err = proc.communicate()
+            host = os.getenv( 'HOSTNAME' )
         x = (('user', user),
              ('host', host),
              ('pixelSize', pixelSize),
@@ -257,7 +256,7 @@ class SimlibMixin(object):
         s += 'LIBID: {0:10d}'.format(fieldID) +'\n'
         if fieldtype is not None:
             s += 'Field: {}\n'.format(fieldtype)
-        tmp = 'RA: {0:+10.6f} DECL: {1:+10.6f}   NOBS: {2:10d} MWEBV: {3:5.2f}'
+        tmp = 'RA: {0:+10.6f} DEC: {1:+10.6f}   NOBS: {2:10d} MWEBV: {3:5.2f}'
         tmp += ' PIXSIZE: {4:5.3f}'
         s += tmp.format(ra, dec, nobs, mwebv, self.pixelSize) + '\n'
         # s += 'LIBID: {0:10d}'.format(fieldID) + '\n'
@@ -653,7 +652,7 @@ class FieldSimlib(object):
     meta : dict
         metadata associated with the field, which has at least the following
         keys:
-        LIBID, RA, DECL, MWEBV, NOBS, PIXSIZE
+        LIBID, RA, DEC, MWEBV, NOBS, PIXSIZE
     data : `~pd.DataFrame` object with the observations and having at least the
         following columns: 'MJD', 'IDEXPT', 'FLT', 'GAIN', 'NOISE', 'SKYSIG',
         'PSF1', 'PSF2', 'PSFRatio', 'ZPTAVG', 'ZPTERR', 'MAG']. The meanings of

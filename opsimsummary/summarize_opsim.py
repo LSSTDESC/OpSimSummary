@@ -397,7 +397,7 @@ class PointingTree(object):
 
         # tree queries
         # Keep mapping from integer indices to obsHistID
-        pointings.loc[:, 'intindex'] = np.arange(len(pointings)).astype(np.int)
+        pointings.loc[:, 'intindex'] = np.arange(len(pointings)).astype(int)
         self.indMapping = pointings['intindex'].reset_index().set_index('intindex')
 
         # Build Tree
@@ -773,11 +773,11 @@ class SummaryOpsim(object):
 
     def mjdvalfornight(self, night):
         val = night + np.floor(self.minMJD) - self.minNight
-        return np.int(val)
+        return int(val)
 
     def nightformjd(self, mjd) :
         val = mjd - np.floor(self.minMJD) + self.minNight
-        return np.int(val)
+        return int(val)
 
     def cadence_plot(self, summarydf=None, fieldID=None,
                      racol=None, deccol=None,

@@ -141,7 +141,7 @@ def write_genericSimlib(simlibFilename,
     else:
         avail = hids
     
-    surveydf = surveydf.loc[avail].query('numVisits >= @minVisits ')
+    surveydf = surveydf.loc[list(avail)].query('numVisits >= @minVisits ')
     surveyPix = simlibs.get_surveyPix(surveydf, numFields=numFields, rng=rng)
     totalfields = len(surveydf)
 
@@ -165,10 +165,10 @@ def write_genericSimlib(simlibFilename,
     fields = simlibs.simlibs_for_fields(surveyPix, mwebv=mwebv)
 
     # Area of our selected footprint in sq. deg 
-    area = hp.nside2pixarea(nside, degrees=True) * np.float(totalfields)
+    area = hp.nside2pixarea(nside, degrees=True) * float(totalfields)
 
     # Area of our selected footprint in solid angle (Used by SNANA for simulation)
-    solidangle = hp.nside2pixarea(nside, degrees=False) * np.float(totalfields)
+    solidangle = hp.nside2pixarea(nside, degrees=False) * float(totalfields)
  
     print('Going to write simlib file {0} for opsim output\n')
     # This is not very reliable
